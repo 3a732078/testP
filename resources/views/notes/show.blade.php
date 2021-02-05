@@ -60,8 +60,9 @@
     <form action="/notes/{{$id}}" method="POST">
         @csrf
         @method('DELETE')
-        <button>刪除</button>
+        <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
     </form>
+    <button onclick="dconfirm()">刪除</button>
 
     <form id="share" name="share" method="POST" action="{{ route('notes.share',$id) }}" onsubmit="return shareto()">
         @csrf
@@ -481,6 +482,21 @@
         } else {
             x.className = "tool";
         }
+    }
+</script>
+
+<script>
+    function dconfirm(){
+        var yes = confirm('確定刪除請按確認');
+
+        if (yes) {
+            alert('已刪除該筆記');
+            var button = document.getElementById('ydelete');
+            button.form.submit();
+        } else {
+
+        }
+
     }
 </script>
 
