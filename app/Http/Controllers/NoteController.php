@@ -136,7 +136,9 @@ class NoteController extends Controller
         if($score){
             $sscore=$score;
         }
-
+        else{
+        $sscore=null;
+        }
         $notename = str_replace(".json","",$jsonname);
 
 //        $notes=Note::where('class',$class)->paginate(1);//分頁測試

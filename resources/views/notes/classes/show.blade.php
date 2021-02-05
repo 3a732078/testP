@@ -70,8 +70,8 @@
         <label class="star star-2" for="star-2"></label>
         <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
         <label class="star star-1" for="star-1"></label>
-        <button>送出</button>
     </form>
+        <button name="ssend" id="ssend" onclick="sconfirm()">送出</button>
 </div>
 <br>
 ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→
@@ -275,6 +275,10 @@
              break;
 
         }
+
+        if(document.json.scorestatus.value){
+            document.getElementById("ssend").disabled=true;
+        }
     },false);
 </script>
 
@@ -288,11 +292,23 @@
 </script>
 
 <script>
-
-
     function favorto(){
         $("#favor").ajaxSubmit(function() {
         });
+    }
+</script>
+
+<script>
+    function sconfirm(){
+        var yes = confirm('只能送出一次評分,按下確認後送出');
+
+        if (yes) {
+            alert('已送出評分');
+            $("#score").ajaxSubmit(function() {
+            });
+            document.getElementById("ssend").disabled=true;
+        } else {
+        }
     }
 </script>
 
