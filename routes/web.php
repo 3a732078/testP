@@ -38,6 +38,9 @@ Route::get('/mynotes',[NoteController::class,'mynote'])->name('notes.mynotes')->
 //搜尋筆記
 Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
 
+//顯示教材
+Route::match(['get', 'post'],'/textbook/1',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
+
 //新增空白筆記
 Route::get('notes/create',[NoteController::class,'create'])->name('notes.create');
 Route::post('/notes',[NoteController::class,'store'])->name('notes.store');

@@ -19,7 +19,7 @@
                 <a class="nav-link collapsed mh5" href="#ch1" data-toggle="collapse" style="color:black;"><span>Ch1</span></a>
                 <div id="ch1" class="collapse">
                     <hr class="sidebar-divider bg-dark">
-                    <a class="collapse-item" href="#">Ch1</a>
+                    <a class="collapse-item" href="/textbook/1">Ch1</a>
                     <a class="collapse-item" href="#">Ch1-課程筆記</a>
                 </div>
 

@@ -12,9 +12,21 @@ class TextbookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $files=scandir('./images/統計學測試');
+        $images = array();
+//        dd($legth);
+        for ($i=0;$i<count($files);$i++){
+
+            if($files[$i]=='.'||$files[$i]=='..'){
+                continue;
+            }
+            $images[]=$files[$i];
+        }
+        $num = $request->num != null ? $request->num : 1 ;
+
+        return view('textbooks.index',['images'=>$images],['num'=>$num]);
     }
 
     /**
