@@ -112,7 +112,32 @@
         <a><input readonly="readonly" name="penvalue" id="penvalue" size="1" style="text-align:center"></a>
         <a><input type="color" name="pencolor" id="pencolor" value="#000000"></a>
     </form>
-    <a><i class="fas fa-font"></i><button onclick="textbox()" style="font-size: 17px;">文字</button></a>
+    <a><i class="fas fa-font"></i><button onclick="textbox()" style="font-size: 17px;">文字</button><div class="textpx"><button class="textpx">
+                <i class="fa fa-caret-down"></i>
+            </button><div class="px">
+                <form style="margin:0" id="textform" name="textform">
+                    <select id="tpx">
+                        <option value="" >文字大小</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="20">20</option>
+                        <option value="24">24</option>
+                        <option value="32">32</option>
+                        <option value="40">40</option>
+                        <option value="64">64</option>
+                        <option value="96">96</option>
+                    </select>
+                    <select id="tty">
+                        <option value="" >字型設定</option>
+                        <option value="Arial">Arial</option>
+                        <option value="標楷體">標楷體</option>
+                        <option value="新細明體">新細明體</option>
+                        <option value="Arial Black">Arial Black</option>
+                        <option value="Noto Sans TC">Noto Sans TC</option>
+                    </select>
+                    <input type="color" id="tco" value="#000000">
+                </form>
+            </div></div></a>
 
     <form style="margin:0" id="text" name="text">
         <a><input name="text" id="text"></a>
@@ -213,6 +238,27 @@
     .home{
         float: right;
     }
+    .px {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    .px p{
+        float: none;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        z-index: 5;
+    }
+
+    .textpx:focus-within .px{
+        display: block;
+    }
 </style>
 <script>
 
@@ -256,7 +302,7 @@
             }
             for (var j = 0; j < textarr.length; j++) {
                 if (x <= textarr[j].location[0] + textarr[j].width && x >= textarr[j].location[0] && y <= textarr[j].location[1] && y >= textarr[j].location[1] - textarr[j].height) {
-                    textcontext.clearRect(textarr[j].location[0], textarr[j].location[1] - 25, textarr[j].width, textarr[j].height + 11);
+                    textcontext.clearRect(textarr[j].location[0], textarr[j].location[1] - textarr[j].height, textarr[j].width, textarr[j].height + 11);
                     textarr.splice(j, 1);
                     isDrawing = false;
                 }
@@ -307,16 +353,36 @@
 
                     console.log(textarr[j].location[0])
                     console.log(textarr[j].location[1])
-                    textcontext.clearRect(textarr[j].location[0], textarr[j].location[1]-25, textarr[j].width, textarr[j].height+11);
+                    // textcontext.clearRect(textarr[j].location[0], textarr[j].location[1]-textarr[j].height, textarr[j].width, textarr[j].height+11);
+                    if(textarr[j].height>= 64){
+                        textcontext.clearRect(textarr[j].location[0], textarr[j].location[1]-textarr[j].height+25, textarr[j].width, textarr[j].height);
+                    }
+                    else
+                    {
+                        textcontext.clearRect(textarr[j].location[0], textarr[j].location[1]-textarr[j].height, textarr[j].width, textarr[j].height+11);
+                    }
                     textarr[j].location[0]=e.offsetX;
                     textarr[j].location[1]=e.offsetY;
                     console.log(textarr[j].location[0])
                     console.log(textarr[j].location[1])
                     console.log(textarr)
-                    textcontext.font = "30px Arial";
-                    textcontext.fillText(textarr[j].text, textarr[j].location[0],textarr[j].location[1]);
+                    var a = JSON.stringify(textarr[j].form);
+                    var length =a.length;
+                    if(length===7){
+                        textcontext.font = "30px Arial";
+                        textcontext.fillStyle=textarr[j].color;
+                        textcontext.fillText(textarr[j].text, textarr[j].location[0],textarr[j].location[1]);
+                    }
+                    else if (length!==7){
+                        textcontext.font = textarr[j].form;
+                        textcontext.fillStyle=textarr[j].color;
+                        textcontext.fillText(textarr[j].text, textarr[j].location[0],textarr[j].location[1]);
+                    }
+                    // textcontext.font = textarr[j].form;
+                    // textcontext.fillStyle=textarr[j].color;
+                    // textcontext.fillText(textarr[j].text, textarr[j].location[0],textarr[j].location[1]);
                     textarr[j].width = textcontext.measureText(textarr[j].text).width;
-                    textarr[j].height = 16;
+                    textarr[j].height = parseInt(textcontext.font.match(/\d+/), 10);
                 }
             }
         }
@@ -402,8 +468,20 @@
 
         }
         for(var j=0 ; j < objson[0].length ; j++){
-            textcontext.font = "30px Arial";
-            textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            var l = JSON.stringify(objson[0][j].form);
+            var length =l.length;
+            if(length===7){
+                console.log("是");
+                textcontext.font = "30px Arial";
+                textcontext.fillStyle=objson[0][j].color;
+                textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
+            else if (length!==7){
+                console.log("否");
+                textcontext.font = objson[0][j].form;
+                textcontext.fillStyle=objson[0][j].color;
+                textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
         }
         for(var i=0 ; i < objson[1].length ; i++){
             context.globalAlpha = 0.5;
@@ -443,15 +521,24 @@
             const context = note.getContext('2d');
             const word = {
                 location: [50, 50],
-                text: [dspace]
+                text: [dspace],
+                form:[document.textform.tpx.value + "px " + document.textform.tty.value],
+                color:[document.textform.tco.value]
             }
             textarr.push(word)
             console.log(textarr)
 
-            textcontext.font = "30px Arial";
+            // textcontext.font = "30px Arial";
+            if(document.textform.tpx.value===""||document.textform.tty.value===""){
+                textcontext.font = "30px Arial";
+            }
+            else {
+                textcontext.font = document.textform.tpx.value + "px " + document.textform.tty.value;
+            }
+            textcontext.fillStyle=document.textform.tco.value;
             textcontext.fillText(dspace, 50, 50);
             word.width = textcontext.measureText(word.text).width;
-            word.height = 16;
+            word.height = parseInt(textcontext.font.match(/\d+/), 10);
         }
     }
 

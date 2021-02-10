@@ -228,8 +228,22 @@
 
         }
         for(var j=0 ; j < objson[0].length ; j++){
-            context.font = "30px Arial";
-            context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            // context.font = "30px Arial";
+            // context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            var l = JSON.stringify(objson[0][j].form);
+            var length =l.length;
+            if(length===7){
+                console.log("是");
+                context.font = "30px Arial";
+                context.fillStyle=objson[0][j].color;
+                context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
+            else if (length!==7){
+                console.log("否");
+                context.font = objson[0][j].form;
+                context.fillStyle=objson[0][j].color;
+                context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
         }
         for(var i=0 ; i < objson[1].length ; i++){
             context.globalAlpha = 0.5;
