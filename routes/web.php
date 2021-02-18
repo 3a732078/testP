@@ -30,7 +30,7 @@ Route::get('/',[UserController::class,'home'])->name('home');
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/students',[StudentController::class,'index'])
     ->name('students.index');
 //課程頁面
-Route::get('/classes/{id}',[CourseController::class,'index'])->name('classes.index')->middleware('auth');
+Route::get('/classes/{class}',[CourseController::class,'index'])->name('classes.index')->middleware('auth');
 //顯示公告資訊
 Route::get('/notices/{id}',[NoticeController::class,'show'])->name('notices.show')->middleware('auth');
 //顯示所有筆記
@@ -39,7 +39,7 @@ Route::get('/mynotes',[NoteController::class,'mynote'])->name('notes.mynotes')->
 Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
 
 //顯示教材
-Route::match(['get', 'post'],'/textbook/1',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
+Route::match(['get', 'post'],'/textbooks/{id}',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
 
 //新增空白筆記
 Route::get('notes/create',[NoteController::class,'create'])->name('notes.create');

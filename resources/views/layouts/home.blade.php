@@ -103,6 +103,29 @@
             </div>
         </li>
 
+        @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseText"
+                   aria-expanded="true" aria-controls="collapseText">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>教材</span>
+                </a>
+                <div id="collapseText" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">上課教材:</h6>
+                        @foreach($course as $value)
+                            <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;"><span>{{ $value->name }}</span></a>
+                            <div id="{{ $value->name }}" class="collapse">
+                                <hr class="sidebar-divider bg-dark">
+                                <a class="collapse-item" href="/textbooks/{{$value->id}}">{{ $value->name }}</a>
+                                <a class="collapse-item" href="#">{{ $value->name }}-課程筆記</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </li>
+    @endif
+
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"

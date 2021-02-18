@@ -1,4 +1,4 @@
-@extends('layouts/textbook')
+@extends('layouts/home')
 @section('notice')
     <style>
         .divcss5{
@@ -16,14 +16,19 @@
             <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header">
-                    <a class="fa fa-book" href="/textbook/1">教材</a>&ensp;/&ensp;
+                    <a class="fa fa-book" href="/textbooks/{{$id}}">教材</a>
+                    @if(\Illuminate\Support\Facades\Auth::user()->type=='老師')
+                    &ensp;/&ensp;
                     <a class="fa fa-edit" href="#">編輯教材</a>
+                    @endif
+                    &ensp;/&ensp;
+                    <a class="fa fa-pencil-square-o" href="#">新增課程筆記</a>
                 </div>
 
                 <table width="100%" style="height:100%;">
                     <tr><td>
                         <div class="card-body" align="right">
-                        <form action="/textbook/1" method="POST">
+                        <form action="/textbooks/{{$id}}" method="POST">
                             @for($i=0;$i<count($images);$i++)
                                 @csrf
                                 @method('POST')

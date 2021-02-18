@@ -13,11 +13,14 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($class)
     {
-        $course=Course::find($id);
-        $notices=Notice::where('course_id',$id)->get();
-        return view('classes.index',['course'=>$course,'notices'=>$notices]);
+        session_start();
+        $_SESSION['classId']=$class;
+
+        $course=Course::find($class);
+        $notices=Notice::where('course_id',$class)->get();
+        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class]);
     }
 
     /**

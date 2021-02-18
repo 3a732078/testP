@@ -19,6 +19,9 @@ class StudentController extends Controller
     {
         $type= User::where('id', Auth::id())->value('type');
         if ($type=='學生'){
+            session_start();
+            unset($_SESSION['classId']);
+
             return view('students.index');
 
         }

@@ -1,4 +1,4 @@
-@extends('layouts/textbook')
+@extends('layouts/home')
 
 @section('notice')
     <div id="layoutSidenav_content">

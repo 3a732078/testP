@@ -1,4 +1,4 @@
-@extends('layouts/textbook')
+@extends('layouts/home')
 
 <style>
     label {
