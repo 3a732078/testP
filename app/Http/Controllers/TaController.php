@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\CourseStudent;
+use App\Models\Student;
 use App\Models\Ta;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaController extends Controller
@@ -16,7 +20,30 @@ class TaController extends Controller
     {
         //
     }
+    public function course(Request $request)
+    {
+        $student = Student::where('user_id', $request->user()->id)->value('id');
 
+        $course = Ta::where('student_id', $student)->value('course_id');
+
+        $course_name=Course::where('id', $course)->value('name');
+        $list=CourseStudent::where('course_id', $course)->get();
+
+        $count = count($list);
+
+        $student_list=array();
+        $stu_id=array();
+        for($i=0;$i<$count;$i++) {
+            $student_id = $list->pluck('student_id');
+            $user=Student::where('id', $student_id[$i])->value('user_id');
+            $sid =Student::where('id', $student_id[$i])->value('id');
+            $stu=User::where('id', $user)->value('name');
+            array_push($student_list,$stu);
+            array_push($stu_id,$sid);
+        }
+        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id]);
+
+    }
     /**
      * Show the form for creating a new resource.
      *

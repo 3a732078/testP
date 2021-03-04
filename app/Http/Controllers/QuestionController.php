@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Student;
+use App\Models\Ta;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -37,7 +39,25 @@ class QuestionController extends Controller
     {
         //
     }
-
+    public function tastore(Request $request)
+    {
+        $this->validate($request, [
+            'send' => 'required|max:255',
+            'stuid'=>'required',
+            'taid'=>'required',
+            'classid'=>'required'
+        ]);
+        Question::create([
+            'ta_id'=>$request->taid,
+            'student_id'=>$request->stuid,
+            'course_id'=>$request->classid,
+            'title'=>"我覺得title沒有必要",
+            'content'=>$request->send,
+            'time'=>now(),
+            'response'=>"TA",
+        ]);
+        return redirect('ta/questions/'.$request->stuid);
+    }
     /**
      * Display the specified resource.
      *
@@ -47,6 +67,17 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         //
+    }
+    public function tashow(Request $request,$id){
+
+        $student=Student::where('id',$id)->value('id');
+        $loginstudent = Student::where('user_id', $request->user()->id)->value('id');
+        $class=Ta::where('student_id', $loginstudent)->value('course_id');
+        $ta=Ta::where('student_id', $loginstudent)->value('id');
+        $questions=Question::where('ta_id', $ta)->where('student_id', $id)->get();
+
+        return view('questions.tashow',['questions'=>$questions,'id'=>$id,'ta'=>$ta,'class'=>$class]);
+
     }
 
     /**

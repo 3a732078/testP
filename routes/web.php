@@ -3,6 +3,7 @@
 use App\Http\Controllers\CollectNoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\NoteScoreController;
+use App\Http\Controllers\QuestionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
@@ -83,6 +84,14 @@ Route::post('/comments',[CommentController::class,'store'])->name('comments.stor
 //筆記評分
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
+//TA:顯示課堂學生列表
+Route::get('ta/course',[TaController::class,'course'])->name('ta.course');
+
+//TA查看學生訊息
+Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('questions.tashow')->where('id', '[0-9]+');
+
+//TA回覆
+Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questions.tastore')->where('id', '[0-9]+');
 
 //ta首頁
 Route::get('/ta', function () {
