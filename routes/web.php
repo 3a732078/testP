@@ -39,7 +39,7 @@ Route::get('/mynotes',[NoteController::class,'mynote'])->name('notes.mynotes')->
 Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
 
 //顯示教材
-Route::match(['get', 'post'],'/textbooks/{id}',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
+//Route::match(['get', 'post'],'/textbooks/{id}',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
 
 //新增空白筆記
 Route::get('notes/create',[NoteController::class,'create'])->name('notes.create');
@@ -47,6 +47,14 @@ Route::post('/notes',[NoteController::class,'store'])->name('notes.store');
 Route::post('image',[NoteController::class,'image'])->name('notes.image')->where('id', '[0-9]+');
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
+
+//上傳教材
+Route::get('textbooks/create',[TextbookController::class,'create'])->name('textbooks.create');
+Route::post('/textbooks',[TextbookController::class,'store'])->name('textbooks.store');
+
+//教授 教材列表
+Route::get('/textbooks',[TextbookController::class,'indext'])->name('textbooks.indext');
+
 
 //顯示&編輯筆記
 Route::get('notes/{id}',[NoteController::class,'show'])->name('notes.show')->where('id', '[0-9]+');

@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Teacher;
 use App\Models\Textbook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use NcJoes\OfficeConverter\OfficeConverter;
+use Org_Heigl\Ghostscript\Ghostscript;
+use Spatie\PdfToImage\Pdf;
 
 class TextbookController extends Controller
 {
@@ -31,14 +38,23 @@ class TextbookController extends Controller
         return view('textbooks.index',['images'=>$images,'class'=>$class,'id'=>$id],['num'=>$num]);
     }
 
+    public function indext(Request $request)
+    {
+        $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
+        $courses=Course::where('teacher_id',$teacher)->get();
+        $textbooks=Textbook::all();
+        return view('textbooks.indext',['courses'=>$courses,'textbooks'=>$textbooks]);
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
+        $courses=Course::where('teacher_id',$teacher)->get();
+        return view('textbooks.create',['courses'=>$courses]);
     }
 
     /**
@@ -49,7 +65,45 @@ class TextbookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'toimage' => 'required|mimes:docx,doc,pptx,ppt',
+            'title'=>'required',
+            'subject'=>'required'
+        ]);
+        $Name = str_replace(" ","",$request->input('title'));
+        $FileName = $Name . '.' . $request->toimage->extension();
+
+
+        $file = $request->file('toimage')->store('pdf');
+        $path = Storage::path($file);
+
+
+        $converter = new OfficeConverter($path);
+        $dtp=$converter->convertTo($Name.'.pdf');
+
+
+        $uploadhash=$request->toimage->hashName();
+
+        $request->toimage->move(public_path().'\images\\'.$Name, $FileName);
+
+        $pdf_file=Storage::path('pdf\\').$Name.'.pdf';
+        $output_path=public_path().'\images\\'.$Name.'\\'.$Name.'%d';
+
+
+        Ghostscript::setGsPath("C:\Program Files\gs\gs9.53.3\bin\gswin64c.exe");
+        $pdf=new Pdf($pdf_file);
+        $pdf->setOutputFormat('jpeg')->saveImage($output_path);
+
+        Textbook::create([
+            'course_id'=>$request->subject,
+            'name'=>$Name,
+            'path'=>$Name.".pdf",
+        ]);
+
+        File::delete(public_path().'\images\\'.$Name.'\\'.$FileName);
+
+        Storage::delete('pdf/'.$uploadhash);
+
     }
 
     /**
