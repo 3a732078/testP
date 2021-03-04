@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\CourseStudent;
 use App\Models\Question;
 use App\Models\Student;
 use App\Models\Ta;
+use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -14,9 +18,67 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $student = Student::where('user_id', $request->user()->id)->value('id');
+
+        $courses = Coursestudent::where('student_id', $student)->get();
+
+        $count = count($courses);
+
+
+        $name=array();
+        $teacher=array();
+        $class=array();
+        $semester=array();
+        $year=array();
+        $taid=array();
+        for($i=0;$i<$count;$i++){
+//            $courses = Coursestudent::where('student_id', $student)->value('id');
+            $course=$courses->pluck('id');
+//            echo $course[$i];
+//            echo "抓到的課堂ID是：".$course;
+            $ta=Ta::where('course_id', $course[$i])->value('student_id');
+            $tastu=Student::where('id', $ta)->value('user_id');
+            $taname=User::where('id', $tastu)->value('name');
+            if($student===$ta){
+            }else{
+                array_push($name,$taname);
+            }
+
+            $teaid=Course::where('id', $course[$i])->value('teacher_id');
+            $teauid=Teacher::where('id', $teaid)->value('user_id');
+            $teaname=User::where('id', $teauid)->value('name');
+            if($student===$ta){
+            }else {
+                array_push($teacher, $teaname);
+            }
+            $classname=Course::where('id', $course[$i])->value('name');
+            if($student===$ta){
+            }else {
+                array_push($class, $classname);
+            }
+            $seme=Course::where('id', $course[$i])->value('semester');
+            if($student===$ta){
+            }else {
+                array_push($semester, $seme);
+            }
+            $ye=Course::where('id', $course[$i])->value('year');
+            if($student===$ta){
+            }else {
+                array_push($year, $ye);
+            }
+            $tas=Ta::where('course_id', $course[$i])->value('id');
+            if($student===$ta){
+            }else {
+                array_push($taid, $tas);
+            }
+        }
+
+        $count2 = count($name);
+
+        return view('questions.index',['name'=>$name,'count2'=>$count2,'teacher'=>$teacher,'class'=>$class,'semester'=>$semester,'year'=>$year,'taid'=>$taid]);
     }
 
     /**
@@ -37,7 +99,22 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'send' => 'required|max:255',
+            'taid'=>'required',
+            'studentid'=>'required',
+            'classid'=>'required'
+        ]);
+        Question::create([
+            'ta_id'=>$request->taid,
+            'student_id'=>$request->studentid,
+            'course_id'=>$request->classid,
+            'title'=>"我覺得title沒有必要",
+            'content'=>$request->send,
+            'time'=>now(),
+            //response
+        ]);
+        return redirect('questions/'.$request->taid);
     }
     public function tastore(Request $request)
     {
@@ -64,9 +141,15 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function show(Question $question)
+    public function show(Request $request,$id)
     {
-        //
+//        $question=Question::find($id);
+        $student = Student::where('user_id', $request->user()->id)->value('id');
+        $class=Ta::where('id', $id)->value('course_id');
+        $questions=Question::where('ta_id', $id)->where('student_id', $student)->get();
+
+        return view('questions.show',['questions'=>$questions,'id'=>$id,'student'=>$student,'class'=>$class]);
+
     }
     public function tashow(Request $request,$id){
 

@@ -49,6 +49,15 @@ Route::post('image',[NoteController::class,'image'])->name('notes.image')->where
 
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
+//顯示所有TA列表
+Route::get('questions',[QuestionController::class,'index'])->name('questions.index');
+
+//查看TA訊息
+Route::get('questions/{id}',[QuestionController::class,'show'])->name('questions.show')->where('id', '[0-9]+');
+
+//新增訊息
+Route::post('questions',[QuestionController::class,'store'])->name('questions.store')->where('id', '[0-9]+');
+
 //上傳教材
 Route::get('textbooks/create',[TextbookController::class,'create'])->name('textbooks.create');
 Route::post('/textbooks',[TextbookController::class,'store'])->name('textbooks.store');
