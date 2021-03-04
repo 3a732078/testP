@@ -112,9 +112,27 @@ class TextbookController extends Controller
      * @param  \App\Models\Textbook  $textbook
      * @return \Illuminate\Http\Response
      */
-    public function show(Textbook $textbook)
+    public function show($id,Request $request)
     {
-        //
+        $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
+        $courses=Course::where('teacher_id',$teacher)->get();
+        $textbooks=Textbook::all();
+
+        $textbookimg=Textbook::find($id);
+        $folder=$textbookimg->name;
+        $path = public_path('\images\\'.$folder);
+//        dd($path);
+        $files = File::files($path);
+        $count = count($files);
+//        dd($files[0]->getFilename());
+
+        $filename=array();
+        for($i=0;$i<$count;$i++){
+            $fn=$files[$i]->getFilename();
+            array_push($filename,$fn);
+        }
+//        dd($filename);
+        return view('textbooks.show',['textbookimg'=>$textbookimg,'files'=>$files,'filesname'=>$filename,'courses'=>$courses,'textbooks'=>$textbooks,'id'=>$id]);
     }
 
     /**
@@ -146,8 +164,10 @@ class TextbookController extends Controller
      * @param  \App\Models\Textbook  $textbook
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Textbook $textbook)
+    public function destroy($id)
     {
-        //
+        $text=Textbook::where('id',$id);
+        $text->delete();
+        return view('teacher.index');
     }
 }

@@ -55,6 +55,11 @@ Route::post('/textbooks',[TextbookController::class,'store'])->name('textbooks.s
 //教授 教材列表
 Route::get('/textbooks',[TextbookController::class,'indext'])->name('textbooks.indext');
 
+//教授 顯示教材內容
+Route::get('textbooks/{id}',[TextbookController::class,'show'])->name('textbooks.show');
+
+//教授 刪除教材
+Route::delete('textbooks/{id}',[TextbookController::class,'destroy'])->name('textbooks.destroy')->where('id', '[0-9]+');
 
 //顯示&編輯筆記
 Route::get('notes/{id}',[NoteController::class,'show'])->name('notes.show')->where('id', '[0-9]+');
