@@ -36,10 +36,11 @@ class QuestionController extends Controller
         $taid=array();
         for($i=0;$i<$count;$i++){
 //            $courses = Coursestudent::where('student_id', $student)->value('id');
-            $course=$courses->pluck('id');
+            $course=$courses->pluck('course_id');
 //            echo $course[$i];
 //            echo "抓到的課堂ID是：".$course;
             $ta=Ta::where('course_id', $course[$i])->value('student_id');
+
             $tastu=Student::where('id', $ta)->value('user_id');
             $taname=User::where('id', $tastu)->value('name');
             if($student===$ta){
