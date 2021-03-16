@@ -7,7 +7,22 @@
         <title>顯示筆記(本人)</title>
 
     </head>
-    <h1>顯示&編輯筆記</h1>
+    <h1>顯示&編輯筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
+
+    <div id="addpeo" style="display:none">
+        <form>
+            列出同班同學名稱：
+            <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            @foreach($classmate as $classmates)
+                {{$classmates}} <input type="checkbox">
+            @endforeach
+        </form>
+    </div>
 
     <div style="display:none">
         <img id="scream" width="220" height="277"
@@ -569,6 +584,10 @@
         } else {
             x.className = "tool";
         }
+    }
+
+    function addeditor(){
+        document.getElementById("addpeo").style.display="block";
     }
 </script>
 

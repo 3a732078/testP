@@ -31,9 +31,20 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('notes.create');
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+        return view('notes.create',['classmate'=>$classmate]);
     }
 
     /**
@@ -87,6 +98,17 @@ class NoteController extends Controller
      */
     public function show($id,Request $request)
     {
+        $id1=$request->user()->id;
+        $class=Student::where('user_id',$id1)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
 
         $jsonname = Note::where('id', $id)->value('textfile');
         $id = Note::where('id', $id)->value('id');
@@ -108,7 +130,7 @@ class NoteController extends Controller
 
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate]);
         } else if ($user_id !== $login) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
         } else {
