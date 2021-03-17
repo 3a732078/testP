@@ -124,6 +124,7 @@ class NoteController extends Controller
         }
         $user_id = Note::where('id', $id)->value('user_id');
         $login = User::where('id', $request->user()->id)->value('id');
+        $assist=Assist::where('user_id',$request->user()->id)->value('note_id');
         if ($id && $user_id === $login) {
             $notename = str_replace(".json", "", $jsonname);
 
@@ -135,7 +136,20 @@ class NoteController extends Controller
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count]);
-        } else if ($user_id !== $login) {
+        }
+        if ($assist === $id) {
+            $notename = str_replace(".json", "", $jsonname);
+
+//        $notes=Note::where('class',$class)->paginate(1);//分頁測試
+
+            $file = Storage::disk('public')->get('\\json\\' . $jsonname);
+
+
+            //這個是抓留言資料
+//            $comment=Comment::where('note_id',$id)->value('content');
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count]);
+        }
+        else if ($user_id !== $login && $assist !== $id) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
         } else {
             return redirect('notes/create')->with('alert', '無此ID筆記，請新建');
