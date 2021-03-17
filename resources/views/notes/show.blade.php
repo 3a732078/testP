@@ -10,7 +10,9 @@
     <h1>顯示&編輯筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
 
     <div id="addpeo" style="display:none">
-        <form>
+        <form id="inn" name="inn" method="POST" action="/addass">
+            @csrf
+            @method('POST')
             列出同班同學名稱：
             <select>
                 <option>1</option>
@@ -21,7 +23,23 @@
             @foreach($classmate as $classmates)
                 {{$classmates}} <input type="checkbox">
             @endforeach
+
+            @for($i = 0; $i < $count; $i++)
+
+                    <div class="col col-1">@php echo $classmate[$i];@endphp</div>
+                    <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="invite()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
+                <input name="xx" id="xx" value="@php echo $userid[$i]; @endphp">
+            @endfor
+            <div style="display:none">
+                <input name="noteid" id="noteid" value="{{$id}}">
+            </div>
+            <input name="uu" id="uu" value="777">
+            <p id="inv"></p>
+            <button type="submit" name="addd" id="addd" value="送出邀請"></button>
         </form>
+
+
+
     </div>
 
     <div style="display:none">
@@ -588,6 +606,19 @@
 
     function addeditor(){
         document.getElementById("addpeo").style.display="block";
+    }
+
+    function invite(){
+        const form = document.forms['inn'];
+        // console.log(document.inn.3.id);
+        // console.log(document.inn.inv.value);
+        const value = form.elements.uu.name;
+        console.log(value);
+        const value2 = form.elements.xx.value;
+        console.log(value2);
+        const xc=document.getElementById("xx").value;
+        document.getElementById("inv").innerText="你對"+xc+"發送了邀請";
+        // console.log(document.penform.pen.value)
     }
 </script>
 

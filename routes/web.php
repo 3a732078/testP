@@ -107,6 +107,8 @@ Route::get('/ta', function () {
     return view('ta.index');
 });
 
+//添加協作者
+Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
 #教授
     Route::prefix('teacher')->group(function (){

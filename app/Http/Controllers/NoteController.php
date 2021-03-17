@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assist;
 use App\Models\CollectNote;
 use App\Models\Comment;
 use App\Models\CourseStudent;
@@ -104,10 +105,13 @@ class NoteController extends Controller
 
         $count = count($classroom);
         $classmate=array();
+        $userid=array();
         for($i=0;$i<$count;$i++){
             $uid=$classroom->pluck('user_id');
             $user=User::where('id',$uid[$i])->value('name');
+            $u=User::where('id',$uid[$i])->value('id');
             array_push($classmate,$user);
+            array_push($userid,$u);
         }
 
         $jsonname = Note::where('id', $id)->value('textfile');
@@ -130,7 +134,7 @@ class NoteController extends Controller
 
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count]);
         } else if ($user_id !== $login) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
         } else {
@@ -278,5 +282,24 @@ class NoteController extends Controller
     {
         $notes=Note::where('user_id',Auth::id())->get();
         return view('notes.mynote',['notes'=>$notes]);
+    }
+
+    public function assist(Request $request)
+    {
+        $this->validate($request, [
+            'addp' => 'required',
+            'noteid'=>'required'
+
+        ]);
+//        dd($request->addp);
+        $count=count($request->addp);
+//        dd($count);
+//        dd($request->addp[1]);
+        for ($i = 0; $i < $count; $i++) {
+            Assist::create([
+                'user_id' => $request->addp[$i],
+                'note_id'=>$request->noteid,
+            ]);
+        }
     }
 }

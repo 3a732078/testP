@@ -48,4 +48,9 @@ class Note extends Model
     {
         return $this->belongsTo(Textbook::class);
     }
+
+    public function assists()
+    {
+        return $this->hasMany(Assist::class);
+    }
 }

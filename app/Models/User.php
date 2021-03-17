@@ -94,4 +94,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+    public function assists()
+    {
+        return $this->hasMany(Assist::class);
+    }
 }
