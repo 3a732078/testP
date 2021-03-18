@@ -338,11 +338,17 @@ class NoteController extends Controller
         $count=count($request->addp);
 //        dd($count);
 //        dd($request->addp[1]);
+        $delete = Assist::where('note_id', $request->noteid);
+        $delete->delete();
+
         for ($i = 0; $i < $count; $i++) {
+            
+//            if($request->has('addp[]')){
             Assist::create([
                 'user_id' => $request->addp[$i],
                 'note_id'=>$request->noteid,
             ]);
+          //}
         }
     }
 }
