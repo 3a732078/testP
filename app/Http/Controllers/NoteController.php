@@ -148,7 +148,7 @@ class NoteController extends Controller
             $ass=Assist::where('note_id',$id)->get();
             if(count($ass)!==0){}
             else $ass=null;
-            
+
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);

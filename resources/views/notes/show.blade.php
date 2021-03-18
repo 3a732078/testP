@@ -10,7 +10,7 @@
     <h1>顯示&編輯筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
 
     <div id="addpeo" style="display:none">
-        <form id="inn" name="inn" method="POST" action="/addass">
+        <form id="inn" name="inn" method="POST" action="/addass" onsubmit="return addto()">
             @csrf
             @method('POST')
             列出同班同學名稱：
@@ -48,7 +48,7 @@
             @for($i = 0; $i < $count; $i++)
 
                     <div class="col col-1">@php echo $classmate[$i];@endphp</div>
-                    <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="invite()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
+                    <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="addto()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
                 <input name="xx" id="xx" value="@php echo $userid[$i]; @endphp">
                 <?php
                 $tests=$userid[$i];
@@ -59,7 +59,7 @@
             </div>
             <input name="uu" id="uu" value="777">
             <p id="inv"></p>
-            <button type="submit" name="addd" id="addd" value="送出邀請"></button>
+            <button name="addd" id="addd" value="送出邀請"></button>
         </form>
 
 
@@ -610,6 +610,12 @@
     }
 </script>
 
+<script>
+    function addto(){
+        $("#inn").ajaxSubmit(function() {
+        });
+    }
+</script>
 
 <script>
     function shareto(){
@@ -646,22 +652,22 @@
         }
     }
 
-    function invite(){
-        const form = document.forms['inn'];
-        // console.log(document.inn.3.id);
-        // console.log(document.inn.inv.value);
-        const value = form.elements.uu.name;
-        console.log(value);
-        const value2 = form.elements.xx.value;
-        console.log(value2);
-        const xc=document.getElementById("xx").value;
-        // document.getElementById("inv").innerText="你對"+xc+"發送了邀請";
-        // console.log(document.penform.pen.value)
-        console.log("為"+document.inn.xx.value);
-
-
-        // document.write(tests);
-    }
+    // function invite(){
+    //     const form = document.forms['inn'];
+    //     // console.log(document.inn.3.id);
+    //     // console.log(document.inn.inv.value);
+    //     const value = form.elements.uu.name;
+    //     console.log(value);
+    //     const value2 = form.elements.xx.value;
+    //     console.log(value2);
+    //     const xc=document.getElementById("xx").value;
+    //     // document.getElementById("inv").innerText="你對"+xc+"發送了邀請";
+    //     // console.log(document.penform.pen.value)
+    //     console.log("為"+document.inn.xx.value);
+    //
+    //
+    //     // document.write(tests);
+    // }
 </script>
 
 <script>
