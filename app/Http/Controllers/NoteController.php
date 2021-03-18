@@ -141,9 +141,6 @@ class NoteController extends Controller
 //            $comment=Comment::where('note_id',$id)->value('content');
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
         }
-        else if ($user_id !== $login) {
-            return redirect('notes/create')->with('alert', '無權限編輯該筆記');
-        }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
 
@@ -181,10 +178,9 @@ class NoteController extends Controller
 //            $comment=Comment::where('note_id',$id)->value('content');
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
         }
-        else if ($ident !== 1) {
+        else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
-        }
-         else {
+        } else {
             return redirect('notes/create')->with('alert', '無此ID筆記，請新建');
         }
     }
