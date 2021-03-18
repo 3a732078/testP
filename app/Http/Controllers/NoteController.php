@@ -330,11 +330,13 @@ class NoteController extends Controller
     public function assist(Request $request)
     {
         $this->validate($request, [
-            'addp' => 'required',
+//            'addp' => 'required',
             'noteid'=>'required'
 
         ]);
+
 //        dd($request->addp);
+        if($request->addp !== null){
         $count=count($request->addp);
 //        dd($count);
 //        dd($request->addp[1]);
@@ -342,13 +344,18 @@ class NoteController extends Controller
         $delete->delete();
 
         for ($i = 0; $i < $count; $i++) {
-            
+
 //            if($request->has('addp[]')){
             Assist::create([
                 'user_id' => $request->addp[$i],
                 'note_id'=>$request->noteid,
             ]);
           //}
+        }
+            }
+        else{
+        $delete = Assist::where('note_id', $request->noteid);
+        $delete->delete();
         }
     }
 }
