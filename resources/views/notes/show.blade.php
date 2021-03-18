@@ -24,11 +24,35 @@
                 {{$classmates}} <input type="checkbox">
             @endforeach
 
+            @php
+                $tu=array();
+            @endphp
+            @if($ass!=null)
+            @foreach($ass as $asss)
+                {{$asss->user_id}} <input id="hey" name="hey" value="共同撰寫者為：{{$asss->user_id}}">
+                @php
+                $a=$asss->user_id;
+                array_push($tu,$a);
+                $output=implode("",$tu);
+                echo $output;
+                print_r($tu);
+                $countli=count($tu);
+                @endphp
+            @endforeach
+            @else
+            @php
+                $output=null;
+                $countli=null;
+            @endphp
+            @endif
             @for($i = 0; $i < $count; $i++)
 
                     <div class="col col-1">@php echo $classmate[$i];@endphp</div>
                     <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="invite()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
                 <input name="xx" id="xx" value="@php echo $userid[$i]; @endphp">
+                <?php
+                $tests=$userid[$i];
+                ?>
             @endfor
             <div style="display:none">
                 <input name="noteid" id="noteid" value="{{$id}}">
@@ -606,6 +630,20 @@
 
     function addeditor(){
         document.getElementById("addpeo").style.display="block";
+        var tests="<?php echo $output; ?>";
+        console.log(tests);
+        var taz="<?php echo $countli; ?>";
+        console.log("陣列長度？："+taz);
+        for(var i=0 ; i < taz ; i++){
+            console.log(tests[i]);
+            var u=tests[i];
+            // console.log(document.inn.u.value);
+            document.getElementById(u).checked = true;
+//             if(document.inn.u.value===u){
+// console.log("yes");
+//                 document.getElementById("u").checked = true;
+//             }
+        }
     }
 
     function invite(){
@@ -617,8 +655,12 @@
         const value2 = form.elements.xx.value;
         console.log(value2);
         const xc=document.getElementById("xx").value;
-        document.getElementById("inv").innerText="你對"+xc+"發送了邀請";
+        // document.getElementById("inv").innerText="你對"+xc+"發送了邀請";
         // console.log(document.penform.pen.value)
+        console.log("為"+document.inn.xx.value);
+
+
+        // document.write(tests);
     }
 </script>
 
