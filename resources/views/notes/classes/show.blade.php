@@ -3,6 +3,10 @@
     <meta charset="utf-8">
 
     <title>(課堂筆記)顯示筆記</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
 <h1>課堂筆記</h1>
@@ -95,14 +99,45 @@
     <button>留言</button>
 </form>
 
-顯示留言<i class="far fa-comment-dots"></i>
+顯示留言<i class="far fa-comment-dots"></i><br>
 @foreach($comments as $comment)
 <input readonly="readonly" id="" name="" value="{{$comment->user_id}}">
-<textarea readonly="readonly">{{$comment->content}}</textarea>
+<textarea readonly="readonly" id="comment{{$comment->id}}">{{$comment->content}}</textarea>
+
+
+@if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())
+    <button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+        編輯留言
+    </button>
+@endif
+
     <br><br>
 @endforeach
-<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>
-點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆
+{{--<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>--}}
+{{--點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆--}}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">編輯留言</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
+                @csrf
+                @method('POST')
+                <p><textarea name="content1" id="comment123"></textarea></p>
+                <input type="hidden" name="zzz" id="comment666" value="">
+                <button type="submit" class="btn btn-info pd-x-20">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <style>
     canvas {
@@ -325,7 +360,14 @@
         }
     }
 </script>
+<script type="text/javascript">
+    function textview(id) {
+        document.getElementById("comment123").value =
+            document.getElementById(id).value;
+        document.getElementById("comment666").value = id;
 
+    }
+</script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
 

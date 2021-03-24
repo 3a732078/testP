@@ -90,6 +90,9 @@ Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store')
 //筆記留言
 Route::post('/comments',[CommentController::class,'store'])->name('comments.store');
 
+//修改留言
+Route::post('/comments/edit',[CommentController::class,'edit'])->name('comments.edit');
+
 //筆記評分
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
