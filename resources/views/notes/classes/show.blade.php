@@ -90,33 +90,60 @@
 <form id="comments" name="comments" method="POST" action="/comments">
     @csrf
     @method('POST')
-    新增留言
+    <br><table><tr><td>
+    新增留言&thinsp;<i class="fa fa-pencil-square-o "></i>&emsp;
     <div style="display: none">
         <input id="note_id" name="note_id" value="{{$id}}">
-    </div>
-    <input readonly="readonly" id="" name="" value="{{$uname}}">
-    <textarea id="contents" name="contents">留言內容</textarea>
-    <button>留言</button>
+    </div></td>
+    {{--留言者--}}
+        <td>
+            <input readonly="readonly" id="" name="" value="{{$uname}}" SIZE=10
+                   style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;">：
+        </td>
+        <td>
+            <textarea style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="55" rows="2" id="contents" name="contents">留言內容</textarea>
+        </td>
+        <td>
+            <button>留言</button>
+        </td></tr></table>
 </form>
 
-顯示留言<i class="far fa-comment-dots"></i><br>
+<hr class="sidebar-divider">
+顯示留言 &thinsp;<i class="far fa-comment-dots"></i><br>
 @foreach($comments as $comment)
-<input readonly="readonly" id="" name="" value="{{$comment->user_id}}">
-<textarea readonly="readonly" id="comment{{$comment->id}}">{{$comment->content}}</textarea>
-
-
-@if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())
-    <button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-        編輯留言
-    </button>
-    <form action="/comments/{{$comment->id}}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger btn-sm">刪除留言</button>
-    </form>
-@endif
-
+    <div class="container-fluid">
+    <div class="container-fluid">
+        <table><tr style="border-bottom:0.5px gray dotted;">
+                {{--留言者名稱--}}
+                <td style="vertical-align:text-top;">
+                    <br>
+                    <input readonly="readonly" id="" name="" value="{{$comment->user->name}}" style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;"
+                           SIZE={{strlen($comment->user->name)}}>：
+                </td>
+                {{--留言內容--}}
+                <td valign="top"><br>
+                    <textarea readonly="readonly" id="comment{{$comment->id}}"
+                              style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="70" rows="4">{{$comment->content}}</textarea>
+                    <p></p>
+                </td>
+                {{--編輯留言--}}
+                <td valign="top" style="padding-left:8px;"><br>
+                    @if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())
+                        <button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                            編輯留言
+                        </button>
+                        <form action="/comments/{{$comment->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">刪除留言</button>
+                        </form>
+                    @endif
+                </td></tr>
+        </table>
+    </div>
+    </div>
 @endforeach
+
 {{--<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>--}}
 {{--點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆--}}
 
