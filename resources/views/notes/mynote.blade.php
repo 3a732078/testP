@@ -30,7 +30,7 @@
                                     @csrf
                                     @method('POST')
                                     <tr>
-                                        <td width="280">{{$note->title}}</td>
+                                        <td width="280">{{basename($note->textfile,'.json')}}</td>
                                         <td width="500" align="center">
                                             @if($note->textbook==null)
                                                無引用教材
