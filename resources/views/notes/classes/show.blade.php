@@ -109,9 +109,13 @@
     <button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
         編輯留言
     </button>
+    <form action="/comments/{{$comment->id}}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button class="btn btn-danger btn-sm">刪除留言</button>
+    </form>
 @endif
 
-    <br><br>
 @endforeach
 {{--<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>--}}
 {{--點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆--}}

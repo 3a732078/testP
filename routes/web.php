@@ -93,6 +93,9 @@ Route::post('/comments',[CommentController::class,'store'])->name('comments.stor
 //修改留言
 Route::post('/comments/edit',[CommentController::class,'edit'])->name('comments.edit');
 
+//刪除留言
+Route::delete('/comments/{id}',[CommentController::class,'destroy'])->name('comments.destroy');
+
 //筆記評分
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
