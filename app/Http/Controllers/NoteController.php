@@ -63,7 +63,8 @@ class NoteController extends Controller
 
         ]);
         $json = $request->json;
-        Storage::disk('public')->put('\\json\\' . $request->class . '\\' . $request->notename . '.json', $json);
+//        Storage::disk('public')->put('\\json\\' . $request->class . '\\' . $request->notename . '.json', $json);
+        Storage::disk('public')->put('\\json\\' . $request->notename . '.json', $json);
         $path = $request->notename . '.json';
         Note::create([
             'user_id'=>$request->user()->id,
