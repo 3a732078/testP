@@ -17,7 +17,7 @@ class CreateAssistsTable extends Migration
             $table->increments('id');
             $table->unsignedbigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedbigInteger('note_id');
+            $table->unsignedInteger('note_id');
             $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
             $table->timestamps();
         });
