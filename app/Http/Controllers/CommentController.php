@@ -47,6 +47,7 @@ class CommentController extends Controller
             'note_id'=>$request->note_id,
             'time'=>now(),
         ]);
+        return back();
     }
 
     /**
