@@ -117,7 +117,7 @@
                             <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;"><span>{{ $value->name }}</span></a>
                             <div id="{{ $value->name }}" class="collapse">
                                 <hr class="sidebar-divider bg-dark">
-                                <a class="collapse-item" href="/textbooks/{{$value->id}}">{{ $value->name }}</a>
+                                <a class="collapse-item" href="/textbooks/show/{{$value->id}}">{{ $value->name }}</a>
                                 <a class="collapse-item" href="#">{{ $value->name }}-課程筆記</a>
                             </div>
                         @endforeach

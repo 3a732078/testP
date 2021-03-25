@@ -40,7 +40,7 @@ Route::get('/mynotes',[NoteController::class,'mynote'])->name('notes.mynotes')->
 Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
 
 //顯示教材
-//Route::match(['get', 'post'],'/textbooks/{id}',[TextbookController::class,'index'])->name('textbooks.index')->middleware('auth');
+Route::match(['get', 'post'],'/textbooks/show/{id}',[TextbookController::class,'index'])->name('textbooks.show.index')->middleware('auth');
 
 //新增空白筆記
 Route::get('notes/create',[NoteController::class,'create'])->name('notes.create');

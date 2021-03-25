@@ -16,7 +16,7 @@
             <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header">
-                    <a class="fa fa-book" href="/textbooks/{{$id}}">教材</a>
+                    <a class="fa fa-book" href="/textbooks/show/{{$id}}">教材</a>
                     @if(\Illuminate\Support\Facades\Auth::user()->type=='老師')
                     &ensp;/&ensp;
                     <a class="fa fa-edit" href="#">編輯教材</a>
@@ -28,7 +28,7 @@
                 <table width="100%" style="height:100%;">
                     <tr><td>
                         <div class="card-body" align="right">
-                        <form action="/textbooks/{{$id}}" method="POST">
+                        <form action="/textbooks/show/{{$id}}" method="POST">
                             @for($i=0;$i<count($images);$i++)
                                 @csrf
                                 @method('POST')
