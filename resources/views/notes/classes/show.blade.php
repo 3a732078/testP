@@ -20,7 +20,7 @@
 
     <div style="display:none">
         id：<input name="id" id="id" value="{{$id}}"><br>
-{{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
+        {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
         課程：<input name="class" id="class" value=""><br>
         筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
         收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
@@ -28,7 +28,7 @@
         <img id="jsonimg" width="220" height="277"
              src="" alt="">
     </div>
-{{--    課程：{{$class}}<br>--}}
+    {{--    課程：{{$class}}<br>--}}
     筆記名稱：{{$name}}<br>
     <div style="display:none">
         <input readonly="readonly" id="call" name="call" value="{{$json}}">
@@ -75,7 +75,7 @@
         <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
         <label class="star star-1" for="star-1"></label>
     </form>
-        <button name="ssend" id="ssend" onclick="sconfirm()">送出</button>
+    <button name="ssend" id="ssend" onclick="sconfirm()">送出</button>
 </div>
 <br>
 ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→
@@ -91,56 +91,133 @@
     @csrf
     @method('POST')
     <br><table><tr><td>
-    新增留言&thinsp;<i class="fa fa-pencil-square-o "></i>&emsp;
-    <div style="display: none">
-        <input id="note_id" name="note_id" value="{{$id}}">
-    </div></td>
-    {{--留言者--}}
-        <td>
-            <input readonly="readonly" id="" name="" value="{{$uname}}" SIZE=10
-                   style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;">：
-        </td>
-        <td>
-            <textarea style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="55" rows="2" id="contents" name="contents">留言內容</textarea>
-        </td>
-        <td>
-            <button>留言</button>
-        </td></tr></table>
+                新增留言&thinsp;<i class="fa fa-pencil-square-o "></i>&emsp;
+                <div style="display: none">
+                    <input id="note_id" name="note_id" value="{{$id}}">
+                </div></td>
+            {{--留言者--}}
+            <td>
+                <input readonly="readonly" id="" name="" value="{{$uname}}" SIZE=10
+                       style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;">：
+            </td>
+            <td>
+                <textarea style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="55" rows="2" id="contents" name="contents">留言內容</textarea>
+            </td>
+            <td>
+                <button>留言</button>
+            </td></tr>
+    </table>
 </form>
 
 <hr class="sidebar-divider">
 顯示留言 &thinsp;<i class="far fa-comment-dots"></i><br>
 @foreach($comments as $comment)
-    <div class="container-fluid">
-    <div class="container-fluid">
-        <table><tr style="border-bottom:0.5px gray dotted;">
-                {{--留言者名稱--}}
-                <td style="vertical-align:text-top;">
-                    <br>
-                    <input readonly="readonly" id="" name="" value="{{$comment->user->name}}" style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;"
-                           SIZE={{strlen($comment->user->name)}}>：
-                </td>
-                {{--留言內容--}}
-                <td valign="top"><br>
-                    <textarea readonly="readonly" id="comment{{$comment->id}}"
-                              style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="70" rows="4">{{$comment->content}}</textarea>
-                    <p></p>
-                </td>
-                {{--編輯留言--}}
-                <td valign="top" style="padding-left:8px;"><br>
-                    @if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())
-                        <button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-                            編輯留言
-                        </button>
-                        <form action="/comments/{{$comment->id}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm">刪除留言</button>
-                        </form>
+    <div class="container-fluid" style="margin-left:90px;">
+            <table><tr>
+                    {{--留言者名稱--}}
+                    <td style="vertical-align:text-top;font-size:18px;">
+                        <br>
+                        <input readonly="readonly" id="" name="" value="{{$comment->user->name}}" style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;"
+                               SIZE={{strlen($comment->user->name)}}>：
+                    </td>
+                    {{--留言內容--}}
+                    <td valign="top" colspan="2" width="300px"><br>
+                        <textarea readonly="readonly" id="comment{{$comment->id}}"
+                                  style="resize:none; background-color:transparent; border-style:dashed;" cols="100" rows="4">{{$comment->content}}</textarea>
+{{--                        <textarea readonly="readonly" id="comment{{$comment->id}}"--}}
+{{--                                  style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;" cols="100" rows="auto">{{$comment->content}}</textarea>--}}
+                        <p></p>
+                    </td>
+                    {{--編輯留言--}}
+                    <td valign="center"><br>
+                        &ensp;<a class="btn btn-secondary btn-lg active btn-sm"  onclick="reply({{$comment->id}}, '')" data-toggle="collapse" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                            回覆
+                        </a>
+                        @if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())<br>
+                        &ensp;<button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                                編輯留言
+                            </button>
+                            <form action="/comments/{{$comment->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                &ensp;<button class="btn btn-danger btn-sm">刪除留言</button>
+                            </form>
+                        @endif
+                    </td>
+                </tr>
+
+                {{--回覆留言--}}
+                @foreach($replies as $reply)
+                    @if($reply->comment_id==$comment->id)
+                        @if($reply->replyId==null)
+                        <tr>
+                                <td ></td>
+                                <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&ensp;&ensp;
+                                    <i class="fa fa-angle-right"></i>&ensp;
+                                    {{$reply->user->name}}：
+                                    {{$reply->content}}&emsp;
+                                    <a class="btn btn-tumbir active btn-sm" style="color: #205081;border:0.5px gray solid;" data-toggle="collapse" onclick="reply({{$comment->id}}, {{$reply->id}})" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                                        回覆</a>
+                                    @if ($reply->user_id == \Illuminate\Support\Facades\Auth::id())|
+                                    <form action="/comments/{{$reply->id}}" method="POST" style="margin:0px;display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
+                                    </form>
+                                    @endif
+                                </td>
+                                <td width="200px" >
+
+                                </td>
+                            </tr>
+                            @foreach($repliesId as $row)
+                                @if($row->replyId==$reply->id)
+                                    <tr>
+                                        <td></td>
+                                        <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&emsp;&emsp;&emsp;&emsp;
+                                            <i class="fa fa-angle-right"></i>&ensp;
+                                            {{$row->user->name}}：
+                                            {{$row->content}}&emsp;
+                                            @if ($row->user_id == \Illuminate\Support\Facades\Auth::id())
+                                            <form action="/comments/{{$row->id}}" method="POST" style="margin:0px;display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                        <td width="200px">
+
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endif
+
                     @endif
-                </td></tr>
-        </table>
-    </div>
+                @endforeach
+
+                {{--回覆留言#collapseExample--}}
+                <tr><td colspan="5">
+                            <form method="POST" action="{{ url('/replies')}}">
+                            <p>
+                                <div class="collapse" id="collapseExample{{$comment->id}}">
+                                    @csrf
+                                <div class="container-fluid" style="margin-left:118px;line-height:15px;">
+                                <i class="fa fa-angle-right"></i>&ensp;
+                                        <input type="hidden" id="note_id" name="note_id" value="{{$id}}">
+                                        <input type="hidden" id="comment_id" name="comment_id" value="{{$comment->id}}">
+                                    <input type="hidden" id="replyId{{$comment->id}}" name="replyId" value="">
+                                        <textarea style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;font-size:15px;line-height:15px;"
+                                                  cols="80" rows="2" id="reply" name="reply" placeholder="&ensp;留言內容......"></textarea>
+                                        <button type="submit" class="btn btn-group btn-lg active btn-sm" style="margin-bottom:30px;">留言</button>
+
+                                    </div>
+                                </div>
+                            </p>
+                            </form></td>
+                    </tr>
+            </table>
     </div>
 @endforeach
 
@@ -157,14 +234,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
-            <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
-                @csrf
-                @method('POST')
-                <p><textarea name="content1" id="comment123"></textarea></p>
-                <input type="hidden" name="zzz" id="comment666" value="">
-                <button type="submit" class="btn btn-info pd-x-20">Update</button>
-            </form>
+            <p></p>
+            <div class="container-fluid">
+                <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
+                    @csrf
+                    @method('POST')
+                    <p><textarea name="content1" id="comment123" style="resize:none;" cols="60" rows="5"></textarea></p>
+                    <input type="hidden" name="zzz" id="comment666" value="">
+                    <button type="submit" class="btn btn-info pd-x-20">Update</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -286,7 +365,7 @@
         var note = document.getElementById("note");
         var context = note.getContext("2d");
         for(var k=0;k<objson[2].length;k++){
-                document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+            document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
             img.src=document.json.jsonimg.src;
             console.log(document.json.jsonimg.src)
@@ -334,25 +413,25 @@
         }
 
         switch (document.json.scorestatus.value) {
-        case '1':
-            document.getElementById("star-1").checked = true;
-            break;
+            case '1':
+                document.getElementById("star-1").checked = true;
+                break;
 
-        case '2':
-            document.getElementById("star-2").checked = true;
-            break;
+            case '2':
+                document.getElementById("star-2").checked = true;
+                break;
 
-        case '3':
-            document.getElementById("star-3").checked = true;
-            break;
+            case '3':
+                document.getElementById("star-3").checked = true;
+                break;
 
-        case '4':
-            document.getElementById("star-4").checked = true;
-            break;
+            case '4':
+                document.getElementById("star-4").checked = true;
+                break;
 
-        case '5':
-            document.getElementById("star-5").checked = true;
-             break;
+            case '5':
+                document.getElementById("star-5").checked = true;
+                break;
 
         }
 
@@ -397,6 +476,10 @@
             document.getElementById(id).value;
         document.getElementById("comment666").value = id;
 
+    }
+
+    function reply(commentId, replyId) {
+        document.getElementById("replyId"+commentId).value = replyId;
     }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>

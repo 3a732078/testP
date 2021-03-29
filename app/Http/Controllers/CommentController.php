@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
@@ -96,7 +97,35 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $delete = Comment::where('id', $id);
+        $reply=Comment::where('replyId', $id);
         $delete->delete();
+        $reply->delete();
+        return back();
+    }
+
+    public function reply(Request $request)
+    {
+        if ($request->reply!=null){
+            if ($request->replyId!=null){
+                Comment::create([
+                    'user_id'=>Auth::id(),
+                    'content'=>$request->reply,
+                    'note_id'=>$request->note_id,
+                    'comment_id'=>$request->comment_id,
+                    'replyId'=>$request->replyId,
+                    'time'=>now(),
+                ]);
+        }else{
+                Comment::create([
+                    'user_id'=>Auth::id(),
+                    'content'=>$request->reply,
+                    'note_id'=>$request->note_id,
+                    'comment_id'=>$request->comment_id,
+                    'time'=>now(),
+                ]);
+            }
+        }
+
         return back();
     }
 }

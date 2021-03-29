@@ -218,9 +218,18 @@ class NoteController extends Controller
 //        Storage::allFiles('user_images');
 
 
-        $comments=Comment::where('note_id',$id)->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        $comments=Comment::where('note_id',$id)
+            ->where('comment_id',null)
+            ->get();
+        $replies=Comment::where('note_id',$id)
+            ->where('comment_id','!=',null)
+            ->where('replyId','=',null)
+            ->get();
 
+        $repliesId=Comment::where('note_id',$id)
+            ->where('replyId','!=',null)
+            ->get();
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'repliesId'=>$repliesId]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.
