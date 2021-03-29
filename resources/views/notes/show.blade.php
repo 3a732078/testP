@@ -74,7 +74,7 @@
 
 
     <button onclick="addeditor()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
-        測試測試
+        ＋
     </button>
 
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
