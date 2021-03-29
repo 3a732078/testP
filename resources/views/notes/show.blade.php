@@ -12,67 +12,68 @@
 
     </head>
 
-    <h1>顯示&編輯筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
+    <h1>顯示&編輯筆記</h1>
+{{--    　<button onclick="addeditor()"><i class="fas fa-plus"></i></button>--}}
 
-    <div id="addpeo" style="display:none">
-        <form id="inn" name="inn" method="POST" action="/addass" onsubmit="return addto()">
-            @csrf
-            @method('POST')
-            列出同班同學名稱：
-            <select>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-            @foreach($classmate as $classmates)
-                {{$classmates}} <input type="checkbox">
-            @endforeach
+{{--    <div id="addpeo" style="display:none">--}}
+{{--        <form id="inn" name="inn" method="POST" action="/addass" onsubmit="return addto()">--}}
+{{--            @csrf--}}
+{{--            @method('POST')--}}
+{{--            列出同班同學名稱：--}}
+{{--            <select>--}}
+{{--                <option>1</option>--}}
+{{--                <option>2</option>--}}
+{{--                <option>3</option>--}}
+{{--                <option>4</option>--}}
+{{--            </select>--}}
+{{--            @foreach($classmate as $classmates)--}}
+{{--                {{$classmates}} <input type="checkbox">--}}
+{{--            @endforeach--}}
 
-            @php
-                $tu=array();
-            @endphp
-            @if($ass!=null)
-            @foreach($ass as $asss)
-                {{$asss->user_id}} <input id="hey" name="hey" value="共同撰寫者為：{{$asss->user_id}}">
-                @php
-                $a=$asss->user_id;
-                array_push($tu,$a);
-                $output=implode("",$tu);
-                echo $output;
-                print_r($tu);
-                $countli=count($tu);
-                @endphp
-            @endforeach
-            @else
-            @php
-                $output=null;
-                $countli=null;
-            @endphp
-            @endif
-            @for($i = 0; $i < $count; $i++)
+{{--            @php--}}
+{{--                $tu=array();--}}
+{{--            @endphp--}}
+{{--            @if($ass!=null)--}}
+{{--            @foreach($ass as $asss)--}}
+{{--                {{$asss->user_id}} <input id="hey" name="hey" value="共同撰寫者為：{{$asss->user_id}}">--}}
+{{--                @php--}}
+{{--                $a=$asss->user_id;--}}
+{{--                array_push($tu,$a);--}}
+{{--                $output=implode("",$tu);--}}
+{{--                echo $output;--}}
+{{--                print_r($tu);--}}
+{{--                $countli=count($tu);--}}
+{{--                @endphp--}}
+{{--            @endforeach--}}
+{{--            @else--}}
+{{--            @php--}}
+{{--                $output=null;--}}
+{{--                $countli=null;--}}
+{{--            @endphp--}}
+{{--            @endif--}}
+{{--            @for($i = 0; $i < $count; $i++)--}}
 
-                    <div class="col col-1">@php echo $classmate[$i];@endphp</div>
-                    <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="addto()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
-                <input name="xx" id="xx" value="@php echo $userid[$i]; @endphp">
-                <?php
-                $tests=$userid[$i];
-                ?>
-            @endfor
-            <div style="display:none">
-                <input name="noteid" id="noteid" value="{{$id}}">
-            </div>
-            <input name="uu" id="uu" value="777">
-            <p id="inv"></p>
-            <button name="addd" id="addd" value="送出邀請"></button>
-        </form>
-
-
-
-    </div>
+{{--                    <div class="col col-1">@php echo $classmate[$i];@endphp</div>--}}
+{{--                    <div class="col col-2"><input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="addto()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>--}}
+{{--                <input name="xx" id="xx" value="@php echo $userid[$i]; @endphp">--}}
+{{--                <?php--}}
+{{--                $tests=$userid[$i];--}}
+{{--                ?>--}}
+{{--            @endfor--}}
+{{--            <div style="display:none">--}}
+{{--                <input name="noteid" id="noteid" value="{{$id}}">--}}
+{{--            </div>--}}
+{{--            <input name="uu" id="uu" value="777">--}}
+{{--            <p id="inv"></p>--}}
+{{--            <button name="addd" id="addd" value="送出邀請"></button>--}}
+{{--        </form>--}}
 
 
-    <button onclick="tttt()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
+
+{{--    </div>--}}
+
+
+    <button onclick="addeditor()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
         測試測試
     </button>
 
@@ -86,7 +87,46 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    這邊要放協同者
+                    <div id="addpeo">
+                        <form id="inn" name="inn" method="POST" action="/addass" onsubmit="return addto()">
+                            @csrf
+                            @method('POST')
+
+                            @php
+                                $tu=array();
+                            @endphp
+                            @if($ass!=null)
+                                @foreach($ass as $asss)
+                                    @php
+                                        $a=$asss->user_id;
+                                        array_push($tu,$a);
+                                        $output=implode("",$tu);
+                                        $countli=count($tu);
+                                    @endphp
+                                @endforeach
+                            @else
+                                @php
+                                    $output=null;
+                                    $countli=null;
+                                @endphp
+                            @endif
+                            @for($i = 0; $i < $count; $i++)
+
+                                <div class="col">@php echo $classmate[$i];@endphp <input id="@php echo $userid[$i]; @endphp" name="addp[]" onclick="addto()" type="checkbox" value="@php echo $userid[$i]; @endphp"></div>
+
+                                <?php
+                                $tests=$userid[$i];
+                                ?>
+                            @endfor
+                            <div style="display:none">
+                                <input name="noteid" id="noteid" value="{{$id}}">
+                            </div>
+                        </form>
+
+
+
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
@@ -681,10 +721,6 @@
         }
     }
 
-
-    function tttt(){
-
-    }
 
 
     // function invite(){
