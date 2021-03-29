@@ -13,7 +13,8 @@ class Comment extends Model
         'note_id',
         'content',
         'time',
-        'comment_id'
+        'comment_id',
+        'replyId'
     ];
 
     public function user()

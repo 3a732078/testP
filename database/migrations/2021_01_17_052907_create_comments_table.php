@@ -21,6 +21,7 @@ class CreateCommentsTable extends Migration
             $table->foreign('note_id')->references('id')->on('notes')->onDelete('cascade');
             $table->unsignedInteger('comment_id')->nullable($value = true);;
             $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
+            $table->integer('replyId')->nullable($value = true);
             $table->string('content');
             $table->dateTime('time');
             $table->timestamps();
