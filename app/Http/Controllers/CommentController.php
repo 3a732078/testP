@@ -106,16 +106,6 @@ class CommentController extends Controller
     public function reply(Request $request)
     {
         if ($request->reply!=null){
-            if ($request->replyId!=null){
-                Comment::create([
-                    'user_id'=>Auth::id(),
-                    'content'=>$request->reply,
-                    'note_id'=>$request->note_id,
-                    'comment_id'=>$request->comment_id,
-                    'replyId'=>$request->replyId,
-                    'time'=>now(),
-                ]);
-        }else{
                 Comment::create([
                     'user_id'=>Auth::id(),
                     'content'=>$request->reply,
@@ -123,7 +113,6 @@ class CommentController extends Controller
                     'comment_id'=>$request->comment_id,
                     'time'=>now(),
                 ]);
-            }
         }
 
         return back();

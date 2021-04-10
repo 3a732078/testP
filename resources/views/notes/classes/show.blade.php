@@ -149,7 +149,6 @@
                 {{--回覆留言--}}
                 @foreach($replies as $reply)
                     @if($reply->comment_id==$comment->id)
-                        @if($reply->replyId==null)
                         <tr>
                                 <td ></td>
                                 <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&ensp;&ensp;
@@ -170,30 +169,6 @@
 
                                 </td>
                             </tr>
-                            @foreach($repliesId as $row)
-                                @if($row->replyId==$reply->id)
-                                    <tr>
-                                        <td></td>
-                                        <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&emsp;&emsp;&emsp;&emsp;
-                                            <i class="fa fa-angle-right"></i>&ensp;
-                                            {{$row->user->name}}：
-                                            {{$row->content}}&emsp;
-                                            @if ($row->user_id == \Illuminate\Support\Facades\Auth::id())
-                                            <form action="/comments/{{$row->id}}" method="POST" style="margin:0px;display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
-                                                </form>
-                                            @endif
-                                        </td>
-                                        <td width="200px">
-
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        @endif
-
                     @endif
                 @endforeach
 
@@ -220,9 +195,6 @@
             </table>
     </div>
 @endforeach
-
-{{--<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>--}}
-{{--點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆--}}
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

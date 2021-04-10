@@ -140,7 +140,15 @@ class NoteController extends Controller
 
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
+            $uname=User::where('id',$request->user()->id)->value('name');
+            $comments=Comment::where('note_id',$id)
+                ->where('comment_id',null)
+                ->get();
+            $replies=Comment::where('note_id',$id)
+                ->where('comment_id','!=',null)
+                ->get();
+
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -223,13 +231,8 @@ class NoteController extends Controller
             ->get();
         $replies=Comment::where('note_id',$id)
             ->where('comment_id','!=',null)
-            ->where('replyId','=',null)
             ->get();
-
-        $repliesId=Comment::where('note_id',$id)
-            ->where('replyId','!=',null)
-            ->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'repliesId'=>$repliesId]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.
