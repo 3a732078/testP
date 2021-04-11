@@ -108,7 +108,7 @@
             </td></tr>
     </table>
 </form>
-
+@if(count($comments)> 0)
 <hr class="sidebar-divider">
 顯示留言 &thinsp;<i class="far fa-comment-dots"></i><br>
 @foreach($comments as $comment)
@@ -195,7 +195,7 @@
             </table>
     </div>
 @endforeach
-
+@endif
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

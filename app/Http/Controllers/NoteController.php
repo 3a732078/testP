@@ -185,7 +185,15 @@ class NoteController extends Controller
 
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
+            $uname=User::where('id',$request->user()->id)->value('name');
+            $comments=Comment::where('note_id',$id)
+                ->where('comment_id',null)
+                ->get();
+            $replies=Comment::where('note_id',$id)
+                ->where('comment_id','!=',null)
+                ->get();
+
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
@@ -337,7 +345,10 @@ class NoteController extends Controller
     public function mynote(Request $request)
     {
         $notes=Note::where('user_id',Auth::id())->get();
-        return view('notes.mynote',['notes'=>$notes]);
+        $assist=Assist::where('user_id',Auth::id())->get()->toArray();
+        $assist = array_column($assist, 'note_id');
+        $assist=Note::where('id', $assist)->where('user_id', '!=',Auth::id())->get();
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist]);
     }
 
     public function assist(Request $request)
