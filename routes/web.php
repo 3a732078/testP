@@ -84,6 +84,9 @@ Route::patch('share',[NoteController::class,'share'])->name('notes.share')->wher
 //顯示課堂筆記(學生)
 Route::get('/notes/classes/{id}', [NoteController::class,'cshow'])->name('notes.classes.cshow')->where('id', '[0-9]+');
 
+//顯示收藏庫
+Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.index');
+
 //收藏/取消收藏
 Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store');
 

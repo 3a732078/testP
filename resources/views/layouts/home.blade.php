@@ -140,7 +140,7 @@
                     <a class="collapse-item" href="/notes/create">新增筆記</a>
                     <a class="collapse-item" href="{{route('notes.mynotes')}}">我的筆記</a>
                     <a class="collapse-item" href="{{route('notes.search')}}">搜尋筆記</a>
-                    <a class="collapse-item" href="#">收藏筆記</a>
+                    <a class="collapse-item" href="{{route('favor.index')}}">收藏筆記</a>
                 </div>
             </div>
         </li>
