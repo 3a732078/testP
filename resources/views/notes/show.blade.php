@@ -182,7 +182,8 @@
 
     <button><div id="clear">清空畫布</div></button>
 
-    <button onclick="opentext()">開啟文字方塊</button>
+{{--    <button onclick="opentext()">開啟文字方塊</button>--}}
+    開啟文字區域<input onclick="opentext()" id="openn" type="checkbox">
 
     <button onclick="save()">儲存</button>
     <form action="/notes/{{$id}}" method="POST">
@@ -729,16 +730,25 @@
         textarea=null;
     const wordarea=[];
     function opentext(){
+        var checkch = document.getElementById("openn").checked;
+
 
         if(!textarea) {
             textarea = document.createElement('textarea');
             document.body.appendChild(textarea);
+            textarea.value=objson[3];
         }
+        if(checkch == true)
+        {
         // textarea.value = "測試";
-        textarea.value=objson[3];
         textarea.style="resize:none";
         textarea.style.width=1191;
         textarea.style.height=1684;
+        }
+        else{
+            console.log("close");
+            textarea.style="display:none";
+        }
 
     }
 
