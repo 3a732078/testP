@@ -60,7 +60,7 @@
     <p id="demo"></p>
 
     <button onclick="opentext()">開啟文字方塊</button>
-    <button onclick="ot()">點我</button>
+
 
 {{--    <textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
 {{--        文字方塊測試~--}}
@@ -505,11 +505,6 @@
 
     }
 
-    function ot(){
-        console.log(textarea.value);
-        // wordarea.push(textarea.value);
-        console.log("wordarea為："+wordarea);
-    }
 </script>
 
 

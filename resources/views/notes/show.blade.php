@@ -182,6 +182,8 @@
 
     <button><div id="clear">清空畫布</div></button>
 
+    <button onclick="opentext()">開啟文字方塊</button>
+
     <button onclick="save()">儲存</button>
     <form action="/notes/{{$id}}" method="POST">
         @csrf
@@ -635,6 +637,8 @@
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
+        wordarea.push(textarea.value)
+        linetext.push(wordarea)
         var linestr = JSON.stringify(linetext);
         console.log(linestr)
         document.json.json.value=linestr;
@@ -719,6 +723,23 @@
 //                 document.getElementById("u").checked = true;
 //             }
         }
+    }
+
+    var opent = document.getElementById("note"),
+        textarea=null;
+    const wordarea=[];
+    function opentext(){
+
+        if(!textarea) {
+            textarea = document.createElement('textarea');
+            document.body.appendChild(textarea);
+        }
+        // textarea.value = "測試";
+        textarea.value=objson[3];
+        textarea.style="resize:none";
+        textarea.style.width=1191;
+        textarea.style.height=1684;
+
     }
 
 
