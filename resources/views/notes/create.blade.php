@@ -59,6 +59,12 @@
 
     <p id="demo"></p>
 
+    <button onclick="opentext()">開啟文字方塊</button>
+    <button onclick="ot()">點我</button>
+
+{{--    <textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+{{--        文字方塊測試~--}}
+{{--    </textarea>--}}
 
     <div style="position: relative;">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -410,6 +416,8 @@
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
+        wordarea.push(textarea.value)
+        linetext.push(wordarea)
         var linestr = JSON.stringify(linetext);
         console.log(linestr)
         document.json.json.value=linestr;
@@ -479,6 +487,28 @@
 
     function addeditor(){
         document.getElementById("addpeo").style.display="block";
+    }
+
+    var opent = document.getElementById("note"),
+        textarea=null;
+    const wordarea=[];
+    function opentext(){
+
+        if(!textarea) {
+            textarea = document.createElement('textarea');
+            document.body.appendChild(textarea);
+        }
+        // textarea.value = "測試";
+        textarea.style="resize:none";
+        textarea.style.width=1191;
+        textarea.style.height=1684;
+
+    }
+
+    function ot(){
+        console.log(textarea.value);
+        // wordarea.push(textarea.value);
+        console.log("wordarea為："+wordarea);
     }
 </script>
 
