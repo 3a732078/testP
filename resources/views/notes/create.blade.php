@@ -412,7 +412,11 @@
         linetext.push(picarr)
         var linestr = JSON.stringify(linetext);
         console.log(linestr)
-        document.json.json.value=linestr;
+
+        let finalJson = [];
+        finalJson[0]= JSON.parse(linestr);
+        document.json.json.value = JSON.stringify(finalJson);
+
     }
     //new
     const textarr = []

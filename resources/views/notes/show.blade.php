@@ -141,54 +141,58 @@
 
     </div>
 
-    <form id="json" name="json" method="POST" action="{{ route('notes.update',$id) }}" enctype="multipart/form-data">
+    <form id="json" name="json" method="POST" action="{{ route('notes.update',$id) }}" enctype="multipart/form-data" style="margin:0px;display: inline;">
         @csrf
         @method('PATCH')
         <div style="display:none">
             id：<input name="id" id="id" value="{{$id}}">
             分享狀態：<input id="sharestatus" name="sharestatus" value="{{$share}}">
         </div>
+        <br><br>
 {{--        //下面是跟課程有關的 20210127 (先註解,之後要弄回來)--}}
         {{--    課程：<input name="class" id="class" value="{{$class}}"><br>--}}
-        筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
+        筆記名稱：<input name="notename" id="notename" value="{{$name}}">&ensp;
         <div style="display:none">
+{{--            入口--}}
         <input readonly="readonly" id="call" name="call" value="{{$json}}">
         </div>
 
         <div style="display:none">
+{{--            出口--}}
         <input name="json" id="json">
         </div>
 
         <div style="display:none">
             <img id="jsonimg" width="220" height="277"
                  src="" alt="">
-
         </div>
 
-        <button onclick="add()" type="submit">save</button>
+        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
+    <button onclick="add()" id="send" name="send">儲存筆記</button>
+    <form action="/notes/{{$id}}" method="POST" style="margin:0px;display: inline;">
+        @csrf
+        @method('DELETE')
+        <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
+    </form>
+    <button onclick="dconfirm()">刪除筆記</button><br>
+    <br>
 
-    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→
+{{--    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
     {{--{{$notes->links()}}//頁數--}}
 
-    文字：<input id="word" type="checkbox">
-    插圖：<input id="pic" type="checkbox">
+    文字：<input id="word" type="checkbox">&ensp;,
+    插圖：<input id="pic" type="checkbox">&emsp;
 
 
     <button><div id="clear">清空畫布</div></button>
 
     <button onclick="save()">儲存</button>
-    <form action="/notes/{{$id}}" method="POST">
-        @csrf
-        @method('DELETE')
-        <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
-    </form>
-    <button onclick="dconfirm()">刪除</button>
 
     <form id="share" name="share" method="POST" action="{{ route('notes.share',$id) }}" onsubmit="return shareto()">
         @csrf
@@ -200,6 +204,18 @@
         <label for="share" class="share"><i class="fas fa-retweet"></i></label>
         <div style="display:none"><button id="send" name="send">send</button></div>
     </form>
+<br>
+    <div style="position: relative">
+    @if(count($images)> 0)
+        <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+            第
+            @for($i=0;$i<count($images);$i++)
+                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+            @endfor頁&emsp;
+            </p>
+        </div>
+    @endif
 
     <div style="position: relative;">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -207,11 +223,17 @@
         <canvas id="textlayer" width="1191" height="1684"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
         <canvas id="imglayer" width="1191" height="1684"
-                style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+                style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        @if($textbookId!==null)
+            <canvas id="textbooklayer" width="1191" height="1684"
+                    style="position: absolute; left: 0; top: 0px; z-index: 1;
+                        background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
+            </canvas>
+        @endif
     </div>
 
     <canvas id="c2" width="1191" height="1684"></canvas>
-
+    </div>
 </div>
 
 <form id="comments" name="comments" method="POST" action="/comments">
@@ -504,13 +526,32 @@
     }
 </style>
 <script>
+    let imagePage = 1;
+    let isloading = false;
+    let nowPage = 1;
+    let jsonStash = [];
+    let textarrStash = [];
+    let linesStash = [];
+    let picarrStash = [];
+    @if(count($images)> 0)
+    document.getElementById("page").value=`${nowPage}`;
+    @endif
+
+    var test=document.json.call.value;
+    let objsonNow=JSON.parse(test);
+
+    for (var i = 0; i < objsonNow.length ; i++) {
+        jsonStash[i] =   JSON.stringify(objsonNow[i]);
+        textarrStash[i] = objsonNow[i][0];
+        linesStash[i] = objsonNow[i][1];
+        picarrStash[i] = objsonNow[i][2];
+    }
+    let objson = objsonNow[0];
+
 
     let isDrawing = false;
     let x = 0;
     let y = 0;
-
-    var test=document.json.call.value;
-    const objson=JSON.parse(test);
 
     const note = document.getElementById('note');
     const context = note.getContext('2d');
@@ -571,7 +612,7 @@
             isDrawing = false;
         }
     });
-    const lines=objson[1];
+    let lines=objson[1];
     window.addEventListener('mouseup', e => {
         if (isDrawing === true && erasere.checked===false && word.checked===false&& pic.checked===false) {
             drawLine(context, x, y, e.offsetX, e.offsetY);
@@ -584,6 +625,7 @@
                     color:[document.penform.pencolor.value],
                     width:[document.penform.pen.value]
                 }
+
                 lines.push(line)
                 console.log(lines)
                 console.log('1123')
@@ -679,6 +721,25 @@
         const note = document.getElementById('note');
         const context = note.getContext('2d');
         context.clearRect(0,0,note.width,note.height);
+
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+
+        jsonStash[nowPage - 1] = null;
+        textarrStash[nowPage - 1]  = null;
+        linesStash[nowPage - 1]  = null;
+        picarrStash[nowPage - 1]  = null;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
     });
 
     function save() {
@@ -695,13 +756,6 @@
     window.addEventListener("load", function (){
 
 
-
-        var test=document.json.call.value;
-        const objson=JSON.parse(test);
-        console.log(objson);
-
-        var note = document.getElementById("note");
-        var context = note.getContext("2d");
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
@@ -747,16 +801,42 @@
         }
 
     },false);
-    const linetext= []
+    let linetext= []
+
     function add(){
-        linetext.push(textarr)
-        linetext.push(lines)
-        linetext.push(picarr)
-        var linestr = JSON.stringify(linetext);
-        console.log(linestr)
-        document.json.json.value=linestr;
+        // console.error(isloading);
+        if(isloading == false) {
+            isloading = true;
+            //暫時儲存
+            linetext.push(textarr)
+            linetext.push(lines)
+            linetext.push(picarr)
+            var linestr = JSON.stringify(linetext);
+
+            textarrStash[nowPage - 1] = textarr;
+            linesStash[nowPage - 1] = lines;
+            picarrStash[nowPage - 1] = picarr;
+            jsonStash[nowPage - 1] =linestr;
+
+            let finalJson = [];
+            //最後儲存的json
+            for (var i = 0; i < {{count($images)}}; i++) {
+                if (jsonStash[i] == null) finalJson[i] = [[],[],[]];
+                else finalJson[i] = JSON.parse(jsonStash[i]);
+            }
+            console.log(finalJson)
+            document.json.json.value = JSON.stringify(finalJson);
+            document.getElementById("send1").disabled = false;
+
+            isloading = false;
+
+        } else {
+            // console.error("123");
+        }
+
     }
-    const textarr =objson[0];
+
+    let textarr =objson[0];
     function textbox() {
         const dspace = document.text.text.value.replace(/^\s*|\s*$/g,"");
         if(dspace!=="") {
@@ -876,7 +956,7 @@
 <script>
     var imageLoader = document.getElementById('imgup');
     imageLoader.addEventListener('change', imgtocanvas, false);
-    const picarr=objson[2]
+    let picarr=objson[2]
 
     function imgtocanvas(e){
 
@@ -920,6 +1000,103 @@
         context.globalAlpha = 0.5;
         context.strokeStyle = document.penform.pencolor.value;
     },false);
+
+    function bookimg(num) {
+        //獲得資源
+        const note = document.getElementById('note');
+        const context = note.getContext('2d');
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+
+
+        linetext.push(textarr)
+        linetext.push(lines)
+        linetext.push(picarr)
+        var linestr = JSON.stringify(linetext);
+
+        textarrStash[nowPage - 1] = textarr;
+        linesStash[nowPage - 1] = lines;
+        picarrStash[nowPage - 1] = picarr;
+        jsonStash[nowPage - 1] =linestr;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+
+        nowPage = num;
+        context.clearRect(0,0,note.width,note.height);
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+        @if($textbookId!==null)
+            const base = '{{asset('/images/'.$textbook->name)}}';
+            let images = [];
+            @foreach($images as $row)
+            images.push('{{$row}}');
+            @endforeach
+            imagePage={{count($images)}};
+            console.error(imagePage,222);
+            let a = base+"/"+images[num-1];
+            document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
+        @endif
+        changeJson(num - 1);
+    }
+
+    function changeJson(index) {
+        if (typeof jsonStash[index] !== 'undefined') {
+            document.getElementById("page").value=`${index+1}`;
+            console.error(textarrStash[index]);
+            textarr = textarrStash[index];
+            console.error(linesStash[index]);
+            lines= linesStash[index];
+            console.error(picarrStash[index]);
+            picarr = picarrStash[index];
+            const objson=JSON.parse(jsonStash[index]);
+            const note = document.getElementById('note');
+            const context = note.getContext('2d');
+            const textlayer = document.getElementById('textlayer');
+            const textcontext = textlayer.getContext('2d');
+            const imglayer = document.getElementById('imglayer');
+            const imgcontext = imglayer.getContext('2d');
+
+            for(var k=0;k<objson[2].length;k++){
+                document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+                var img = new Image();
+                img.src=document.json.jsonimg.src;
+                imgcontext.drawImage(img, objson[2][k].location[0], objson[2][k].location[1]);//drawImage(image, x, y)或drawImage(image, x, y, width, height) width跟height是縮放用的
+            }
+            for(var j=0 ; j < objson[0].length ; j++){
+                var l = JSON.stringify(objson[0][j].form);
+                var length =l.length;
+                if(length===7){
+                    console.log("是");
+                    textcontext.font = "30px Arial";
+                    textcontext.fillStyle=objson[0][j].color;
+                    textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                }
+                else if (length!==7){
+                    console.log("否");
+                    textcontext.font = objson[0][j].form;
+                    textcontext.fillStyle=objson[0][j].color;
+                    textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                }
+            }
+            for(var i=0 ; i < objson[1].length ; i++){
+                context.globalAlpha = 0.5;
+                context.lineWidth=objson[1][i].width[0]
+                context.strokeStyle = objson[1][i].color[0];
+                context.beginPath();
+                context.moveTo(objson[1][i].start[0],objson[1][i].start[1]);
+                context.lineTo(objson[1][i].end[0],objson[1][i].end[1]);
+                context.stroke();
+                context.closePath();
+            }
+        }
+
+    }
 </script>
 
 <script type="text/javascript">

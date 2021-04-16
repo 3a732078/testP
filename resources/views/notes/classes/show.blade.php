@@ -27,9 +27,12 @@
         評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
         <img id="jsonimg" width="220" height="277"
              src="" alt="">
-    </div>
+    </div><br>
     {{--    課程：{{$class}}<br>--}}
+    <h5>
     筆記名稱：{{$name}}<br>
+    作者：{{$author}}
+    </h5>
     <div style="display:none">
         <input readonly="readonly" id="call" name="call" value="{{$json}}">
     </div>
@@ -75,22 +78,36 @@
         <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
         <label class="star star-1" for="star-1"></label>
     </form>
-    <button name="ssend" id="ssend" onclick="sconfirm()">送出</button>
+    <p><button name="ssend" id="ssend" onclick="sconfirm()" >送出</button></p>
 </div>
-<br>
-←上一頁<input id="page" value="當前頁數/總頁數">下一頁→
+
+{{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
-<br>
 
-<br>
-<canvas id="note" width="1191" height="1684" style="background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+<div align="center" style="position: relative;">
+@if(count($images)> 0)
+    <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
+        <p>
+            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+            第
+            @for($i=0;$i<count($images);$i++)
+                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+            @endfor頁&emsp;
+            </p>
+    </div>
+@endif
 
-
+@if($textbookId!==null)
+    <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
+@elseif($textbookId===null)
+    <canvas id="note" width="1191" height="1684"></canvas>
+@endif
+</div>
 
 <form id="comments" name="comments" method="POST" action="/comments">
     @csrf
     @method('POST')
-    <br><table><tr><td>
+    <br><table><tr><td>&emsp;&emsp;&emsp;&emsp;&ensp;
                 新增留言&thinsp;<i class="fa fa-pencil-square-o "></i>&emsp;
                 <div style="display: none">
                     <input id="note_id" name="note_id" value="{{$id}}">
@@ -109,10 +126,10 @@
     </table>
 </form>
 @if(count($comments)> 0)
-<hr class="sidebar-divider">
-顯示留言 &thinsp;<i class="far fa-comment-dots"></i><br>
-@foreach($comments as $comment)
-    <div class="container-fluid" style="margin-left:90px;">
+    <hr class="sidebar-divider">&emsp;&emsp;&emsp;&emsp;&ensp;
+    顯示留言 &thinsp;<i class="far fa-comment-dots"></i><br>
+    @foreach($comments as $comment)
+        <div class="container-fluid" align="center">
             <table><tr>
                     {{--留言者名稱--}}
                     <td style="vertical-align:text-top;font-size:18px;">
@@ -325,14 +342,24 @@
 
 </style>
 <script>
+    let imagePage = 1;
+    let isloading = false;
+    let nowPage = 1;
+    let jsonStash = [];
+    @if(count($images)> 0)
+    document.getElementById("page").value=`${nowPage}`;
+    @endif
 
     window.addEventListener("load", function (){
 
-
-
         var test=document.json.call.value;
 
-        const objson=JSON.parse(test);
+        let objsonNow=JSON.parse(test);
+        for (var i = 0; i < objsonNow.length ; i++) {
+            jsonStash[i] = objsonNow[i];
+        }
+        let objson = objsonNow[0];
+
 
         var note = document.getElementById("note");
         var context = note.getContext("2d");
@@ -452,6 +479,70 @@
 
     function reply(commentId, replyId) {
         document.getElementById("replyId"+commentId).value = replyId;
+    }
+
+    function bookimg(num) {
+        const note = document.getElementById('note');
+        const context = note.getContext('2d');
+
+        nowPage = num;
+        context.clearRect(0,0,note.width,note.height);
+
+        @if($textbookId!==null)
+        const base = '{{asset('/images/'.$textbook->name)}}';
+        let images = [];
+        @foreach($images as $row)
+        images.push('{{$row}}');
+        @endforeach
+            imagePage={{count($images)}};
+        let a = base+"/"+images[num-1];
+        document.getElementById('note').style.backgroundImage=`url(${a})`;
+        @endif
+        changeJson(num - 1);
+    }
+
+    function changeJson(index) {
+        document.getElementById("page").value=`${index+1}`;
+        const objson=jsonStash[index];
+        const note = document.getElementById('note');
+        const context = note.getContext('2d');
+        for(var k=0;k<objson[2].length;k++){
+            document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+            var img = new Image();
+            img.src=document.json.jsonimg.src;
+            console.log(document.json.jsonimg.src)
+            context.drawImage(img, objson[2][k].location[0], objson[2][k].location[1]);
+
+        }
+        for(var j=0 ; j < objson[0].length ; j++){
+            // context.font = "30px Arial";
+            // context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            var l = JSON.stringify(objson[0][j].form);
+            var length =l.length;
+            if(length===7){
+                console.log("是");
+                context.font = "30px Arial";
+                context.fillStyle=objson[0][j].color;
+                context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
+            else if (length!==7){
+                console.log("否");
+                context.font = objson[0][j].form;
+                context.fillStyle=objson[0][j].color;
+                context.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+            }
+        }
+        for(var i=0 ; i < objson[1].length ; i++){
+            context.globalAlpha = 0.5;
+            context.lineWidth=objson[1][i].width[0]
+            context.strokeStyle = objson[1][i].color[0];
+            context.beginPath();
+            context.moveTo(objson[1][i].start[0],objson[1][i].start[1]);
+            context.lineTo(objson[1][i].end[0],objson[1][i].end[1]);
+            context.stroke();
+            context.closePath();
+        }
+
     }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
