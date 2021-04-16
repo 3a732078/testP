@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assist;
 use App\Models\CollectNote;
 use App\Models\Comment;
+use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Note;
 use App\Models\NoteScore;
@@ -32,6 +33,38 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function ccreate(Request $request)
+    {
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+
+        $textbookId = $request->textbookId;//教材Id
+        $course=Textbook::find($textbookId)->course->name;//課程名稱
+        $classId = $request->classId;//課程Id
+        $textbook=Textbook::find($textbookId);
+        $files=scandir("./images/" . "$textbook->name");
+        $images = array();
+        for ($i=0;$i<count($files);$i++){
+
+            if($files[$i]=='.'||$files[$i]=='..'){
+                continue;
+            }
+            $images[]=$files[$i];
+        }
+        $num = $request->num != null ? $request->num : 1 ;
+
+        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course]);
+    }
+
     public function create(Request $request)
     {
         $id=$request->user()->id;
