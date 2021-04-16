@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>{{basename($row->textfile,'.json')}}</td>
                                             <td width="170" align="center">
-                                                {{$row->title}}
+                                                {{$row->user->name}}
                                             </td>
                                             <td width="170" align="center">
                                                 <a class="btn btn-sm" style="background-color: #FFF380;color:#7E3817;" href="/notes/classes/{{$row->id}}"><i class="fas fa-angle-right">&ensp;檢視筆記</i></a>
