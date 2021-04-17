@@ -59,6 +59,8 @@
 
     <p id="demo"></p>
 
+    <button onclick="opentext()">開啟文字方塊</button>
+
 
     <div style="position: relative;">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -123,7 +125,9 @@
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>
-
+{{--<textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+{{--        文字方塊測試~--}}
+{{--    </textarea>--}}
 
 <style>
     canvas {
@@ -242,6 +246,12 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
+
+    let textarea = document.createElement('textarea');
+    textarea.value='';
+    textarea.style="resize:none";
+    textarea.style.width=1191;
+    textarea.style.height=1684;
 
     note.addEventListener('mousedown', e => {
         x = e.offsetX;
@@ -410,6 +420,10 @@
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
+        // wordarea.push(textarea.value)
+        // linetext.push(wordarea)
+        linetext.push(textarea.value)
+
         var linestr = JSON.stringify(linetext);
         console.log(linestr)
 
@@ -483,6 +497,35 @@
 
     function addeditor(){
         document.getElementById("addpeo").style.display="block";
+    }
+
+    // var opent = document.getElementById("note"),
+    let isOpen = 0;
+    let wordarea=[];
+    function opentext(){
+
+        if(isOpen === 0) {
+            // textarea = document.createElement('textarea');
+            document.body.appendChild(textarea);
+            isOpen = 2;
+        } else {
+            if (isOpen == 1) {
+                textarea.hidden = false;
+                isOpen = 2;
+            }
+            else {
+                textarea.hidden = true;
+                isOpen = 1;
+            }
+        }
+
+
+        // textarea.value = "測試";
+        // textarea.value='';
+        // textarea.style="resize:none";
+        // textarea.style.width=1191;
+        // textarea.style.height=1684;
+
     }
 </script>
 

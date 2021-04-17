@@ -186,11 +186,13 @@
 {{--    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
     {{--{{$notes->links()}}//頁數--}}
 
-    文字：<input id="word" type="checkbox">&ensp;,
-    插圖：<input id="pic" type="checkbox">&emsp;
+    移動文字：<input id="word" type="checkbox">&ensp;,
+    移動插圖：<input id="pic" type="checkbox">&emsp;
 
 
     <button><div id="clear">清空畫布</div></button>
+
+    <button onclick="opentext()">開啟文字方塊</button>
 
     <button onclick="save()">儲存</button>
 
@@ -420,6 +422,9 @@
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>
+{{--<textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+{{--        文字方塊測試~--}}
+{{--    </textarea>--}}
 <style>
     canvas {
         border: 1px solid black;
@@ -533,6 +538,14 @@
     let textarrStash = [];
     let linesStash = [];
     let picarrStash = [];
+    let wordareaStash = [];
+
+    let textarea = document.createElement('textarea');
+    textarea.value='';
+    textarea.style="resize:none";
+    textarea.style.width=1191;
+    textarea.style.height=1684;
+
     @if(count($images)> 0)
     document.getElementById("page").value=`${nowPage}`;
     @endif
@@ -545,6 +558,7 @@
         textarrStash[i] = objsonNow[i][0];
         linesStash[i] = objsonNow[i][1];
         picarrStash[i] = objsonNow[i][2];
+        wordareaStash[i] = objsonNow[i][3];
     }
     let objson = objsonNow[0];
 
@@ -735,11 +749,13 @@
         textarrStash[nowPage - 1]  = null;
         linesStash[nowPage - 1]  = null;
         picarrStash[nowPage - 1]  = null;
+        wordareaStash[nowPage - 1] = '';
 
         linetext = [];
         textarr = [];
         lines= [];
         picarr = [];
+        textarea.value = '';
     });
 
     function save() {
@@ -811,17 +827,19 @@
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
+            linetext.push(textarea.value)
             var linestr = JSON.stringify(linetext);
 
             textarrStash[nowPage - 1] = textarr;
             linesStash[nowPage - 1] = lines;
             picarrStash[nowPage - 1] = picarr;
+            wordareaStash[nowPage - 1] = textarea.value;
             jsonStash[nowPage - 1] =linestr;
 
             let finalJson = [];
             //最後儲存的json
             for (var i = 0; i < {{count($images)}}; i++) {
-                if (jsonStash[i] == null) finalJson[i] = [[],[],[]];
+                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
                 else finalJson[i] = JSON.parse(jsonStash[i]);
             }
             console.log(finalJson)
@@ -834,6 +852,14 @@
             // console.error("123");
         }
 
+        // linetext.push(textarr)
+        // linetext.push(lines)
+        // linetext.push(picarr)
+        // wordarea.push(textarea.value)
+        // linetext.push(wordarea)
+        // var linestr = JSON.stringify(linetext);
+        // console.log(linestr)
+        // document.json.json.value=linestr;
     }
 
     let textarr =objson[0];
@@ -918,6 +944,34 @@
         }
     }
 
+    // var opent = document.getElementById("note"),
+    let isOpen = 0;
+    let wordarea=[];
+    function opentext(){
+
+        if(isOpen === 0) {
+            // textarea = document.createElement('textarea');
+            document.body.appendChild(textarea);
+            isOpen = 2;
+        } else {
+            if (isOpen == 1) {
+                textarea.hidden = false;
+                isOpen = 2;
+            }
+            else {
+                textarea.hidden = true;
+                isOpen = 1;
+            }
+        }
+
+
+        // textarea.value = "測試";
+        // textarea.value='';
+        // textarea.style="resize:none";
+        // textarea.style.width=1191;
+        // textarea.style.height=1684;
+
+    }
 
 
     // function invite(){
@@ -1014,22 +1068,29 @@
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
+        linetext.push(textarea.value)
+        // wordarea.push(textarea.value)
+        // linetext.push(wordarea)
         var linestr = JSON.stringify(linetext);
 
         textarrStash[nowPage - 1] = textarr;
         linesStash[nowPage - 1] = lines;
         picarrStash[nowPage - 1] = picarr;
+        wordareaStash[nowPage - 1] = textarea.value;
         jsonStash[nowPage - 1] =linestr;
 
         linetext = [];
         textarr = [];
         lines= [];
         picarr = [];
+        textarea.value = '';
+        // wordarea = [];
 
         nowPage = num;
         context.clearRect(0,0,note.width,note.height);
         textcontext.clearRect(0,0,textlayer.width,textlayer.height);
         imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+        //清除文字方塊陣列
 
         @if($textbookId!==null)
             const base = '{{asset('/images/'.$textbook->name)}}';
@@ -1048,13 +1109,12 @@
     function changeJson(index) {
         if (typeof jsonStash[index] !== 'undefined') {
             document.getElementById("page").value=`${index+1}`;
-            console.error(textarrStash[index]);
             textarr = textarrStash[index];
-            console.error(linesStash[index]);
             lines= linesStash[index];
-            console.error(picarrStash[index]);
             picarr = picarrStash[index];
+            textarea.value = wordareaStash[index];
             const objson=JSON.parse(jsonStash[index]);
+            // objson=JSON.parse(jsonStash[index]);
             const note = document.getElementById('note');
             const context = note.getContext('2d');
             const textlayer = document.getElementById('textlayer');
