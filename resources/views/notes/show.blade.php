@@ -955,7 +955,7 @@
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');
             document.body.appendChild(textarea);
-<<<<<<< HEAD
+
             textarea.value=objson[3];
         }
         if(checkch == true)
@@ -969,7 +969,7 @@
             console.log("close");
             textarea.style="display:none";
         }
-=======
+
             isOpen = 2;
         } else {
             if (isOpen == 1) {
@@ -988,7 +988,6 @@
         // textarea.style="resize:none";
         // textarea.style.width=1191;
         // textarea.style.height=1684;
->>>>>>> d8482c3ab20ed6b9ba3f5fcf4519ed42b57e5467
 
     }
 
