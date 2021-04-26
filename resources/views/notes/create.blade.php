@@ -7,18 +7,18 @@
     @endif
 
     <div id="addpeo" style="display:none">
-    <form>
-    列出同班同學名稱：
-        <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
-        @foreach($classmate as $classmates)
-        {{$classmates}} <input type="checkbox">
-        @endforeach
-    </form>
+        <form>
+            列出同班同學名稱：
+            <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            @foreach($classmate as $classmates)
+                {{$classmates}} <input type="checkbox">
+            @endforeach
+        </form>
     </div>
 
     <div style="display:none">
@@ -59,8 +59,7 @@
 
     <p id="demo"></p>
 
-{{--    <button onclick="opentext()">開啟文字方塊</button>--}}
-    開啟文字區域<input onclick="opentext()" id="openn" type="checkbox">
+    <button onclick="opentext()">開啟文字方塊</button>
 
 
     <div style="position: relative;">
@@ -504,24 +503,6 @@
     let isOpen = 0;
     let wordarea=[];
     function opentext(){
-
-        var checkch = document.getElementById("openn").checked;
-        if(checkch == true)
-        {
-            if (!textarea) {
-                textarea = document.createElement('textarea');
-                document.body.appendChild(textarea);
-            }
-            // textarea.value = "測試";
-            textarea.style = "resize:none";
-            textarea.style.width = 1191;
-            textarea.style.height = 1684;
-        }
-        else{
-            console.log("close");
-            textarea.style="display:none";
-        }
-
 
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');

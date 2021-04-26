@@ -192,8 +192,7 @@
 
     <button><div id="clear">清空畫布</div></button>
 
-{{--    <button onclick="opentext()">開啟文字方塊</button>--}}
-    開啟文字區域<input onclick="opentext()" id="openn" type="checkbox">
+    <button onclick="opentext()">開啟文字方塊</button>
 
     <button onclick="save()">儲存</button>
 
@@ -207,35 +206,35 @@
         <label for="share" class="share"><i class="fas fa-retweet"></i></label>
         <div style="display:none"><button id="send" name="send">send</button></div>
     </form>
-<br>
+    <br>
     <div style="position: relative">
-    @if(count($images)> 0)
-        <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
-            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
-            第
-            @for($i=0;$i<count($images);$i++)
-                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-            @endfor頁&emsp;
-            </p>
-        </div>
-    @endif
-
-    <div style="position: relative;">
-        <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
-
-        <canvas id="textlayer" width="1191" height="1684"
-                style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-        <canvas id="imglayer" width="1191" height="1684"
-                style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-        @if($textbookId!==null)
-            <canvas id="textbooklayer" width="1191" height="1684"
-                    style="position: absolute; left: 0; top: 0px; z-index: 1;
-                        background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
-            </canvas>
+        @if(count($images)> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                第
+                @for($i=0;$i<count($images);$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
         @endif
-    </div>
 
-    <canvas id="c2" width="1191" height="1684"></canvas>
+        <div style="position: relative;">
+            <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+
+            <canvas id="textlayer" width="1191" height="1684"
+                    style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+            <canvas id="imglayer" width="1191" height="1684"
+                    style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+            @if($textbookId!==null)
+                <canvas id="textbooklayer" width="1191" height="1684"
+                        style="position: absolute; left: 0; top: 0px; z-index: 1;
+                            background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
+                </canvas>
+            @endif
+        </div>
+
+        <canvas id="c2" width="1191" height="1684"></canvas>
     </div>
 </div>
 
@@ -349,33 +348,33 @@
     @endforeach
 @endif
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">編輯留言</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <p></p>
-                <div class="container-fluid">
-                    <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
-                        @csrf
-                        @method('POST')
-                        <p><textarea name="content1" id="comment123" style="resize:none;" cols="60" rows="5"></textarea></p>
-                        <input type="hidden" name="zzz" id="comment666" value="">
-                        <button type="submit" class="btn btn-info pd-x-20">Update</button>
-                    </form>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">編輯留言</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <p></p>
+            <div class="container-fluid">
+                <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
+                    @csrf
+                    @method('POST')
+                    <p><textarea name="content1" id="comment123" style="resize:none;" cols="60" rows="5"></textarea></p>
+                    <input type="hidden" name="zzz" id="comment666" value="">
+                    <button type="submit" class="btn btn-info pd-x-20">Update</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 <div class="tool" id="toolid">
     <a href="#about"><i class="fas fa-highlighter"></i> 螢光筆</a>
-<form style="margin:0" id="penform" name="penform">
+    <form style="margin:0" id="penform" name="penform">
         <a><input name="pen" id="pen" type="range" min="1" max="20" step="1" value="2"></a>
         <a><input readonly="readonly" name="penvalue" id="penvalue" size="1" style="text-align:center"></a>
         <a><input type="color" name="pencolor" id="pencolor" value="#000000"></a>
@@ -949,27 +948,10 @@
     let isOpen = 0;
     let wordarea=[];
     function opentext(){
-        var checkch = document.getElementById("openn").checked;
-
 
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');
             document.body.appendChild(textarea);
-
-            textarea.value=objson[3];
-        }
-        if(checkch == true)
-        {
-        // textarea.value = "測試";
-        textarea.style="resize:none";
-        textarea.style.width=1191;
-        textarea.style.height=1684;
-        }
-        else{
-            console.log("close");
-            textarea.style="display:none";
-        }
-
             isOpen = 2;
         } else {
             if (isOpen == 1) {
@@ -1111,15 +1093,15 @@
         //清除文字方塊陣列
 
         @if($textbookId!==null)
-            const base = '{{asset('/images/'.$textbook->name)}}';
-            let images = [];
-            @foreach($images as $row)
-            images.push('{{$row}}');
-            @endforeach
+        const base = '{{asset('/images/'.$textbook->name)}}';
+        let images = [];
+        @foreach($images as $row)
+        images.push('{{$row}}');
+        @endforeach
             imagePage={{count($images)}};
-            console.error(imagePage,222);
-            let a = base+"/"+images[num-1];
-            document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
+        console.error(imagePage,222);
+        let a = base+"/"+images[num-1];
+        document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
         @endif
         changeJson(num - 1);
     }
