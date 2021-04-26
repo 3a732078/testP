@@ -34,7 +34,7 @@
                                 vertical-align:middle/** 设置垂直方向居中 */
                             }
                         </style>
-                        <th>作者</th>
+                        <th class="mh1">作者</th>
                         <th></th>
                     </tr>
                     </thead>

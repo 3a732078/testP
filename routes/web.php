@@ -47,6 +47,9 @@ Route::get('notes/create',[NoteController::class,'create'])->name('notes.create'
 Route::post('/notes',[NoteController::class,'store'])->name('notes.store');
 Route::post('image',[NoteController::class,'image'])->name('notes.image')->where('id', '[0-9]+');
 
+//新增教材筆記
+Route::post('notes/ccreate',[NoteController::class,'ccreate'])->name('notes.mynotes.ccreate');
+
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 //顯示所有TA列表
@@ -83,6 +86,9 @@ Route::patch('share',[NoteController::class,'share'])->name('notes.share')->wher
 
 //顯示課堂筆記(學生)
 Route::get('/notes/classes/{id}', [NoteController::class,'cshow'])->name('notes.classes.cshow')->where('id', '[0-9]+');
+
+//顯示收藏庫
+Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.index');
 
 //收藏/取消收藏
 Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store');

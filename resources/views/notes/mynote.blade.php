@@ -51,6 +51,32 @@
 
 {{--                                @endfor--}}
                                 @endforeach
+                                @foreach ($assist as $note)
+                                    <form method="POST" role="form" enctype="multipart/form-data">
+                                        @csrf
+                                        @method('POST')
+                                        <tr>
+                                            <td width="280">{{basename($note->textfile,'.json')}}</td>
+                                            <td width="500" align="center">
+                                                @if($note->textbook==null)
+                                                    無引用教材
+                                                @else
+                                                    {{$note->textbook->name}}
+                                                @endif
+                                            </td>
+                                            <td width="170" align="center">
+                                                <a class="btn btn-primary btn-sm" href="/notes/{{$note->id}}">檢視筆記</a>
+                                    </form>
+                                    <form action="/notes/{{$note->id}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm">刪除筆記</button>
+                                    </form>
+                                    </td>
+                                    </tr>
+
+                                    {{--                                @endfor--}}
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>

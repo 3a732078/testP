@@ -22,7 +22,12 @@
                     <a class="fa fa-edit" href="#">編輯教材</a>
                     @endif
                     &ensp;/&ensp;
-                    <a class="fa fa-pencil-square-o" href="#">新增課程筆記</a>
+                    <form method="post" action="/notes/ccreate" style="margin:0px;display: inline;">
+                        @csrf
+                        <input type="hidden" name="textbookId" value="{{$id}}">
+                        <input type="hidden" name="classId" value="{{$class}}">
+                        <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">新增課程筆記</a></button>
+                    </form>
                 </div>
 
                 <table width="100%" style="height:100%;">

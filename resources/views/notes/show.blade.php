@@ -141,43 +141,53 @@
 
     </div>
 
-    <form id="json" name="json" method="POST" action="{{ route('notes.update',$id) }}" enctype="multipart/form-data">
+    <form id="json" name="json" method="POST" action="{{ route('notes.update',$id) }}" enctype="multipart/form-data" style="margin:0px;display: inline;">
         @csrf
         @method('PATCH')
         <div style="display:none">
             id：<input name="id" id="id" value="{{$id}}">
             分享狀態：<input id="sharestatus" name="sharestatus" value="{{$share}}">
         </div>
+        <br><br>
 {{--        //下面是跟課程有關的 20210127 (先註解,之後要弄回來)--}}
         {{--    課程：<input name="class" id="class" value="{{$class}}"><br>--}}
-        筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
+        筆記名稱：<input name="notename" id="notename" value="{{$name}}">&ensp;
         <div style="display:none">
+{{--            入口--}}
         <input readonly="readonly" id="call" name="call" value="{{$json}}">
         </div>
 
         <div style="display:none">
+{{--            出口--}}
         <input name="json" id="json">
         </div>
 
         <div style="display:none">
             <img id="jsonimg" width="220" height="277"
                  src="" alt="">
-
         </div>
 
-        <button onclick="add()" type="submit">save</button>
+        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
+    <button onclick="add()" id="send" name="send">儲存筆記</button>
+    <form action="/notes/{{$id}}" method="POST" style="margin:0px;display: inline;">
+        @csrf
+        @method('DELETE')
+        <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
+    </form>
+    <button onclick="dconfirm()">刪除筆記</button><br>
+    <br>
 
-    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→
+{{--    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
     {{--{{$notes->links()}}//頁數--}}
 
-    文字：<input id="word" type="checkbox">
-    插圖：<input id="pic" type="checkbox">
+    移動文字：<input id="word" type="checkbox">&ensp;,
+    移動插圖：<input id="pic" type="checkbox">&emsp;
 
 
     <button><div id="clear">清空畫布</div></button>
@@ -186,12 +196,6 @@
     開啟文字區域<input onclick="opentext()" id="openn" type="checkbox">
 
     <button onclick="save()">儲存</button>
-    <form action="/notes/{{$id}}" method="POST">
-        @csrf
-        @method('DELETE')
-        <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
-    </form>
-    <button onclick="dconfirm()">刪除</button>
 
     <form id="share" name="share" method="POST" action="{{ route('notes.share',$id) }}" onsubmit="return shareto()">
         @csrf
@@ -203,6 +207,18 @@
         <label for="share" class="share"><i class="fas fa-retweet"></i></label>
         <div style="display:none"><button id="send" name="send">send</button></div>
     </form>
+<br>
+    <div style="position: relative">
+    @if(count($images)> 0)
+        <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+            第
+            @for($i=0;$i<count($images);$i++)
+                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+            @endfor頁&emsp;
+            </p>
+        </div>
+    @endif
 
     <div style="position: relative;">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -210,30 +226,153 @@
         <canvas id="textlayer" width="1191" height="1684"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
         <canvas id="imglayer" width="1191" height="1684"
-                style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+                style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        @if($textbookId!==null)
+            <canvas id="textbooklayer" width="1191" height="1684"
+                    style="position: absolute; left: 0; top: 0px; z-index: 1;
+                        background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
+            </canvas>
+        @endif
     </div>
 
     <canvas id="c2" width="1191" height="1684"></canvas>
-
+    </div>
 </div>
-//下面是跟留言有關的 20210127 (先註解,之後要弄回來)
-{{--<form id="comments" name="comments" method="POST" action="/comments">--}}
-{{--    @csrf--}}
-{{--    @method('POST')--}}
-{{--    新增留言--}}
-{{--    <div style="display: none">--}}
-{{--        <input id="note_id" name="note_id" value="{{$id}}">--}}
-{{--    </div>--}}
-{{--    <input readonly="readonly" id="" name="" value="載入留言者 姓名(不可更改)">--}}
-{{--    <textarea id="contents" name="contents">留言內容</textarea>--}}
-{{--    <button>留言</button>--}}
-{{--</form>--}}
 
-{{--顯示留言<i class="far fa-comment-dots"></i>--}}
-{{--<input readonly="readonly" id="" name="" value="載入留言者 姓名(不可更改)">--}}
-{{--<textarea readonly="readonly">{{$comment}}</textarea>--}}
-{{--<button>判斷身分如果是該使用者的話會出現"回覆"按鈕</button>--}}
-{{--點回覆按鈕會展開textarea輸入 然後按下'送出" 就會回覆--}}
+<form id="comments" name="comments" method="POST" action="/comments">
+    @csrf
+    @method('POST')
+    <br><table><tr><td>&emsp;
+                新增留言&thinsp;<i class="far fa-comment-dots"></i>&ensp;
+                <div style="display: none">
+                    <input id="note_id" name="note_id" value="{{$id}}">
+                </div></td>
+            {{--留言者--}}
+            <td>
+                <input readonly="readonly" id="" name="" value="{{$uname}}" SIZE=10
+                       style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;">：
+            </td>
+            <td>
+                <textarea style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="55" rows="2" id="contents" name="contents">留言內容</textarea>
+            </td>
+            <td>
+                <button>留言</button>
+            </td></tr>
+    </table>
+</form>
+@if(count($comments)> 0)
+    <hr class="sidebar-divider">&emsp;
+    顯示留言 &thinsp;<i class="fa fa-comments"></i><br>
+    @foreach($comments as $comment)
+        <div class="container-fluid" style="margin-left:90px;">
+            <table><tr>
+                    {{--留言者名稱--}}
+                    <td style="vertical-align:text-top;font-size:18px;">
+                        <br>
+                        <input readonly="readonly" id="" name="" value="{{$comment->user->name}}" style="background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;"
+                               SIZE={{strlen($comment->user->name)}}>：
+                    </td>
+                    {{--留言內容--}}
+                    <td valign="top" colspan="2" width="300px"><br>
+                        <textarea readonly="readonly" id="comment{{$comment->id}}"
+                                  style="resize:none; background-color:transparent; border-style:dashed;" cols="100" rows="4">{{$comment->content}}</textarea>
+                        {{--                        <textarea readonly="readonly" id="comment{{$comment->id}}"--}}
+                        {{--                                  style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;" cols="100" rows="auto">{{$comment->content}}</textarea>--}}
+                        <p></p>
+                    </td>
+                    {{--編輯留言--}}
+                    <td valign="center"><br>
+                        &ensp;<a class="btn btn-secondary btn-lg active btn-sm"  onclick="reply({{$comment->id}}, '')" data-toggle="collapse" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                            回覆
+                        </a>
+                        @if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())<br>
+                        &ensp;<button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                            編輯留言
+                        </button>
+                        <form action="/comments/{{$comment->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            &ensp;<button class="btn btn-danger btn-sm">刪除留言</button>
+                        </form>
+                        @endif
+                    </td>
+                </tr>
+
+                {{--回覆留言--}}
+                @foreach($replies as $reply)
+                    @if($reply->comment_id==$comment->id)
+                        <tr>
+                            <td ></td>
+                            <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&ensp;&ensp;
+                                <i class="fa fa-angle-right"></i>&ensp;
+                                {{$reply->user->name}}：
+                                {{$reply->content}}&emsp;
+                                <a class="btn btn-tumbir active btn-sm" style="color: #205081;border:0.5px gray solid;" data-toggle="collapse" onclick="reply({{$comment->id}}, {{$reply->id}})" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                                    回覆</a>
+                                @if ($reply->user_id == \Illuminate\Support\Facades\Auth::id())|
+                                <form action="/comments/{{$reply->id}}" method="POST" style="margin:0px;display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
+                                </form>
+                                @endif
+                            </td>
+                            <td width="200px" >
+
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+
+                {{--回覆留言#collapseExample--}}
+                <tr><td colspan="5">
+                        <form method="POST" action="{{ url('/replies')}}">
+                            <p>
+                            <div class="collapse" id="collapseExample{{$comment->id}}">
+                                @csrf
+                                <div class="container-fluid" style="margin-left:118px;line-height:15px;">
+                                    <i class="fa fa-angle-right"></i>&ensp;
+                                    <input type="hidden" id="note_id" name="note_id" value="{{$id}}">
+                                    <input type="hidden" id="comment_id" name="comment_id" value="{{$comment->id}}">
+                                    <input type="hidden" id="replyId{{$comment->id}}" name="replyId" value="">
+                                    <textarea style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;font-size:15px;line-height:15px;"
+                                              cols="80" rows="2" id="reply" name="reply" placeholder="&ensp;留言內容......"></textarea>
+                                    <button type="submit" class="btn btn-group btn-lg active btn-sm" style="margin-bottom:30px;">留言</button>
+
+                                </div>
+                            </div>
+                            </p>
+                        </form></td>
+                </tr>
+            </table>
+        </div>
+    @endforeach
+@endif
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">編輯留言</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <p></p>
+                <div class="container-fluid">
+                    <form method="POST" role="form" enctype="multipart/form-data" action="{{ url('/comments/edit')}}">
+                        @csrf
+                        @method('POST')
+                        <p><textarea name="content1" id="comment123" style="resize:none;" cols="60" rows="5"></textarea></p>
+                        <input type="hidden" name="zzz" id="comment666" value="">
+                        <button type="submit" class="btn btn-info pd-x-20">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div class="tool" id="toolid">
     <a href="#about"><i class="fas fa-highlighter"></i> 螢光筆</a>
 <form style="margin:0" id="penform" name="penform">
@@ -284,6 +423,9 @@
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>
+{{--<textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+{{--        文字方塊測試~--}}
+{{--    </textarea>--}}
 <style>
     canvas {
         border: 1px solid black;
@@ -390,13 +532,41 @@
     }
 </style>
 <script>
+    let imagePage = 1;
+    let isloading = false;
+    let nowPage = 1;
+    let jsonStash = [];
+    let textarrStash = [];
+    let linesStash = [];
+    let picarrStash = [];
+    let wordareaStash = [];
+
+    let textarea = document.createElement('textarea');
+    textarea.value='';
+    textarea.style="resize:none";
+    textarea.style.width=1191;
+    textarea.style.height=1684;
+
+    @if(count($images)> 0)
+    document.getElementById("page").value=`${nowPage}`;
+    @endif
+
+    var test=document.json.call.value;
+    let objsonNow=JSON.parse(test);
+
+    for (var i = 0; i < objsonNow.length ; i++) {
+        jsonStash[i] =   JSON.stringify(objsonNow[i]);
+        textarrStash[i] = objsonNow[i][0];
+        linesStash[i] = objsonNow[i][1];
+        picarrStash[i] = objsonNow[i][2];
+        wordareaStash[i] = objsonNow[i][3];
+    }
+    let objson = objsonNow[0];
+
 
     let isDrawing = false;
     let x = 0;
     let y = 0;
-
-    var test=document.json.call.value;
-    const objson=JSON.parse(test);
 
     const note = document.getElementById('note');
     const context = note.getContext('2d');
@@ -457,7 +627,7 @@
             isDrawing = false;
         }
     });
-    const lines=objson[1];
+    let lines=objson[1];
     window.addEventListener('mouseup', e => {
         if (isDrawing === true && erasere.checked===false && word.checked===false&& pic.checked===false) {
             drawLine(context, x, y, e.offsetX, e.offsetY);
@@ -470,6 +640,7 @@
                     color:[document.penform.pencolor.value],
                     width:[document.penform.pen.value]
                 }
+
                 lines.push(line)
                 console.log(lines)
                 console.log('1123')
@@ -565,6 +736,27 @@
         const note = document.getElementById('note');
         const context = note.getContext('2d');
         context.clearRect(0,0,note.width,note.height);
+
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+
+        jsonStash[nowPage - 1] = null;
+        textarrStash[nowPage - 1]  = null;
+        linesStash[nowPage - 1]  = null;
+        picarrStash[nowPage - 1]  = null;
+        wordareaStash[nowPage - 1] = '';
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+        textarea.value = '';
     });
 
     function save() {
@@ -581,13 +773,6 @@
     window.addEventListener("load", function (){
 
 
-
-        var test=document.json.call.value;
-        const objson=JSON.parse(test);
-        console.log(objson);
-
-        var note = document.getElementById("note");
-        var context = note.getContext("2d");
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
@@ -633,18 +818,52 @@
         }
 
     },false);
-    const linetext= []
+    let linetext= []
+
     function add(){
-        linetext.push(textarr)
-        linetext.push(lines)
-        linetext.push(picarr)
-        wordarea.push(textarea.value)
-        linetext.push(wordarea)
-        var linestr = JSON.stringify(linetext);
-        console.log(linestr)
-        document.json.json.value=linestr;
+        // console.error(isloading);
+        if(isloading == false) {
+            isloading = true;
+            //暫時儲存
+            linetext.push(textarr)
+            linetext.push(lines)
+            linetext.push(picarr)
+            linetext.push(textarea.value)
+            var linestr = JSON.stringify(linetext);
+
+            textarrStash[nowPage - 1] = textarr;
+            linesStash[nowPage - 1] = lines;
+            picarrStash[nowPage - 1] = picarr;
+            wordareaStash[nowPage - 1] = textarea.value;
+            jsonStash[nowPage - 1] =linestr;
+
+            let finalJson = [];
+            //最後儲存的json
+            for (var i = 0; i < {{count($images)}}; i++) {
+                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
+                else finalJson[i] = JSON.parse(jsonStash[i]);
+            }
+            console.log(finalJson)
+            document.json.json.value = JSON.stringify(finalJson);
+            document.getElementById("send1").disabled = false;
+
+            isloading = false;
+
+        } else {
+            // console.error("123");
+        }
+
+        // linetext.push(textarr)
+        // linetext.push(lines)
+        // linetext.push(picarr)
+        // wordarea.push(textarea.value)
+        // linetext.push(wordarea)
+        // var linestr = JSON.stringify(linetext);
+        // console.log(linestr)
+        // document.json.json.value=linestr;
     }
-    const textarr =objson[0];
+
+    let textarr =objson[0];
     function textbox() {
         const dspace = document.text.text.value.replace(/^\s*|\s*$/g,"");
         if(dspace!=="") {
@@ -726,16 +945,17 @@
         }
     }
 
-    var opent = document.getElementById("note"),
-        textarea=null;
-    const wordarea=[];
+    // var opent = document.getElementById("note"),
+    let isOpen = 0;
+    let wordarea=[];
     function opentext(){
         var checkch = document.getElementById("openn").checked;
 
 
-        if(!textarea) {
-            textarea = document.createElement('textarea');
+        if(isOpen === 0) {
+            // textarea = document.createElement('textarea');
             document.body.appendChild(textarea);
+<<<<<<< HEAD
             textarea.value=objson[3];
         }
         if(checkch == true)
@@ -749,9 +969,28 @@
             console.log("close");
             textarea.style="display:none";
         }
+=======
+            isOpen = 2;
+        } else {
+            if (isOpen == 1) {
+                textarea.hidden = false;
+                isOpen = 2;
+            }
+            else {
+                textarea.hidden = true;
+                isOpen = 1;
+            }
+        }
+
+
+        // textarea.value = "測試";
+        // textarea.value='';
+        // textarea.style="resize:none";
+        // textarea.style.width=1191;
+        // textarea.style.height=1684;
+>>>>>>> d8482c3ab20ed6b9ba3f5fcf4519ed42b57e5467
 
     }
-
 
 
     // function invite(){
@@ -790,7 +1029,7 @@
 <script>
     var imageLoader = document.getElementById('imgup');
     imageLoader.addEventListener('change', imgtocanvas, false);
-    const picarr=objson[2]
+    let picarr=objson[2]
 
     function imgtocanvas(e){
 
@@ -834,6 +1073,122 @@
         context.globalAlpha = 0.5;
         context.strokeStyle = document.penform.pencolor.value;
     },false);
+
+    function bookimg(num) {
+        //獲得資源
+        const note = document.getElementById('note');
+        const context = note.getContext('2d');
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+
+
+        linetext.push(textarr)
+        linetext.push(lines)
+        linetext.push(picarr)
+        linetext.push(textarea.value)
+        // wordarea.push(textarea.value)
+        // linetext.push(wordarea)
+        var linestr = JSON.stringify(linetext);
+
+        textarrStash[nowPage - 1] = textarr;
+        linesStash[nowPage - 1] = lines;
+        picarrStash[nowPage - 1] = picarr;
+        wordareaStash[nowPage - 1] = textarea.value;
+        jsonStash[nowPage - 1] =linestr;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+        textarea.value = '';
+        // wordarea = [];
+
+        nowPage = num;
+        context.clearRect(0,0,note.width,note.height);
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+        //清除文字方塊陣列
+
+        @if($textbookId!==null)
+            const base = '{{asset('/images/'.$textbook->name)}}';
+            let images = [];
+            @foreach($images as $row)
+            images.push('{{$row}}');
+            @endforeach
+            imagePage={{count($images)}};
+            console.error(imagePage,222);
+            let a = base+"/"+images[num-1];
+            document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
+        @endif
+        changeJson(num - 1);
+    }
+
+    function changeJson(index) {
+        if (typeof jsonStash[index] !== 'undefined') {
+            document.getElementById("page").value=`${index+1}`;
+            textarr = textarrStash[index];
+            lines= linesStash[index];
+            picarr = picarrStash[index];
+            textarea.value = wordareaStash[index];
+            const objson=JSON.parse(jsonStash[index]);
+            // objson=JSON.parse(jsonStash[index]);
+            const note = document.getElementById('note');
+            const context = note.getContext('2d');
+            const textlayer = document.getElementById('textlayer');
+            const textcontext = textlayer.getContext('2d');
+            const imglayer = document.getElementById('imglayer');
+            const imgcontext = imglayer.getContext('2d');
+
+            for(var k=0;k<objson[2].length;k++){
+                document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+                var img = new Image();
+                img.src=document.json.jsonimg.src;
+                imgcontext.drawImage(img, objson[2][k].location[0], objson[2][k].location[1]);//drawImage(image, x, y)或drawImage(image, x, y, width, height) width跟height是縮放用的
+            }
+            for(var j=0 ; j < objson[0].length ; j++){
+                var l = JSON.stringify(objson[0][j].form);
+                var length =l.length;
+                if(length===7){
+                    console.log("是");
+                    textcontext.font = "30px Arial";
+                    textcontext.fillStyle=objson[0][j].color;
+                    textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                }
+                else if (length!==7){
+                    console.log("否");
+                    textcontext.font = objson[0][j].form;
+                    textcontext.fillStyle=objson[0][j].color;
+                    textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                }
+            }
+            for(var i=0 ; i < objson[1].length ; i++){
+                context.globalAlpha = 0.5;
+                context.lineWidth=objson[1][i].width[0]
+                context.strokeStyle = objson[1][i].color[0];
+                context.beginPath();
+                context.moveTo(objson[1][i].start[0],objson[1][i].start[1]);
+                context.lineTo(objson[1][i].end[0],objson[1][i].end[1]);
+                context.stroke();
+                context.closePath();
+            }
+        }
+
+    }
+</script>
+
+<script type="text/javascript">
+    function textview(id) {
+        document.getElementById("comment123").value =
+            document.getElementById(id).value;
+        document.getElementById("comment666").value = id;
+
+    }
+
+    function reply(commentId, replyId) {
+        document.getElementById("replyId"+commentId).value = replyId;
+    }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 

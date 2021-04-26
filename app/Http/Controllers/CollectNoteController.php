@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CollectNote;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CollectNoteController extends Controller
 {
@@ -14,7 +16,8 @@ class CollectNoteController extends Controller
      */
     public function index()
     {
-        //
+        $favor=User::find(Auth::id())->collects()->get();
+        return view('notes.storehose',['favor'=>$favor]);
     }
 
     /**

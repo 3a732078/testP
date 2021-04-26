@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assist;
 use App\Models\CollectNote;
 use App\Models\Comment;
+use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Note;
 use App\Models\NoteScore;
@@ -32,6 +33,38 @@ class NoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function ccreate(Request $request)
+    {
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+
+        $textbookId = $request->textbookId;//教材Id
+        $course=Textbook::find($textbookId)->course->name;//課程名稱
+        $classId = $request->classId;//課程Id
+        $textbook=Textbook::find($textbookId);
+        $files=scandir("./images/" . "$textbook->name");
+        $images = array();
+        for ($i=0;$i<count($files);$i++){
+
+            if($files[$i]=='.'||$files[$i]=='..'){
+                continue;
+            }
+            $images[]=$files[$i];
+        }
+        $num = $request->num != null ? $request->num : 1 ;
+
+        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course]);
+    }
+
     public function create(Request $request)
     {
         $id=$request->user()->id;
@@ -66,16 +99,33 @@ class NoteController extends Controller
 //        Storage::disk('public')->put('\\json\\' . $request->class . '\\' . $request->notename . '.json', $json);
         Storage::disk('public')->put('\\json\\' . $request->notename . '.json', $json);
         $path = $request->notename . '.json';
-        Note::create([
-            'user_id'=>$request->user()->id,
-            'title'=>$request->notename,
-            'content'=>"XXXXXXX",
-            'time'=>now(),
-            'path'=>"??",
-            'share'=>0,
-            'like'=>0,
-            'textfile'=>$path
-        ]);
+
+        if ($request->has('textbookId')==true){
+            Note::create([
+                'user_id'=>$request->user()->id,
+                'textbook_id'=>$request->textbookId,
+                'title'=>$request->notename,
+                'content'=>"XXXXXXX",
+                'time'=>now(),
+                'path'=>"??",
+                'share'=>0,
+                'like'=>0,
+                'textfile'=>$path
+            ]);
+        }else{
+            Note::create([
+                'user_id'=>$request->user()->id,
+                'title'=>$request->notename,
+                'content'=>"XXXXXXX",
+                'time'=>now(),
+                'path'=>"??",
+                'share'=>0,
+                'like'=>0,
+                'textfile'=>$path
+            ]);
+        }
+        return redirect('/mynotes');
+
     }
 
     public function image(Request $request)
@@ -100,6 +150,7 @@ class NoteController extends Controller
      */
     public function show($id,Request $request)
     {
+
         $id1=$request->user()->id;
         $class=Student::where('user_id',$id1)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -138,9 +189,41 @@ class NoteController extends Controller
             if(count($ass)!==0){}
             else $ass=null;
 
+
+            $course=null;
+            $classId=null;
+            $textbook=null;
+            $images=[[]];
+            $textbookId=Note::where('id',$id)->value('textbook_id');//教材Id
+            if ($textbookId!==null){
+                $course=Textbook::find($textbookId)->course->name;//課程名稱
+                $classId=Course::where('name',$course)->value('id');//課程Id
+                $textbook=Textbook::find($textbookId);
+
+                $files=scandir("./images/" . "$textbook->name");
+                $images = array();
+                for ($i=0;$i<count($files);$i++){
+
+                    if($files[$i]=='.'||$files[$i]=='..'){
+                        continue;
+                    }
+                    $images[]=$files[$i];
+                }
+            }
+
+
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
+            $uname=User::where('id',$request->user()->id)->value('name');
+            $comments=Comment::where('note_id',$id)
+                ->where('comment_id',null)
+                ->get();
+            $replies=Comment::where('note_id',$id)
+                ->where('comment_id','!=',null)
+                ->get();
+
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname,
+                'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -175,9 +258,38 @@ class NoteController extends Controller
             if(count($ass)!==0){}
             else $ass=null;
 
+            $course=null;
+            $classId=null;
+            $textbook=null;
+            $images=array();
+            $textbookId=Note::where('id',$id)->value('textbook_id');//教材Id
+            if ($textbookId!==null){
+                $course=Textbook::find($textbookId)->course->name;//課程名稱
+                $classId=Course::where('name',$course)->value('id');//課程Id
+                $textbook=Textbook::find($textbookId);
+
+                $files=scandir("./images/" . "$textbook->name");
+                $images = array();
+                for ($i=0;$i<count($files);$i++){
+
+                    if($files[$i]=='.'||$files[$i]=='..'){
+                        continue;
+                    }
+                    $images[]=$files[$i];
+                }
+            }
+
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass]);
+            $uname=User::where('id',$request->user()->id)->value('name');
+            $comments=Comment::where('note_id',$id)
+                ->where('comment_id',null)
+                ->get();
+            $replies=Comment::where('note_id',$id)
+                ->where('comment_id','!=',null)
+                ->get();
+
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
@@ -217,19 +329,35 @@ class NoteController extends Controller
         $file = Storage::disk('public')->get('\\json\\' . $jsonname);
 //        Storage::allFiles('user_images');
 
+        $author=Note::find($id)->user->name;
+        $course=null;
+        $classId=null;
+        $textbook=null;
+        $images=array();
+        $textbookId=Note::where('id',$id)->value('textbook_id');//教材Id
+        if ($textbookId!==null){
+            $course=Textbook::find($textbookId)->course->name;//課程名稱
+            $classId=Course::where('name',$course)->value('id');//課程Id
+            $textbook=Textbook::find($textbookId);
+
+            $files=scandir("./images/" . "$textbook->name");
+            $images = array();
+            for ($i=0;$i<count($files);$i++){
+
+                if($files[$i]=='.'||$files[$i]=='..'){
+                    continue;
+                }
+                $images[]=$files[$i];
+            }
+        }
 
         $comments=Comment::where('note_id',$id)
             ->where('comment_id',null)
             ->get();
         $replies=Comment::where('note_id',$id)
             ->where('comment_id','!=',null)
-            ->where('replyId','=',null)
             ->get();
-
-        $repliesId=Comment::where('note_id',$id)
-            ->where('replyId','!=',null)
-            ->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'repliesId'=>$repliesId]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -266,6 +394,7 @@ class NoteController extends Controller
             'textfile'=>$path
         ]);
 
+        return redirect('/mynotes');
     }
 
     public function share(Request $request)
@@ -334,7 +463,10 @@ class NoteController extends Controller
     public function mynote(Request $request)
     {
         $notes=Note::where('user_id',Auth::id())->get();
-        return view('notes.mynote',['notes'=>$notes]);
+        $assist=Assist::where('user_id',Auth::id())->get()->toArray();
+        $assist = array_column($assist, 'note_id');
+        $assist=Note::where('id', $assist)->where('user_id', '!=',Auth::id())->get();
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist]);
     }
 
     public function assist(Request $request)

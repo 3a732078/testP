@@ -7,18 +7,18 @@
     @endif
 
     <div id="addpeo" style="display:none">
-    <form>
-    列出同班同學名稱：
-        <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>
-        @foreach($classmate as $classmates)
-        {{$classmates}} <input type="checkbox">
-        @endforeach
-    </form>
+        <form>
+            列出同班同學名稱：
+            <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+            @foreach($classmate as $classmates)
+                {{$classmates}} <input type="checkbox">
+            @endforeach
+        </form>
     </div>
 
     <div style="display:none">
@@ -26,13 +26,20 @@
              src="{{asset('images/uccu/uccu1.jpg')}}" alt="m">
     </div>
 
+    <div style="display: none">
+        <input name="valuetojs" value="testsendvalue">
+    </div>
+
     <form id="json" name="json" method="POST" action="/notes" enctype="multipart/form-data">
         @csrf
-        @method('POST')
-        課程：<input name="class" id="class"><br>
-        筆記名稱：<input name="notename" id="notename"><br>
 
+        課程：<input type="text" name="class" id="class" value="{{$course}}" readonly style="background-color:transparent;font-size:15px;border-style:none"><br>
+        筆記名稱：<input name="notename" id="notename">&emsp;
 
+        <div style="display: none">
+            <input name="classId" value="{{$classId}}">
+            <input name="textbookId" value="{{$textbookId}}">
+        </div>
 
         <div style="display:none">
             <input name="json" id="json">
@@ -41,39 +48,50 @@
 
         </div>
 
-        <button onclick="add()" id="send" name="send" type="submit">save</button>
+        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
-
-    文字：<input id="word" type="checkbox">
-    插圖：<input id="pic" type="checkbox">
+    <button onclick="add()" id="send" name="send">儲存</button>
+    <p>移動文字：<input id="word" type="checkbox">&ensp;,
+    移動插圖：<input id="pic" type="checkbox"></p>
 
 
     <button><div id="clear">清空畫布</div></button>
 
-{{--    <button onclick="save()">儲存</button>--}}
+    <button onclick="opentext()">開啟文字方塊</button>
+<p></p>
+    <div style="position: relative">
+    <div align="left">
+        <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+        第
+        @for($i=0;$i<count($images);$i++)
+            <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+        @endfor頁
+    </div>
 
     <p id="demo"></p>
 
-{{--    <button onclick="opentext()">開啟文字方塊</button>--}}
-    開啟文字區域<input onclick="opentext()" id="openn" type="checkbox">
-
 
     <div style="position: relative;">
-        <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+        <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;border-style:solid;border-color:gray;border-width:1px;"></canvas>
         {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
         <canvas id="textlayer" width="1191" height="1684"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
         <canvas id="imglayer" width="1191" height="1684"
-                style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+                style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+        <canvas id="textbooklayer" width="1191" height="1684"
+                style="position: absolute; left: 0; top: 100px; z-index: 1;
+                    background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
+        </canvas>
+
     </div>
 
     <canvas id="c2" width="1191" height="1684"></canvas>
-
+    </div>
 </div>
 
 <div class="tool" id="toolid">
@@ -126,7 +144,7 @@
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>
-{{--<textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+{{--    <textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
 {{--        文字方塊測試~--}}
 {{--    </textarea>--}}
 
@@ -235,11 +253,22 @@
     }
 
 </style>
+
 <script>
+    let isloading = false; //防止連按
+    let nowPage = 1; //目前第幾頁
+    let jsonStash = [];//暫時儲存json
+    let textarrStash = [];
+    let linesStash = [];
+    let picarrStash = [];
+    let wordareaStash = [];
+
+    document.getElementById("page").value=`${nowPage}`;
 
     let isDrawing = false;
     let x = 0;
     let y = 0;
+
 
     const note = document.getElementById('note');
     const context = note.getContext('2d');
@@ -247,12 +276,18 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
-
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
     textarea.style.width=1191;
     textarea.style.height=1684;
+    // const send = document.getElementById('send');
+
+    // send.addEventListener("click", function(){
+    //     // isloading = true;
+    //     document.getElementById("send").disabled = true;
+    // });
+    // $('json').preventDoubleSubmission();
 
     note.addEventListener('mousedown', e => {
         x = e.offsetX;
@@ -309,7 +344,7 @@
 
     });
 
-    const lines = []
+    let lines = []
     window.addEventListener('mouseup', e => {
         if (isDrawing === true && erasere.checked===false && word.checked===false&&pic.checked===false) {
             drawLine(context, x, y, e.offsetX, e.offsetY);
@@ -375,6 +410,7 @@
                     console.log(picarr[k].location[0])
                     console.log(picarr[k].location[1])
                     imgcontext.clearRect(picarr[k].location[0], picarr[k].location[1], picarr[k].width, picarr[k].height);
+
                     picarr[k].location[0]=e.offsetX;
                     picarr[k].location[1]=e.offsetY;
                     console.log(picarr[k].location[0])
@@ -383,9 +419,9 @@
 
 
                     document.json.jsonimg.src="{{asset('images/')}}"+"/"+picarr[k].path[0]
-                    var img = new Image();
-                    img.src=document.json.jsonimg.src;
-                    imgcontext.drawImage(img, picarr[k].location[0], picarr[k].location[1]);
+                    // var img = new Image();json
+                    // img.src=document.json.img.src;
+                    imgcontext.drawImage(jsonimg, picarr[k].location[0], picarr[k].location[1]);
 
 
                 }
@@ -416,25 +452,46 @@
     }
 
 
-    const linetext= []
+    let linetext= []
     function add(){
-        linetext.push(textarr)
-        linetext.push(lines)
-        linetext.push(picarr)
-        // wordarea.push(textarea.value)
-        // linetext.push(wordarea)
-        linetext.push(textarea.value)
+    console.error(isloading);
+        if(isloading == false) {
+            isloading = true;
+            //暫時儲存
+            linetext.push(textarr)
+            linetext.push(lines)
+            linetext.push(picarr)
+            linetext.push(textarea.value)
+            console.error(linetext);
+            var linestr = JSON.stringify(linetext);
 
-        var linestr = JSON.stringify(linetext);
-        console.log(linestr)
+            textarrStash[nowPage - 1] = textarr;
+            linesStash[nowPage - 1] = lines;
+            picarrStash[nowPage - 1] = picarr;
+            wordareaStash[nowPage - 1] = textarea.value;
+            jsonStash[nowPage - 1] =linestr;
 
-        let finalJson = [];
-        finalJson[0]= JSON.parse(linestr);
-        document.json.json.value = JSON.stringify(finalJson);
+
+            let finalJson = [];
+            //最後儲存的json
+            for (var i = 0; i < {{count($images)}}; i++) {
+                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
+                else finalJson[i] = JSON.parse(jsonStash[i]);
+            }
+            console.error({{count($images)}});
+            console.log(finalJson,123)
+            document.json.json.value = JSON.stringify(finalJson);
+            document.getElementById("send1").disabled = false;
+
+            isloading = false;
+
+        } else {
+            console.error("123");
+        }
 
     }
     //new
-    const textarr = []
+    let textarr = []
 
     function textbox() {
         const dspace = document.text.text.value.replace(/^\s*|\s*$/g,"");
@@ -468,6 +525,26 @@
         const note = document.getElementById('note');
         const context = note.getContext('2d');
         context.clearRect(0,0,note.width,note.height);
+
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+        //清除當頁暫存
+        jsonStash[nowPage - 1] = null;
+        textarrStash[nowPage - 1]  = null;
+        linesStash[nowPage - 1]  = null;
+        picarrStash[nowPage - 1]  = null;
+
+        //清除畫線
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
     });
 
     function save() {
@@ -500,28 +577,11 @@
         document.getElementById("addpeo").style.display="block";
     }
 
+
     // var opent = document.getElementById("note"),
     let isOpen = 0;
     let wordarea=[];
     function opentext(){
-<<<<<<< HEAD
-        var checkch = document.getElementById("openn").checked;
-        if(checkch == true)
-        {
-            if (!textarea) {
-                textarea = document.createElement('textarea');
-                document.body.appendChild(textarea);
-            }
-            // textarea.value = "測試";
-            textarea.style = "resize:none";
-            textarea.style.width = 1191;
-            textarea.style.height = 1684;
-        }
-        else{
-            console.log("close");
-            textarea.style="display:none";
-        }
-=======
 
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');
@@ -532,7 +592,7 @@
                 textarea.hidden = false;
                 isOpen = 2;
             }
-            else {
+            else{
                 textarea.hidden = true;
                 isOpen = 1;
             }
@@ -545,7 +605,6 @@
         // textarea.style.width=1191;
         // textarea.style.height=1684;
 
->>>>>>> d8482c3ab20ed6b9ba3f5fcf4519ed42b57e5467
     }
 </script>
 
@@ -573,7 +632,7 @@
 
     var imageLoader = document.getElementById('imgup');
     imageLoader.addEventListener('change', imgtocanvas, false);
-    const picarr=[]
+    let picarr=[]
 
     function imgtocanvas(e){
 
@@ -587,7 +646,7 @@
             img.onload = function(){
 
                 imgcontext.drawImage(img,0,0,img.width,img.height);
-                const pic = {
+                let pic = {
                     location: [0, 0],
                     path: [imageLoader.value.split("\\").pop()],
                     width:[img.width],
@@ -605,8 +664,6 @@
     pen.addEventListener("change", function (){
 
         for(var p=0;p<=20;p++){
-            console.log(p)
-            console.log(document.penform.pen.value)
             document.penform.penvalue.value=document.penform.pen.value;
             const pensize=+document.penform.pen.value;
             if (pensize === p) {
@@ -629,8 +686,116 @@
 
     },false);
 
+        function bookimg(num) {
+
+            //獲得資源
+            const note = document.getElementById('note');
+            const context = note.getContext('2d');
+            const textlayer = document.getElementById('textlayer');
+            const textcontext = textlayer.getContext('2d');
+            const imglayer = document.getElementById('imglayer');
+            const imgcontext = imglayer.getContext('2d');
+
+
+
+            //暫時儲存
+            linetext.push(textarr)
+            linetext.push(lines)
+            linetext.push(picarr)
+            linetext.push(textarea.value)
+            console.error(linetext);
+            var linestr = JSON.stringify(linetext);
+
+            textarrStash[nowPage - 1] = textarr;
+            linesStash[nowPage - 1] = lines;
+            picarrStash[nowPage - 1] = picarr;
+            wordareaStash[nowPage - 1] = textarea.value;
+            jsonStash[nowPage - 1] =linestr;
+
+            linetext = [];
+            textarr = [];
+            lines= [];
+            picarr = [];
+            textarea.value = '';
+
+            nowPage = num;
+            //清除
+            context.clearRect(0,0,note.width,note.height);
+            textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+            imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+            //清除文字方塊陣列
+
+            //換頁內容
+            const base = '{{asset('/images/'.$textbook->name)}}';
+            let images = [];
+            @foreach($images as $row)
+            images.push('{{$row}}');
+            @endforeach
+            console.error(images.length,123);
+            let a = base+"/"+images[num-1];
+            document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
+
+            changeJson(num - 1);
+            document.getElementById("page").value=`${num}`;
+    }
+
+        function changeJson(index) {
+            if (typeof jsonStash[index] !== 'undefined') {
+                //換到n頁時，給n頁的值
+                textarr = textarrStash[index];
+                lines= linesStash[index];
+                picarr = picarrStash[index];
+                textarea.value = wordareaStash[index];
+                //json decode
+                const objson=JSON.parse(jsonStash[index]);
+                const note = document.getElementById('note');
+                const context = note.getContext('2d');
+                const textlayer = document.getElementById('textlayer');
+                const textcontext = textlayer.getContext('2d');
+                const imglayer = document.getElementById('imglayer');
+                const imgcontext = imglayer.getContext('2d');
+
+                for(var k=0;k<objson[2].length;k++){ // 畫圖片（第三個ARRAY）
+                    document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+                    var img = new Image();
+                    img.src=document.json.jsonimg.src;
+                    console.error(document.json.jsonimg.src)
+                    imgcontext.drawImage(img, objson[2][k].location[0], objson[2][k].location[1]);//drawImage(image, x, y)或drawImage(image, x, y, width, height) width跟height是縮放用的
+                    console.error(objson[2][k].location[0], objson[2][k].location[1]);
+                }
+                for(var j=0 ; j < objson[0].length ; j++){ //文字
+                    var l = JSON.stringify(objson[0][j].form);
+                    var length =l.length;
+                    if(length===7){
+                        console.log("是");
+                        textcontext.font = "30px Arial";
+                        textcontext.fillStyle=objson[0][j].color;
+                        textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                    }
+                    else if (length!==7){
+                        console.log("否");
+                        textcontext.font = objson[0][j].form;
+                        textcontext.fillStyle=objson[0][j].color;
+                        textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                    }
+                }
+                for(var i=0 ; i < objson[1].length ; i++){ //畫線
+                    context.globalAlpha = 0.5;
+                    context.lineWidth=objson[1][i].width[0]
+                    context.strokeStyle = objson[1][i].color[0];
+                    context.beginPath();
+                    context.moveTo(objson[1][i].start[0],objson[1][i].start[1]);
+                    context.lineTo(objson[1][i].end[0],objson[1][i].end[1]);
+                    context.stroke();
+                    context.closePath();
+                }
+            }
+
+        }
 </script>
 
 
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
