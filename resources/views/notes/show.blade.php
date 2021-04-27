@@ -806,7 +806,7 @@
             context.stroke();
             context.closePath();
         }
-
+        textarea.value = objson[3];
         if(document.json.sharestatus.value==="0"){
 
             document.getElementById("sharebox").checked = false;
