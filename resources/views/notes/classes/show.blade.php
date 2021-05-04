@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
-{{--<h1>課堂筆記</h1>--}}
+<h1>課堂筆記</h1>
 
 <div style="display:none">
     <img id="scream" width="220" height="277"
@@ -19,10 +19,10 @@
 <form id="json" name="json">
 
     <div style="display:none">
-        id：<input name="id" id="id" value="{{$id}}">
+        id：<input name="id" id="id" value="{{$id}}"><br>
         {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
-        課程：<input name="class" id="class" value="">
-        筆記名稱：<input name="notename" id="notename" value="{{$name}}">
+        課程：<input name="class" id="class" value=""><br>
+        筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
         收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
         評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
         <img id="jsonimg" width="220" height="277"
@@ -30,7 +30,7 @@
     </div><br>
     {{--    課程：{{$class}}<br>--}}
     <h5>
-    筆記名稱：{{$name}}
+    筆記名稱：{{$name}}<br>
     作者：{{$author}}
     </h5>
     <div style="display:none">
@@ -45,7 +45,7 @@
     @csrf
     @method('POST')
     <div style="display:none">
-        id：<input name="id" id="id" value="{{$id}}">
+        id：<input name="id" id="id" value="{{$id}}"><br>
     </div>
     <input onclick="favorto()" id="heart" name="heart" type="checkbox" class="heart">
     <label for="heart" class="heart">❤</label>
