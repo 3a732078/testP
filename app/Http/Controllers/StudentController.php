@@ -21,6 +21,7 @@ class StudentController extends Controller
         if ($type=='學生'){
             session_start();
             unset($_SESSION['classId']);
+            unset($_SESSION['textbookId']);
 
             return view('students.index');
 

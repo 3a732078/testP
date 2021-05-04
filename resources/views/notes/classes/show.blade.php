@@ -83,7 +83,7 @@
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
-
+<br><br>
 <div align="center" style="position: relative;">
 @if(count($images)> 0)
     <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">

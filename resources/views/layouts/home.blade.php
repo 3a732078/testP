@@ -118,7 +118,7 @@
                             <div id="{{ $value->name }}" class="collapse">
                                 <hr class="sidebar-divider bg-dark">
                                 <a class="collapse-item" href="/textbooks/show/{{$value->id}}">{{ $value->name }}</a>
-                                <a class="collapse-item" href="#">{{ $value->name }}-課程筆記</a>
+                                <a class="collapse-item" href="/notes/classes/list/{{$value->id}}">{{ $value->name }}-課程筆記</a>
                             </div>
                         @endforeach
                     </div>

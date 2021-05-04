@@ -14,6 +14,7 @@ use App\Models\Textbook;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
@@ -499,5 +500,28 @@ class NoteController extends Controller
         $delete = Assist::where('note_id', $request->noteid);
         $delete->delete();
         }
+    }
+
+    public function list($id)
+    {
+        session_start();
+        $class=$_SESSION['classId'];
+        $tkName=Textbook::find($id)->name;
+        $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
+
+        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+        foreach($classNotes as $key => $value){
+            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+        }
+
+        $a = function($a,$b)
+        {
+            if ($a['avg']==$b['avg']) return 0;
+            return ($a['avg']>$b['avg'])?-1:1;
+        };
+        usort($classNotes,$a);
+
+        return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName]);
     }
 }

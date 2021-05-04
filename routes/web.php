@@ -50,6 +50,9 @@ Route::post('image',[NoteController::class,'image'])->name('notes.image')->where
 //新增教材筆記
 Route::post('notes/ccreate',[NoteController::class,'ccreate'])->name('notes.mynotes.ccreate');
 
+//顯示教材筆記列表
+Route::get('notes/classes/list/{id}',[NoteController::class,'list'])->name('notes.classes.list');
+
 Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 //顯示所有TA列表
