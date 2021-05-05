@@ -118,11 +118,11 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">上課教材:</h6>
                         @foreach($course as $value)
-                            <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;"><span>{{ $value->name }}</span></a>
+                            <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{ $value->name }}</span></a>
                             <div id="{{ $value->name }}" class="collapse">
+                                <a class="collapse-item" href="/textbooks/show/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材</a>
+                                <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;課程筆記</a>
                                 <hr class="sidebar-divider bg-dark">
-                                <a class="collapse-item" href="/textbooks/show/{{$value->id}}">{{ $value->name }}</a>
-                                <a class="collapse-item" href="/notes/classes/list/{{$value->id}}">{{ $value->name }}-課程筆記</a>
                             </div>
                         @endforeach
                     </div>
