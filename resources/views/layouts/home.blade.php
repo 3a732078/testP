@@ -104,6 +104,10 @@
         </li>
 
         @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                information
+            </div>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseText"
                    aria-expanded="true" aria-controls="collapseText">
@@ -124,7 +128,6 @@
                     </div>
                 </div>
             </li>
-    @endif
 
         <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
@@ -144,6 +147,7 @@
                 </div>
             </div>
         </li>
+    @endif
         @yield('nav')
         <!-- Divider -->
         <hr class="sidebar-divider">
