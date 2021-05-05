@@ -4,7 +4,7 @@
 
         <meta charset="utf-8">
 
-        <title>顯示筆記(本人)</title>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -73,6 +73,7 @@
 {{--    </div>--}}
 
 
+    加入協同者
     <button onclick="addeditor()" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal">
         ＋
     </button>
@@ -144,6 +145,9 @@
     <form id="json" name="json" method="POST" action="{{ route('notes.update',$id) }}" enctype="multipart/form-data" style="margin:0px;display: inline;">
         @csrf
         @method('PATCH')
+
+        <title>{{$name}}</title>
+
         <div style="display:none">
             id：<input name="id" id="id" value="{{$id}}">
             分享狀態：<input id="sharestatus" name="sharestatus" value="{{$share}}">
@@ -382,7 +386,7 @@
     <a><i class="fas fa-font"></i><button onclick="textbox()" style="font-size: 17px;">文字</button><div class="textpx"><button class="textpx">
                 <i class="fa fa-caret-down"></i>
             </button><div class="px">
-                <form style="margin:0" id="textform" name="textform">
+                <form style="margin:0" id="textform" name="textform" class="textform">
                     <select id="tpx">
                         <option value="" >文字大小</option>
                         <option value="14">14</option>
@@ -443,15 +447,16 @@
         padding: 0;
         overflow: hidden;
         z-index: 4;
-        background-color: #333;
+        background-color: #88A0A8;
         position: fixed;
         top: 0;
         width: 100%;
+        height:100px;
     }
     .tool a {
         float: left;
         display: block;
-        color: #f2f2f2;
+        color: #f2f2f2 !important;
         text-align: center;
         padding: 14px 16px;
         text-decoration: none;
@@ -460,7 +465,7 @@
 
     .tool a:hover {
         background-color: #ddd;
-        color: black;
+        color: black !important;
     }
 
     .tool a.active {
@@ -514,6 +519,7 @@
         background-color: #f9f9f9;
         min-width: 160px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
     }
 
     .px p{
@@ -529,6 +535,7 @@
     .textpx:focus-within .px{
         display: block;
     }
+
 </style>
 <script>
     let imagePage = 1;

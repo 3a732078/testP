@@ -2,14 +2,13 @@
 
     <meta charset="utf-8">
 
-    <title>(課堂筆記)顯示筆記</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </head>
-<h1>課堂筆記</h1>
+{{--<h1>課堂筆記</h1>--}}
 
 <div style="display:none">
     <img id="scream" width="220" height="277"
@@ -28,9 +27,11 @@
         <img id="jsonimg" width="220" height="277"
              src="" alt="">
     </div><br>
+
+    <title>{{$name}}</title>
     {{--    課程：{{$class}}<br>--}}
-    <h5>
-    筆記名稱：{{$name}}<br>
+    <h5 align="center">
+    筆記名稱：{{$name}}
     作者：{{$author}}
     </h5>
     <div style="display:none">
@@ -40,7 +41,30 @@
 </form>
 
 
+{{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
+{{--{{$notes->links()}}//頁數--}}
 
+<div align="center" style="position: relative;">
+@if(count($images)> 0)
+    <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
+        <p>
+            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+            第
+            @for($i=0;$i<count($images);$i++)
+                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+            @endfor頁&emsp;
+            </p>
+    </div>
+@endif
+
+@if($textbookId!==null)
+    <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
+@elseif($textbookId===null)
+    <canvas id="note" width="1191" height="1684"></canvas>
+@endif
+</div>
+<br>
+<div style="width:100px; margin:0 auto;">
 <form id="favor" name="favor" method="POST" action="/favor" onsubmit="return favorto()">
     @csrf
     @method('POST')
@@ -51,11 +75,12 @@
     <label for="heart" class="heart">❤</label>
     <div style="display:none"><button id="favorbtn" name="favorbtn">送出</button></div>
 </form>
+</div>
 
-
+<div style="width:450px; margin:0 auto;">
 <div class="move">
     <button onclick="scorebtn()" id="scorebtn" class="btn-hover">評分</button>
-    <input class="hideable hide" type="text" name="name" placeholder="輸入評分">
+
 </div>
 
 
@@ -80,28 +105,6 @@
     </form>
     <p><button name="ssend" id="ssend" onclick="sconfirm()" >送出</button></p>
 </div>
-
-{{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
-{{--{{$notes->links()}}//頁數--}}
-<br><br>
-<div align="center" style="position: relative;">
-@if(count($images)> 0)
-    <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
-        <p>
-            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
-            第
-            @for($i=0;$i<count($images);$i++)
-                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-            @endfor頁&emsp;
-            </p>
-    </div>
-@endif
-
-@if($textbookId!==null)
-    <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
-@elseif($textbookId===null)
-    <canvas id="note" width="1191" height="1684"></canvas>
-@endif
 </div>
 
 <form id="comments" name="comments" method="POST" action="/comments">
@@ -334,7 +337,6 @@
         will-change: font-size;
         animation: heart 1s cubic-bezier(.17, .89, .32, 1.49);
     }
-
 
 
     @keyframes heart {0%, 17.5% {font-size: 0;}}
