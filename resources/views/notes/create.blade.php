@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div style="padding:20px;margin-top:30px;">
+    <title>新增筆記</title>
     <h1>新增筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
 
     @if ($message = Session::get('alert'))
@@ -145,7 +146,7 @@
         padding: 0;
         overflow: hidden;
         z-index: 4;
-        background-color: #333;
+        background-color: #88A0A8;
         position: fixed;
         top: 0;
         width: 100%;
