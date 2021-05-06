@@ -27,21 +27,24 @@ class TaController extends Controller
         $course = Ta::where('student_id', $student)->value('course_id');
 
         $course_name=Course::where('id', $course)->value('name');
-        $list=CourseStudent::where('course_id', $course)->get();
+        $list=CourseStudent::where('course_id', $course)->where('student_id','!=',$student)->get();
 
         $count = count($list);
 
         $student_list=array();
         $stu_id=array();
+        $classlist=array();
         for($i=0;$i<$count;$i++) {
             $student_id = $list->pluck('student_id');
-            $user=Student::where('id', $student_id[$i])->value('user_id');
+            $user=Student::where('id', $student_id[$i])->where('id','!=',$student)->value('user_id');
             $sid =Student::where('id', $student_id[$i])->value('id');
+            $class=Student::where('user_id', $user)->value('classroom');
             $stu=User::where('id', $user)->value('name');
             array_push($student_list,$stu);
             array_push($stu_id,$sid);
+            array_push($classlist,$class);
         }
-        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id]);
+        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist]);
 
     }
     /**
