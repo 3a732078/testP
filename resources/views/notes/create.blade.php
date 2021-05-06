@@ -30,7 +30,15 @@
     <form id="json" name="json" method="POST" action="/notes" enctype="multipart/form-data">
         @csrf
         @method('POST')
-        課程：<input name="class" id="class"><br>
+        課程：
+        <select id="class" name="class">
+
+                @foreach($coursename as $coursenames)
+                  <option>  {{$coursenames}} </option>
+                @endforeach
+                  <option>  無分類 </option>
+
+        </select><br>
         筆記名稱：<input name="notename" id="notename"><br>
 
 

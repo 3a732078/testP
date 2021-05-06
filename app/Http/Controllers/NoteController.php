@@ -72,6 +72,11 @@ class NoteController extends Controller
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
 
+        $user=Student::where('user_id',$id)->value('id');
+        $course=CourseStudent::where('student_id',$user)->get();
+
+
+
         $count = count($classroom);
         $classmate=array();
         for($i=0;$i<$count;$i++){
@@ -79,7 +84,17 @@ class NoteController extends Controller
             $user=User::where('id',$uid[$i])->value('name');
             array_push($classmate,$user);
         }
-        return view('notes.create',['classmate'=>$classmate]);
+
+        $count2 = count($course);
+        $coursename=array();
+        for($j=0;$j<$count2;$j++){
+            $cid=$course->pluck('course_id');
+            $courses=Course::where('id',$cid[$j])->value('name');
+            array_push($coursename,$courses);
+        }
+
+
+        return view('notes.create',['classmate'=>$classmate],['coursename'=>$coursename]);
     }
 
     /**
