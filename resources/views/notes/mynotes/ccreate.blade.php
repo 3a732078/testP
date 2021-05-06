@@ -76,7 +76,7 @@
     <p id="demo"></p>
 
 
-    <div style="position: relative;">
+    <div style="position: relative;" id="above">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;border-style:solid;border-color:gray;border-width:1px;"></canvas>
         {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
         <canvas id="textlayer" width="1191" height="1684"
@@ -585,16 +585,32 @@
 
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');
-            document.body.appendChild(textarea);
+            // document.body.appendChild(textarea);
             isOpen = 2;
+            var list=document.getElementById("above")
+            list.insertBefore(textarea,list.childNodes[0]);
+            note.style.display="none";
+            textlayer.style.display="none";
+            imglayer.style.display="none";
+
         } else {
             if (isOpen == 1) {
                 textarea.hidden = false;
                 isOpen = 2;
+                var list=document.getElementById("above")
+                list.insertBefore(textarea,list.childNodes[0]);
+                note.style.display="none";
+                textlayer.style.display="none";
+                imglayer.style.display="none";
+                textarea.style.display="block";
             }
             else{
                 textarea.hidden = true;
                 isOpen = 1;
+                textarea.style.display="none";
+                note.style.display="block";
+                textlayer.style.display="block";
+                imglayer.style.display="block";
             }
         }
 
