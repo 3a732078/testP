@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Note;
 use App\Models\Teacher;
 use App\Models\Textbook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use NcJoes\OfficeConverter\OfficeConverter;
@@ -22,9 +24,14 @@ class TextbookController extends Controller
     public function index(Request $request,$id)
     {
         session_start();
-        $class=$_SESSION['classId'];
 
-        $files=scandir('./images/統計學測試');
+        $textbookId=Textbook::where('id',$id)->value('id');//教材Id
+        $course=Textbook::find($textbookId)->course->name;//課程名稱
+        $class=$_SESSION['classId'];//課程Id
+        $textbook=Textbook::find($textbookId);
+
+        $files=scandir("./images/" . "$textbook->name");
+
         $images = array();
         for ($i=0;$i<count($files);$i++){
 
@@ -33,9 +40,25 @@ class TextbookController extends Controller
             }
             $images[]=$files[$i];
         }
-        $num = $request->num != null ? $request->num : 1 ;
 
-        return view('textbooks.index',['images'=>$images,'class'=>$class,'id'=>$id],['num'=>$num]);
+        $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
+        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+        foreach($classNotes as $key => $value){
+            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+        }
+
+        $a = function($a,$b)
+        {
+            if ($a['avg']==$b['avg']) return 0;
+            return ($a['avg']>$b['avg'])?-1:1;
+        };
+        usort($classNotes,$a);
+        $def=$classNotes[0]['id'];
+//        dd($def,$classNotes);
+//        $num = $request->num != null ? $request->num : 1 ;
+
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'images'=>$images,'def'=>$def]);
     }
 
     public function indext(Request $request)
