@@ -23,7 +23,11 @@
                     <a class="fa fa-edit" href="#">&ensp;編輯教材</a>
                     &ensp;/&ensp;
                     @endif
+                    @if($def>0)
                     <a class="fa fa-thumbs-o-up" style="color: 	#B22222;" href="/notes/classes/{{$def}}">&ensp;推薦的筆記</a>
+                    @else
+                        <a class="fa fa-thumbs-o-up" style="color: 	#B22222;" href="#" onclick="defnote()">&ensp;推薦的筆記</a>
+                    @endif
                     &ensp;/&ensp;
                     <form method="post" action="/notes/ccreate" style="margin:0px;display: inline;">
                         @csrf
@@ -72,6 +76,11 @@
             let a = base + "/" + images[num - 1];
             document.getElementById("photo").src = `${a}`;
             document.getElementById("page").value=`${num}`;
+        }
+
+        function defnote(){
+            var yes = confirm('尚無推薦筆記');
+
         }
     </script>
 @endsection
