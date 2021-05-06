@@ -41,7 +41,9 @@ class TextbookController extends Controller
             $images[]=$files[$i];
         }
 
+        $def=0;
         $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
+        if (count($classNotes)>0){
         $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
         $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
         foreach($classNotes as $key => $value){
@@ -57,7 +59,7 @@ class TextbookController extends Controller
         $def=$classNotes[0]['id'];
 //        dd($def,$classNotes);
 //        $num = $request->num != null ? $request->num : 1 ;
-
+        }
         return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'images'=>$images,'def'=>$def]);
     }
 

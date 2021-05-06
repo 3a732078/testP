@@ -43,7 +43,8 @@
                             @endfor頁
                         </div>
                         <div class="divcss5" align="center">
-                            <img class="card-img-top" id="photo" src="{{asset('/images/'.$textbook->name.'/'.$images[0])}}" width="800" height="1000"alt="">
+                            <img class="card-img-top" id="photo" src="{{asset('/images/'.$textbook->name.'/'.$images[0])}}" width="800" height="1000"
+                                 style="object-fit: contain;left: 0; top: 50px; z-index: 1;" alt="">
                         </div>
                     </td></tr>
                 </table>
