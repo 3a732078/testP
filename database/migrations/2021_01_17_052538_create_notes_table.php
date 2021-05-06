@@ -20,7 +20,7 @@ class CreateNotesTable extends Migration
             $table->unsignedInteger('textbook_id')->nullable($value = true);
             $table->foreign('textbook_id')->references('id')->on('textbooks')->onDelete('cascade');
             $table->string('title');
-            $table->string('content');
+            $table->string('quote');
             $table->dateTime('time');
             $table->string('path');
             $table->boolean('share')->default(0);
