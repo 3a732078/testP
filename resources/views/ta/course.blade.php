@@ -1,3 +1,5 @@
+
+<title>{{$course_name}}-學生聯絡頁面</title>
 <div class="container">
     <h2>{{$course_name}}</h2>
     <form>
@@ -5,15 +7,15 @@
             <ul class="tatable">
                 <li class="table-header">
                     <div class="col col-1">班級</div>
-                    <div class="col col-2">座號</div>
-                    <div class="col col-3">學生姓名</div>
-                    <div class="col col-4"></div>
+                    <div class="col col-2"></div>
+                    <div class="col col-3"></div>
+                    <div class="col col-4">學生姓名</div>
                 </li>
 
                 @for($i = 0; $i < $count; $i++)
                     <li class="table-row">
-                        <div class="col col-1"></div>
-                        <div class="col col-2">我們好像沒有座號..</div>
+                        <div class="col col-1">@php echo $classlist[$i]; @endphp</div>
+                        <div class="col col-2"></div>
                         <div class="col col-3"></div>
                         <div class="col col-4"><a href="questions/@php echo $stu_id[$i]; @endphp">@php echo $student_list[$i]; @endphp</a></div>
                     </li>

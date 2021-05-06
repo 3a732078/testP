@@ -30,7 +30,15 @@
     <form id="json" name="json" method="POST" action="/notes" enctype="multipart/form-data">
         @csrf
         @method('POST')
-        課程：<input name="class" id="class"><br>
+        課程：
+        <select id="class" name="class">
+
+                @foreach($coursename as $coursenames)
+                  <option>  {{$coursenames}} </option>
+                @endforeach
+                  <option>  無分類 </option>
+
+        </select><br>
         筆記名稱：<input name="notename" id="notename"><br>
 
 
@@ -63,7 +71,7 @@
     <button onclick="opentext()">開啟文字方塊</button>
 
 
-    <div style="position: relative;">
+    <div style="position: relative;" id="above">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
         {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
         <canvas id="textlayer" width="1191" height="1684"
@@ -507,16 +515,32 @@
 
         if(isOpen === 0) {
             // textarea = document.createElement('textarea');
-            document.body.appendChild(textarea);
+            // document.body.appendChild(textarea);
             isOpen = 2;
+            var list=document.getElementById("above")
+            list.insertBefore(textarea,list.childNodes[0]);
+            note.style.display="none";
+            textlayer.style.display="none";
+            imglayer.style.display="none";
+
         } else {
             if (isOpen == 1) {
                 textarea.hidden = false;
                 isOpen = 2;
+                var list=document.getElementById("above")
+                list.insertBefore(textarea,list.childNodes[0]);
+                note.style.display="none";
+                textlayer.style.display="none";
+                imglayer.style.display="none";
+                textarea.style.display="block";
             }
             else {
                 textarea.hidden = true;
                 isOpen = 1;
+                textarea.style.display="none";
+                note.style.display="block";
+                textlayer.style.display="block";
+                imglayer.style.display="block";
             }
         }
 
