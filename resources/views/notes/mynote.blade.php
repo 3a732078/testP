@@ -32,7 +32,7 @@
                                     <tr>
                                         <td width="280">{{basename($note->textfile,'.json')}}</td>
                                         <td width="500" align="center">
-                                            @if($note->textbook==null)
+                                            @if($note->textbook_id==null)
                                                無引用教材
                                             @else
                                                 {{$note->textbook->name}}
@@ -58,10 +58,10 @@
                                         <tr>
                                             <td width="280">{{basename($note->textfile,'.json')}}</td>
                                             <td width="500" align="center">
-                                                @if($note->textbook==null)
+                                                @if($note->textbook_id==null)
                                                     無引用教材
                                                 @else
-                                                    {{$note->textbook->name}}
+                                                    {{\App\Models\Textbook::where('id',$note->textbook_id)->value('name')}}
                                                 @endif
                                             </td>
                                             <td width="170" align="center">

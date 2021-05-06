@@ -478,11 +478,28 @@ class NoteController extends Controller
 
     public function mynote(Request $request)
     {
+        session_start();
+        $class=$_SESSION['classId'];//課程Id
         $notes=Note::where('user_id',Auth::id())->get();
         $assist=Assist::where('user_id',Auth::id())->get()->toArray();
         $assist = array_column($assist, 'note_id');
-        $assist=Note::where('id', $assist)->where('user_id', '!=',Auth::id())->get();
-        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist]);
+
+//        $assist=Note::where('id', $assist)->where('user_id', '!=',Auth::id())->get();
+//        dd($assist);
+//        $assistNote=array();
+//        for($i=1;$i<count($assist);$i++){
+//            $assist=Note::where('id', $assist[$i])->where('user_id','!=',Auth::id())->get()->toArray();
+//            dd($assist);
+//            array_push($assistNote,$assist);
+//            if (isset($assist))$assistNote[] = $assist;
+//
+//        }
+
+        $StringSQL = "('".implode("','", $assist)."')";
+        $authId = Auth::id();
+        $assist=DB::Select("SELECT * FROM Notes WHERE id IN ".$StringSQL." AND id != ".$authId." ");
+//      dd($assist);
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class]);
     }
 
     public function assist(Request $request)
