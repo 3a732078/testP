@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Psy\Util\Str;
 
 class DepartmentFactory extends Factory
 {
@@ -21,8 +22,9 @@ class DepartmentFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->text(5).'館';
         return [
-            //
+            'name' => $name,
         ];
     }
 }
