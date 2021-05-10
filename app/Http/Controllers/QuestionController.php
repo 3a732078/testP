@@ -197,4 +197,25 @@ class QuestionController extends Controller
     {
         //
     }
+
+    public function class(Request $request,$ta)
+    {
+
+        $student = Student::where('user_id', $request->user()->id)->value('id');
+        $class=Ta::where('id', $ta)->value('course_id');
+        $tastu=Ta::where('id', $ta)->value('student_id');
+        $questions=Question::where('ta_id', $ta)->where('student_id', $student)->get();
+        $id=$ta;
+        if($student!==$tastu) {
+            return view('questions.show', ['questions' => $questions, 'id' => $id, 'student' => $student, 'class' => $class]);
+        }
+        else
+        {
+
+            return back()->with('alert', '當前使用者為該課堂TA');
+        }
+
+
+//        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class]);
+    }
 }

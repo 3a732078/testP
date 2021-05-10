@@ -23,6 +23,7 @@ class StudentController extends Controller
             unset($_SESSION['classId']);
             unset($_SESSION['textbookId']);
 
+
             return view('students.index');
 
         }
