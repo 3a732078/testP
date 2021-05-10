@@ -29,18 +29,27 @@ class TextbookController extends Controller
         $course=Textbook::find($textbookId)->course->name;//課程名稱
         $class=$_SESSION['classId'];//課程Id
         $textbook=Textbook::find($textbookId);
-
-        $files=scandir("./images/" . "$textbook->name");
+        $name = $textbook->name;
+        $files=scandir("./images/" . "$name");
 
         $images = array();
+        $newImages = array();
         for ($i=0;$i<count($files);$i++){
 
             if($files[$i]=='.'||$files[$i]=='..'){
                 continue;
             }
-            $images[]=$files[$i];
+            $arr = explode('.',$files[$i]);
+            $arr = $arr[1];
+            $images[] = $files[$i];
         }
-
+        $num = 1;
+        foreach ($images as $r)
+        {
+            $newImages[] = "{$name}{$num}.{$arr}";
+            $num++;
+        }
+//        dd($newImages);
         $def=0;
         $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
         if (count($classNotes)>0){
@@ -60,7 +69,7 @@ class TextbookController extends Controller
 //        dd($def,$classNotes);
 //        $num = $request->num != null ? $request->num : 1 ;
         }
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'images'=>$images,'def'=>$def]);
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def]);
     }
 
     public function indext(Request $request)

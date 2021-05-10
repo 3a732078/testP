@@ -40,14 +40,14 @@
                 <table width="100%" style="height:100%;">
                     <tr><td>
                         <div class="card-body" align="right">
-                            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE={{strlen(count($newImages))}}>&ensp;/&ensp;{{count($newImages)}}&ensp;,
                             第
-                            @for($i=0;$i<count($images);$i++)
+                            @for($i=0;$i<count($newImages);$i++)
                                 <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
                             @endfor頁
                         </div>
                         <div class="divcss5" align="center">
-                            <img class="card-img-top" id="photo" src="{{asset('/images/'.$textbook->name.'/'.$images[0])}}" width="800" height="1000"
+                            <img class="card-img-top" id="photo" src="{{asset('/images/'.$textbook->name.'/'.$newImages[0])}}" width="800" height="1000"
                                  style="object-fit: contain;left: 0; top: 50px; z-index: 1;" alt="">
                         </div>
                     </td></tr>
@@ -69,7 +69,7 @@
             //換頁內容
             const base = '{{asset('/images/'.$textbook->name)}}';
             let images = [];
-            @foreach($images as $row)
+            @foreach($newImages as $row)
             images.push('{{$row}}');
             @endforeach
             console.error(images.length, 123);
