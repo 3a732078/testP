@@ -147,7 +147,7 @@
                 </div>
             </div>
         </li>
-    @endif
+
         @yield('nav')
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -158,10 +158,11 @@
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="/questions">
+            <a class="nav-link" href="/questions/classes/{{$ta}}">
                 <i class="fas fa-fw fa-comment"></i>
                 <span>與Ta聯繫</span></a>
         </li>
+        @endif
     </ul>
 
     @elseif(\Illuminate\Support\Facades\Auth::user()->type=='老師')

@@ -3,6 +3,9 @@
 @section('notice')
     <div id="layoutSidenav_content">
         <main>
+            @if ($message = Session::get('alert'))
+                <script>alert("{{ $message }}");</script>
+            @endif
             <div class="container-fluid">
                 <h2 class="mt-4">{{$course->name}}</h2>
                 <div class="card mb-4">

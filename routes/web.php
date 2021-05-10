@@ -58,6 +58,9 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 //顯示所有TA列表
 Route::get('questions',[QuestionController::class,'index'])->name('questions.index');
 
+//顯示特定課堂TA
+Route::get('questions/classes/{class}',[QuestionController::class,'class'])->name('questions.class');
+
 //查看TA訊息
 Route::get('questions/{id}',[QuestionController::class,'show'])->name('questions.show')->where('id', '[0-9]+');
 
