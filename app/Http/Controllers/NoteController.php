@@ -115,13 +115,14 @@ class NoteController extends Controller
 //        Storage::disk('public')->put('\\json\\' . $request->class . '\\' . $request->notename . '.json', $json);
         Storage::disk('public')->put('\\json\\' . $request->notename . '.json', $json);
         $path = $request->notename . '.json';
+        $className=Course::where('id',$request->classId)->value('name');
 
         if ($request->has('textbookId')==true){
             Note::create([
                 'user_id'=>$request->user()->id,
                 'textbook_id'=>$request->textbookId,
                 'title'=>$request->notename,
-                'content'=>"XXXXXXX",
+                'attach'=>$className,
                 'time'=>now(),
                 'path'=>"??",
                 'share'=>0,
@@ -132,7 +133,6 @@ class NoteController extends Controller
             Note::create([
                 'user_id'=>$request->user()->id,
                 'title'=>$request->notename,
-                'content'=>"XXXXXXX",
                 'time'=>now(),
                 'path'=>"??",
                 'share'=>0,

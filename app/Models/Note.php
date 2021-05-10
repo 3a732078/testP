@@ -12,7 +12,7 @@ class Note extends Model
         'user_id',
         'textbook_id',
         'title',
-        'content',
+        'attach',
         'time',
         'path',
         'share',
