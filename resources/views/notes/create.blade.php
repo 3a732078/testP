@@ -68,8 +68,18 @@
 
     <p id="demo"></p>
 
-    <button onclick="opentext()">開啟文字方塊</button>
-
+    <button onclick="opentext()">開啟文字方塊</button><br>
+    <div id="addpa"><button id="firstpage" value="1">1</button></div>
+    <button id="addpage">+</button>
+    <div style="position: relative">
+        <div align="left">
+            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;,
+            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>
+{{--            第--}}
+{{--            @for($i=0;$i<count($images);$i++)--}}
+{{--                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>--}}
+{{--            @endfor頁--}}
+        </div>
 
     <div style="position: relative;" id="above">
         <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -262,6 +272,10 @@
     textarea.style.width=1191;
     textarea.style.height=1684;
 
+    let nowPage = 1;
+
+    document.getElementById("page").value=`${nowPage}`;
+
     note.addEventListener('mousedown', e => {
         x = e.offsetX;
         y = e.offsetY;
@@ -317,7 +331,7 @@
 
     });
 
-    const lines = []
+    let lines = []
     window.addEventListener('mouseup', e => {
         if (isDrawing === true && erasere.checked===false && word.checked===false&&pic.checked===false) {
             drawLine(context, x, y, e.offsetX, e.offsetY);
@@ -424,7 +438,7 @@
     }
 
 
-    const linetext= []
+    let linetext= []
     function add(){
         linetext.push(textarr)
         linetext.push(lines)
@@ -442,7 +456,7 @@
 
     }
     //new
-    const textarr = []
+    let textarr = []
 
     function textbox() {
         const dspace = document.text.text.value.replace(/^\s*|\s*$/g,"");
@@ -552,6 +566,118 @@
         // textarea.style.height=1684;
 
     }
+    let jsonStash = [];//暫時儲存json
+    let textarrStash = [];
+    let linesStash = [];
+    let picarrStash = [];
+    let wordareaStash = [];
+
+    var i;
+    i=1;
+
+    let pbtnarr=[];
+    addpage.addEventListener('click',function(){
+        //儲存當前頁數
+        pbtnarr.push(i)
+
+        linetext.push(textarr)
+        linetext.push(lines)
+        linetext.push(picarr)
+        linetext.push(textarea.value)
+        var linestr = JSON.stringify(linetext);
+        console.log("這是第"+i+"頁："+linestr);
+        textarrStash[nowPage - 1] = textarr;
+        linesStash[nowPage - 1] = lines;
+        picarrStash[nowPage - 1] = picarr;
+        wordareaStash[nowPage - 1] = textarea.value;
+        jsonStash[nowPage - 1] =linestr;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+        textarea.value = '';
+
+        // nowPage = num;
+        nowPage=i;
+
+        //清空
+        const note = document.getElementById('note');
+        const context = note.getContext('2d')
+        context.clearRect(0,0,note.width,note.height);
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+
+        //添加新的一頁
+        i=i+1;
+        var pagebtn=document.createElement("button")
+        var pagenum=document.createTextNode(i)
+        pagebtn.appendChild(pagenum)
+
+        console.log(pbtnarr);
+        pagebtn.value=i;
+
+        var pages=document.getElementById("addpa")
+        pages.appendChild(pagebtn);
+        // pages.insertBefore(pagebtn,pages.childNodes[0]);
+        console.log(pagebtn.value);
+
+        //暫註解
+        // document.getElementById('page').size=i;
+        // console.log(document.getElementById('page').size);
+    });
+
+    const array=[];
+
+    function changep(num){
+
+        var pagebtn=document.createElement("button")
+        var pagenum=document.createTextNode(i)
+        pagebtn.appendChild(pagenum)
+
+        pagebtn.value=i;
+
+        var pages=document.getElementById("addpa")
+        pages.insertBefore(pagebtn,pages.childNodes[0]);
+        console.log(pagebtn.value);
+
+
+        linetext.push(textarr)
+        linetext.push(lines)
+        linetext.push(picarr)
+        linetext.push(textarea.value)
+        var linestr = JSON.stringify(linetext);
+        console.log(linestr)
+        textarrStash[nowPage - 1] = textarr;
+        linesStash[nowPage - 1] = lines;
+        picarrStash[nowPage - 1] = picarr;
+        wordareaStash[nowPage - 1] = textarea.value;
+        jsonStash[nowPage - 1] =linestr;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+        textarea.value = '';
+
+        nowPage = num;
+
+        const note = document.getElementById('note');
+        const context = note.getContext('2d')
+        context.clearRect(0,0,note.width,note.height);
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+    }
 </script>
 
 
@@ -578,7 +704,7 @@
 
     var imageLoader = document.getElementById('imgup');
     imageLoader.addEventListener('change', imgtocanvas, false);
-    const picarr=[]
+    let picarr=[]
 
     function imgtocanvas(e){
 
