@@ -24,6 +24,7 @@ class TextbookController extends Controller
     public function index(Request $request,$id)
     {
         session_start();
+        $ta=$_SESSION['ta'];
 
         $textbookId=Textbook::where('id',$id)->value('id');//教材Id
         $course=Textbook::find($textbookId)->course->name;//課程名稱
@@ -69,7 +70,7 @@ class TextbookController extends Controller
 //        dd($def,$classNotes);
 //        $num = $request->num != null ? $request->num : 1 ;
         }
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def]);
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def,'ta'=>$ta]);
     }
 
     public function indext(Request $request)

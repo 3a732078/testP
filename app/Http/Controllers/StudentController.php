@@ -22,7 +22,7 @@ class StudentController extends Controller
             session_start();
             unset($_SESSION['classId']);
             unset($_SESSION['textbookId']);
-
+            unset($_SESSION['ta']);
 
             return view('students.index');
 

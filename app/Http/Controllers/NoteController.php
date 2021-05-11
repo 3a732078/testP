@@ -444,6 +444,9 @@ class NoteController extends Controller
 
     public function search(Request $request)
     {
+        session_start();
+        $ta=$_SESSION['ta'];
+        $class=$_SESSION['classId'];//課程Id
         $id=$request->user()->id;
         //撈出該學生所有修的課程
         $student=Student::where('user_id',Auth::id())->value('id');
@@ -472,13 +475,14 @@ class NoteController extends Controller
             ->where("title", "like", '%' . $search . '%')
             ->where('share',1)
             ->get();
-        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id]);
+        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta]);
 
     }
 
     public function mynote(Request $request)
     {
         session_start();
+        $ta=$_SESSION['ta'];
         $class=$_SESSION['classId'];//課程Id
         $notes=Note::where('user_id',Auth::id())->get();
         $assist=Assist::where('user_id',Auth::id())->get()->toArray();
@@ -499,7 +503,7 @@ class NoteController extends Controller
         $authId = Auth::id();
         $assist=DB::Select("SELECT * FROM Notes WHERE id IN ".$StringSQL." AND id != ".$authId." ");
 //      dd($assist);
-        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class]);
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta]);
     }
 
     public function assist(Request $request)

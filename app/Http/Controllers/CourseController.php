@@ -22,6 +22,7 @@ class CourseController extends Controller
         $course=Course::find($class);
         $notices=Notice::where('course_id',$class)->get();
         $ta=Ta::where('course_id',$class)->value('id');
+        $_SESSION['ta']=$ta;
 
         return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class,'ta'=>$ta]);
     }
