@@ -45,6 +45,7 @@
 {{--{{$notes->links()}}//頁數--}}
 <br><br>
 <div align="center" style="position: relative;">
+    @if($textbookId!==null)
 @if(count($images)> 0)
     <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
         <p>
@@ -56,6 +57,19 @@
             </p>
     </div>
 @endif
+    @endif
+        @if($textbookId===null)
+            @if($images> 0)
+                <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+                    <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
+                    第
+                    @for($i=0;$i<$images;$i++)
+                        <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                    @endfor頁&emsp;
+                    </p>
+                </div>
+            @endif
+        @endif
 
 @if($textbookId!==null)
     <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
@@ -348,10 +362,16 @@
     let isloading = false;
     let nowPage = 1;
     let jsonStash = [];
+    @if($textbookId!==null)
     @if(count($images)> 0)
     document.getElementById("page").value=`${nowPage}`;
     @endif
-
+    @endif
+    @if($textbookId===null)
+    @if($images> 0)
+    document.getElementById("page").value=`${nowPage}`;
+    @endif
+    @endif
     window.addEventListener("load", function (){
 
         var test=document.json.call.value;

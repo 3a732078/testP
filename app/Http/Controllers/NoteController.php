@@ -299,6 +299,9 @@ class NoteController extends Controller
                     $images[]=$files[$i];
                 }
             }
+            else{
+                $images=Note::where('id',$id)->value('page');
+            }
 
             //這個是抓留言資料
 //            $comment=Comment::where('note_id',$id)->value('content');
@@ -370,6 +373,9 @@ class NoteController extends Controller
                 }
                 $images[]=$files[$i];
             }
+        }
+        else{
+            $images=Note::where('id',$id)->value('page');
         }
 
         $comments=Comment::where('note_id',$id)
