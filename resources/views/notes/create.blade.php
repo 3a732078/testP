@@ -47,6 +47,7 @@
             <input name="json" id="json">
             <img id="jsonimg" width="220" height="277"
                  src="" alt="">
+            筆記頁數：<input name="pages" id="pages" value="1">
 
         </div>
 
@@ -459,6 +460,7 @@
 
         finalJson[0]= JSON.parse(linestr);
         document.json.json.value = JSON.stringify(finalJson);
+        document.json.pages.value = l;
     }
     //new
     let textarr = []

@@ -22,7 +22,7 @@ class CreateNotesTable extends Migration
             $table->string('title');
             $table->string('attach')->nullable($value = true);
             $table->dateTime('time');
-            $table->string('path');
+            $table->integer('page');
             $table->boolean('share')->default(0);
             $table->integer('like');
             $table->string('textfile');

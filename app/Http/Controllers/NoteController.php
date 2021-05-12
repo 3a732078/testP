@@ -109,6 +109,7 @@ class NoteController extends Controller
 //            'class' => 'required',
             'notename' => 'required',
             'json' => 'required',
+            'pages'=>'required',
 
         ]);
         $json = $request->json;
@@ -124,7 +125,7 @@ class NoteController extends Controller
                 'title'=>$request->notename,
                 'attach'=>$className,
                 'time'=>now(),
-                'path'=>"??",
+                'page'=>$request->pages,
                 'share'=>0,
                 'like'=>0,
                 'textfile'=>$path
@@ -134,7 +135,7 @@ class NoteController extends Controller
                 'user_id'=>$request->user()->id,
                 'title'=>$request->notename,
                 'time'=>now(),
-                'path'=>"??",
+                'page'=>$request->pages,
                 'share'=>0,
                 'like'=>0,
                 'textfile'=>$path
@@ -226,6 +227,10 @@ class NoteController extends Controller
                     $images[]=$files[$i];
                 }
             }
+            else{
+                $images=Note::where('id',$id)->value('page');
+            }
+
 
 
             //這個是抓留言資料

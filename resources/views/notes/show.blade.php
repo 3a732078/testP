@@ -212,11 +212,12 @@
     </form>
     <br>
     <div style="position: relative">
-        @if(count($images)> 0)
+{{--        @if(count($images)> 0)--}}
+        @if($images> 0)
             <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
-                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
                 第
-                @for($i=0;$i<count($images);$i++)
+                @for($i=0;$i<$images;$i++)
                     <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
                 @endfor頁&emsp;
                 </p>
@@ -553,7 +554,8 @@
     textarea.style.width=1191;
     textarea.style.height=1684;
 
-    @if(count($images)> 0)
+{{--    @if(count($images)> 0)--}}
+    @if($images> 0)
     document.getElementById("page").value=`${nowPage}`;
     @endif
 
@@ -845,7 +847,8 @@
 
             let finalJson = [];
             //最後儲存的json
-            for (var i = 0; i < {{count($images)}}; i++) {
+            {{--for (var i = 0; i < {{count($images)}}; i++) {--}}
+            for (var i = 0; i < {{$images}}; i++) {
                 if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
                 else finalJson[i] = JSON.parse(jsonStash[i]);
             }

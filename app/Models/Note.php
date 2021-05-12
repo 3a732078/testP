@@ -14,7 +14,7 @@ class Note extends Model
         'title',
         'attach',
         'time',
-        'path',
+        'page',
         'share',
         'like',
         'textfile',
