@@ -158,6 +158,7 @@
         筆記名稱：<input name="notename" id="notename" value="{{$name}}">&ensp;
         <div style="display:none">
 {{--            入口--}}
+            <input id="tbook" value="{{$textbookId}}">
         <input readonly="readonly" id="call" name="call" value="{{$json}}">
         </div>
 
@@ -212,7 +213,19 @@
     </form>
     <br>
     <div style="position: relative">
-{{--        @if(count($images)> 0)--}}
+        @if($textbookId!==null)
+        @if(count($images)> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                第
+                @for($i=0;$i<count($images);$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
+        @endif
+        @endif
+            @if($textbookId===null)
         @if($images> 0)
             <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
                 <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
@@ -223,6 +236,7 @@
                 </p>
             </div>
         @endif
+            @endif
 
         <div style="position: relative;" id="above">
             <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -547,16 +561,22 @@
     let linesStash = [];
     let picarrStash = [];
     let wordareaStash = [];
+    let textbook=document.json.tbook.value;
 
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
     textarea.style.width=1191;
     textarea.style.height=1684;
-
-{{--    @if(count($images)> 0)--}}
+    @if($textbookId!==null)
+    @if(count($images)> 0)
+    document.getElementById("page").value=`${nowPage}`;
+    @endif
+    @endif
+    @if($textbookId===null)
     @if($images> 0)
     document.getElementById("page").value=`${nowPage}`;
+    @endif
     @endif
 
     var test=document.json.call.value;
@@ -847,11 +867,18 @@
 
             let finalJson = [];
             //最後儲存的json
-            {{--for (var i = 0; i < {{count($images)}}; i++) {--}}
+                @if($textbookId!==null)
+            for (var i = 0; i < {{count($images)}}; i++) {
+                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
+                else finalJson[i] = JSON.parse(jsonStash[i]);
+            }
+                @endif
+                @if($textbookId===null)
             for (var i = 0; i < {{$images}}; i++) {
                 if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
                 else finalJson[i] = JSON.parse(jsonStash[i]);
             }
+            @endif
             console.log(finalJson)
             document.json.json.value = JSON.stringify(finalJson);
             document.getElementById("send1").disabled = false;
@@ -1089,7 +1116,7 @@
         const textcontext = textlayer.getContext('2d');
         const imglayer = document.getElementById('imglayer');
         const imgcontext = imglayer.getContext('2d');
-
+console.log("某個東西"+document.json.tbook.value);
 
         linetext.push(textarr)
         linetext.push(lines)
