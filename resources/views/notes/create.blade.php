@@ -451,9 +451,14 @@
         console.log(linestr)
 
         let finalJson = [];
+        for (var i = 0; i < l; i++) {
+            if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
+            else finalJson[i] = JSON.parse(jsonStash[i]);
+        }
+
+
         finalJson[0]= JSON.parse(linestr);
         document.json.json.value = JSON.stringify(finalJson);
-
     }
     //new
     let textarr = []
@@ -572,26 +577,29 @@
     let picarrStash = [];
     let wordareaStash = [];
 
-    var i;
-    i=1;
+    var u;
+    u=1;
 
     let pbtnarr=[];
     let moarray=[];
+    var l=1;
+
     addpage.addEventListener('click',function(){
         //儲存當前頁數
-        pbtnarr.push(i)
-
+        pbtnarr.push(u)
+        l=l+1;
+        console.log("當前總頁數"+l);
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
         linetext.push(textarea.value)
         var linestr = JSON.stringify(linetext);
-        console.log("這是第"+i+"頁："+linestr);
-        textarrStash[i-1] = textarr;
-        linesStash[i-1] = lines;
-        picarrStash[i-1] = picarr;
-        wordareaStash[i-1] = textarea.value;
-        jsonStash[i-1] =linestr;
+        console.log("這是第"+u+"頁："+linestr);
+        textarrStash[u-1] = textarr;
+        linesStash[u-1] = lines;
+        picarrStash[u-1] = picarr;
+        wordareaStash[u-1] = textarea.value;
+        jsonStash[u-1] =linestr;
 
         linetext = [];
         textarr = [];
@@ -600,7 +608,7 @@
         textarea.value = '';
 
         // nowPage = num;
-        nowPage=i;
+        nowPage=u;
 
         //清空
         const note = document.getElementById('note');
@@ -615,14 +623,14 @@
 
 
         //添加新的一頁
-        i=i+1;
+        u=u+1;
         var pagebtn=document.createElement("button")
-        var pagenum=document.createTextNode(i)
+        var pagenum=document.createTextNode(u)
         pagebtn.appendChild(pagenum)
 
 
         console.log(pbtnarr);
-        pagebtn.value=i;
+        pagebtn.value=u;
 
         var pages=document.getElementById("addpa")
         pages.appendChild(pagebtn);
@@ -788,87 +796,87 @@
         }
     });
 
-    const array=[];
+    // const array=[];
 
-    function changep(){
-
-        //儲存當前頁數
-        pbtnarr.push(i)
-
-        linetext.push(textarr)
-        linetext.push(lines)
-        linetext.push(picarr)
-        linetext.push(textarea.value)
-        var linestr = JSON.stringify(linetext);
-        console.log("這是第"+i+"頁："+linestr);
-        textarrStash[nowPage - 1] = textarr;
-        linesStash[nowPage - 1] = lines;
-        picarrStash[nowPage - 1] = picarr;
-        wordareaStash[nowPage - 1] = textarea.value;
-        jsonStash[nowPage - 1] =linestr;
-
-        linetext = [];
-        textarr = [];
-        lines= [];
-        picarr = [];
-        textarea.value = '';
-
-        // nowPage = num;
-        nowPage=i;
-
-        //清空
-        const note = document.getElementById('note');
-        const context = note.getContext('2d')
-        context.clearRect(0,0,note.width,note.height);
-        const textlayer = document.getElementById('textlayer');
-        const textcontext = textlayer.getContext('2d');
-        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
-        const imglayer = document.getElementById('imglayer');
-        const imgcontext = imglayer.getContext('2d');
-        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
-
-        // var pagebtn=document.createElement("button")
-        // var pagenum=document.createTextNode(i)
-        // pagebtn.appendChild(pagenum)
-        //
-        // pagebtn.value=i;
-        //
-        // var pages=document.getElementById("addpa")
-        // pages.insertBefore(pagebtn,pages.childNodes[0]);
-        // console.log(pagebtn.value);
-        //
-        //
-        // linetext.push(textarr)
-        // linetext.push(lines)
-        // linetext.push(picarr)
-        // linetext.push(textarea.value)
-        // var linestr = JSON.stringify(linetext);
-        // console.log(linestr)
-        // textarrStash[nowPage - 1] = textarr;
-        // linesStash[nowPage - 1] = lines;
-        // picarrStash[nowPage - 1] = picarr;
-        // wordareaStash[nowPage - 1] = textarea.value;
-        // jsonStash[nowPage - 1] =linestr;
-        //
-        // linetext = [];
-        // textarr = [];
-        // lines= [];
-        // picarr = [];
-        // textarea.value = '';
-        //
-        // nowPage = num;
-        //
-        // const note = document.getElementById('note');
-        // const context = note.getContext('2d')
-        // context.clearRect(0,0,note.width,note.height);
-        // const textlayer = document.getElementById('textlayer');
-        // const textcontext = textlayer.getContext('2d');
-        // textcontext.clearRect(0,0,textlayer.width,textlayer.height);
-        // const imglayer = document.getElementById('imglayer');
-        // const imgcontext = imglayer.getContext('2d');
-        // imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
-
-    }
+    // function changep(){
+    //
+    //     //儲存當前頁數
+    //     pbtnarr.push(i)
+    //
+    //     linetext.push(textarr)
+    //     linetext.push(lines)
+    //     linetext.push(picarr)
+    //     linetext.push(textarea.value)
+    //     var linestr = JSON.stringify(linetext);
+    //     console.log("這是第"+i+"頁："+linestr);
+    //     textarrStash[nowPage - 1] = textarr;
+    //     linesStash[nowPage - 1] = lines;
+    //     picarrStash[nowPage - 1] = picarr;
+    //     wordareaStash[nowPage - 1] = textarea.value;
+    //     jsonStash[nowPage - 1] =linestr;
+    //
+    //     linetext = [];
+    //     textarr = [];
+    //     lines= [];
+    //     picarr = [];
+    //     textarea.value = '';
+    //
+    //     // nowPage = num;
+    //     nowPage=i;
+    //
+    //     //清空
+    //     const note = document.getElementById('note');
+    //     const context = note.getContext('2d')
+    //     context.clearRect(0,0,note.width,note.height);
+    //     const textlayer = document.getElementById('textlayer');
+    //     const textcontext = textlayer.getContext('2d');
+    //     textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+    //     const imglayer = document.getElementById('imglayer');
+    //     const imgcontext = imglayer.getContext('2d');
+    //     imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+    //
+    //     // var pagebtn=document.createElement("button")
+    //     // var pagenum=document.createTextNode(i)
+    //     // pagebtn.appendChild(pagenum)
+    //     //
+    //     // pagebtn.value=i;
+    //     //
+    //     // var pages=document.getElementById("addpa")
+    //     // pages.insertBefore(pagebtn,pages.childNodes[0]);
+    //     // console.log(pagebtn.value);
+    //     //
+    //     //
+    //     // linetext.push(textarr)
+    //     // linetext.push(lines)
+    //     // linetext.push(picarr)
+    //     // linetext.push(textarea.value)
+    //     // var linestr = JSON.stringify(linetext);
+    //     // console.log(linestr)
+    //     // textarrStash[nowPage - 1] = textarr;
+    //     // linesStash[nowPage - 1] = lines;
+    //     // picarrStash[nowPage - 1] = picarr;
+    //     // wordareaStash[nowPage - 1] = textarea.value;
+    //     // jsonStash[nowPage - 1] =linestr;
+    //     //
+    //     // linetext = [];
+    //     // textarr = [];
+    //     // lines= [];
+    //     // picarr = [];
+    //     // textarea.value = '';
+    //     //
+    //     // nowPage = num;
+    //     //
+    //     // const note = document.getElementById('note');
+    //     // const context = note.getContext('2d')
+    //     // context.clearRect(0,0,note.width,note.height);
+    //     // const textlayer = document.getElementById('textlayer');
+    //     // const textcontext = textlayer.getContext('2d');
+    //     // textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+    //     // const imglayer = document.getElementById('imglayer');
+    //     // const imgcontext = imglayer.getContext('2d');
+    //     // imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+    //
+    // }
 </script>
 
 
