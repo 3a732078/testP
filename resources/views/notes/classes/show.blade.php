@@ -39,7 +39,7 @@
     </div>
 
 </form>
-
+<center><button onclick="opentext()">開啟文字方塊</button></center>
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
@@ -70,12 +70,13 @@
                 </div>
             @endif
         @endif
-
+        <div style="position: relative;" id="above">
 @if($textbookId!==null)
     <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
 @elseif($textbookId===null)
     <canvas id="note" width="1191" height="1684"></canvas>
 @endif
+        </div>
 </div>
 <br>
 <div style="width:100px; margin:0 auto;">
@@ -566,6 +567,45 @@
         }
 
     }
+
+</script>
+
+<script>
+    let textarea = document.createElement('textarea');
+    textarea.value='';
+    textarea.style="resize:none";
+    textarea.style.width=1191;
+    textarea.style.height=1684;
+
+    let isOpen = 0;
+    let wordarea=[];
+    function opentext(){
+    console.log("1");
+        if(isOpen === 0) {
+            // textarea = document.createElement('textarea');
+            // document.body.appendChild(textarea);
+            isOpen = 2;
+            var list=document.getElementById("above")
+            list.insertBefore(textarea,list.childNodes[0]);
+            note.style.display="none";
+
+        } else {
+            if (isOpen == 1) {
+                textarea.hidden = false;
+                isOpen = 2;
+                var list=document.getElementById("above")
+                list.insertBefore(textarea,list.childNodes[0]);
+                note.style.display="none";
+                textarea.style.display="block";
+            }
+            else {
+                textarea.hidden = true;
+                isOpen = 1;
+                textarea.style.display="none";
+                note.style.display="block";
+            }
+        }
+        }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
