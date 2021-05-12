@@ -576,7 +576,222 @@
     i=1;
 
     let pbtnarr=[];
+    let moarray=[];
     addpage.addEventListener('click',function(){
+        //儲存當前頁數
+        pbtnarr.push(i)
+
+        linetext.push(textarr)
+        linetext.push(lines)
+        linetext.push(picarr)
+        linetext.push(textarea.value)
+        var linestr = JSON.stringify(linetext);
+        console.log("這是第"+i+"頁："+linestr);
+        textarrStash[i-1] = textarr;
+        linesStash[i-1] = lines;
+        picarrStash[i-1] = picarr;
+        wordareaStash[i-1] = textarea.value;
+        jsonStash[i-1] =linestr;
+
+        linetext = [];
+        textarr = [];
+        lines= [];
+        picarr = [];
+        textarea.value = '';
+
+        // nowPage = num;
+        nowPage=i;
+
+        //清空
+        const note = document.getElementById('note');
+        const context = note.getContext('2d')
+        context.clearRect(0,0,note.width,note.height);
+        const textlayer = document.getElementById('textlayer');
+        const textcontext = textlayer.getContext('2d');
+        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        const imglayer = document.getElementById('imglayer');
+        const imgcontext = imglayer.getContext('2d');
+        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+
+        //添加新的一頁
+        i=i+1;
+        var pagebtn=document.createElement("button")
+        var pagenum=document.createTextNode(i)
+        pagebtn.appendChild(pagenum)
+
+
+        console.log(pbtnarr);
+        pagebtn.value=i;
+
+        var pages=document.getElementById("addpa")
+        pages.appendChild(pagebtn);
+        // pages.insertBefore(pagebtn,pages.childNodes[0]);
+        console.log(pagebtn.value+"-_-");
+
+        //暫註解
+        // document.getElementById('page').size=i;
+        // console.log(document.getElementById('page').size);
+
+//         console.log("陣列長度"+pbtnarr.length);
+//         var pl=pbtnarr.length;
+//         for(j=2;j<=pl+2;j++){
+// console.log("你點的是第"+j+"個按鈕");
+//
+//         }
+        //aaaaa
+        moarray.pop();
+        moarray.push(pagebtn.value);
+        console.log("啦啦"+moarray);
+
+        pagebtn.onclick = function() {
+            console.log("當前點擊頁數"+pagebtn.value);
+            console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
+            // linetext = [];
+            // textarr = [];
+            // lines= [];
+            // picarr = [];
+            // textarea.value = '';
+            console.log("啊啊上一頁是"+(moarray[0]));
+            console.log("啊啊上一頁的陣列是"+(moarray-1));
+            linetext.push(textarr)
+            linetext.push(lines)
+            linetext.push(picarr)
+            linetext.push(textarea.value)
+            var linestr = JSON.stringify(linetext);
+            console.log("而現在是這是第"+pagebtn.value+"頁唷!");
+            textarrStash[moarray-1] = textarr;
+            linesStash[moarray-1] = lines;
+            picarrStash[moarray-1] = picarr;
+            wordareaStash[moarray-1] = textarea.value;
+            jsonStash[moarray-1] =linestr;
+
+            console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
+            linetext = [];
+            textarr = [];
+            lines= [];
+            picarr = [];
+            textarea.value = '';
+
+            moarray.pop();
+            moarray.push(pagebtn.value)
+            console.log("唷唷現在是"+(moarray[0]));
+            console.log("唷唷現在是哪個陣列"+(moarray-1));
+
+            // //儲存切換頁面前頁數內容
+            // pbtnarr.push(i)
+            //
+            // linetext.push(textarr)
+            // linetext.push(lines)
+            // linetext.push(picarr)
+            // linetext.push(textarea.value)
+            // var linestr = JSON.stringify(linetext);
+            // console.log("這是第"+i+"頁："+linestr);
+            // textarrStash[nowPage - 1] = textarr;
+            // linesStash[nowPage - 1] = lines;
+            // picarrStash[nowPage - 1] = picarr;
+            // wordareaStash[nowPage - 1] = textarea.value;
+            // jsonStash[nowPage - 1] =linestr;
+            //
+            // linetext = [];
+            // textarr = [];
+            // lines= [];
+            // picarr = [];
+            // textarea.value = '';
+            //
+            // // nowPage = num;
+            // nowPage=i;
+            //
+            // //清空
+            // const note = document.getElementById('note');
+            // const context = note.getContext('2d')
+            // context.clearRect(0,0,note.width,note.height);
+            // const textlayer = document.getElementById('textlayer');
+            // const textcontext = textlayer.getContext('2d');
+            // textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+            // const imglayer = document.getElementById('imglayer');
+            // const imgcontext = imglayer.getContext('2d');
+            // imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+            //清空
+            const note = document.getElementById('note');
+            const context = note.getContext('2d')
+            context.clearRect(0,0,note.width,note.height);
+            const textlayer = document.getElementById('textlayer');
+            const textcontext = textlayer.getContext('2d');
+            textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+            const imglayer = document.getElementById('imglayer');
+            const imgcontext = imglayer.getContext('2d');
+            imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+            if (typeof jsonStash[moarray-1] !== 'undefined') {
+                //換到n頁時，給n頁的值
+                textarr = textarrStash[moarray-1];
+                lines= linesStash[moarray-1];
+                picarr = picarrStash[moarray-1];
+                textarea.value = wordareaStash[moarray-1];
+                //json decode
+                const objson=JSON.parse(jsonStash[moarray-1]);
+                const note = document.getElementById('note');
+                const context = note.getContext('2d');
+                const textlayer = document.getElementById('textlayer');
+                const textcontext = textlayer.getContext('2d');
+                const imglayer = document.getElementById('imglayer');
+                const imgcontext = imglayer.getContext('2d');
+
+                for(var k=0;k<objson[2].length;k++){ // 畫圖片（第三個ARRAY）
+                    document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
+                    var img = new Image();
+                    img.src=document.json.jsonimg.src;
+                    console.error(document.json.jsonimg.src)
+                    imgcontext.drawImage(img, objson[2][k].location[0], objson[2][k].location[1]);//drawImage(image, x, y)或drawImage(image, x, y, width, height) width跟height是縮放用的
+                    console.error(objson[2][k].location[0], objson[2][k].location[1]);
+                }
+                for(var j=0 ; j < objson[0].length ; j++){ //文字
+                    var l = JSON.stringify(objson[0][j].form);
+                    var length =l.length;
+                    if(length===7){
+                        console.log("是");
+                        textcontext.font = "30px Arial";
+                        textcontext.fillStyle=objson[0][j].color;
+                        textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                    }
+                    else if (length!==7){
+                        console.log("否");
+                        textcontext.font = objson[0][j].form;
+                        textcontext.fillStyle=objson[0][j].color;
+                        textcontext.fillText(objson[0][j].text, objson[0][j].location[0],objson[0][j].location[1]);
+                    }
+                }
+                for(var i=0 ; i < objson[1].length ; i++){ //畫線
+                    context.globalAlpha = 0.5;
+                    context.lineWidth=objson[1][i].width[0]
+                    context.strokeStyle = objson[1][i].color[0];
+                    context.beginPath();
+                    context.moveTo(objson[1][i].start[0],objson[1][i].start[1]);
+                    context.lineTo(objson[1][i].end[0],objson[1][i].end[1]);
+                    context.stroke();
+                    context.closePath();
+                }
+                // linetext = [];
+                // textarr = [];
+                // lines= [];
+                // picarr = [];
+                // textarea.value = '';
+
+                // while (moarray.length) {
+                //     moarray.pop();
+                // }
+                // console.log("當前陣列內容"+moarray);
+            }
+
+        }
+    });
+
+    const array=[];
+
+    function changep(){
+
         //儲存當前頁數
         pbtnarr.push(i)
 
@@ -612,70 +827,46 @@
         const imgcontext = imglayer.getContext('2d');
         imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
 
-
-        //添加新的一頁
-        i=i+1;
-        var pagebtn=document.createElement("button")
-        var pagenum=document.createTextNode(i)
-        pagebtn.appendChild(pagenum)
-
-        console.log(pbtnarr);
-        pagebtn.value=i;
-
-        var pages=document.getElementById("addpa")
-        pages.appendChild(pagebtn);
+        // var pagebtn=document.createElement("button")
+        // var pagenum=document.createTextNode(i)
+        // pagebtn.appendChild(pagenum)
+        //
+        // pagebtn.value=i;
+        //
+        // var pages=document.getElementById("addpa")
         // pages.insertBefore(pagebtn,pages.childNodes[0]);
-        console.log(pagebtn.value);
-
-        //暫註解
-        // document.getElementById('page').size=i;
-        // console.log(document.getElementById('page').size);
-    });
-
-    const array=[];
-
-    function changep(num){
-
-        var pagebtn=document.createElement("button")
-        var pagenum=document.createTextNode(i)
-        pagebtn.appendChild(pagenum)
-
-        pagebtn.value=i;
-
-        var pages=document.getElementById("addpa")
-        pages.insertBefore(pagebtn,pages.childNodes[0]);
-        console.log(pagebtn.value);
-
-
-        linetext.push(textarr)
-        linetext.push(lines)
-        linetext.push(picarr)
-        linetext.push(textarea.value)
-        var linestr = JSON.stringify(linetext);
-        console.log(linestr)
-        textarrStash[nowPage - 1] = textarr;
-        linesStash[nowPage - 1] = lines;
-        picarrStash[nowPage - 1] = picarr;
-        wordareaStash[nowPage - 1] = textarea.value;
-        jsonStash[nowPage - 1] =linestr;
-
-        linetext = [];
-        textarr = [];
-        lines= [];
-        picarr = [];
-        textarea.value = '';
-
-        nowPage = num;
-
-        const note = document.getElementById('note');
-        const context = note.getContext('2d')
-        context.clearRect(0,0,note.width,note.height);
-        const textlayer = document.getElementById('textlayer');
-        const textcontext = textlayer.getContext('2d');
-        textcontext.clearRect(0,0,textlayer.width,textlayer.height);
-        const imglayer = document.getElementById('imglayer');
-        const imgcontext = imglayer.getContext('2d');
-        imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+        // console.log(pagebtn.value);
+        //
+        //
+        // linetext.push(textarr)
+        // linetext.push(lines)
+        // linetext.push(picarr)
+        // linetext.push(textarea.value)
+        // var linestr = JSON.stringify(linetext);
+        // console.log(linestr)
+        // textarrStash[nowPage - 1] = textarr;
+        // linesStash[nowPage - 1] = lines;
+        // picarrStash[nowPage - 1] = picarr;
+        // wordareaStash[nowPage - 1] = textarea.value;
+        // jsonStash[nowPage - 1] =linestr;
+        //
+        // linetext = [];
+        // textarr = [];
+        // lines= [];
+        // picarr = [];
+        // textarea.value = '';
+        //
+        // nowPage = num;
+        //
+        // const note = document.getElementById('note');
+        // const context = note.getContext('2d')
+        // context.clearRect(0,0,note.width,note.height);
+        // const textlayer = document.getElementById('textlayer');
+        // const textcontext = textlayer.getContext('2d');
+        // textcontext.clearRect(0,0,textlayer.width,textlayer.height);
+        // const imglayer = document.getElementById('imglayer');
+        // const imgcontext = imglayer.getContext('2d');
+        // imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
 
     }
 </script>
