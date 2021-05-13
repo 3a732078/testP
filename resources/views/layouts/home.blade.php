@@ -144,6 +144,11 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">筆記相關資訊:</h6>
                     <a class="collapse-item" href="/notes/create">新增筆記</a>
+                    <a class="collapse-item" href="#createn" data-toggle="collapse" style="color:black;line-height:15px;"><span>新增筆記!</span></a>
+                    <div id="createn" class="collapse">
+                        <a class="collapse-item" href="/notes/create" style="color:black;line-height:15px;">-&ensp;空白筆記</a>
+                        <a class="collapse-item" href="/notes/insert" style="color:black;line-height:15px;">-&ensp;照片筆記</a>
+                    </div>
                     <a class="collapse-item" href="{{route('notes.mynotes')}}">我的筆記</a>
                     <a class="collapse-item" href="{{route('notes.search')}}">搜尋筆記</a>
                     <a class="collapse-item" href="{{route('favor.index')}}">收藏筆記</a>
