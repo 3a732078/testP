@@ -52,15 +52,29 @@ class NoteController extends Controller
         $course=Textbook::find($textbookId)->course->name;//課程名稱
         $classId = $request->classId;//課程Id
         $textbook=Textbook::find($textbookId);
-        $files=scandir("./images/" . "$textbook->name");
+
+        //讀取教材
+        $name = $textbook->name;
+        $files=scandir("./images/" . "$name");
+
+        $imgArr = array();
         $images = array();
         for ($i=0;$i<count($files);$i++){
 
             if($files[$i]=='.'||$files[$i]=='..'){
                 continue;
             }
-            $images[]=$files[$i];
+            $arr = explode('.',$files[$i]);
+            $arr = $arr[1];
+            $imgArr[] = $files[$i];
         }
+        $num = 1;
+        foreach ($imgArr as $r)
+        {
+            $images[] = "{$name}{$num}.{$arr}";
+            $num++;
+        }
+//        dd($images);
         $num = $request->num != null ? $request->num : 1 ;
 
         return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course]);
