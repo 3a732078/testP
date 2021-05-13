@@ -7,6 +7,7 @@ use App\Models\CollectNote;
 use App\Models\Comment;
 use App\Models\Course;
 use App\Models\CourseStudent;
+use App\Models\DefaultNote;
 use App\Models\Note;
 use App\Models\NoteScore;
 use App\Models\Student;
@@ -383,6 +384,13 @@ class NoteController extends Controller
             $favor=0;
         }
 
+        $dfnote=DefaultNote::where('note_id',$id)->where('user_id',$request->user()->id)->value('note_id');
+        if($dfnote){
+            $dfnote=1;
+        }else{
+            $dfnote=0;
+        }
+
         $score=NoteScore::where('note_id',$id)->where('user_id',$request->user()->id)->value('score');
         if($score){
             $sscore=$score;
@@ -429,7 +437,7 @@ class NoteController extends Controller
         $replies=Comment::where('note_id',$id)
             ->where('comment_id','!=',null)
             ->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.

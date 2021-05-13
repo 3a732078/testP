@@ -98,4 +98,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Assist::class);
     }
+
+    public function defnotes()
+    {
+        return $this->belongsToMany(Note::class,'default_notes');
+    }
 }

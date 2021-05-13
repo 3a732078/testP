@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\DefaultNote;
 use App\Models\Note;
 use App\Models\Teacher;
 use App\Models\Textbook;
@@ -53,24 +54,32 @@ class TextbookController extends Controller
 //        dd($newImages);
         $def=0;
         $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
-        if (count($classNotes)>0){
-        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
-        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
-        foreach($classNotes as $key => $value){
-            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
-        }
+        $newDef = 0;
 
-        $a = function($a,$b)
-        {
-            if ($a['avg']==$b['avg']) return 0;
-            return ($a['avg']>$b['avg'])?-1:1;
-        };
-        usort($classNotes,$a);
-        $def=$classNotes[0]['id'];
-//        dd($def,$classNotes);
-//        $num = $request->num != null ? $request->num : 1 ;
-        }
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def,'ta'=>$ta]);
+        if (count($classNotes)>0){
+            $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+            $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+
+            foreach($classNotes as $key => $value){
+                $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+            }
+
+            $a = function($a,$b)
+            {
+                if ($a['avg']==$b['avg']) return 0;
+                return ($a['avg']>$b['avg'])?-1:1;
+            };
+
+            usort($classNotes,$a);
+            $def=$classNotes[0]['id'];
+            $classname=Textbook::where('id',$id)->value('name');
+            $newDef=DefaultNote::where('user_id',$request->user()->id)->where('classname',$classname)->value('note_id');
+            $newDef = $newDef !== null ? $newDef : 0;
+
+            $num = $request->num != null ? $request->num : 1 ;
+            }
+
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);
     }
 
     public function indext(Request $request)
