@@ -97,6 +97,11 @@ class NoteController extends Controller
         return view('notes.create',['classmate'=>$classmate],['coursename'=>$coursename]);
     }
 
+    public function insert()
+    {
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
