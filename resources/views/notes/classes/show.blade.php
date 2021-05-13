@@ -39,7 +39,7 @@
     </div>
 
 </form>
-<center><button onclick="opentext()">開啟文字方塊</button></center>
+<p><center><button onclick="opentext()">開啟文字方塊</button></center></p>
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
@@ -363,15 +363,17 @@
     let isloading = false;
     let nowPage = 1;
     let jsonStash = [];
+    let wordareaStash = [];
+
     @if($textbookId!==null)
-    @if(count($images)> 0)
-    document.getElementById("page").value=`${nowPage}`;
-    @endif
+        @if(count($images)> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
     @endif
     @if($textbookId===null)
-    @if($images> 0)
-    document.getElementById("page").value=`${nowPage}`;
-    @endif
+        @if($images> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
     @endif
     window.addEventListener("load", function (){
 
@@ -380,6 +382,7 @@
         let objsonNow=JSON.parse(test);
         for (var i = 0; i < objsonNow.length ; i++) {
             jsonStash[i] = objsonNow[i];
+            wordareaStash[i] = objsonNow[i][3];
         }
         let objson = objsonNow[0];
 
@@ -423,7 +426,7 @@
             context.closePath();
         }
 
-
+        textarea.value = objson[3];
 
         if(document.json.favorstatus.value==="0"){
 
@@ -510,6 +513,7 @@
 
         nowPage = num;
         context.clearRect(0,0,note.width,note.height);
+        textarea.value = '';
 
         @if($textbookId!==null)
         const base = '{{asset('/images/'.$textbook->name)}}';
@@ -529,6 +533,8 @@
         const objson=jsonStash[index];
         const note = document.getElementById('note');
         const context = note.getContext('2d');
+        textarea.value = wordareaStash[index];
+
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();

@@ -584,6 +584,7 @@ class NoteController extends Controller
     {
         session_start();
         $class=$_SESSION['classId'];
+        $ta=$_SESSION['ta'];
         $tkName=Textbook::find($id)->name;
         $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
 
@@ -600,6 +601,6 @@ class NoteController extends Controller
         };
         usort($classNotes,$a);
 
-        return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName]);
+        return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName,'ta'=>$ta]);
     }
 }
