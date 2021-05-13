@@ -97,9 +97,35 @@ class NoteController extends Controller
         return view('notes.create',['classmate'=>$classmate],['coursename'=>$coursename]);
     }
 
-    public function insert()
+    public function insert(Request $request)
     {
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
 
+        $user=Student::where('user_id',$id)->value('id');
+        $course=CourseStudent::where('student_id',$user)->get();
+
+
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+
+        $count2 = count($course);
+        $coursename=array();
+        for($j=0;$j<$count2;$j++){
+            $cid=$course->pluck('course_id');
+            $courses=Course::where('id',$cid[$j])->value('name');
+            array_push($coursename,$courses);
+        }
+
+
+        return view('notes.insert',['classmate'=>$classmate],['coursename'=>$coursename]);
     }
 
     /**
