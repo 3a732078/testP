@@ -15,31 +15,56 @@
          src="{{asset('images/uccu/uccu1.jpg')}}" alt="The Scream">
 
 </div>
-<form id="json" name="json">
+<table align="center" width="88%" >
+    <tr><td width="15%" align="left" style="font-size: 22px">
+            @if($textbookId!==null)
+            <form id="def" name="def" method="POST" action="{{route('def.store')}}" onsubmit="return defnotes()" style="margin:0px;display: inline;">
+                @csrf
+                @method('POST')
+                <div style="display:none">
+                    id：<input name="id" id="id" value="{{$id}}"><br>
+                </div>
 
-    <div style="display:none">
-        id：<input name="id" id="id" value="{{$id}}"><br>
-        {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
-        課程：<input name="class" id="class" value=""><br>
-        筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
-        收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
-        評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
-        <img id="jsonimg" width="220" height="277"
-             src="" alt="">
-    </div><br>
+                <div class="form-check form-switch" style="margin-top:5px;margin-left:20px;">
+                    <input onclick="defnotes()" class="form-check-input" type="checkbox" id="dfnote" name="dfnote" style="top: 15%">
+                    <span class="span.mark-pen"
+                          style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">預設瀏覽筆記</span>
+                    <div style="display:none"><button id="defbtn" name="defbtn">送出</button></div>
+                </div>
+            </form>
+            @endif
+        </td>
+        <td width="70%">
+            <form id="json" name="json">
+                <div style="display:none">
+                    id：<input name="id" id="id" value="{{$id}}"><br>
+                    {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
+                    課程：<input name="class" id="class" value=""><br>
+                    筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
+                    收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
+                    評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
+                    預設狀態：<input id="defstatus" name="defstatus" value="{{$dfnote}}">
+                    <img id="jsonimg" width="220" height="277"
+                         src="" alt="">
+                </div><br>
 
-    <title>{{$name}}</title>
-    {{--    課程：{{$class}}<br>--}}
-    <h5 align="center">
-    筆記名稱：{{$name}}
-    作者：{{$author}}
-    </h5>
-    <div style="display:none">
-        <input readonly="readonly" id="call" name="call" value="{{$json}}">
-    </div>
+                <title>{{$name}}</title>
+                {{--    課程：{{$class}}<br>--}}
+                <h5 align="center">
+                筆記名稱：{{$name}}&ensp;|&ensp;
+                作者：{{$author}}
+                </h5>
+                <div style="display:none">
+                    <input readonly="readonly" id="call" name="call" value="{{$json}}">
+                </div>
+            </form>
+        </td>
+        <td width="15%"></td>
+    </tr>
+</table>
 
-</form>
 <p><center><button onclick="opentext()">開啟文字方塊</button></center></p>
+
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
@@ -437,6 +462,15 @@
             document.getElementById("heart").checked = true;
         }
 
+        if(document.json.defstatus.value==="0"){
+
+            document.getElementById("dfnote").checked = false;
+        }
+        if(document.json.defstatus.value==="1"){
+
+            document.getElementById("dfnote").checked = true;
+        }
+
         switch (document.json.scorestatus.value) {
             case '1':
                 document.getElementById("star-1").checked = true;
@@ -478,6 +512,13 @@
 <script>
     function favorto(){
         $("#favor").ajaxSubmit(function() {
+        });
+    }
+</script>
+
+<script>
+    function defnotes(){
+        $("#def").ajaxSubmit(function() {
         });
     }
 </script>

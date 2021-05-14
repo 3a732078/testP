@@ -38,9 +38,14 @@
                     &ensp;/&ensp;
                     @endif
                     @if($def>0)
-                    <a class="fa fa-thumbs-o-up" style="color: 	#B22222;" href="/notes/classes/{{$def}}">&ensp;推薦的筆記</a>
+                        @if($newDef !== 0)
+                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/notes/classes/{{$newDef}}">&ensp;預設推薦筆記</a>
+                        @else
+                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/notes/classes/{{$def}}">&ensp;預設推薦筆記</a>
+                        @endif
+
                     @else
-                        <a class="fa fa-thumbs-o-up" style="color: 	#B22222;" href="#" onclick="defnote()">&ensp;推薦的筆記</a>
+                        <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="#" onclick="defnote()">&ensp;預設推薦筆記</a>
                     @endif
                     &ensp;/&ensp;
                     <form method="post" action="/notes/ccreate" style="margin:0px;display: inline;">

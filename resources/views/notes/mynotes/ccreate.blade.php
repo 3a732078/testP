@@ -276,6 +276,8 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
+    const textbooklayer = document.getElementById('textbooklayer');
+    const textbookcontext = textbooklayer.getContext('2d');
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
@@ -592,6 +594,7 @@
             note.style.display="none";
             textlayer.style.display="none";
             imglayer.style.display="none";
+            textbooklayer.style.display="none";
 
         } else {
             if (isOpen == 1) {
@@ -602,6 +605,7 @@
                 note.style.display="none";
                 textlayer.style.display="none";
                 imglayer.style.display="none";
+                textbooklayer.style.display="none";
                 textarea.style.display="block";
             }
             else{
@@ -611,6 +615,7 @@
                 note.style.display="block";
                 textlayer.style.display="block";
                 imglayer.style.display="block";
+                textbooklayer.style.display="block";
             }
         }
 

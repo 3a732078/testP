@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TextbookController;
+use App\Http\Controllers\DefaultNoteController;
 
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TaController;
@@ -103,6 +104,9 @@ Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.inde
 
 //收藏/取消收藏
 Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store');
+
+//預設筆記/取消預設
+Route::post('def',[DefaultNoteController::class,'store'])->name('def.store');
 
 //筆記留言
 Route::post('/comments',[CommentController::class,'store'])->name('comments.store');
