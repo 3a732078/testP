@@ -189,6 +189,34 @@ class NoteController extends Controller
         }
 
     }
+    public function osimage(Request $request)
+    {
+        $this->validate($request, [
+            'upphoto' => 'required',
+        ]);
+//        dd("你有近來");
+//        dd($request->upphoto);
+//        if($request->file('upphoto')) {
+//            $filename = $request->file('upphoto')->getClientOriginalName();
+//
+//            $request->img->move(public_path() . '\images\photo\\', $filename);
+//        }
+
+
+        $files = $request->file('upphoto');
+
+        if($request->hasFile('upphoto'))
+        {
+            foreach ($files as $file) {
+                $filestore=$file->getClientOriginalName();
+
+                $file->move(public_path() . '\photo\\', $filestore);
+            }
+        }
+
+//        return redirect()->back();
+
+    }
 
     /**
      * Display the specified resource.
