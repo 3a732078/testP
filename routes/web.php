@@ -51,6 +51,7 @@ Route::post('image',[NoteController::class,'image'])->name('notes.image')->where
 //新增照片筆記
 Route::get('notes/insert',[NoteController::class,'insert'])->name('notes.insert');
 Route::post('osimage',[NoteController::class,'osimage'])->name('notes.osimage');
+Route::get('notes/pcreate',[NoteController::class,'pcreate'])->name('notes.pcreate');
 
 
 //新增教材筆記
