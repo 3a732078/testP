@@ -7,6 +7,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <style>
+        .fixedchat {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color:#708090;
+            border: none;
+            z-index: 99;
+
+            display: inline-block;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 5px #999;
+        }
+
+        .fixedchat:hover {
+            background-color:#708090;
+            outline: none;
+        }
+
+        .fixedchat:active {
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+            outline: none;
+        }
+    </style>
 </head>
 {{--<h1>課堂筆記</h1>--}}
 
@@ -59,7 +87,11 @@
                 </div>
             </form>
         </td>
-        <td width="15%"></td>
+        <td width="15%">
+            <button class="fixedchat" style="outline: none;border-radius: 50%;padding:15px 15px;" onclick="chatwith()">
+                <i class="fa fa-comments" aria-hidden="true" style="color:#FFFF99"></i>
+            </button>
+        </td>
     </tr>
 </table>
 
@@ -147,6 +179,7 @@
 </div>
 </div>
 
+<div id="chat">
 <form id="comments" name="comments" method="POST" action="/comments">
     @csrf
     @method('POST')
@@ -254,8 +287,9 @@
                     </tr>
             </table>
     </div>
-@endforeach
+    @endforeach
 @endif
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -653,6 +687,10 @@
             }
         }
         }
+
+    function chatwith() {
+        document.getElementById("chat").scrollIntoView();
+    }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
