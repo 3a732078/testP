@@ -83,15 +83,15 @@
         </div>
 
     <div style="position: relative;" id="above">
-        <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+        <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
         {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
-        <canvas id="textlayer" width="1191" height="1684"
+        <canvas id="textlayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-        <canvas id="imglayer" width="1191" height="1684"
+        <canvas id="imglayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
     </div>
 
-    <canvas id="c2" width="1191" height="1684"></canvas>
+    <canvas id="c2" width="1000" height="1413"></canvas>
 
 </div>
 
@@ -151,8 +151,8 @@
 
 <style>
     canvas {
-        width: 1191px;
-        height: 1684px;
+        width: 1000px;
+        height: 1413px;
     }
 
     body{
@@ -270,8 +270,8 @@
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
-    textarea.style.width=1191;
-    textarea.style.height=1684;
+    textarea.style.width=1000;
+    textarea.style.height=1413;
 
     let nowPage = 1;
 

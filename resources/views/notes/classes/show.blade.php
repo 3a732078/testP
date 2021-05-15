@@ -103,35 +103,35 @@
 <br><br>
 <div align="center" style="position: relative;">
     @if($textbookId!==null)
-@if(count($images)> 0)
-    <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
-        <p>
-            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
-            第
-            @for($i=0;$i<count($images);$i++)
-                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-            @endfor頁&emsp;
-            </p>
-    </div>
-@endif
-    @endif
-        @if($textbookId===null)
-            @if($images> 0)
-                <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
-                    <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
-                    第
-                    @for($i=0;$i<$images;$i++)
-                        <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-                    @endfor頁&emsp;
-                    </p>
-                </div>
-            @endif
+        @if(count($images)> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
+                <p>
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                第
+                @for($i=0;$i<count($images);$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
         @endif
+    @endif
+    @if($textbookId===null)
+        @if($images> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
+                第
+                @for($i=0;$i<$images;$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
+        @endif
+    @endif
         <div style="position: relative;" id="above">
 @if($textbookId!==null)
-    <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
+    <canvas id="note" width="1000" height="1413" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
 @elseif($textbookId===null)
-    <canvas id="note" width="1191" height="1684"></canvas>
+    <canvas id="note" width="1000" height="1413"></canvas>
 @endif
         </div>
 </div>
@@ -318,8 +318,8 @@
 <style>
     canvas {
         border: 1px solid black;
-        width: 1191px;
-        height: 1684px;
+        width: 1000px;
+        height: 1413px;
     }
     body{
         background: #F0F0F0;
@@ -655,8 +655,8 @@
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
-    textarea.style.width=1191;
-    textarea.style.height=1684;
+    textarea.style.width=1000;
+    textarea.style.height=1413;
 
     let isOpen = 0;
     let wordarea=[];

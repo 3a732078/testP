@@ -107,6 +107,9 @@ Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store')
 //預設筆記/取消預設
 Route::post('def',[DefaultNoteController::class,'store'])->name('def.store');
 
+//瀏覽預設筆記
+Route::get('/def/{id}',[DefaultNoteController::class,'show'])->name('def.show');
+
 //筆記留言
 Route::post('/comments',[CommentController::class,'store'])->name('comments.store');
 

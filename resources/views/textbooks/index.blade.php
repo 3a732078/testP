@@ -32,21 +32,22 @@
             <div class="card mb-4">
                 <div class="card-header">
                     {{$textbook->name}} ─&emsp;
-{{--                    <a class="fa fa-book" href="/textbooks/show/{{$id}}">&ensp;教材</a>--}}
+                    <a class="fa fa-book" href="/textbooks/show/{{$id}}" style="color: #2d3748">&ensp;教材</a>&ensp;/&ensp;
+
                     @if(\Illuminate\Support\Facades\Auth::user()->type=='老師')
-                    <a class="fa fa-edit" href="#">&ensp;編輯教材</a>
-                    &ensp;/&ensp;
+                        <a class="fa fa-edit" href="#">&ensp;編輯教材</a>&ensp;/&ensp;
                     @endif
+
                     @if($def>0)
                         @if($newDef !== 0)
-                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/notes/classes/{{$newDef}}">&ensp;預設推薦筆記</a>
+                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/def/{{$newDef}}">&ensp;預設筆記</a>
                         @else
-                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/notes/classes/{{$def}}">&ensp;預設推薦筆記</a>
+                            <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="/def/{{$def}}">&ensp;預設筆記</a>
                         @endif
-
                     @else
                         <a class="fa fa-thumbs-o-up" style="color:#B22222;" href="#" onclick="defnote()">&ensp;預設推薦筆記</a>
                     @endif
+
                     &ensp;/&ensp;
                     <form method="post" action="/notes/ccreate" style="margin:0px;display: inline;">
                         @csrf
@@ -55,7 +56,7 @@
                         <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">&ensp;新增課程筆記</a></button>
                     </form>
                 </div>
-<p></p>
+                <p></p>
                 <table width="100%" style="height:auto;">
                     <tr><td>
                         <div class="fixed-bottom" align="right">

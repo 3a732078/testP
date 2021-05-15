@@ -28,6 +28,7 @@ class TextbookController extends Controller
         $ta=$_SESSION['ta'];
 
         $textbookId=Textbook::where('id',$id)->value('id');//教材Id
+        $_SESSION['textbookId']=$textbookId;
         $course=Textbook::find($textbookId)->course->name;//課程名稱
         $class=$_SESSION['classId'];//課程Id
         $textbook=Textbook::find($textbookId);

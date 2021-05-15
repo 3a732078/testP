@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\DefaultNote;
 use App\Models\Note;
+use App\Models\Textbook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DefaultNoteController extends Controller
 {
@@ -76,9 +79,58 @@ class DefaultNoteController extends Controller
      * @param  \App\Models\DefaultNote  $defaultNote
      * @return \Illuminate\Http\Response
      */
-    public function show(DefaultNote $defaultNote)
+    public function show($id)
     {
-        //
+        session_start();
+        $class=$_SESSION['classId'];
+        $ta=$_SESSION['ta'];
+        $deftextbookId=$_SESSION['textbookId'];//textbookId
+        $deftextbook=Textbook::find($deftextbookId);
+
+        //筆記相關
+        $jsonname=Note::where('id',$id)->value('textfile');
+        $notename = str_replace(".json","",$jsonname);
+        $file = Storage::disk('public')->get('\\json\\' . $jsonname);
+        $author=Note::find($id)->user->name;
+
+        $course=null;
+        $classId=null;
+        $textbook=null;
+        $images=array();
+        $textbookId=Note::where('id',$id)->value('textbook_id');//教材Id
+        if ($textbookId!==null){
+            $course=Textbook::find($textbookId)->course->name;//課程名稱
+            $classId=Course::where('name',$course)->value('id');//課程Id
+            $textbook=Textbook::find($textbookId);
+
+            //讀取教材
+            $name = $textbook->name;
+            $files=scandir("./images/" . "$name");
+
+            $imgArr = array();
+            $images = array();
+            for ($i=0;$i<count($files);$i++){
+
+                if($files[$i]=='.'||$files[$i]=='..'){
+                    continue;
+                }
+                $arr = explode('.',$files[$i]);
+                $arr = $arr[1];
+                $imgArr[] = $files[$i];
+            }
+            $num = 1;
+            foreach ($imgArr as $r)
+            {
+                $images[] = "{$name}{$num}.{$arr}";
+                $num++;
+            }
+
+        }else{
+            $images=Note::where('id',$id)->value('page');
+        }
+
+        return view('textbooks.defshow',['id'=>$id,'class'=>$class,'ta'=>$ta,'deftextbook'=>$deftextbook,'author'=>$author,
+            'name'=>$notename,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'json'=>$file,'textbookId'=>$textbookId]);
     }
 
     /**
