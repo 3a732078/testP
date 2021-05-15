@@ -143,6 +143,37 @@ class NoteController extends Controller
         return view('notes.insert',['classmate'=>$classmate],['coursename'=>$coursename]);
     }
 
+    public function pcreate(Request $request)
+    {
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $user=Student::where('user_id',$id)->value('id');
+        $course=CourseStudent::where('student_id',$user)->get();
+
+
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+
+        $count2 = count($course);
+        $coursename=array();
+        for($j=0;$j<$count2;$j++){
+            $cid=$course->pluck('course_id');
+            $courses=Course::where('id',$cid[$j])->value('name');
+            array_push($coursename,$courses);
+        }
+
+
+        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -202,6 +233,64 @@ class NoteController extends Controller
 
             $request->img->move(public_path() . '\images\\', $filename);
         }
+
+    }
+    public function osimage(Request $request)
+    {
+        $this->validate($request, [
+            'upphoto' => 'required',
+        ]);
+//        dd("你有近來");
+//        dd($request->upphoto);
+//        if($request->file('upphoto')) {
+//            $filename = $request->file('upphoto')->getClientOriginalName();
+//
+//            $request->img->move(public_path() . '\images\photo\\', $filename);
+//        }
+        $tojson=array();
+
+
+        $files = $request->file('upphoto');
+
+        if($request->hasFile('upphoto'))
+        {
+            foreach ($files as $file) {
+                $filestore=$file->getClientOriginalName();
+                array_push($tojson,$filestore);
+                $file->move(public_path() . '\photo\\', $filestore);
+
+
+            }
+        }
+
+        $id=$request->user()->id;
+        $class=Student::where('user_id',$id)->value('classroom');
+        $classroom=Student::where('classroom',$class)->get();
+
+        $user=Student::where('user_id',$id)->value('id');
+        $course=CourseStudent::where('student_id',$user)->get();
+
+
+
+        $count = count($classroom);
+        $classmate=array();
+        for($i=0;$i<$count;$i++){
+            $uid=$classroom->pluck('user_id');
+            $user=User::where('id',$uid[$i])->value('name');
+            array_push($classmate,$user);
+        }
+
+        $count2 = count($course);
+        $coursename=array();
+        for($j=0;$j<$count2;$j++){
+            $cid=$course->pluck('course_id');
+            $courses=Course::where('id',$cid[$j])->value('name');
+            array_push($coursename,$courses);
+        }
+        $tojsonn=count($tojson);
+        $sjson = json_encode($tojson);
+//         dd($tojson);
+        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn]);
 
     }
 

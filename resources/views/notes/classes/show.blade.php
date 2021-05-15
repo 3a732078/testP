@@ -531,7 +531,17 @@
         if(document.json.scorestatus.value){
             document.getElementById("ssend").disabled=true;
         }
-    },false);
+
+            //判斷筆記類型
+
+            if (objson[4]==null){
+                console.log("空白")
+            }
+            else if(objson[4]!==null){
+                console.log("照片")
+            }
+
+        },false);
 </script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>

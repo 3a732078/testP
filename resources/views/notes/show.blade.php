@@ -800,7 +800,6 @@
 
     window.addEventListener("load", function (){
 
-
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
@@ -844,6 +843,16 @@
 
             document.getElementById("sharebox").checked = true;
         }
+
+        //判斷筆記類型
+
+        if (objson[4]==null){
+            console.log("空白")
+        }
+        else if(objson[4]!==null){
+            console.log("照片")
+        }
+
 
     },false);
     let linetext= []
