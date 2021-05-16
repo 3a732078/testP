@@ -150,7 +150,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         Route::get('data',[
             TeacherController::class,'test'
         ])->name('teacher.test');
-        
+
         //首頁
         Route::get('index',[
             TeacherController::class,'index'

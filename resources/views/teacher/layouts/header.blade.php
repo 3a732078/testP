@@ -1,8 +1,23 @@
 
 <header id="header" class="fixed-top header-transparent">
     <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="logo"><a href="index">@yield('headername')</a></h1>
+        <nav id="navbar" class="navbar">
+            <li class="dropdown">
+                <a href="#">
+                    <h3>
+                        110
+                    </h3>
+                    <i class="bi bi-chevron-down">學年度</i>
+                </a>
+                <ul>
+                    <li>
+                        <a href="#">Drop Down 1</a>
+                    </li>
+                </ul>
+            </li>
+        </nav>
 
-        <h1 class="logo"><a href="index">Baker</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
 
         <nav id="navbar" class="navbar">
@@ -13,10 +28,25 @@
                 <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
                 <li><a class="nav-link scrollto" href="#team">Team</a></li>
                 <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
-                <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+
+                <li class="dropdown">
+                    <a href="#">
+                        <span>
+                            Drop Down
+                        </span>
+                        <i class="bi bi-chevron-down"></i>
+                    </a>
                     <ul>
-                        <li><a href="#">Drop Down 1</a></li>
-                        <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                        <li>
+                            <a href="#">Drop Down 1</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#">
+                                <span>Deep Drop Down</span>
+                                <i class="bi bi-chevron-right">
+
+                                </i>
+                            </a>
                             <ul>
                                 <li><a href="#">Deep Drop Down 1</a></li>
                                 <li><a href="#">Deep Drop Down 2</a></li>
@@ -30,10 +60,13 @@
                         <li><a href="#">Drop Down 4</a></li>
                     </ul>
                 </li>
+
                 <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
             </ul>
-            <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
 
+            <i class="bi bi-list mobile-nav-toggle">asdfasdfdasfdasfds</i>
+        </nav>
+        <!-- .navbar -->
     </div>
-</header><!-- End Header -->
+</header>
+<!-- End Header -->
