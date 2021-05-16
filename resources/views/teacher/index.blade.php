@@ -1,4 +1,4 @@
-@extends('teacher.boostrap.home')
+@extends('teacher.layouts.main')
 
 @section('content')
 

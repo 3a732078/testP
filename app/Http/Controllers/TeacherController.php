@@ -22,11 +22,14 @@ class TeacherController extends Controller
     }
 
     public function course(Request $request){
+//        抓取該教授的所有課程
         $courses = Teacher::where(
             'user_id',Auth::user()->id
         )-> first() ->courses() -> get();
 
-        return view('teacher.course');
+        return view('teacher.course',[
+
+        ]);
 
     }
 

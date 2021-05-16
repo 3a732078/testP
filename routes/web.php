@@ -144,7 +144,7 @@ Route::get('/ta', function () {
 //添加協作者
 Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
-#教授
+#教授 ===================
     Route::prefix('teacher')->group(function (){
         //首頁
         Route::get('',[
@@ -152,7 +152,11 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         ])  -> name('teacher.index');
 
     #課程
+        // naspace [ teacher/{course} ] =============================
         Route::prefix('{course}')->group(function (){
-
+            //首頁
+            Route::get('index',[
+                TeacherController::class,'course'
+            ])->name('teacher.course.index');
         });
     });
