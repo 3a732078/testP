@@ -61,7 +61,14 @@
                     </ul>
                 </li>
 
-                <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                <li class="dropdown">
+                    <span style="color: #9fcdff">使用者</span>
+                    <i class="bi bi-chevron-right"></i>
+                    <ul>
+                        <li><a href="#">設定</a></li>
+                        <li><a href="#">登出</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <i class="bi bi-list mobile-nav-toggle">asdfasdfdasfdasfds</i>
