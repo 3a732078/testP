@@ -11,11 +11,9 @@
 <!-- End Header -->
 
 <!-- ======= Hero Section ======= -->
-<section id="hero" class="d-flex align-items-center justify-content-center">
+<section id="hero" class="d-flex align-items-start justify-content-start">
     <div class="container position-relative">
-        <h1>Welcome to Baker</h1>
-        <h2>We are team of talented designers making websites with Bootstrap</h2>
-        <a href="#about" class="btn-get-started scrollto">Get Started</a>
+        <h1>Welcome to Enote</h1>
     </div>
 </section>
 <!-- End Hero -->
