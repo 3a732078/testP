@@ -23,6 +23,7 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         $name = $this->faker->text(5).'館';
+
         return [
             'name' => $name,
         ];

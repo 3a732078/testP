@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TeacherFactory extends Factory
@@ -21,8 +23,12 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
-        return [
+        $user_id = User::where('type','老師') -> first() -> id;
+        $department_id = Department::find(8) -> id ;
 
+        return [
+            'user_id' => $user_id,
+            'department_id' => $department_id,
         ];
     }
 }

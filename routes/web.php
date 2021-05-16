@@ -130,14 +130,13 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
 #教授
     Route::prefix('teacher')->group(function (){
-
-    //首頁
+        //首頁
         Route::get('',[
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 
-    //課程
-        Route::get('{course}',[
-            TeacherController::class,'course'
-        ])  ->name('teacher.course');
+    #課程
+        Route::prefix('{course}')->group(function (){
+
+        });
     });
