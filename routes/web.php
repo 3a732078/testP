@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TextbookController;
+use App\Http\Controllers\DefaultNoteController;
 
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TaController;
@@ -47,6 +48,12 @@ Route::get('notes/create',[NoteController::class,'create'])->name('notes.create'
 Route::post('/notes',[NoteController::class,'store'])->name('notes.store');
 Route::post('image',[NoteController::class,'image'])->name('notes.image')->where('id', '[0-9]+');
 
+//新增照片筆記
+Route::get('notes/insert',[NoteController::class,'insert'])->name('notes.insert');
+Route::post('osimage',[NoteController::class,'osimage'])->name('notes.osimage');
+Route::get('notes/pcreate',[NoteController::class,'pcreate'])->name('notes.pcreate');
+
+
 //新增教材筆記
 Route::post('notes/ccreate',[NoteController::class,'ccreate'])->name('notes.mynotes.ccreate');
 
@@ -57,6 +64,9 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 //顯示所有TA列表
 Route::get('questions',[QuestionController::class,'index'])->name('questions.index');
+
+//顯示特定課堂TA
+Route::get('questions/classes/{class}',[QuestionController::class,'class'])->name('questions.class');
 
 //查看TA訊息
 Route::get('questions/{id}',[QuestionController::class,'show'])->name('questions.show')->where('id', '[0-9]+');
@@ -95,6 +105,12 @@ Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.inde
 
 //收藏/取消收藏
 Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store');
+
+//預設筆記/取消預設
+Route::post('def',[DefaultNoteController::class,'store'])->name('def.store');
+
+//瀏覽預設筆記
+Route::get('/def/{id}',[DefaultNoteController::class,'show'])->name('def.show');
 
 //筆記留言
 Route::post('/comments',[CommentController::class,'store'])->name('comments.store');

@@ -16,8 +16,11 @@ class CollectNoteController extends Controller
      */
     public function index()
     {
+        session_start();
+        $ta=$_SESSION['ta'];
+        $class=$_SESSION['classId'];//課程Id
         $favor=User::find(Auth::id())->collects()->get();
-        return view('notes.storehose',['favor'=>$favor]);
+        return view('notes.storehose',['favor'=>$favor,'class'=>$class,'ta'=>$ta]);
     }
 
     /**

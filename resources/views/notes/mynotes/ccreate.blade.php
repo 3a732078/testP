@@ -77,20 +77,20 @@
 
 
     <div style="position: relative;" id="above">
-        <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;border-style:solid;border-color:gray;border-width:1px;"></canvas>
+        <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;border-style:solid;border-color:gray;border-width:1px;"></canvas>
         {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
-        <canvas id="textlayer" width="1191" height="1684"
+        <canvas id="textlayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-        <canvas id="imglayer" width="1191" height="1684"
+        <canvas id="imglayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-        <canvas id="textbooklayer" width="1191" height="1684"
+        <canvas id="textbooklayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 100px; z-index: 1;
                     background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
         </canvas>
 
     </div>
 
-    <canvas id="c2" width="1191" height="1684"></canvas>
+    <canvas id="c2" width="1000" height="1413"></canvas>
     </div>
 </div>
 
@@ -150,8 +150,8 @@
 
 <style>
     canvas {
-        width: 1191px;
-        height: 1684px;
+        width: 1000px;
+        height: 1413px;
     }
 
     body{
@@ -276,11 +276,13 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
+    const textbooklayer = document.getElementById('textbooklayer');
+    const textbookcontext = textbooklayer.getContext('2d');
     let textarea = document.createElement('textarea');
     textarea.value='';
     textarea.style="resize:none";
-    textarea.style.width=1191;
-    textarea.style.height=1684;
+    textarea.style.width=1000;
+    textarea.style.height=1413;
     // const send = document.getElementById('send');
 
     // send.addEventListener("click", function(){
@@ -592,6 +594,7 @@
             note.style.display="none";
             textlayer.style.display="none";
             imglayer.style.display="none";
+            textbooklayer.style.display="none";
 
         } else {
             if (isOpen == 1) {
@@ -602,6 +605,7 @@
                 note.style.display="none";
                 textlayer.style.display="none";
                 imglayer.style.display="none";
+                textbooklayer.style.display="none";
                 textarea.style.display="block";
             }
             else{
@@ -611,6 +615,7 @@
                 note.style.display="block";
                 textlayer.style.display="block";
                 imglayer.style.display="block";
+                textbooklayer.style.display="block";
             }
         }
 

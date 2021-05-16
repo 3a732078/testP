@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Notice;
+use App\Models\Ta;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -20,7 +21,10 @@ class CourseController extends Controller
 
         $course=Course::find($class);
         $notices=Notice::where('course_id',$class)->get();
-        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class]);
+        $ta=Ta::where('course_id',$class)->value('id');
+        $_SESSION['ta']=$ta;
+
+        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class,'ta'=>$ta]);
     }
 
     /**

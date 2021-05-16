@@ -7,6 +7,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <style>
+        .fixedchat {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            background-color:#708090;
+            border: none;
+            z-index: 99;
+
+            display: inline-block;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 5px #999;
+        }
+
+        .fixedchat:hover {
+            background-color:#708090;
+            outline: none;
+        }
+
+        .fixedchat:active {
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+            outline: none;
+        }
+    </style>
 </head>
 {{--<h1>課堂筆記</h1>--}}
 
@@ -15,53 +43,97 @@
          src="{{asset('images/uccu/uccu1.jpg')}}" alt="The Scream">
 
 </div>
-<form id="json" name="json">
+<table align="center" width="88%" >
+    <tr><td width="15%" align="left" style="font-size: 22px">
+            @if($textbookId!==null)
+            <form id="def" name="def" method="POST" action="{{route('def.store')}}" onsubmit="return defnotes()" style="margin:0px;display: inline;">
+                @csrf
+                @method('POST')
+                <div style="display:none">
+                    id：<input name="id" id="id" value="{{$id}}"><br>
+                </div>
 
-    <div style="display:none">
-        id：<input name="id" id="id" value="{{$id}}"><br>
-        {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
-        課程：<input name="class" id="class" value=""><br>
-        筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
-        收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
-        評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
-        <img id="jsonimg" width="220" height="277"
-             src="" alt="">
-    </div><br>
+                <div class="form-check form-switch" style="margin-top:5px;margin-left:20px;">
+                    <input onclick="defnotes()" class="form-check-input" type="checkbox" id="dfnote" name="dfnote" style="top: 15%">
+                    <span class="span.mark-pen"
+                          style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">預設瀏覽筆記</span>
+                    <div style="display:none"><button id="defbtn" name="defbtn">送出</button></div>
+                </div>
+            </form>
+            @endif
+        </td>
+        <td width="70%">
+            <form id="json" name="json">
+                <div style="display:none">
+                    id：<input name="id" id="id" value="{{$id}}"><br>
+                    {{--        課程：<input name="class" id="class" value="{{$class}}"><br>--}}
+                    課程：<input name="class" id="class" value=""><br>
+                    筆記名稱：<input name="notename" id="notename" value="{{$name}}"><br>
+                    收藏狀態：<input id="favorstatus" name="favorstatus" value="{{$favor}}">
+                    評分狀態：<input id="scorestatus" name="scorestatus" value="{{$sscore}}">
+                    預設狀態：<input id="defstatus" name="defstatus" value="{{$dfnote}}">
+                    <img id="jsonimg" width="220" height="277"
+                         src="" alt="">
+                </div><br>
 
-    <title>{{$name}}</title>
-    {{--    課程：{{$class}}<br>--}}
-    <h5 align="center">
-    筆記名稱：{{$name}}
-    作者：{{$author}}
-    </h5>
-    <div style="display:none">
-        <input readonly="readonly" id="call" name="call" value="{{$json}}">
-    </div>
+                <title>{{$name}}</title>
+                {{--    課程：{{$class}}<br>--}}
+                <h5 align="center">
+                筆記名稱：{{$name}}&ensp;|&ensp;
+                作者：{{$author}}
+                </h5>
+                <div style="display:none">
+                    <input readonly="readonly" id="call" name="call" value="{{$json}}">
+                </div>
+            </form>
+        </td>
+        <td width="15%">
+            <button class="fixedchat" style="outline: none;border-radius: 50%;padding:15px 15px;" onclick="chatwith()">
+                <i class="fa fa-comments" aria-hidden="true" style="color:#FFFF99"></i>
+            </button>
+        </td>
+    </tr>
+</table>
 
-</form>
+<p><center><button onclick="opentext()">開啟文字方塊</button></center></p>
 
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
-
+<br><br>
 <div align="center" style="position: relative;">
-@if(count($images)> 0)
-    <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
-        <p>
-            <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
-            第
-            @for($i=0;$i<count($images);$i++)
-                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-            @endfor頁&emsp;
-            </p>
-    </div>
-@endif
-
+    @if($textbookId!==null)
+        @if(count($images)> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
+                <p>
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                第
+                @for($i=0;$i<count($images);$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
+        @endif
+    @endif
+    @if($textbookId===null)
+        @if($images> 0)
+            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
+                第
+                @for($i=0;$i<$images;$i++)
+                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                @endfor頁&emsp;
+                </p>
+            </div>
+        @endif
+    @endif
+        <div style="position: relative;" id="above">
 @if($textbookId!==null)
-    <canvas id="note" width="1191" height="1684" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
+    <canvas id="note" width="1000" height="1413" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
 @elseif($textbookId===null)
-    <canvas id="note" width="1191" height="1684"></canvas>
+    <canvas id="note" width="1000" height="1413"></canvas>
 @endif
+        </div>
 </div>
 <br>
 <div style="width:100px; margin:0 auto;">
@@ -107,6 +179,7 @@
 </div>
 </div>
 
+<div id="chat">
 <form id="comments" name="comments" method="POST" action="/comments">
     @csrf
     @method('POST')
@@ -214,8 +287,9 @@
                     </tr>
             </table>
     </div>
-@endforeach
+    @endforeach
 @endif
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -244,8 +318,8 @@
 <style>
     canvas {
         border: 1px solid black;
-        width: 1191px;
-        height: 1684px;
+        width: 1000px;
+        height: 1413px;
     }
     body{
         background: #F0F0F0;
@@ -348,10 +422,18 @@
     let isloading = false;
     let nowPage = 1;
     let jsonStash = [];
-    @if(count($images)> 0)
-    document.getElementById("page").value=`${nowPage}`;
-    @endif
+    let wordareaStash = [];
 
+    @if($textbookId!==null)
+        @if(count($images)> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
+    @endif
+    @if($textbookId===null)
+        @if($images> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
+    @endif
     window.addEventListener("load", function (){
 
         var test=document.json.call.value;
@@ -359,6 +441,7 @@
         let objsonNow=JSON.parse(test);
         for (var i = 0; i < objsonNow.length ; i++) {
             jsonStash[i] = objsonNow[i];
+            wordareaStash[i] = objsonNow[i][3];
         }
         let objson = objsonNow[0];
 
@@ -402,7 +485,7 @@
             context.closePath();
         }
 
-
+        textarea.value = objson[3];
 
         if(document.json.favorstatus.value==="0"){
 
@@ -411,6 +494,15 @@
         if(document.json.favorstatus.value==="1"){
 
             document.getElementById("heart").checked = true;
+        }
+
+        if(document.json.defstatus.value==="0"){
+
+            document.getElementById("dfnote").checked = false;
+        }
+        if(document.json.defstatus.value==="1"){
+
+            document.getElementById("dfnote").checked = true;
         }
 
         switch (document.json.scorestatus.value) {
@@ -439,7 +531,17 @@
         if(document.json.scorestatus.value){
             document.getElementById("ssend").disabled=true;
         }
-    },false);
+
+            //判斷筆記類型
+
+            if (objson[4]==null){
+                console.log("空白")
+            }
+            else if(objson[4]!==null){
+                console.log("照片")
+            }
+
+        },false);
 </script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -454,6 +556,13 @@
 <script>
     function favorto(){
         $("#favor").ajaxSubmit(function() {
+        });
+    }
+</script>
+
+<script>
+    function defnotes(){
+        $("#def").ajaxSubmit(function() {
         });
     }
 </script>
@@ -489,6 +598,7 @@
 
         nowPage = num;
         context.clearRect(0,0,note.width,note.height);
+        textarea.value = '';
 
         @if($textbookId!==null)
         const base = '{{asset('/images/'.$textbook->name)}}';
@@ -508,6 +618,8 @@
         const objson=jsonStash[index];
         const note = document.getElementById('note');
         const context = note.getContext('2d');
+        textarea.value = wordareaStash[index];
+
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
@@ -545,6 +657,49 @@
             context.closePath();
         }
 
+    }
+
+</script>
+
+<script>
+    let textarea = document.createElement('textarea');
+    textarea.value='';
+    textarea.style="resize:none";
+    textarea.style.width=1000;
+    textarea.style.height=1413;
+
+    let isOpen = 0;
+    let wordarea=[];
+    function opentext(){
+    console.log("1");
+        if(isOpen === 0) {
+            // textarea = document.createElement('textarea');
+            // document.body.appendChild(textarea);
+            isOpen = 2;
+            var list=document.getElementById("above")
+            list.insertBefore(textarea,list.childNodes[0]);
+            note.style.display="none";
+
+        } else {
+            if (isOpen == 1) {
+                textarea.hidden = false;
+                isOpen = 2;
+                var list=document.getElementById("above")
+                list.insertBefore(textarea,list.childNodes[0]);
+                note.style.display="none";
+                textarea.style.display="block";
+            }
+            else {
+                textarea.hidden = true;
+                isOpen = 1;
+                textarea.style.display="none";
+                note.style.display="block";
+            }
+        }
+        }
+
+    function chatwith() {
+        document.getElementById("chat").scrollIntoView();
     }
 </script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>

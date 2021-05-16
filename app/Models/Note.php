@@ -12,9 +12,9 @@ class Note extends Model
         'user_id',
         'textbook_id',
         'title',
-        'content',
+        'attach',
         'time',
-        'path',
+        'page',
         'share',
         'like',
         'textfile',
@@ -53,5 +53,10 @@ class Note extends Model
     public function assists()
     {
         return $this->hasMany(Assist::class);
+    }
+
+    public function defnotes()
+    {
+        return $this->belongsToMany(User::class,'default_notes');
     }
 }
