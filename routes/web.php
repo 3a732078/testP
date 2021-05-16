@@ -146,8 +146,13 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
 #教授 ===================
     Route::prefix('teacher')->group(function (){
+        //test data
+        Route::get('data',[
+            TeacherController::class,'test'
+        ])->name('teacher.test');
+        
         //首頁
-        Route::get('',[
+        Route::get('index',[
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 

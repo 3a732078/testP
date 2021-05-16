@@ -98,4 +98,13 @@ class TeacherController extends Controller
     {
         //
     }
+
+    public function test(Teacher $teacher)
+    {
+        $data = '';
+
+        return view('teacher.data');
+    }
+
+
 }

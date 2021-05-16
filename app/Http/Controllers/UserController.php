@@ -23,7 +23,7 @@ class UserController extends Controller
                     break;
 
                 case '老師':
-                    return redirect('/teacher');
+                    return redirect('/teacher/index');
                     break;
 
             }
