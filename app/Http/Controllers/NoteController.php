@@ -598,8 +598,13 @@ class NoteController extends Controller
     public function search(Request $request)
     {
         session_start();
-        $ta=$_SESSION['ta'];
-        $class=$_SESSION['classId'];//課程Id
+        if (isset($_SESSION['classId'])){
+            $class=$_SESSION['classId'];//課程Id
+            $ta=$_SESSION['ta'];
+        }else{
+            $class=null;
+            $ta=null;
+        }
         $id=$request->user()->id;
         //撈出該學生所有修的課程
         $student=Student::where('user_id',Auth::id())->value('id');

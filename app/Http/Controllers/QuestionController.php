@@ -10,6 +10,7 @@ use App\Models\Ta;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuestionController extends Controller
 {
@@ -30,7 +31,7 @@ class QuestionController extends Controller
 
         $name=array();
         $teacher=array();
-        $class=array();
+        $subject=array();
         $semester=array();
         $year=array();
         $taid=array();
@@ -58,7 +59,7 @@ class QuestionController extends Controller
             $classname=Course::where('id', $course[$i])->value('name');
             if($student===$ta){
             }else {
-                array_push($class, $classname);
+                array_push($subject, $classname);
             }
             $seme=Course::where('id', $course[$i])->value('semester');
             if($student===$ta){
@@ -79,7 +80,7 @@ class QuestionController extends Controller
 
         $count2 = count($name);
 
-        return view('questions.index',['name'=>$name,'count2'=>$count2,'teacher'=>$teacher,'class'=>$class,'semester'=>$semester,'year'=>$year,'taid'=>$taid]);
+        return view('questions.index',['name'=>$name,'count2'=>$count2,'teacher'=>$teacher,'class'=>$subject,'semester'=>$semester,'year'=>$year,'taid'=>$taid]);
     }
 
     /**

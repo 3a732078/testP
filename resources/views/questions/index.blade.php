@@ -13,7 +13,7 @@
                 @for($i = 0; $i < $count2; $i++)
                     <li class="table-row">
                         <div class="col col-1">@php echo $year[$i];echo $semester[$i]; @endphp</div>
-                        <div class="col col-2">@php echo $class[$i]; @endphp</div>
+                        <div class="col col-2">@php echo $subject[$i]; @endphp</div>
                         <div class="col col-3">@php echo $teacher[$i]; @endphp</div>
                         <div class="col col-4"><a href="questions/@php echo $taid[$i]; @endphp">@php echo $name[$i]; @endphp</a></div>
                     </li>
