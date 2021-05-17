@@ -165,11 +165,13 @@
             Message
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="/questions/classes/{{$ta}}">
-                <i class="fas fa-fw fa-comment"></i>
-                <span>與Ta聯繫</span></a>
-        </li>
+        @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
+                <li class="nav-item">
+                    <a class="nav-link" href="/questions/classes/{{$ta}}">
+                        <i class="fas fa-fw fa-comment"></i>
+                        <span>與Ta聯繫</span></a>
+                </li>
+            @endif
         @endif
     </ul>
 

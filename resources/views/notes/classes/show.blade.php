@@ -81,6 +81,7 @@
                 <h5 align="center">
                 筆記名稱：{{$name}}&ensp;|&ensp;
                 作者：{{$author}}
+                    <a href="/"><i class="fas fa-home home" style="color:#000"></i></a>
                 </h5>
                 <div style="display:none">
                     <input readonly="readonly" id="call" name="call" value="{{$json}}">
@@ -667,7 +668,7 @@
     textarea.style="resize:none";
     textarea.style.width=1000;
     textarea.style.height=1413;
-
+    textarea.disabled=true;
     let isOpen = 0;
     let wordarea=[];
     function opentext(){
