@@ -48,9 +48,10 @@ class NoticeController extends Controller
     {
         session_start();
         $class=$_SESSION['classId'];
+        $ta=$_SESSION['ta'];
 
         $notice=Notice::find($id);
-        return view('notices.show',['notice'=>$notice,'class'=>$class]);
+        return view('notices.show',['notice'=>$notice,'class'=>$class,'ta'=>$ta]);
     }
 
     /**
