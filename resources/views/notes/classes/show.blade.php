@@ -668,7 +668,7 @@
     textarea.style="resize:none";
     textarea.style.width=1000;
     textarea.style.height=1413;
-
+    textarea.disabled=true;
     let isOpen = 0;
     let wordarea=[];
     function opentext(){
