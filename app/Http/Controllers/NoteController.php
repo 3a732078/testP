@@ -553,6 +553,7 @@ class NoteController extends Controller
 //            'class' => 'required',
             'notename' => 'required',
             'json' => 'required',
+            'pages'=>'required',
         ]);
 
         $json=$request->json;
@@ -560,7 +561,8 @@ class NoteController extends Controller
         $path=$request->notename.'.json';
         Note::whereId($request->id)->update([
             'time'=>now(),
-            'textfile'=>$path
+            'textfile'=>$path,
+            'page'=>$request->pages,
         ]);
 
         return redirect('/mynotes');

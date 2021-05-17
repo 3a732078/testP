@@ -48,6 +48,7 @@
             <img id="jsonimg" width="220" height="277"
                  src="" alt="">
             筆記頁數：<input name="pages" id="pages" value="1">
+            筆記總頁數：<input name="allpages" id="allpages" value="">
 
         </div>
 
@@ -74,8 +75,8 @@
     <button id="addpage">+</button>
     <div style="position: relative">
         <div align="left">
-            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;,
-            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>
+            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;
+{{--            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>--}}
 {{--            第--}}
 {{--            @for($i=0;$i<count($images);$i++)--}}
 {{--                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>--}}
