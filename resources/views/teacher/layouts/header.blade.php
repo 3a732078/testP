@@ -28,6 +28,5 @@
                 {{--                登出等介面--}}
             </ul>
         </nav><!-- .navbar -->
-
     </div>
 </header><!-- End Header -->
