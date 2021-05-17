@@ -6,20 +6,20 @@
 
 </head>
 <div class="container">
-    <div class="message-blue">
-        <p class="message-content">現在是2021/01/22下午2:57分</p>
-        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>
-    </div>
+{{--    <div class="message-blue">--}}
+{{--        <p class="message-content">現在是2021/01/22下午2:57分</p>--}}
+{{--        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>--}}
+{{--    </div>--}}
 
-    <div class="message-orange">
-        <p class="message-content">好喔 謝謝</p>
-        <div class="message-timestamp-right">學生 發送時間</div>
-    </div>
+{{--    <div class="message-orange">--}}
+{{--        <p class="message-content">好喔 謝謝</p>--}}
+{{--        <div class="message-timestamp-right">學生 發送時間</div>--}}
+{{--    </div>--}}
 
-    <div class="message-blue">
-        <p class="message-content">我是TA</p>
-        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>
-    </div>
+{{--    <div class="message-blue">--}}
+{{--        <p class="message-content">我是TA</p>--}}
+{{--        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>--}}
+{{--    </div>--}}
     @foreach ($questions as $question)
         @if($question->response)
             <div class="message-blue">
@@ -35,7 +35,7 @@
         @endif
     @endforeach
 </div>
-<form action="/ta/questions" method="POST" role="form">
+<form action="/ta/questions" method="POST" role="form" id="form">
     @csrf
     @method('POST')
     <input id="send" name="send" placeholder="輸入內容．．．">
@@ -152,3 +152,9 @@
     }
 
 </style>
+<script>
+    window.onload = function() {
+        var element = document.getElementById("form");
+        element.scrollIntoView({block: "end"});
+    }
+</script>
