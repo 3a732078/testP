@@ -45,17 +45,18 @@
             <input name="json" id="json">
             <img id="jsonimg" width="220" height="277"
                  src="" alt="">
-
+            筆記頁數：<input name="pages" id="pages" value="{{count($images)}}">
         </div>
 
-        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
 
+{{--        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>--}}
+        <button onclick="add()" id="send" name="send" type="submit">儲存筆記</button>
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
-    <button onclick="add()" id="send" name="send">儲存</button>
+{{--    <button onclick="add()" id="send" name="send">儲存</button>--}}
     <p>移動文字：<input id="word" type="checkbox">&ensp;,
     移動插圖：<input id="pic" type="checkbox"></p>
 
@@ -84,7 +85,7 @@
         <canvas id="imglayer" width="1000" height="1413"
                 style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
         <canvas id="textbooklayer" width="1000" height="1413"
-                style="position: absolute; left: 0; top: 100px; z-index: 1;
+                style="position: absolute; left: 0; top: 0px; z-index: 1;
                     background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
         </canvas>
 
@@ -456,9 +457,9 @@
 
     let linetext= []
     function add(){
-    console.error(isloading);
-        if(isloading == false) {
-            isloading = true;
+    // console.error(isloading);
+    //     if(isloading == false) {
+    //         isloading = true;
             //暫時儲存
             linetext.push(textarr)
             linetext.push(lines)
@@ -483,13 +484,13 @@
             console.error({{count($images)}});
             console.log(finalJson,123)
             document.json.json.value = JSON.stringify(finalJson);
-            document.getElementById("send1").disabled = false;
-
-            isloading = false;
-
-        } else {
-            console.error("123");
-        }
+        //     document.getElementById("send1").disabled = false;
+        //
+        //     isloading = false;
+        //
+        // } else {
+        //     console.error("123");
+        // }
 
     }
     //new

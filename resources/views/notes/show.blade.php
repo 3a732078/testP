@@ -172,14 +172,13 @@
                  src="" alt="">
         </div>
 
-        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
-
+        <button onclick="add()" id="send" name="send" type="submit">儲存筆記</button>
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
-    <button onclick="add()" id="send" name="send">儲存筆記</button>
+
     <form action="/notes/{{$id}}" method="POST" style="margin:0px;display: inline;">
         @csrf
         @method('DELETE')
@@ -560,7 +559,7 @@
 </style>
 <script>
     let imagePage = 1;
-    let isloading = false;
+    // let isloading = false;
     let nowPage = 1;
     let jsonStash = [];
     let textarrStash = [];
@@ -608,6 +607,8 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
+    const textbooklayer = document.getElementById('textbooklayer');
+    const textbookcontext = textbooklayer.getContext('2d');
 
 
     note.addEventListener('mousedown', e => {
@@ -864,9 +865,7 @@
     let linetext= []
 
     function add(){
-        // console.error(isloading);
-        if(isloading == false) {
-            isloading = true;
+
             //暫時儲存
             linetext.push(textarr)
             linetext.push(lines)
@@ -896,22 +895,6 @@
             @endif
             console.log(finalJson)
             document.json.json.value = JSON.stringify(finalJson);
-            document.getElementById("send1").disabled = false;
-
-            isloading = false;
-
-        } else {
-            // console.error("123");
-        }
-
-        // linetext.push(textarr)
-        // linetext.push(lines)
-        // linetext.push(picarr)
-        // wordarea.push(textarea.value)
-        // linetext.push(wordarea)
-        // var linestr = JSON.stringify(linetext);
-        // console.log(linestr)
-        // document.json.json.value=linestr;
     }
 
     let textarr =objson[0];
@@ -1010,6 +993,7 @@
             note.style.display="none";
             textlayer.style.display="none";
             imglayer.style.display="none";
+            textbooklayer.style.display="none";
 
         } else {
             if (isOpen == 1) {
@@ -1020,6 +1004,7 @@
                 note.style.display="none";
                 textlayer.style.display="none";
                 imglayer.style.display="none";
+                textbooklayer.style.display="none";
                 textarea.style.display="block";
             }
             else {
@@ -1029,6 +1014,7 @@
                 note.style.display="block";
                 textlayer.style.display="block";
                 imglayer.style.display="block";
+                textbooklayer.style.display="block";
             }
         }
 
