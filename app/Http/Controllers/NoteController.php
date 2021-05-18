@@ -352,14 +352,26 @@ class NoteController extends Controller
                 $classId=Course::where('name',$course)->value('id');//課程Id
                 $textbook=Textbook::find($textbookId);
 
-                $files=scandir("./images/" . "$textbook->name");
+                //讀取教材
+                $name = $textbook->name;
+                $files=scandir("./images/" . "$name");
+
+                $imgArr = array();
                 $images = array();
                 for ($i=0;$i<count($files);$i++){
 
                     if($files[$i]=='.'||$files[$i]=='..'){
                         continue;
                     }
-                    $images[]=$files[$i];
+                    $arr = explode('.',$files[$i]);
+                    $arr = $arr[1];
+                    $imgArr[] = $files[$i];
+                }
+                $num = 1;
+                foreach ($imgArr as $r)
+                {
+                    $images[] = "{$name}{$num}.{$arr}";
+                    $num++;
                 }
             }
             else{
@@ -424,14 +436,26 @@ class NoteController extends Controller
                 $classId=Course::where('name',$course)->value('id');//課程Id
                 $textbook=Textbook::find($textbookId);
 
-                $files=scandir("./images/" . "$textbook->name");
+                //讀取教材
+                $name = $textbook->name;
+                $files=scandir("./images/" . "$name");
+
+                $imgArr = array();
                 $images = array();
                 for ($i=0;$i<count($files);$i++){
 
                     if($files[$i]=='.'||$files[$i]=='..'){
                         continue;
                     }
-                    $images[]=$files[$i];
+                    $arr = explode('.',$files[$i]);
+                    $arr = $arr[1];
+                    $imgArr[] = $files[$i];
+                }
+                $num = 1;
+                foreach ($imgArr as $r)
+                {
+                    $images[] = "{$name}{$num}.{$arr}";
+                    $num++;
                 }
             }
             else{
@@ -506,14 +530,26 @@ class NoteController extends Controller
             $classId=Course::where('name',$course)->value('id');//課程Id
             $textbook=Textbook::find($textbookId);
 
-            $files=scandir("./images/" . "$textbook->name");
+            //讀取教材
+            $name = $textbook->name;
+            $files=scandir("./images/" . "$name");
+
+            $imgArr = array();
             $images = array();
             for ($i=0;$i<count($files);$i++){
 
                 if($files[$i]=='.'||$files[$i]=='..'){
                     continue;
                 }
-                $images[]=$files[$i];
+                $arr = explode('.',$files[$i]);
+                $arr = $arr[1];
+                $imgArr[] = $files[$i];
+            }
+            $num = 1;
+            foreach ($imgArr as $r)
+            {
+                $images[] = "{$name}{$num}.{$arr}";
+                $num++;
             }
         }
         else{

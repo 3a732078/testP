@@ -239,17 +239,23 @@
             @endif
 
         <div style="position: relative;" id="above">
-            <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
-
-            <canvas id="textlayer" width="1000" height="1413"
-                    style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-            <canvas id="imglayer" width="1000" height="1413"
-                    style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
             @if($textbookId!==null)
+                <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 4;"></canvas>
+                <canvas id="textlayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+                <canvas id="imglayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
                 <canvas id="textbooklayer" width="1000" height="1413"
                         style="position: absolute; left: 0; top: 0px; z-index: 1;
                             background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
                 </canvas>
+            @elseif($textbookId===null)
+                <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+
+                <canvas id="textlayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+                <canvas id="imglayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
             @endif
         </div>
 
