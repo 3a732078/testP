@@ -608,8 +608,10 @@
     const textcontext = textlayer.getContext('2d');
     const imglayer = document.getElementById('imglayer');
     const imgcontext = imglayer.getContext('2d');
-    const textbooklayer = document.getElementById('textbooklayer');
-    const textbookcontext = textbooklayer.getContext('2d');
+    @if($textbookId!==null)
+        const textbooklayer = document.getElementById('textbooklayer');
+        const textbookcontext = textbooklayer.getContext('2d');
+    @endif
 
 
     note.addEventListener('mousedown', e => {

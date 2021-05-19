@@ -496,32 +496,43 @@
             document.getElementById("heart").checked = true;
         }
 
-        switch (document.json.scorestatus.value) {
-            case '1':
-                document.getElementById("star-1").checked = true;
-                break;
+            switch (document.json.scorestatus.value) {
+                case '1':
+                    document.getElementById("star-1").checked = true;
+                    break;
 
-            case '2':
-                document.getElementById("star-2").checked = true;
-                break;
+                case '2':
+                    document.getElementById("star-2").checked = true;
+                    break;
 
-            case '3':
-                document.getElementById("star-3").checked = true;
-                break;
+                case '3':
+                    document.getElementById("star-3").checked = true;
+                    break;
 
-            case '4':
-                document.getElementById("star-4").checked = true;
-                break;
+                case '4':
+                    document.getElementById("star-4").checked = true;
+                    break;
 
-            case '5':
-                document.getElementById("star-5").checked = true;
-                break;
+                case '5':
+                    document.getElementById("star-5").checked = true;
+                    break;
 
-        }
+            }
+            if(document.json.scorestatus.value){
+                document.getElementById("ssend").disabled=true;
+            }
 
-        if(document.json.scorestatus.value){
-            document.getElementById("ssend").disabled=true;
-        }
+        @if($textbookId!==null)
+            if(document.json.defstatus.value==="0"){
+                document.getElementById("dfnote").checked = false;
+            }
+            if(document.json.defstatus.value==="1"){
+
+                document.getElementById("dfnote").checked = true;
+            }
+        @endif
+
+
 
             if(document.json.defstatus.value==="0"){
 
