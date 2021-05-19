@@ -63,7 +63,8 @@
 
     <button><div id="clear">清空畫布</div></button>
 
-    <button onclick="opentext()">開啟文字方塊</button>
+    <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button>
+
 <p></p>
     <div style="position: relative">
     <div align="left">

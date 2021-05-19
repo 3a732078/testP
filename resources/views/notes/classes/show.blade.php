@@ -96,14 +96,13 @@
     </tr>
 </table>
 
-<p><center><button onclick="opentext()">開啟文字方塊</button></center></p>
-
 
 {{--←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
 {{--{{$notes->links()}}//頁數--}}
 <br><br>
 <div align="center" style="position: relative;">
-    @if($textbookId!==null)
+<center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center>
+@if($textbookId!==null)
         @if(count($images)> 0)
             <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
                 <p>
@@ -145,14 +144,14 @@
         id：<input name="id" id="id" value="{{$id}}"><br>
     </div>
     <input onclick="favorto()" id="heart" name="heart" type="checkbox" class="heart">
-    <label for="heart" class="heart">❤</label>
+    <label for="heart" class="heart"><i class="fa fa-heart" aria-hidden="true"></i></label>
     <div style="display:none"><button id="favorbtn" name="favorbtn">送出</button></div>
 </form>
 </div>
 
 <div style="width:450px; margin:0 auto;">
 <div class="move">
-    <button onclick="scorebtn()" id="scorebtn" class="btn-hover">評分</button>
+    <button onclick="scorebtn()" id="scorebtn" class="btn btn-light btn-sm">評分</button>
 
 </div>
 
@@ -176,7 +175,7 @@
         <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
         <label class="star star-1" for="star-1"></label>
     </form>
-    <p><button name="ssend" id="ssend" onclick="sconfirm()" >送出</button></p>
+    <p><button name="ssend" id="ssend" onclick="sconfirm()" class="btn btn-outline-dark btn-sm">送出</button></p>
 </div>
 </div>
 
@@ -198,7 +197,7 @@
                 <textarea style="resize:none; background-color:transparent; border:0.5px solid; border-color:#000000" cols="55" rows="2" id="contents" name="contents">留言內容</textarea>
             </td>
             <td>
-                <button>留言</button>
+                <button class="btn btn-dark btn-sm">留言</button>
             </td></tr>
     </table>
 </form>
@@ -497,15 +496,6 @@
             document.getElementById("heart").checked = true;
         }
 
-        if(document.json.defstatus.value==="0"){
-
-            document.getElementById("dfnote").checked = false;
-        }
-        if(document.json.defstatus.value==="1"){
-
-            document.getElementById("dfnote").checked = true;
-        }
-
         switch (document.json.scorestatus.value) {
             case '1':
                 document.getElementById("star-1").checked = true;
@@ -532,6 +522,15 @@
         if(document.json.scorestatus.value){
             document.getElementById("ssend").disabled=true;
         }
+
+            if(document.json.defstatus.value==="0"){
+
+                document.getElementById("dfnote").checked = false;
+            }
+            if(document.json.defstatus.value==="1"){
+
+                document.getElementById("dfnote").checked = true;
+            }
 
             //判斷筆記類型
 

@@ -69,7 +69,7 @@
 
     <p id="demo"></p>
 
-    <button onclick="opentext()">開啟文字方塊</button><br>
+    <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button><br>
     <div id="addpa"><button onclick="firstpage()" id="firstpage" value="1">1</button></div>
     <button id="addpage">+</button>
     <div style="position: relative">
