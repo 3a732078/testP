@@ -496,16 +496,16 @@
 
             document.getElementById("heart").checked = true;
         }
+        @if($textbookId!==null)
+            if(document.json.defstatus.value==="0"){
 
-        if(document.json.defstatus.value==="0"){
+                document.getElementById("dfnote").checked = false;
+            }
+            if(document.json.defstatus.value==="1"){
 
-            document.getElementById("dfnote").checked = false;
-        }
-        if(document.json.defstatus.value==="1"){
-
-            document.getElementById("dfnote").checked = true;
-        }
-
+                document.getElementById("dfnote").checked = true;
+            }
+        @endif
         switch (document.json.scorestatus.value) {
             case '1':
                 document.getElementById("star-1").checked = true;
