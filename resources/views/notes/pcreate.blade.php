@@ -50,15 +50,15 @@
             筆記頁數：<input name="pages" id="pages" value="1">
 
         </div>
-
-        <button onclick="add()" id="send" name="send" type="submit">save</button>
+        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
+{{--        <button onclick="add()" id="send" name="send" type="submit">save</button>--}}
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
-
+    <button onclick="add()" id="send" name="send">儲存</button>
     文字：<input id="word" type="checkbox">
     插圖：<input id="pic" type="checkbox">
 
@@ -70,17 +70,19 @@
     <p id="demo"></p>
 
 <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button><br>
-    <div id="addpa"><button onclick="firstpage()" id="firstpage" value="1">1</button></div>
+{{--    <div id="addpa"><button onclick="firstpage()" id="firstpage" value="1">1</button></div>--}}
+    <div id="addpa">
+        @for($i=0;$i<count($tojson);$i++)
+            <button onclick="firstpage({{$i+1}})" id="firstpage" class="btn btn-danger btn-sm" value="{{$i+1}}">{{$i+1}}</button>
+        @endfor
+    </div>
     <button id="addpage">+</button>
     <div style="position: relative">
         <div align="left">
             <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;,
             <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>
-            {{--            第--}}
-            {{--            @for($i=0;$i<count($images);$i++)--}}
-            {{--                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>--}}
-            {{--            @endfor頁--}}
         </div>
+
 
         <div style="position: relative;" id="above">
             <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
@@ -89,6 +91,12 @@
                     style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
             <canvas id="imglayer" width="1191" height="1684"
                     style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+            <p>
+            <div class="divcss5" align="left">
+                <img class="card-img-top" id="photo" src="{{asset('/photo/'.$tojson[0])}}"
+                     style="object-fit: contain;object-position: center top;" alt="">
+            </div>
+            </p>
         </div>
 
         <canvas id="c2" width="1191" height="1684"></canvas>
@@ -255,6 +263,7 @@
 
     </style>
     <script>
+        let isloading = false;
 
         let isDrawing = false;
         let x = 0;
@@ -441,28 +450,50 @@
 
         let linetext= []
         function add(){
+            console.error(isloading);
+                if(isloading == false) {
+                    isloading = true;
+
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
             // wordarea.push(textarea.value)
             // linetext.push(wordarea)
             linetext.push(textarea.value)
-            var sjson = @json($sjson);
-            linetext.push(sjson)
+            // var sjson = $tojson;
+            var aaa = @json($sjson);
+            aaa = JSON.parse(aaa);
+            console.error(aaa);
+            {{--var aaa = [];--}}
+
+            // linetext.push(sjson)
 
             var linestr = JSON.stringify(linetext);
             console.log(linestr)
 
             let finalJson = [];
             for (var i = 0; i < l; i++) {
-                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
-                else finalJson[i] = JSON.parse(jsonStash[i]);
+                console.error(jsonStash[i])
+                if (jsonStash[i] == null)
+                    finalJson[i] = [[],[],[],'',aaa[i]];
+                else {
+                    finalJson[i] = JSON.parse(jsonStash[i]);
+                    finalJson[i][4] = aaa[i];
+                }
             }
 
 
-            finalJson[0]= JSON.parse(linestr);
+            // finalJson[0]= JSON.parse(linestr);
             document.json.json.value = JSON.stringify(finalJson);
             document.json.pages.value = l;
+            console.log(finalJson,123)
+
+                document.getElementById("send1").disabled = false;
+                isloading = false;
+
+            } else {
+                console.error("123");
+            }
         }
         //new
         let textarr = []
@@ -597,7 +628,7 @@
 
         let pbtnarr=[];
         let moarray=[];
-        var l=1;
+        var l={{count($tojson)}};
 
         addpage.addEventListener('click',function(){
             //儲存當前頁數
@@ -610,12 +641,12 @@
             linetext.push(textarea.value)
 
             var linestr = JSON.stringify(linetext);
-            console.log("這是第"+u+"頁："+linestr);
-            textarrStash[u-1] = textarr;
-            linesStash[u-1] = lines;
-            picarrStash[u-1] = picarr;
-            wordareaStash[u-1] = textarea.value;
-            jsonStash[u-1] =linestr;
+            console.log("這是第"+l+"頁："+linestr);
+            textarrStash[l-1] = textarr;
+            linesStash[l-1] = lines;
+            picarrStash[l-1] = picarr;
+            wordareaStash[l-1] = textarea.value;
+            jsonStash[l-1] =linestr;
 
             linetext = [];
             textarr = [];
@@ -624,7 +655,7 @@
             textarea.value = '';
 
             // nowPage = num;
-            nowPage=u;
+            nowPage=l;
 
             //清空
             const note = document.getElementById('note');
@@ -639,7 +670,7 @@
 
 
             //添加新的一頁
-            u=u+1;
+            u=l;
             var pagebtn=document.createElement("button")
             var pagenum=document.createTextNode(u)
             pagebtn.appendChild(pagenum)
@@ -812,31 +843,32 @@
             }
 
         });
-        function firstpage(){
+        function firstpage(num){
             console.log("123");
+{{--            console.error(@json($tojson[0]),1111)--}}
             const f = document.getElementById('firstpage');
-            console.log("當前點擊頁數"+f.value);
-            console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
+            // console.log("當前點擊頁數"+num);
+            // console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
             // linetext = [];
             // textarr = [];
             // lines= [];
             // picarr = [];
             // textarea.value = '';
-            console.log("啊啊上一頁是"+(moarray[0]));
-            console.log("啊啊上一頁的陣列是"+(moarray-1));
+            // console.log("啊啊上一頁是"+(moarray[0]));
+            // console.log("啊啊上一頁的陣列是"+(moarray-1));
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
             linetext.push(textarea.value)
             var linestr = JSON.stringify(linetext);
-            console.log("而現在是這是第"+f.value+"頁唷!");
+            // console.log("而現在是這是第"+num+"頁唷!");
             textarrStash[moarray-1] = textarr;
             linesStash[moarray-1] = lines;
             picarrStash[moarray-1] = picarr;
             wordareaStash[moarray-1] = textarea.value;
             jsonStash[moarray-1] =linestr;
 
-            console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
+            // console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
             linetext = [];
             textarr = [];
             lines= [];
@@ -844,9 +876,9 @@
             textarea.value = '';
 
             moarray.pop();
-            moarray.push(f.value)
-            console.log("唷唷現在是"+(moarray[0]));
-            console.log("唷唷現在是哪個陣列"+(moarray-1));
+            moarray.push(num)
+            // console.log("唷唷現在是"+(moarray[0]));
+            // console.log("唷唷現在是哪個陣列"+(moarray-1));
 
 
             //清空
@@ -859,6 +891,14 @@
             const imglayer = document.getElementById('imglayer');
             const imgcontext = imglayer.getContext('2d');
             imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+
+            const base = '{{asset('/photo/')}}';
+            let im = [];
+            @foreach($tojson as $row)
+            im.push('{{$row}}');
+            @endforeach
+            let a = base + "/" + im[num - 1];
+            document.getElementById("photo").src = `${a}`;
 
             if (typeof jsonStash[moarray-1] !== 'undefined') {
                 //換到n頁時，給n頁的值
