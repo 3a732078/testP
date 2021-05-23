@@ -469,7 +469,7 @@
             // linetext.push(sjson)
 
             var linestr = JSON.stringify(linetext);
-            console.log(linestr)
+            console.log(linestr,1111)
 
             let finalJson = [];
             for (var i = 0; i < l; i++) {
@@ -622,16 +622,16 @@
         let picarrStash = [];
         let wordareaStash = [];
 
-        var u;
-        u={{count($tojson)}};
+        {{--var u;--}}
+        {{--u={{count($tojson)}};--}}
 
-        let pbtnarr=[];
-        let moarray=[];
+        // let pbtnarr=[];
+        let moarray=[1];
         var l={{count($tojson)}};//按+前的總頁數
 
         addpage.addEventListener('click',function(){
             //儲存當前頁數
-            pbtnarr.push(u)
+            // pbtnarr.push(u)
             l=l+1;
             console.log("當前總頁數"+l);
             linetext.push(textarr)
@@ -641,11 +641,11 @@
 
             var linestr = JSON.stringify(linetext);
             console.log("這是第"+l+"頁："+linestr);
-            textarrStash[l-1] = textarr;
-            linesStash[l-1] = lines;
-            picarrStash[l-1] = picarr;
-            wordareaStash[l-1] = textarea.value;
-            jsonStash[l-1] =linestr;
+            textarrStash[nowPage-1] = textarr;
+            linesStash[nowPage-1] = lines;
+            picarrStash[nowPage-1] = picarr;
+            wordareaStash[nowPage-1] = textarea.value;
+            jsonStash[nowPage-1] =linestr;
 
             linetext = [];
             textarr = [];
@@ -654,8 +654,9 @@
             textarea.value = '';
 
             // nowPage = num;
-            // nowPage=l;
+            nowPage=l;
             document.getElementById("page").value=l;
+            console.error(nowPage,222)
 
             //清空
             const note = document.getElementById('note');
@@ -670,14 +671,14 @@
 
 
             //添加新的一頁
-            u=l;
+            // u=l;
             var pagebtn=document.createElement("button")
-            var pagenum=document.createTextNode(u)
+            var pagenum=document.createTextNode(l)
             pagebtn.appendChild(pagenum)
             document.getElementById("photo").hidden = true;
 
-            console.log(pbtnarr);
-            pagebtn.value=u;
+            // console.log(pbtnarr);
+            pagebtn.value=l;
 
             var pages=document.getElementById("addpa")
             pages.appendChild(pagebtn);
@@ -697,31 +698,31 @@
             //aaaaa
             moarray.pop();
             moarray.push(pagebtn.value);
-            console.log("啦啦"+moarray);
+            console.log("啦啦"+moarray[0]);
 
             pagebtn.onclick = function() {
                 console.log("當前點擊頁數"+pagebtn.value);
-                console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
+                console.log("當前點擊頁數之內容："+jsonStash[moarray[0]-1]);
                 // linetext = [];
                 // textarr = [];
                 // lines= [];
                 // picarr = [];
                 // textarea.value = '';
                 console.log("啊啊上一頁是"+(moarray[0]));
-                console.log("啊啊上一頁的陣列是"+(moarray-1));
+                console.log("啊啊上一頁的陣列是"+(moarray[0]-1));
                 linetext.push(textarr)
                 linetext.push(lines)
                 linetext.push(picarr)
                 linetext.push(textarea.value)
                 var linestr = JSON.stringify(linetext);
                 console.log("而現在是這是第"+pagebtn.value+"頁唷!");
-                textarrStash[moarray-1] = textarr;
-                linesStash[moarray-1] = lines;
-                picarrStash[moarray-1] = picarr;
-                wordareaStash[moarray-1] = textarea.value;
-                jsonStash[moarray-1] =linestr;
+                textarrStash[moarray[0]-1] = textarr;
+                linesStash[moarray[0]-1] = lines;
+                picarrStash[moarray[0]-1] = picarr;
+                wordareaStash[moarray[0]-1] = textarea.value;
+                jsonStash[moarray[0]-1] =linestr;
 
-                console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
+                console.log("上一個頁面儲存的新內容"+jsonStash[moarray[0]-1]);
                 linetext = [];
                 textarr = [];
                 lines= [];
@@ -731,8 +732,10 @@
                 moarray.pop();
                 moarray.push(pagebtn.value)
                 console.log("唷唷現在是"+(moarray[0]));
-                console.log("唷唷現在是哪個陣列"+(moarray-1));
+                console.log("唷唷現在是哪個陣列"+(moarray[0]-1));
+                nowPage=pagebtn.value;
                 document.getElementById("page").value=pagebtn.value;
+                console.error(nowPage,333)
 
                 // //儲存切換頁面前頁數內容
                 // pbtnarr.push(i)
@@ -781,14 +784,14 @@
                 imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
                 document.getElementById("photo").hidden = true;
 
-                if (typeof jsonStash[moarray-1] !== 'undefined') {
+                if (typeof jsonStash[moarray[0]-1] !== 'undefined') {
                     //換到n頁時，給n頁的值
-                    textarr = textarrStash[moarray-1];
-                    lines= linesStash[moarray-1];
-                    picarr = picarrStash[moarray-1];
-                    textarea.value = wordareaStash[moarray-1];
+                    textarr = textarrStash[moarray[0]-1];
+                    lines= linesStash[moarray[0]-1];
+                    picarr = picarrStash[moarray[0]-1];
+                    textarea.value = wordareaStash[moarray[0]-1];
                     //json decode
-                    const objson=JSON.parse(jsonStash[moarray-1]);
+                    const objson=JSON.parse(jsonStash[moarray[0]-1]);
                     const note = document.getElementById('note');
                     const context = note.getContext('2d');
                     const textlayer = document.getElementById('textlayer');
@@ -850,27 +853,27 @@
 {{--            console.error(@json($tojson[0]),1111)--}}
             const f = document.getElementById('firstpage');
             console.log("當前點擊頁數"+num);
-            console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
+            console.log("當前點擊頁數之內容："+jsonStash[moarray[0]-1],moarray[0]);
             // linetext = [];
             // textarr = [];
             // lines= [];
             // picarr = [];
             // textarea.value = '';
             console.log("啊啊上一頁是"+(moarray[0]));
-            console.log("啊啊上一頁的陣列是"+(moarray-1));
+            console.log("啊啊上一頁的陣列是"+(moarray[0]-1));
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
             linetext.push(textarea.value)
             var linestr = JSON.stringify(linetext);
             console.log("而現在是這是第"+num+"頁唷!");
-            textarrStash[moarray-1] = textarr;
-            linesStash[moarray-1] = lines;
-            picarrStash[moarray-1] = picarr;
-            wordareaStash[moarray-1] = textarea.value;
-            jsonStash[moarray-1] =linestr;
+            textarrStash[moarray[0]-1] = textarr;
+            linesStash[moarray[0]-1] = lines;
+            picarrStash[moarray[0]-1] = picarr;
+            wordareaStash[moarray[0]-1] = textarea.value;
+            jsonStash[moarray[0]-1] =linestr;
 
-            console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
+            console.log("上一個頁面儲存的新內容"+jsonStash[moarray[0]-1]);
             linetext = [];
             textarr = [];
             lines= [];
@@ -880,8 +883,9 @@
             moarray.pop();
             moarray.push(num)
             console.log("唷唷現在是"+(moarray[0]));
-            console.log("唷唷現在是哪個陣列"+(moarray-1));
+            console.log("唷唷現在是哪個陣列"+(moarray[0]-1));
             nowPage = num;
+            console.error(nowPage,444)
 
             //清空
             const note = document.getElementById('note');
@@ -904,14 +908,14 @@
             document.getElementById("photo").src = `${a}`;
             document.getElementById("page").value=`${num}`;
 
-            if (typeof jsonStash[moarray-1] !== 'undefined') {
+            if (typeof jsonStash[moarray[0]-1] !== 'undefined') {
                 //換到n頁時，給n頁的值
-                textarr = textarrStash[moarray-1];
-                lines= linesStash[moarray-1];
-                picarr = picarrStash[moarray-1];
-                textarea.value = wordareaStash[moarray-1];
+                textarr = textarrStash[moarray[0]-1];
+                lines= linesStash[moarray[0]-1];
+                picarr = picarrStash[moarray[0]-1];
+                textarea.value = wordareaStash[moarray[0]-1];
                 //json decode
-                const objson=JSON.parse(jsonStash[moarray-1]);
+                const objson=JSON.parse(jsonStash[moarray[0]-1]);
                 const note = document.getElementById('note');
                 const context = note.getContext('2d');
                 const textlayer = document.getElementById('textlayer');
