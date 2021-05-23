@@ -50,15 +50,14 @@
             筆記頁數：<input name="pages" id="pages" value="1">
 
         </div>
-        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>
-{{--        <button onclick="add()" id="send" name="send" type="submit">save</button>--}}
+
+        <button onclick="add()" id="send" name="send" type="submit">save</button>
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
-
     </form>
-    <button onclick="add()" id="send" name="send">儲存</button>
+    
     文字：<input id="word" type="checkbox">
     插圖：<input id="pic" type="checkbox">
 
@@ -263,7 +262,6 @@
 
     </style>
     <script>
-        let isloading = false;
 
         let isDrawing = false;
         let x = 0;
@@ -450,10 +448,6 @@
 
         let linetext= []
         function add(){
-            console.error(isloading);
-                if(isloading == false) {
-                    isloading = true;
-
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
@@ -471,6 +465,12 @@
             var linestr = JSON.stringify(linetext);
             console.log(linestr,1111)
 
+            textarrStash[nowPage - 1] = textarr;
+            linesStash[nowPage - 1] = lines;
+            picarrStash[nowPage - 1] = picarr;
+            wordareaStash[nowPage - 1] = textarea.value;
+            jsonStash[nowPage - 1] =linestr;
+
             let finalJson = [];
             for (var i = 0; i < l; i++) {
                 if (jsonStash[i] == null)
@@ -485,14 +485,7 @@
             // finalJson[0]= JSON.parse(linestr);
             document.json.json.value = JSON.stringify(finalJson);
             document.json.pages.value = l;
-            console.error(finalJson,123)
 
-                document.getElementById("send1").disabled = false;
-                isloading = false;
-
-            } else {
-                console.error("123");
-            }
         }
         //new
         let textarr = []
