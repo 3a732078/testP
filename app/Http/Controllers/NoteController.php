@@ -194,7 +194,7 @@ class NoteController extends Controller
         foreach ($stashJson as $key => $value) {
 //            $stashJson[$key] =
         }
-        dd($json);
+//        dd($json);
 //        Storage::disk('public')->put('\\json\\' . $request->class . '\\' . $request->notename . '.json', $json);
         Storage::disk('public')->put('\\json\\' . $request->notename . '.json', $json);
         $path = $request->notename . '.json';
@@ -266,7 +266,6 @@ class NoteController extends Controller
 
 
             }
-//            dd($tojson);
         }
 
         $id=$request->user()->id;
@@ -295,7 +294,6 @@ class NoteController extends Controller
         }
         $tojsonn=count($tojson);
         $sjson = json_encode($tojson);
-//        dd($tojson,$sjson);
 //         dd($tojson);
         return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
 

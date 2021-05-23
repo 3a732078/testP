@@ -57,7 +57,7 @@
             <input name="valuetojs" value="testsendvalue">
         </div>
     </form>
-    
+
     文字：<input id="word" type="checkbox">
     插圖：<input id="pic" type="checkbox">
 
@@ -472,12 +472,18 @@
             jsonStash[nowPage - 1] =linestr;
 
             let finalJson = [];
+
             for (var i = 0; i < l; i++) {
+                if (typeof aaa[i] !== 'undefined'){
+                    var x = aaa[i];
+                }else{
+                    var x = '';
+                }
                 if (jsonStash[i] == null)
-                    finalJson[i] = [[],[],[],'',aaa[i]];
+                    finalJson[i] = [[],[],[],'',x];
                 else {
                     finalJson[i] = JSON.parse(jsonStash[i]);
-                    finalJson[i][4] = aaa[i];
+                    finalJson[i][4] = x;
                 }
             }
 
