@@ -85,11 +85,11 @@
 
 
         <div style="position: relative;" id="above">
-            <canvas id="note" width="1191" height="1684" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+            <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
             {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
-            <canvas id="textlayer" width="1191" height="1684"
+            <canvas id="textlayer" width="1000" height="1413"
                     style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-            <canvas id="imglayer" width="1191" height="1684"
+            <canvas id="imglayer" width="1000" height="1413"
                     style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
             <p>
             <div class="divcss5" align="left">
@@ -99,7 +99,7 @@
             </p>
         </div>
 
-        <canvas id="c2" width="1191" height="1684"></canvas>
+        <canvas id="c2" width="1000" height="1413"></canvas>
 
     </div>
 
@@ -153,14 +153,14 @@
         <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
         <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
     </div>
-    {{--<textarea id="myTextarea" style="resize:none;width:1191px;height:1684px;">--}}
+    {{--<textarea id="myTextarea" style="resize:none;width:1000px;height:1413px;">--}}
     {{--        文字方塊測試~--}}
     {{--    </textarea>--}}
 
     <style>
         canvas {
-            width: 1191px;
-            height: 1684px;
+            width: 1000px;
+            height: 1413px;
         }
 
         body{
@@ -279,8 +279,8 @@
         let textarea = document.createElement('textarea');
         textarea.value='';
         textarea.style="resize:none";
-        textarea.style.width=1191;
-        textarea.style.height=1684;
+        textarea.style.width=1000;
+        textarea.style.height=1413;
 
         let nowPage = 1;
 
@@ -473,7 +473,6 @@
 
             let finalJson = [];
             for (var i = 0; i < l; i++) {
-                console.error(jsonStash[i])
                 if (jsonStash[i] == null)
                     finalJson[i] = [[],[],[],'',aaa[i]];
                 else {
@@ -486,7 +485,7 @@
             // finalJson[0]= JSON.parse(linestr);
             document.json.json.value = JSON.stringify(finalJson);
             document.json.pages.value = l;
-            console.log(finalJson,123)
+            console.error(finalJson,123)
 
                 document.getElementById("send1").disabled = false;
                 isloading = false;
@@ -613,8 +612,8 @@
             // textarea.value = "測試";
             // textarea.value='';
             // textarea.style="resize:none";
-            // textarea.style.width=1191;
-            // textarea.style.height=1684;
+            // textarea.style.width=1000;
+            // textarea.style.height=1413;
 
         }
         let jsonStash = [];//暫時儲存json
@@ -624,11 +623,11 @@
         let wordareaStash = [];
 
         var u;
-        u=1;
+        u={{count($tojson)}};
 
         let pbtnarr=[];
         let moarray=[];
-        var l={{count($tojson)}};
+        var l={{count($tojson)}};//按+前的總頁數
 
         addpage.addEventListener('click',function(){
             //儲存當前頁數
@@ -655,7 +654,8 @@
             textarea.value = '';
 
             // nowPage = num;
-            nowPage=l;
+            // nowPage=l;
+            document.getElementById("page").value=l;
 
             //清空
             const note = document.getElementById('note');
@@ -674,7 +674,7 @@
             var pagebtn=document.createElement("button")
             var pagenum=document.createTextNode(u)
             pagebtn.appendChild(pagenum)
-
+            document.getElementById("photo").hidden = true;
 
             console.log(pbtnarr);
             pagebtn.value=u;
@@ -732,6 +732,7 @@
                 moarray.push(pagebtn.value)
                 console.log("唷唷現在是"+(moarray[0]));
                 console.log("唷唷現在是哪個陣列"+(moarray-1));
+                document.getElementById("page").value=pagebtn.value;
 
                 // //儲存切換頁面前頁數內容
                 // pbtnarr.push(i)
@@ -778,6 +779,7 @@
                 const imglayer = document.getElementById('imglayer');
                 const imgcontext = imglayer.getContext('2d');
                 imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+                document.getElementById("photo").hidden = true;
 
                 if (typeof jsonStash[moarray-1] !== 'undefined') {
                     //換到n頁時，給n頁的值
@@ -847,28 +849,28 @@
             console.log("123");
 {{--            console.error(@json($tojson[0]),1111)--}}
             const f = document.getElementById('firstpage');
-            // console.log("當前點擊頁數"+num);
-            // console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
+            console.log("當前點擊頁數"+num);
+            console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
             // linetext = [];
             // textarr = [];
             // lines= [];
             // picarr = [];
             // textarea.value = '';
-            // console.log("啊啊上一頁是"+(moarray[0]));
-            // console.log("啊啊上一頁的陣列是"+(moarray-1));
+            console.log("啊啊上一頁是"+(moarray[0]));
+            console.log("啊啊上一頁的陣列是"+(moarray-1));
             linetext.push(textarr)
             linetext.push(lines)
             linetext.push(picarr)
             linetext.push(textarea.value)
             var linestr = JSON.stringify(linetext);
-            // console.log("而現在是這是第"+num+"頁唷!");
+            console.log("而現在是這是第"+num+"頁唷!");
             textarrStash[moarray-1] = textarr;
             linesStash[moarray-1] = lines;
             picarrStash[moarray-1] = picarr;
             wordareaStash[moarray-1] = textarea.value;
             jsonStash[moarray-1] =linestr;
 
-            // console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
+            console.log("上一個頁面儲存的新內容"+jsonStash[moarray-1]);
             linetext = [];
             textarr = [];
             lines= [];
@@ -877,9 +879,9 @@
 
             moarray.pop();
             moarray.push(num)
-            // console.log("唷唷現在是"+(moarray[0]));
-            // console.log("唷唷現在是哪個陣列"+(moarray-1));
-
+            console.log("唷唷現在是"+(moarray[0]));
+            console.log("唷唷現在是哪個陣列"+(moarray-1));
+            nowPage = num;
 
             //清空
             const note = document.getElementById('note');
@@ -891,6 +893,7 @@
             const imglayer = document.getElementById('imglayer');
             const imgcontext = imglayer.getContext('2d');
             imgcontext.clearRect(0,0,imglayer.width,imglayer.height);
+            document.getElementById("photo").hidden = false;
 
             const base = '{{asset('/photo/')}}';
             let im = [];
@@ -899,6 +902,7 @@
             @endforeach
             let a = base + "/" + im[num - 1];
             document.getElementById("photo").src = `${a}`;
+            document.getElementById("page").value=`${num}`;
 
             if (typeof jsonStash[moarray-1] !== 'undefined') {
                 //換到n頁時，給n頁的值
