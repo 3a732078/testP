@@ -93,7 +93,7 @@
             <p>
             <div class="divcss5" align="left">
                 <img class="card-img-top" id="photo" src="{{asset('/photo/'.$tojson[0])}}"
-                     style="object-fit: contain;position: absolute; left: 0; top: 0px;" alt="">
+                     style="object-fit: contain;position: absolute; left: 3px; top: 3px;" alt="">
             </div>
             </p>
         </div>

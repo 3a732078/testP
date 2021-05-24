@@ -258,7 +258,7 @@
                         style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
                 <div class="divcss5" align="left">
                     <img class="card-img-top" id="photo" src=""
-                         style="object-fit: contain;position: absolute; left: 0; top: 0px;height: auto;width: auto;" alt="">
+                         style="object-fit: contain;position: absolute; left: 3px; top: 3px;height: auto;width: auto;" alt="">
                 </div>
             @endif
         </div>

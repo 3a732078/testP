@@ -46,20 +46,20 @@
 <table align="center" width="88%" >
     <tr><td width="15%" align="left" style="font-size: 22px">
             @if($textbookId!==null)
-            <form id="def" name="def" method="POST" action="{{route('def.store')}}" onsubmit="return defnotes()" style="margin:0px;display: inline;">
-                @csrf
-                @method('POST')
-                <div style="display:none">
-                    id：<input name="id" id="id" value="{{$id}}"><br>
-                </div>
+                <form id="def" name="def" method="POST" action="{{route('def.store')}}" onsubmit="return defnotes()" style="margin:0px;display: inline;">
+                    @csrf
+                    @method('POST')
+                    <div style="display:none">
+                        id：<input name="id" id="id" value="{{$id}}"><br>
+                    </div>
 
-                <div class="form-check form-switch" style="margin-top:5px;margin-left:20px;">
-                    <input onclick="defnotes()" class="form-check-input" type="checkbox" id="dfnote" name="dfnote" style="top: 15%">
-                    <span class="span.mark-pen"
-                          style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">預設瀏覽筆記</span>
-                    <div style="display:none"><button id="defbtn" name="defbtn">送出</button></div>
-                </div>
-            </form>
+                    <div class="form-check form-switch" style="margin-top:5px;margin-left:20px;">
+                        <input onclick="defnotes()" class="form-check-input" type="checkbox" id="dfnote" name="dfnote" style="top: 15%">
+                        <span class="span.mark-pen"
+                              style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">預設瀏覽筆記</span>
+                        <div style="display:none"><button id="defbtn" name="defbtn">送出</button></div>
+                    </div>
+                </form>
             @endif
         </td>
         <td width="70%">
@@ -80,8 +80,8 @@
                 {{--    課程：{{$class}}<br>--}}
                 <h5 align="center">
                     <a href="{{url()->previous()}}"><i class="fas fa-arrow-left"></i></a>
-                筆記名稱：{{$name}}&ensp;|&ensp;
-                作者：{{$author}}
+                    筆記名稱：{{$name}}&ensp;|&ensp;
+                    作者：{{$author}}
                     <a href="/"><i class="fas fa-home home" style="color:#000"></i></a>
                 </h5>
                 <div style="display:none">
@@ -102,16 +102,16 @@
 {{--{{$notes->links()}}//頁數--}}
 <br><br>
 <div align="center" style="position: relative;">
-<center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center>
-@if($textbookId!==null)
+    <center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center>
+    @if($textbookId!==null)
         @if(count($images)> 0)
             <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
                 <p>
-                <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
-                第
-                @for($i=0;$i<count($images);$i++)
-                    <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
-                @endfor頁&emsp;
+                    <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
+                    第
+                    @for($i=0;$i<count($images);$i++)
+                        <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>
+                    @endfor頁&emsp;
                 </p>
             </div>
         @endif
@@ -128,56 +128,60 @@
             </div>
         @endif
     @endif
-        <div style="position: relative;" id="above">
-@if($textbookId!==null)
-    <canvas id="note" width="1000" height="1413" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
-@elseif($textbookId===null)
-    <canvas id="note" width="1000" height="1413"></canvas>
-@endif
-        </div>
+    <div class="container" style="position: relative;display: flex;justify-content: flex-start;" id="above">
+        @if($textbookId!==null)
+            <canvas id="note" width="1000" height="1413" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
+        @elseif($textbookId===null)
+            <canvas id="note" width="1000" height="1413"></canvas>
+            <div style="position: absolute; top: 3px;">
+                <img class="card-img-top" id="photo" src=""
+                     style="object-fit: contain;margin-left:3px;height: auto;width: auto;" alt="">
+            </div>
+        @endif
+    </div>
 </div>
 <br>
 <div style="width:100px; margin:0 auto;">
-<form id="favor" name="favor" method="POST" action="/favor" onsubmit="return favorto()">
-    @csrf
-    @method('POST')
-    <div style="display:none">
-        id：<input name="id" id="id" value="{{$id}}"><br>
-    </div>
-    <input onclick="favorto()" id="heart" name="heart" type="checkbox" class="heart">
-    <label for="heart" class="heart"><i class="fa fa-heart" aria-hidden="true"></i></label>
-    <div style="display:none"><button id="favorbtn" name="favorbtn">送出</button></div>
-</form>
-</div>
-
-<div style="width:450px; margin:0 auto;">
-<div class="move">
-    <button onclick="scorebtn()" id="scorebtn" class="btn btn-light btn-sm">評分</button>
-
-</div>
-
-
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-<div class="stars hideable hide move">
-    <form action="/score" method="POST" id="score" name="score">
+    <form id="favor" name="favor" method="POST" action="/favor" onsubmit="return favorto()">
         @csrf
         @method('POST')
         <div style="display:none">
             id：<input name="id" id="id" value="{{$id}}"><br>
         </div>
-        <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
-        <label class="star star-5" for="star-5"></label>
-        <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
-        <label class="star star-4" for="star-4"></label>
-        <input class="star star-3" id="star-3" type="radio" name="star" value="3"/>
-        <label class="star star-3" for="star-3"></label>
-        <input class="star star-2" id="star-2" type="radio" name="star" value="2"/>
-        <label class="star star-2" for="star-2"></label>
-        <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
-        <label class="star star-1" for="star-1"></label>
+        <input onclick="favorto()" id="heart" name="heart" type="checkbox" class="heart">
+        <label for="heart" class="heart"><i class="fa fa-heart" aria-hidden="true"></i></label>
+        <div style="display:none"><button id="favorbtn" name="favorbtn">送出</button></div>
     </form>
-    <p><button name="ssend" id="ssend" onclick="sconfirm()" class="btn btn-outline-dark btn-sm">送出</button></p>
 </div>
+
+<div style="width:450px; margin:0 auto;">
+    <div class="move">
+        <button onclick="scorebtn()" id="scorebtn" class="btn btn-light btn-sm">評分</button>
+
+    </div>
+
+
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <div class="stars hideable hide move">
+        <form action="/score" method="POST" id="score" name="score">
+            @csrf
+            @method('POST')
+            <div style="display:none">
+                id：<input name="id" id="id" value="{{$id}}"><br>
+            </div>
+            <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
+            <label class="star star-5" for="star-5"></label>
+            <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
+            <label class="star star-4" for="star-4"></label>
+            <input class="star star-3" id="star-3" type="radio" name="star" value="3"/>
+            <label class="star star-3" for="star-3"></label>
+            <input class="star star-2" id="star-2" type="radio" name="star" value="2"/>
+            <label class="star star-2" for="star-2"></label>
+            <input class="star star-1" id="star-1" type="radio" name="star" value="1"/>
+            <label class="star star-1" for="star-1"></label>
+        </form>
+        <p><button name="ssend" id="ssend" onclick="sconfirm()" class="btn btn-outline-dark btn-sm">送出</button></p>
+    </div>
 </div>
 
 <div id="chat">
@@ -229,13 +233,13 @@
                         </a>
                         @if ($comment->user_id == \Illuminate\Support\Facades\Auth::id())<br>
                         &ensp;<button onclick="textview('comment{{$comment->id}}')" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
-                                編輯留言
-                            </button>
-                            <form action="/comments/{{$comment->id}}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                &ensp;<button class="btn btn-danger btn-sm">刪除留言</button>
-                            </form>
+                            編輯留言
+                        </button>
+                        <form action="/comments/{{$comment->id}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            &ensp;<button class="btn btn-danger btn-sm">刪除留言</button>
+                        </form>
                         @endif
                     </td>
                 </tr>
@@ -244,50 +248,50 @@
                 @foreach($replies as $reply)
                     @if($reply->comment_id==$comment->id)
                         <tr>
-                                <td ></td>
-                                <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&ensp;&ensp;
-                                    <i class="fa fa-angle-right"></i>&ensp;
-                                    {{$reply->user->name}}：
-                                    {{$reply->content}}&emsp;
-                                    <a class="btn btn-tumbir active btn-sm" style="color: #205081;border:0.5px gray solid;" data-toggle="collapse" onclick="reply({{$comment->id}}, {{$reply->id}})" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
-                                        回覆</a>
-                                    @if ($reply->user_id == \Illuminate\Support\Facades\Auth::id())|
-                                    <form action="/comments/{{$reply->id}}" method="POST" style="margin:0px;display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
-                                    </form>
-                                    @endif
-                                </td>
-                                <td width="200px" >
+                            <td ></td>
+                            <td valign="top" align="left" colspan="2" width="300px" style="border-bottom:0.5px gray dotted;line-height:30px;">&ensp;&ensp;
+                                <i class="fa fa-angle-right"></i>&ensp;
+                                {{$reply->user->name}}：
+                                {{$reply->content}}&emsp;
+                                <a class="btn btn-tumbir active btn-sm" style="color: #205081;border:0.5px gray solid;" data-toggle="collapse" onclick="reply({{$comment->id}}, {{$reply->id}})" href="#collapseExample{{$comment->id}}" role="button" aria-expanded="false" aria-controls="collapseExample{{$comment->id}}">
+                                    回覆</a>
+                                @if ($reply->user_id == \Illuminate\Support\Facades\Auth::id())|
+                                <form action="/comments/{{$reply->id}}" method="POST" style="margin:0px;display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-google btn-sm" style="color: #CB2027;border:0.5px gray solid;">刪除留言</button>
+                                </form>
+                                @endif
+                            </td>
+                            <td width="200px" >
 
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
                     @endif
                 @endforeach
 
                 {{--回覆留言#collapseExample--}}
                 <tr><td colspan="5">
-                            <form method="POST" action="{{ url('/replies')}}">
+                        <form method="POST" action="{{ url('/replies')}}">
                             <p>
-                                <div class="collapse" id="collapseExample{{$comment->id}}">
-                                    @csrf
+                            <div class="collapse" id="collapseExample{{$comment->id}}">
+                                @csrf
                                 <div class="container-fluid" style="margin-left:118px;line-height:15px;">
-                                <i class="fa fa-angle-right"></i>&ensp;
-                                        <input type="hidden" id="note_id" name="note_id" value="{{$id}}">
-                                        <input type="hidden" id="comment_id" name="comment_id" value="{{$comment->id}}">
+                                    <i class="fa fa-angle-right"></i>&ensp;
+                                    <input type="hidden" id="note_id" name="note_id" value="{{$id}}">
+                                    <input type="hidden" id="comment_id" name="comment_id" value="{{$comment->id}}">
                                     <input type="hidden" id="replyId{{$comment->id}}" name="replyId" value="">
-                                        <textarea style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;font-size:15px;line-height:15px;"
-                                                  cols="80" rows="2" id="reply" name="reply" placeholder="&ensp;留言內容......"></textarea>
-                                        <button type="submit" class="btn btn-group btn-lg active btn-sm" style="margin-bottom:30px;">留言</button>
+                                    <textarea style="resize:none; background-color:transparent;border:0px solid;border-bottom:0.5px gray solid;font-size:15px;line-height:15px;"
+                                              cols="80" rows="2" id="reply" name="reply" placeholder="&ensp;留言內容......"></textarea>
+                                    <button type="submit" class="btn btn-group btn-lg active btn-sm" style="margin-bottom:30px;">留言</button>
 
-                                    </div>
                                 </div>
+                            </div>
                             </p>
-                            </form></td>
-                    </tr>
+                        </form></td>
+                </tr>
             </table>
-    </div>
+        </div>
     @endforeach
 @endif
 </div>
@@ -424,6 +428,7 @@
     let nowPage = 1;
     let jsonStash = [];
     let wordareaStash = [];
+    let pimg = [];
 
     @if($textbookId!==null)
         @if(count($images)> 0)
@@ -435,20 +440,27 @@
         document.getElementById("page").value=`${nowPage}`;
         @endif
     @endif
+
+    var test=document.json.call.value;
+    let objsonNow=JSON.parse(test);
+    for (var i = 0; i < objsonNow.length ; i++) {
+        jsonStash[i] = objsonNow[i];
+        wordareaStash[i] = objsonNow[i][3];
+        pimg[i] = objsonNow[i][4];
+    }
+
+    if (typeof objsonNow[0][4] !== 'undefined'){
+        let a = "../../photo/" + pimg[0];
+        document.getElementById("photo").src = `${a}`;
+    }
+
+    let objson = objsonNow[0];
+
+    var note = document.getElementById("note");
+    var context = note.getContext("2d");
+
     window.addEventListener("load", function (){
 
-        var test=document.json.call.value;
-
-        let objsonNow=JSON.parse(test);
-        for (var i = 0; i < objsonNow.length ; i++) {
-            jsonStash[i] = objsonNow[i];
-            wordareaStash[i] = objsonNow[i][3];
-        }
-        let objson = objsonNow[0];
-
-
-        var note = document.getElementById("note");
-        var context = note.getContext("2d");
         for(var k=0;k<objson[2].length;k++){
             document.json.jsonimg.src="{{asset('images/')}}"+"/"+objson[2][k].path[0]
             var img = new Image();
@@ -533,27 +545,7 @@
             }
         @endif
 
-
-
-            if(document.json.defstatus.value==="0"){
-
-                document.getElementById("dfnote").checked = false;
-            }
-            if(document.json.defstatus.value==="1"){
-
-                document.getElementById("dfnote").checked = true;
-            }
-
-            //判斷筆記類型
-
-            if (objson[4]==null){
-                console.log("空白")
-            }
-            else if(objson[4]!==null){
-                console.log("照片")
-            }
-
-        },false);
+    },false);
 </script>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -622,6 +614,21 @@
         let a = base+"/"+images[num-1];
         document.getElementById('note').style.backgroundImage=`url(${a})`;
         @endif
+
+        //判斷筆記類型
+        if (typeof objsonNow[0][4] !== 'undefined'){
+            if (objsonNow[num-1][4]===null){
+                console.error('yes')
+                document.getElementById("photo").hidden = true;
+            }else{
+                document.getElementById("photo").hidden =false;
+
+                let a = "../../photo/" + pimg[nowPage - 1];
+                document.getElementById("photo").src = `${a}`;
+                // let picimg = [];
+                // pimg.forEach(element=>picimg.push(element));
+            }
+        }
         changeJson(num - 1);
     }
 
@@ -692,6 +699,10 @@
             list.insertBefore(textarea,list.childNodes[0]);
             note.style.display="none";
 
+            if (typeof objsonNow[0][4] !== 'undefined'){
+                document.getElementById("photo").display="none";
+            }
+
         } else {
             if (isOpen == 1) {
                 textarea.hidden = false;
@@ -699,6 +710,9 @@
                 var list=document.getElementById("above")
                 list.insertBefore(textarea,list.childNodes[0]);
                 note.style.display="none";
+                if (typeof objsonNow[0][4] !== 'undefined'){
+                    document.getElementById("photo").display="none";
+                }
                 textarea.style.display="block";
             }
             else {
@@ -706,9 +720,12 @@
                 isOpen = 1;
                 textarea.style.display="none";
                 note.style.display="block";
+                if (typeof objsonNow[0][4] !== 'undefined'){
+                    document.getElementById("photo").display="block";
+                }
             }
         }
-        }
+    }
 
     function chatwith() {
         document.getElementById("chat").scrollIntoView();
