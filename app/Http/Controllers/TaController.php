@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Ta;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaController extends Controller
 {
@@ -18,7 +19,16 @@ class TaController extends Controller
      */
     public function index()
     {
-        //
+        $type= User::where('id', Auth::id())->value('type');
+        if ($type=='學生'){
+            session_start();
+            unset($_SESSION['classId']);
+            unset($_SESSION['textbookId']);
+            unset($_SESSION['ta']);
+
+            return view('ta.index');
+
+        }
     }
     public function course(Request $request)
     {
