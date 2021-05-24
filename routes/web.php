@@ -137,9 +137,8 @@ Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('ques
 Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questions.tastore')->where('id', '[0-9]+');
 
 //ta首頁
-Route::get('/ta', function () {
-    return view('ta.index');
-});
+Route::get('/ta',[TaController::class,'index'])->name('ta.index')->middleware('auth');
+
 
 //添加協作者
 Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
