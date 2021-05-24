@@ -256,6 +256,10 @@
                         style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
                 <canvas id="imglayer" width="1000" height="1413"
                         style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+                <div class="divcss5" align="left">
+                    <img class="card-img-top" id="photo" src=""
+                         style="object-fit: contain;position: absolute; left: 0; top: 0px;height: auto;width: auto;" alt="">
+                </div>
             @endif
         </div>
 
@@ -567,6 +571,7 @@
     let linesStash = [];
     let picarrStash = [];
     let wordareaStash = [];
+    let pimg = [];
     let textbook=document.json.tbook.value;
 
     let textarea = document.createElement('textarea');
@@ -575,14 +580,14 @@
     textarea.style.width=1000;
     textarea.style.height=1413;
     @if($textbookId!==null)
-    @if(count($images)> 0)
-    document.getElementById("page").value=`${nowPage}`;
-    @endif
+        @if(count($images)> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
     @endif
     @if($textbookId===null)
-    @if($images> 0)
-    document.getElementById("page").value=`${nowPage}`;
-    @endif
+        @if($images> 0)
+        document.getElementById("page").value=`${nowPage}`;
+        @endif
     @endif
 
     var test=document.json.call.value;
@@ -594,9 +599,15 @@
         linesStash[i] = objsonNow[i][1];
         picarrStash[i] = objsonNow[i][2];
         wordareaStash[i] = objsonNow[i][3];
+        pimg[i] = objsonNow[i][4];
     }
-    let objson = objsonNow[0];
 
+    if (typeof objsonNow[0][4] !== 'undefined'){
+        let a = "../photo/" + pimg[0];
+        document.getElementById("photo").src = `${a}`;
+    }
+
+    let objson = objsonNow[0];
 
     let isDrawing = false;
     let x = 0;
@@ -854,19 +865,9 @@
             document.getElementById("sharebox").checked = true;
         }
 
-        //判斷筆記類型
-
-        if (objson[4]==null){
-            console.log("空白")
-        }
-        else if(objson[4]!==null){
-            console.log("照片")
-        }
-
-
     },false);
-    let linetext= []
 
+    let linetext= []
     function add(){
 
             //暫時儲存
@@ -884,17 +885,35 @@
 
             let finalJson = [];
             //最後儲存的json
-                @if($textbookId!==null)
-            for (var i = 0; i < {{count($images)}}; i++) {
-                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
-                else finalJson[i] = JSON.parse(jsonStash[i]);
-            }
-                @endif
-                @if($textbookId===null)
-            for (var i = 0; i < {{$images}}; i++) {
-                if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
-                else finalJson[i] = JSON.parse(jsonStash[i]);
-            }
+            @if($textbookId!==null)
+                for (var i = 0; i < {{count($images)}}; i++) {
+                    if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
+                    else finalJson[i] = JSON.parse(jsonStash[i]);
+                }
+            @endif
+            @if($textbookId===null)
+                if (typeof objsonNow[0][4] === 'undefined') {
+                    for (var i = 0; i < {{$images}}; i++) {
+                        if (jsonStash[i] == null) finalJson[i] = [[], [], [], ''];
+                        else finalJson[i] = JSON.parse(jsonStash[i]);
+                    }
+                }
+                if(typeof objsonNow[0][4] !== 'undefined'){
+                    for (var i = 0; i < objsonNow.length; i++) {
+                        if (pimg[i] !== null){
+                            var x = pimg[i];
+                        }else{
+                            var x = '';
+                        }
+                        if (jsonStash[i] == null)
+                            finalJson[i] = [[],[],[],'',x];
+                        else {
+                            finalJson[i] = JSON.parse(jsonStash[i]);
+                            finalJson[i][4] = x;
+                        }
+                    }
+
+                }
             @endif
             console.log(finalJson)
             document.json.json.value = JSON.stringify(finalJson);
@@ -996,7 +1015,12 @@
             note.style.display="none";
             textlayer.style.display="none";
             imglayer.style.display="none";
-            textbooklayer.style.display="none";
+            if (typeof objsonNow[0][4] !== 'undefined'){
+                document.getElementById("photo").display="none";
+            }
+            @if($textbookId!==null)
+                textbooklayer.style.display="none";
+            @endif
 
         } else {
             if (isOpen == 1) {
@@ -1007,7 +1031,12 @@
                 note.style.display="none";
                 textlayer.style.display="none";
                 imglayer.style.display="none";
-                textbooklayer.style.display="none";
+                @if($textbookId!==null)
+                    textbooklayer.style.display="none";
+                @endif
+                if (typeof objsonNow[0][4] !== 'undefined'){
+                    document.getElementById("photo").display="none";
+                }
                 textarea.style.display="block";
             }
             else {
@@ -1017,7 +1046,12 @@
                 note.style.display="block";
                 textlayer.style.display="block";
                 imglayer.style.display="block";
-                textbooklayer.style.display="block";
+                if (typeof objsonNow[0][4] !== 'undefined'){
+                    document.getElementById("photo").display="block";
+                }
+                @if($textbookId!==null)
+                    textbooklayer.style.display="block";
+                @endif
             }
         }
 
@@ -1120,7 +1154,6 @@
         const textcontext = textlayer.getContext('2d');
         const imglayer = document.getElementById('imglayer');
         const imgcontext = imglayer.getContext('2d');
-console.log("某個東西"+document.json.tbook.value);
 
         linetext.push(textarr)
         linetext.push(lines)
@@ -1160,6 +1193,21 @@ console.log("某個東西"+document.json.tbook.value);
         let a = base+"/"+images[num-1];
         document.getElementById('textbooklayer').style.backgroundImage=`url(${a})`;
         @endif
+
+        //判斷筆記類型
+        if (typeof objsonNow[0][4] !== 'undefined'){
+            if (objsonNow[num-1][4]===null){
+                console.error('yes')
+                document.getElementById("photo").hidden = true;
+            }else{
+                document.getElementById("photo").hidden =false;
+
+                let a = "../photo/" + pimg[nowPage - 1];
+                document.getElementById("photo").src = `${a}`;
+                // let picimg = [];
+                // pimg.forEach(element=>picimg.push(element));
+                }
+        }
         changeJson(num - 1);
     }
 
