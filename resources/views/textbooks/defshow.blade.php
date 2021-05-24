@@ -46,7 +46,7 @@
                                 @csrf
                                 <input type="hidden" name="textbookId" value="{{$deftextbook->id}}">
                                 <input type="hidden" name="classId" value="{{$class}}">
-                                <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">&ensp;新增課程筆記</a></button>
+                                <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">&ensp;新增教材筆記</a></button>
                             </form>
                     </div>
                     <p></p>
@@ -88,8 +88,10 @@
                                 </form>
                             </td>
                             <td align="right" width="15%">
-                                    <p><button style="outline: none;border-radius: 25px;padding:5px 15px;"
-                                       onclick="opentext()">開啟文字方塊</button></p>
+                                    <p>
+{{--                                        <button style="outline: none;border-radius: 25px;padding:5px 15px;" onclick="opentext()">開啟本頁備註</button>--}}
+                                        <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button>
+                                    </p>
                             </td>
                         </tr>
                     </table>
@@ -315,9 +317,11 @@
         let textarea = document.createElement('textarea');
         textarea.value='';
         textarea.style="resize:none";
+        textarea.style.marginLeft='auto';
+        textarea.style.marginRight='auto';
         textarea.style.width='1000px';
         textarea.style.height='1413px';
-
+        textarea.disabled=true;
         let isOpen = 0;
         let wordarea=[];
         function opentext(){
@@ -326,6 +330,8 @@
                 // textarea = document.createElement('textarea');
                 // document.body.appendChild(textarea);
                 isOpen = 2;
+                textarea.style.marginLeft='auto';
+                textarea.style.marginRight='auto';
                 var list=document.getElementById("above")
                 list.insertBefore(textarea,list.childNodes[0]);
                 note.style.display="none";

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Enote</title>
+    <title>Elearning</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('/home/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -63,7 +63,7 @@
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-sticky-note"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Enote</div>
+            <div class="sidebar-brand-text mx-3">Elearning</div>
         </a>
 
         <!-- Divider -->
@@ -76,7 +76,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Interface
+            選擇課程
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -106,7 +106,7 @@
         @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
-                information
+                課程資訊
             </div>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseText"
@@ -121,7 +121,7 @@
                             <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{ $value->name }}</span></a>
                             <div id="{{ $value->name }}" class="collapse">
                                 <a class="collapse-item" href="/textbooks/show/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材</a>
-                                <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;課程筆記</a>
+                                <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材筆記</a>
                                 <hr class="sidebar-divider bg-dark">
                             </div>
                         @endforeach
@@ -162,7 +162,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            Message
+            聯繫
         </div>
 
         @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
@@ -183,7 +183,7 @@
                     <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-sticky-note"></i>
                     </div>
-                    <div class="sidebar-brand-text mx-3">Enote</div>
+                    <div class="sidebar-brand-text mx-3">Elearning</div>
                 </a>
 
                 <!-- Divider -->
@@ -195,9 +195,9 @@
                 <hr class="sidebar-divider">
 
                 <!-- Heading -->
-                <div class="sidebar-heading">
-                    Interface
-                </div>
+{{--                <div class="sidebar-heading">--}}
+{{--                    Interface--}}
+{{--                </div>--}}
 
                 <!-- Nav Item - Pages Collapse Menu -->
                 <li class="nav-item">

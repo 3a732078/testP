@@ -53,7 +53,7 @@
                         @csrf
                         <input type="hidden" name="textbookId" value="{{$id}}">
                         <input type="hidden" name="classId" value="{{$class}}">
-                        <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">&ensp;新增課程筆記</a></button>
+                        <button type="submit" style="border:2px blue none;"><a class="fa fa-pencil-square-o">&ensp;新增教材筆記</a></button>
                     </form>
                 </div>
                 <p></p>
