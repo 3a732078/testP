@@ -1,15 +1,18 @@
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-    <!-- Sidebar Toggle (Topbar) -->
+    {{--    有待研究的button--}}
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars"></i>
+        <i class="fa fa-bars">asdfdsfsdafds</i>
     </button>
 
     <!-- Topbar Search -->
-    @yield('search')
+@yield('search')
 
-    <!-- Topbar Navbar -->
+{{--    Topbar Courses  --}}
+@yield('courses_list')
+
+<!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 
         @include('layouts.teacher.message')
@@ -40,3 +43,4 @@
     </ul>
 
 </nav>
+<!-- End of Topbar -->
