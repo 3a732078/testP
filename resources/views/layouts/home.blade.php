@@ -1,53 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh_TW">
 
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Elearning</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="{{asset('/home/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="{{asset('/home/css/sb-admin-2.min.css')}}" rel="stylesheet">
-
-    <style>
-        .mh5{
-            transition: all 0.5s;
-            position: relative;
-        }
-
-        .mh5::before{
-            content: '';
-            position: absolute;
-            top: 5px;
-            left:10px;
-            width: 70%;
-            height: 80%;
-            z-index: 1;
-            opacity: 0;
-            background-color: rgba(0,0,0,0.5);
-            transition: all 0.4s;
-            transform: scale(0.5, 1);
-        }
-        .mh5:hover::before{
-            opacity: 1;
-            -webkit-transform: scale(1, 1);
-            transform: scale(1, 1);
-            border-radius: 10px;
-        }
-
-    </style>
-</head>
+@include('layouts.teacher.head')
 
 <body id="page-top">
 
