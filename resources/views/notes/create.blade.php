@@ -34,7 +34,11 @@
         <select id="class" name="class">
 
                 @foreach($coursename as $coursenames)
-                  <option>  {{$coursenames}} </option>
+                    @if($classname===$coursenames)
+                        <option value="{{$coursenames}}" selected>  {{$coursenames}} </option>
+                    @elseif($classname!==$coursenames)
+                        <option value="{{$coursenames}}">  {{$coursenames}} </option>
+                    @endif
                 @endforeach
                   <option>  無分類 </option>
 

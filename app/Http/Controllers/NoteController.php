@@ -83,6 +83,9 @@ class NoteController extends Controller
 
     public function create(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -109,7 +112,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.create',['classmate'=>$classmate],['coursename'=>$coursename]);
+        return view('notes.create',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     public function insert(Request $request)
@@ -213,15 +216,28 @@ class NoteController extends Controller
                 'textfile'=>$path
             ]);
         }else{
-            Note::create([
-                'user_id'=>$request->user()->id,
-                'title'=>$request->notename,
-                'time'=>now(),
-                'page'=>$request->pages,
-                'share'=>0,
-                'like'=>0,
-                'textfile'=>$path
-            ]);
+            if ($request->class==='無分類'){
+                Note::create([
+                    'user_id'=>$request->user()->id,
+                    'title'=>$request->notename,
+                    'time'=>now(),
+                    'page'=>$request->pages,
+                    'share'=>0,
+                    'like'=>0,
+                    'textfile'=>$path
+                ]);
+            }else{
+                Note::create([
+                    'user_id'=>$request->user()->id,
+                    'title'=>$request->notename,
+                    'attach'=>$request->class,
+                    'time'=>now(),
+                    'page'=>$request->pages,
+                    'share'=>0,
+                    'like'=>0,
+                    'textfile'=>$path
+                ]);
+            }
         }
         return redirect('/mynotes');
 
