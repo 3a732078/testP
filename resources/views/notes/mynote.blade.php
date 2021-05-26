@@ -1,7 +1,15 @@
 @extends('layouts/home')
+@section('search')
+    <div align="left">
+        <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹我的筆記</h3>
+    </div>
+@endsection
 @section('notice')
     <div id="layoutSidenav_content">
         <main>
+            @if ($message = Session::get('alert'))
+                <script>alert("{{ $message }}");</script>
+            @endif
             <div class="container-fluid">
                 <div class="card mb-4">
                     <div class="card-header">
@@ -21,14 +29,12 @@
                                             vertical-align:middle/** 设置垂直方向居中 */
                                         }
                                     </style>
+                                    <th class="mh1">所屬課程</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($notes as $note)
-                                <form method="POST" role="form" enctype="multipart/form-data">
-                                    @csrf
-                                    @method('POST')
                                     <tr>
                                         <td width="280">{{basename($note->textfile,'.json')}}</td>
                                         <td width="500" align="center">
@@ -39,17 +45,26 @@
                                             @endif
                                         </td>
                                         <td width="170" align="center">
-                                        <a class="btn btn-primary btn-sm" href="/notes/{{$note->id}}">檢視筆記</a>
-                                </form>
-                                        <form action="/notes/{{$note->id}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm">刪除筆記</button>
-                                        </form>
-                                    </td>
-                                    </tr>
+                                            @for($i=0;$i<count($courseName);$i++)
+                                                @if($note->attach===$courseName[$i])
+{{--                                                    <span style="color:#2E8B57;">{{$courseName[$i]}}</span>--}}
+                                                    <span style="color:#2E8B57;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>
+                                                @endif
+                                            @endfor
+                                            @if($note->attach===null)
+                                                <span style="color:#8674A1;"> 無</span>
+                                            @endif
+                                        </td>
+                                        <td width="170" align="center">
+                                            <a class="btn btn-primary btn-sm" href="/notes/{{$note->id}}">檢視筆記</a>
 
-{{--                                @endfor--}}
+                                            <form action="/notes/{{$note->id}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger btn-sm">刪除筆記</button>
+                                            </form>
+                                        </td>
+                                    </tr>
                                 @endforeach
                                 @foreach ($assist as $note)
                                     <form method="POST" role="form" enctype="multipart/form-data">
@@ -62,6 +77,16 @@
                                                     無引用教材
                                                 @else
                                                     {{\App\Models\Textbook::where('id',$note->textbook_id)->value('name')}}
+                                                @endif
+                                            </td>
+                                            <td width="170" align="center">
+                                                @for($i=0;$i<count($courseName);$i++)
+                                                    @if($note->attach===$courseName[$i])
+                                                        <span style="color:#2E8B57;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>
+                                                    @endif
+                                                @endfor
+                                                @if($note->attach===null)
+                                                    <span style="color:#8674A1;"> 無</span>
                                                 @endif
                                             </td>
                                             <td width="170" align="center">

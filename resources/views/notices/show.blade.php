@@ -1,27 +1,25 @@
 @extends('layouts/home')
 
-<style>
-    label {
-        background-color: burlywood;
-        color: black;
-        font-weight: bold;
-        padding: 4px;
-        text-transform: uppercase;
-        font-family:  "Trebuchet MS","Microsoft JhengHei UI", Helvetica, sans-serif;
-    }</style>
-
 @section('notice')
     <div id="layoutSidenav_content">
         <main>
+            @if ($message = Session::get('alert'))
+                <script>alert("{{ $message }}");</script>
+            @endif
             <div class="container-fluid">
-                <h2 class="mt-4">統計學
-                    <a class="btn btn-outline-dark btn-sm" style="margin-left:738px; width:200px; height:30px;"
-                       href="/classes/{{$notice->course_id}}" >返回公告列表</a>
-                </h2>
-                <div class="card mb-4">
+                <table style="width: 100%;margin-top:-25px">
+                    <tr>
+                        <td align="left"><h2 class="mt-4">統計學</h2></td>
+                        <td align="right">
+                            <h2 class="mt-4"><a class="btn btn-outline-dark btn-sm" style="width:200px; height:30px;"
+                                href="/classes/{{$notice->course_id}}" >返回公告列表</a></h2>
+                        </td>
+                    </tr>
+                </table>
+                <div class="card mb-4" style="margin-top:10px">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
-                        發佈者：
+                        公告發佈者：
                         @if($notice->teacher_id==null)
                             {{\App\Models\Student::where('id',$notice->ta_id)-> first()->user()->value('name')}}
                         @elseif($notice->ta_id==null)
@@ -29,19 +27,21 @@
                         @endif
                     </div>
                     <div class="card-body">
-                    <div class="form-group width">
-                        <h5 class="card-title">
-                            <label for="title">標題：</label>
-                            {{$notice->title}}</h5>
-
-                    </div><hr class="sidebar-divider">
-                    <div class="form-group width">
-
-                            <label for="seller_id">內容：</label>
-                            <h5 class="card-title"><br>
-                                {{$notice->content}}
-                        </h5>
-                    </div>
+                        <div class="form-group width">
+                            <h5 class="card-title">
+                                <span style="color:#4682B4;background-image: linear-gradient(transparent 50%, rgb(255, 229, 180) 50%)">
+                                    <b>標題</b></span>：{{$notice->title}}
+                            </h5>
+                        </div>
+                        <hr class="sidebar-divider"><br>
+                        <div class="form-group width" style="margin-top:-30px">
+                            <div>
+                                <h5 class="card-title">
+                                <span style="color:#4682B4;background-image: linear-gradient(transparent 50%, rgb(255, 229, 180) 50%)">
+                                    <b>內容</b></span>：
+                                    <p></p>&emsp;&emsp;&emsp;{{$notice->content}}</h5>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

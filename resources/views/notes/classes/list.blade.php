@@ -1,12 +1,15 @@
 @extends('layouts/home')
 @section('search')
     <div align="left">
-        <h2 class="mt-4">{{\App\Models\Course::find($class)->name}}▹教材筆記</h2>
+        <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹教材筆記</h3>
     </div>
 @endsection
 @section('notice')
     <div id="layoutSidenav_content">
         <main>
+            @if ($message = Session::get('alert'))
+                <script>alert("{{ $message }}");</script>
+            @endif
             <div class="container-fluid">
                 <div class="card mb-4">
                     <div class="card-header">

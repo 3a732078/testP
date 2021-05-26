@@ -706,6 +706,39 @@ class NoteController extends Controller
         session_start();
         $ta=$_SESSION['ta'];
         $class=$_SESSION['classId'];//課程Id
+        //        dd(Course::all()->values('name'),$request->user()->student->id);
+        $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
+        $courseId = [];
+        for ($i=0;$i<count($studentClass);$i++){
+            $courseId[$i]=$studentClass[$i]['course_id'];
+        }
+
+        $course = Course::all()->toArray();
+        $courseName = [];
+        //1
+//        $arr = array_flip(array_column($course, 'id'));
+//        foreach($courseId as $row){
+//            if (isset($arr[$row])) {
+//                $courseName[] = $course[$arr[$row]]['name'];
+//            }
+//        }
+        //2
+//        $arr3 = array_combine(array_column($course, 'id'), array_column($course, 'name'));
+//        foreach($courseId as $row){
+//            if( isset($arr3[$row])){
+//                $courseName[] = $arr3[$row];
+//            }
+//        }
+
+        $arr3 = collect($course)->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['name']];
+            });
+        foreach($courseId as $row){
+            if( isset($arr3[$row])){
+                $courseName[] = $arr3[$row];
+            }
+        }
+
         $notes=Note::where('user_id',Auth::id())->get();
         $assist=Assist::where('user_id',Auth::id())->get()->toArray();
         $assist = array_column($assist, 'note_id');
@@ -725,7 +758,7 @@ class NoteController extends Controller
         $authId = Auth::id();
         $assist=DB::Select("SELECT * FROM Notes WHERE id IN ".$StringSQL." AND id != ".$authId." ");
 //      dd($assist);
-        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta]);
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName]);
     }
 
     public function assist(Request $request)

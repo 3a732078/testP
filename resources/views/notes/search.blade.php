@@ -1,5 +1,15 @@
 @extends('layouts/home')
+@section('search')
+    @if(isset($class))
+        <div align="left">
+            <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹搜尋筆記</h3>
+        </div>
+    @endif
+@endsection
 @section('content')
+    @if ($message = Session::get('alert'))
+        <script>alert("{{ $message }}");</script>
+    @endif
     <div class="card-header">
     <div class="search-container">
         <form action="{{route('notes.search')}}" class="ml-md-5">

@@ -8,7 +8,7 @@
             @endif
             <div class="container-fluid">
                 <h2 class="mt-4">{{$course->name}}</h2>
-                <div class="card mb-4">
+                <div class="card mb-4" style="margin-top:20px">
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
                         公告
