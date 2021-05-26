@@ -148,6 +148,9 @@ class NoteController extends Controller
 
     public function pcreate(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -174,7 +177,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename]);
+        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     /**
@@ -258,6 +261,9 @@ class NoteController extends Controller
     }
     public function osimage(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $this->validate($request, [
             'upphoto' => 'required',
         ]);
@@ -311,7 +317,7 @@ class NoteController extends Controller
         $tojsonn=count($tojson);
         $sjson = json_encode($tojson);
 //         dd($tojson);
-        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
+        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
 
     }
 
@@ -323,7 +329,8 @@ class NoteController extends Controller
      */
     public function show($id,Request $request)
     {
-
+        $className=Note::find($id)->attach;
+        $className = Course::where('name', $className)->value('name');
         $id1=$request->user()->id;
         $class=Student::where('user_id',$id1)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -412,7 +419,7 @@ class NoteController extends Controller
                 ->get();
 
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname,
-                'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+                'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -493,7 +500,7 @@ class NoteController extends Controller
                 ->where('comment_id','!=',null)
                 ->get();
 
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
