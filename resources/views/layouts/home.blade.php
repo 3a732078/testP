@@ -7,7 +7,7 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-
+@if(\Illuminate\Support\Facades\Auth::user()->type=='學生')
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -127,6 +127,7 @@
             @endif
         @endif
     </ul>
+@endif
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
