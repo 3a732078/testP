@@ -1,7 +1,7 @@
 @extends('layouts/home')
 @section('search')
     <div align="left">
-        <h2 class="mt-4">{{\App\Models\Course::find($class)->name}}▹教材筆記</h2>
+        <h2 class="mt-4">{{\App\Models\Course::find($class)->name}}▹課程筆記</h2>
     </div>
 @endsection
 @section('notice')
@@ -11,7 +11,7 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h5><i class="fa fa-cube" style="color: #A16B47;"></i>&ensp;
-                        <span style="color:#808080;">引用教材：{{$tkName}}</span></h5>
+                        <span style="color:#808080;">引用教材：無</span></h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

@@ -97,8 +97,11 @@ Route::delete('notes/{id}',[NoteController::class,'destroy'])->name('notes.destr
 //分享/取消分享筆記
 Route::patch('share',[NoteController::class,'share'])->name('notes.share')->where('id', '[0-9]+');
 
-//顯示課堂筆記(學生)
+//顯示教材筆記(學生)
 Route::get('/notes/classes/{id}', [NoteController::class,'cshow'])->name('notes.classes.cshow')->where('id', '[0-9]+');
+
+//"無引用教材"筆記列表
+Route::get('/notes/classes/attach/{id}', [NoteController::class,'attach'])->name('notes.classes.attach')->where('id', '[0-9]+');
 
 //顯示收藏庫
 Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.index');

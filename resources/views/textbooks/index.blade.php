@@ -1,7 +1,7 @@
 @extends('layouts/home')
 @section('search')
     <div align="left">
-        <h2 class="mt-4">{{$textbook->course->name}}▹教材</h2>
+        <h2 class="mt-4">{{$textbook->course->name}}▹教材▹{{$textbook->name}}</h2>
     </div>
 @endsection
 @section('notice')
@@ -31,7 +31,7 @@
             <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header">
-                    {{$textbook->name}} ─&emsp;
+{{--                    {{$textbook->name}} ─&emsp;--}}
                     <a class="fa fa-book" href="/textbooks/show/{{$id}}" style="color: #2d3748">&ensp;教材</a>&ensp;/&ensp;
 
                     @if(\Illuminate\Support\Facades\Auth::user()->type=='老師')

@@ -776,4 +776,31 @@ class NoteController extends Controller
 
         return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName,'ta'=>$ta]);
     }
+
+    public function attach($id)
+    {
+        session_start();
+        $class=$_SESSION['classId'];
+        $ta=$_SESSION['ta'];
+        $className=Course::find($class)->name;
+        $classNotes=Note::where('attach', $className)->where('share', '=', 1)
+                            ->where('textbook_id', null)
+                            ->get()->toArray();
+
+        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+        foreach($classNotes as $key => $value){
+            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+        }
+
+        $a = function($a,$b)
+        {
+            if ($a['avg']==$b['avg']) return 0;
+            return ($a['avg']>$b['avg'])?-1:1;
+        };
+        usort($classNotes,$a);
+
+        return view('notes.classes.attach',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'ta'=>$ta]);
+    }
+
 }

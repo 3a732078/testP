@@ -125,8 +125,8 @@
                                 <hr class="sidebar-divider bg-dark">
                             </div>
                         @endforeach
-                        <a class="nav-link collapsed mh5" href="#"
-                           style="color:#B22222;line-height:15px;">無引用教材之課程筆記
+                        <a class="nav-link collapsed mh5" href="/notes/classes/attach/{{$class}}"
+                           style="color:#B22222;line-height:15px;">無引用教材之筆記
                         </a>
                     </div>
                 </div>
