@@ -18,7 +18,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('teacher.index',);
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
+
+        return view('teacher.index',[
+            'courses' => $courses,
+        ]);
     }
 
     public function course(Request $request){
