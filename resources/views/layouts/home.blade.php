@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh_TW">
 
-@include('layouts.teacher.head')
 
 <body id="page-top">
 

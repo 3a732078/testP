@@ -11,10 +11,18 @@
 
 {{-- TopBar Courses--}}
 @section('courses_list')
-    <table style="display: block;overflow-x: auto;white-space: nowrap ">
+    <table style="display: block;overflow-x: auto;white-space: nowrap "; width="80px">
         @if ( count($courses) > 0)
             @foreach($courses as $course)
-                <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
+                <ul>
+                    <li>
+                        <a class="collapse-item" href="/classes/{{ $course->id }}" >
+                            <span >
+                                {{$course -> name}}
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             @endforeach
         @endif
     </table>

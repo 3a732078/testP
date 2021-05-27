@@ -1,8 +1,8 @@
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand bg-light mb-4 static-top shadow">
 
     {{--    有待研究的button--}}
-    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+    <button id="sidebarToggleTop" class="btn btn-wrap d-md-none rounded-circle mr-3">
         <i class="fa fa-bars">asdfdsfsdafds</i>
     </button>
 
