@@ -34,7 +34,11 @@
         <select id="class" name="class">
 
             @foreach($coursename as $coursenames)
-                <option>  {{$coursenames}} </option>
+                @if($classname===$coursenames)
+                    <option value="{{$coursenames}}" selected>  {{$coursenames}} </option>
+                @elseif($classname!==$coursenames)
+                    <option value="{{$coursenames}}">  {{$coursenames}} </option>
+                @endif
             @endforeach
             <option>  無分類 </option>
 
@@ -84,18 +88,18 @@
 
 
         <div style="position: relative;" id="above">
-            <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
-            {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
-            <canvas id="textlayer" width="1000" height="1413"
-                    style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-            <canvas id="imglayer" width="1000" height="1413"
-                    style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
-            <p>
-            <div class="divcss5" align="left">
-                <img class="card-img-top" id="photo" src="{{asset('/photo/'.$tojson[0])}}"
-                     style="object-fit: contain;position: absolute; left: 3px; top: 3px;" alt="">
+            <div style="position: absolute;">
+                <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+                {{--    background-image:url({{asset('images/uccu/uccu1.jpg')}});--}}
+                <canvas id="textlayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+                <canvas id="imglayer" width="1000" height="1413"
+                        style="position: absolute; left: 0; top: 0; z-index: 1; background-image:url({{asset('images/uccu/uccu1.jpg')}}); "></canvas>
+                <p>
+                    <img class="card-img-top" id="photo" src="{{asset('/photo/'.$tojson[0])}}"
+                         style="object-fit: contain;" alt="">
+                </p>
             </div>
-            </p>
         </div>
 
         <canvas id="c2" width="1000" height="1413"></canvas>

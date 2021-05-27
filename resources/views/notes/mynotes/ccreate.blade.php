@@ -32,8 +32,10 @@
 
     <form id="json" name="json" method="POST" action="/notes" enctype="multipart/form-data">
         @csrf
-
-        課程：<input type="text" name="class" id="class" value="{{$course}}" readonly style="background-color:transparent;font-size:15px;border-style:none"><br>
+        <p>
+        課程：<span class="span.mark-pen" style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">
+            <input type="text" name="class" id="class" value="{{$course}}" SIZE={{strlen($course)}} readonly style="background-color:transparent;font-size:15px;border-style:none"></span>
+        </p>
         筆記名稱：<input name="notename" id="notename">&emsp;
 
         <div style="display: none">

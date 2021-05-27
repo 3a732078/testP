@@ -155,6 +155,17 @@
         <br><br>
 {{--        //下面是跟課程有關的 20210127 (先註解,之後要弄回來)--}}
         {{--    課程：<input name="class" id="class" value="{{$class}}"><br>--}}
+        @if($className!==null)
+            <p>
+            課程：<span class="span.mark-pen"
+                  style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$className}}</span>
+            </p>
+        @elseif($className===null)
+            <p>
+            課程：<span class="span.mark-pen"
+                     style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">無</span>
+            </p>
+        @endif
         筆記名稱：<input name="notename" id="notename" value="{{$name}}">&ensp;
         <div style="display:none">
 {{--            入口--}}
@@ -250,15 +261,15 @@
                             background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;">
                 </canvas>
             @elseif($textbookId===null)
-                <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
+                <div style="position: absolute;">
+                    <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 3;"></canvas>
 
-                <canvas id="textlayer" width="1000" height="1413"
-                        style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
-                <canvas id="imglayer" width="1000" height="1413"
-                        style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-                <div class="divcss5" align="left">
-                    <img class="card-img-top" id="photo" src=""
-                         style="object-fit: contain;position: absolute; left: 3px; top: 3px;height: auto;width: auto;" alt="">
+                    <canvas id="textlayer" width="1000" height="1413"
+                            style="position: absolute; left: 0; top: 0; z-index: 2;"></canvas>
+                    <canvas id="imglayer" width="1000" height="1413"
+                            style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+                    <img class="card-img-top" id="photo" src="" align="left"
+                         style="object-fit: contain;margin-top:16px;height: auto;width: auto;" alt="">
                 </div>
             @endif
         </div>

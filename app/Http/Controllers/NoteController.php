@@ -83,6 +83,9 @@ class NoteController extends Controller
 
     public function create(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -109,7 +112,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.create',['classmate'=>$classmate],['coursename'=>$coursename]);
+        return view('notes.create',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     public function insert(Request $request)
@@ -145,6 +148,9 @@ class NoteController extends Controller
 
     public function pcreate(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -171,7 +177,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename]);
+        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     /**
@@ -213,15 +219,28 @@ class NoteController extends Controller
                 'textfile'=>$path
             ]);
         }else{
-            Note::create([
-                'user_id'=>$request->user()->id,
-                'title'=>$request->notename,
-                'time'=>now(),
-                'page'=>$request->pages,
-                'share'=>0,
-                'like'=>0,
-                'textfile'=>$path
-            ]);
+            if ($request->class==='無分類'){
+                Note::create([
+                    'user_id'=>$request->user()->id,
+                    'title'=>$request->notename,
+                    'time'=>now(),
+                    'page'=>$request->pages,
+                    'share'=>0,
+                    'like'=>0,
+                    'textfile'=>$path
+                ]);
+            }else{
+                Note::create([
+                    'user_id'=>$request->user()->id,
+                    'title'=>$request->notename,
+                    'attach'=>$request->class,
+                    'time'=>now(),
+                    'page'=>$request->pages,
+                    'share'=>0,
+                    'like'=>0,
+                    'textfile'=>$path
+                ]);
+            }
         }
         return redirect('/mynotes');
 
@@ -242,6 +261,9 @@ class NoteController extends Controller
     }
     public function osimage(Request $request)
     {
+        session_start();
+        $classId=$_SESSION['classId'];//課程Id
+        $classname = Course::where('id', $classId)->value('name');
         $this->validate($request, [
             'upphoto' => 'required',
         ]);
@@ -295,7 +317,7 @@ class NoteController extends Controller
         $tojsonn=count($tojson);
         $sjson = json_encode($tojson);
 //         dd($tojson);
-        return view('notes.pcreate',['classmate'=>$classmate],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
+        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
 
     }
 
@@ -307,7 +329,8 @@ class NoteController extends Controller
      */
     public function show($id,Request $request)
     {
-
+        $className=Note::find($id)->attach;
+        $className = Course::where('name', $className)->value('name');
         $id1=$request->user()->id;
         $class=Student::where('user_id',$id1)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -396,7 +419,7 @@ class NoteController extends Controller
                 ->get();
 
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname,
-                'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+                'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -477,7 +500,7 @@ class NoteController extends Controller
                 ->where('comment_id','!=',null)
                 ->get();
 
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
@@ -683,6 +706,39 @@ class NoteController extends Controller
         session_start();
         $ta=$_SESSION['ta'];
         $class=$_SESSION['classId'];//課程Id
+        //        dd(Course::all()->values('name'),$request->user()->student->id);
+        $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
+        $courseId = [];
+        for ($i=0;$i<count($studentClass);$i++){
+            $courseId[$i]=$studentClass[$i]['course_id'];
+        }
+
+        $course = Course::all()->toArray();
+        $courseName = [];
+        //1
+//        $arr = array_flip(array_column($course, 'id'));
+//        foreach($courseId as $row){
+//            if (isset($arr[$row])) {
+//                $courseName[] = $course[$arr[$row]]['name'];
+//            }
+//        }
+        //2
+//        $arr3 = array_combine(array_column($course, 'id'), array_column($course, 'name'));
+//        foreach($courseId as $row){
+//            if( isset($arr3[$row])){
+//                $courseName[] = $arr3[$row];
+//            }
+//        }
+
+        $arr3 = collect($course)->mapWithKeys(function ($item) {
+                return [$item['id'] => $item['name']];
+            });
+        foreach($courseId as $row){
+            if( isset($arr3[$row])){
+                $courseName[] = $arr3[$row];
+            }
+        }
+
         $notes=Note::where('user_id',Auth::id())->get();
         $assist=Assist::where('user_id',Auth::id())->get()->toArray();
         $assist = array_column($assist, 'note_id');
@@ -702,7 +758,7 @@ class NoteController extends Controller
         $authId = Auth::id();
         $assist=DB::Select("SELECT * FROM Notes WHERE id IN ".$StringSQL." AND id != ".$authId." ");
 //      dd($assist);
-        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta]);
+        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName]);
     }
 
     public function assist(Request $request)
@@ -760,4 +816,31 @@ class NoteController extends Controller
 
         return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName,'ta'=>$ta]);
     }
+
+    public function attach($id)
+    {
+        session_start();
+        $class=$_SESSION['classId'];
+        $ta=$_SESSION['ta'];
+        $className=Course::find($class)->name;
+        $classNotes=Note::where('attach', $className)->where('share', '=', 1)
+                            ->where('textbook_id', null)
+                            ->get()->toArray();
+
+        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+        foreach($classNotes as $key => $value){
+            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+        }
+
+        $a = function($a,$b)
+        {
+            if ($a['avg']==$b['avg']) return 0;
+            return ($a['avg']>$b['avg'])?-1:1;
+        };
+        usort($classNotes,$a);
+
+        return view('notes.classes.attach',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'ta'=>$ta]);
+    }
+
 }
