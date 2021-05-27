@@ -13,14 +13,18 @@
             <div class="container-fluid">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
-                        筆記列表
+                        <i class="fa fa-folder" aria-hidden="true" style="color: #FAD689"></i>&ensp;
+                        筆記列表 - &ensp;
+                        <button  class="btn btn-default btn-xs" onclick="change('author')" id="authorhref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">我的筆記</button>
+                        <button  class="btn btn-default btn-xs" onclick="change('assist')" id="assisthref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">協同筆記</button>
+{{--                        #B4A582--}}
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <div id="author">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
-                                <tr>
+                                <tr style="background-color: #77969A ;color: black; border:2px #2d3748">
                                     <th>標題</th>
                                     <th class="mh1">引用教材</th>
                                     <style type="text/css">
@@ -34,7 +38,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+
                                 @foreach ($notes as $note)
+                                    @if(\App\Models\Course::find($class)->name === $note->attach || $note->attach===null)
                                     <tr>
                                         <td width="280">{{basename($note->textfile,'.json')}}</td>
                                         <td width="500" align="center">
@@ -48,7 +54,7 @@
                                             @for($i=0;$i<count($courseName);$i++)
                                                 @if($note->attach===$courseName[$i])
 {{--                                                    <span style="color:#2E8B57;">{{$courseName[$i]}}</span>--}}
-                                                    <span style="color:#2E8B57;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>
+                                                    <span style="color:#B47157;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>
                                                 @endif
                                             @endfor
                                             @if($note->attach===null)
@@ -65,8 +71,30 @@
                                             </form>
                                         </td>
                                     </tr>
+                                    @endif
                                 @endforeach
+                                </tbody>
+                            </table>
+                            </div>
+                            <div id="assist">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr style="background-color: #77969A ;color: #2d3748; border:2px #2d3748">
+                                    <th>標題</th>
+                                    <th class="mh1">引用教材</th>
+                                    <style type="text/css">
+                                        .mh1{
+                                            text-align:center;/** 设置水平方向居中 */
+                                            vertical-align:middle/** 设置垂直方向居中 */
+                                        }
+                                    </style>
+                                    <th class="mh1">所屬課程</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 @foreach ($assist as $note)
+                                    @if(\App\Models\Course::find($class)->name === $note->attach || $note->attach===null)
                                     <form method="POST" role="form" enctype="multipart/form-data">
                                         @csrf
                                         @method('POST')
@@ -82,6 +110,7 @@
                                             <td width="170" align="center">
                                                 @for($i=0;$i<count($courseName);$i++)
                                                     @if($note->attach===$courseName[$i])
+{{--                                                        <span style="color:#2E8B57;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>--}}
                                                         <span style="color:#2E8B57;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>
                                                     @endif
                                                 @endfor
@@ -99,15 +128,40 @@
                                     </form>
                                     </td>
                                     </tr>
-
-                                    {{--                                @endfor--}}
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+    <script>
+        document.getElementById("authorhref").disabled = true;
+        document.getElementById("assisthref").disabled=  false;
+        document.getElementById("author").hidden=  false;
+        document.getElementById("assist").hidden=  true;
+
+        function change(judgment) {
+
+            if (judgment === 'author'){
+                console.error(123);
+                document.getElementById("authorhref").disabled = true;
+                document.getElementById("assisthref").disabled=  false;
+                document.getElementById("author").hidden=  false;
+                document.getElementById("assist").hidden=  true;
+            }
+            if (judgment === 'assist'){
+                console.error(456);
+                document.getElementById("authorhref").disabled = false;
+                document.getElementById("assisthref").disabled=  true;
+                document.getElementById("author").hidden=  true;
+                document.getElementById("assist").hidden=  false;
+            }
+        }
+    </script>
 @endsection
