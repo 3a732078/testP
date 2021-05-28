@@ -132,10 +132,10 @@
         @if($textbookId!==null)
             <canvas id="note" width="1000" height="1413" style="background-image:url('{{asset('/images/'.$textbook->name.'/'.$images[0])}}');background-repeat:no-repeat; background-size:contain;"></canvas>
         @elseif($textbookId===null)
-            <canvas id="note" width="1000" height="1413"></canvas>
+            <canvas id="note" width="1000" height="1413" style="z-index: 1;"></canvas>
             <div style="position: absolute; top: 3px;">
                 <img class="card-img-top" id="photo" src=""
-                     style="object-fit: contain;margin-left:3px;height: auto;width: auto;" alt="">
+                     style="object-fit: contain;margin-left:3px;height: auto;width: auto;z-index: 2;margin-top:13px" alt="">
             </div>
         @endif
     </div>
@@ -698,7 +698,7 @@
             var list=document.getElementById("above")
             list.insertBefore(textarea,list.childNodes[0]);
             note.style.display="none";
-
+            document.getElementById("photo").style.display="none";
             if (typeof objsonNow[0][4] !== 'undefined'){
                 document.getElementById("photo").display="none";
             }
@@ -714,6 +714,7 @@
                     document.getElementById("photo").display="none";
                 }
                 textarea.style.display="block";
+                document.getElementById("photo").style.display="none";
             }
             else {
                 textarea.hidden = true;
@@ -722,6 +723,9 @@
                 note.style.display="block";
                 if (typeof objsonNow[0][4] !== 'undefined'){
                     document.getElementById("photo").display="block";
+                }
+                if(document.getElementById("photo").style.display==="none"){
+                    document.getElementById("photo").style.display="block";
                 }
             }
         }

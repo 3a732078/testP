@@ -114,15 +114,15 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">筆記相關資訊:</h6>
-                    <a class="collapse-item" href="/notes/create">新增筆記</a>
-                    <a class="collapse-item" href="#createn" data-toggle="collapse" style="color:black;line-height:15px;"><span>新增筆記!</span></a>
+{{--                    <a class="collapse-item" href="/notes/create">新增筆記</a>--}}
+                    <a class="collapse-item" href="#createn" data-toggle="collapse" style="color:black;line-height:15px;"><span>新增筆記</span></a>
                     <div id="createn" class="collapse">
                         <a class="collapse-item" href="/notes/create" style="color:black;line-height:15px;">-&ensp;空白筆記</a>
                         <a class="collapse-item" href="/notes/insert" style="color:black;line-height:15px;">-&ensp;照片筆記</a>
                     </div>
-                    <a class="collapse-item" href="{{route('notes.mynotes')}}">我的筆記</a>
+                    <a class="collapse-item" href="{{route('notes.mynotes')}}">筆記列表</a>
                     <a class="collapse-item" href="{{route('notes.search')}}">搜尋筆記</a>
-                    <a class="collapse-item" href="{{route('favor.index')}}">收藏筆記</a>
+                    <a class="collapse-item" href="{{route('favor.index')}}">收藏庫</a>
                 </div>
             </div>
         </li>
@@ -365,6 +365,11 @@
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 登出
                             </a>
+                            @if(\Illuminate\Support\Facades\Auth::user()->type=='學生')
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#tota">
+                                切換為TA
+                            </a>
+                                @endif
                         </div>
                     </li>
 
@@ -405,6 +410,24 @@
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
                 <a class="btn btn-danger" href="{{route('logout')}}">登出</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="tota" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">確認切換</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">若確定切換為TA，請按切換鈕</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                <a class="btn btn-danger" href="/ta">切換</a>
             </div>
         </div>
     </div>

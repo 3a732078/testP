@@ -131,7 +131,7 @@ Route::post('/replies',[CommentController::class,'reply'])->name('comments.reply
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
 //TA:顯示課堂學生列表
-Route::get('ta/course',[TaController::class,'course'])->name('ta.course');
+Route::get('ta/course/{class}',[TaController::class,'course'])->name('ta.course');
 
 //TA查看學生訊息
 Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('questions.tashow')->where('id', '[0-9]+');
@@ -141,6 +141,9 @@ Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questio
 
 //ta首頁
 Route::get('/ta',[TaController::class,'index'])->name('ta.index')->middleware('auth');
+
+//ta擔任課程頁面
+Route::get('/ta/classes/{class}',[TaController::class,'tacourse'])->name('ta.tacourse');
 
 
 //添加協作者

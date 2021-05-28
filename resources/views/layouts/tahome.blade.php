@@ -58,7 +58,7 @@
     <ul class="navbar-nav bg-gradient-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('students.index')}}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('ta.index')}}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-sticky-note"></i>
             </div>

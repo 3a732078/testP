@@ -155,9 +155,13 @@ class QuestionController extends Controller
     }
     public function tashow(Request $request,$id){
 
+        session_start();
+//        dd($_SESSION['class']);
+
         $student=Student::where('id',$id)->value('id');
         $loginstudent = Student::where('user_id', $request->user()->id)->value('id');
-        $class=Ta::where('student_id', $loginstudent)->value('course_id');
+//        $class=Ta::where('student_id', $loginstudent)->value('course_id');
+        $class=$_SESSION['class'];
         $ta=Ta::where('student_id', $loginstudent)->value('id');
         $questions=Question::where('ta_id', $ta)->where('student_id', $id)->get();
 

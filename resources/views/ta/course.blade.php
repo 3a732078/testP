@@ -17,7 +17,7 @@
                         <div class="col col-1">@php echo $classlist[$i]; @endphp</div>
                         <div class="col col-2"></div>
                         <div class="col col-3"></div>
-                        <div class="col col-4"><a href="questions/@php echo $stu_id[$i]; @endphp">@php echo $student_list[$i]; @endphp</a></div>
+                        <div class="col col-4"><a href="/ta/questions/@php echo $stu_id[$i]; @endphp">@php echo $student_list[$i]; @endphp</a></div>
                     </li>
                 @endfor
 
