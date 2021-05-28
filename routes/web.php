@@ -142,6 +142,9 @@ Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questio
 //ta首頁
 Route::get('/ta',[TaController::class,'index'])->name('ta.index')->middleware('auth');
 
+//ta擔任課程頁面
+Route::get('/ta/classes/{class}',[TaController::class,'tacourse'])->name('ta.tacourse');
+
 
 //添加協作者
 Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
