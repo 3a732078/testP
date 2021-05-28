@@ -1,64 +1,60 @@
-@extends('layouts.teacher.main')
+<html>
+@include('layouts.teacher.head')
 
-@section('content')
-    <style>
-        table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-            width: 200px;
-        }
-        #scrollDiv{
-            display: inline-block;
-            float: left;
-            overflow-x: auto;
-            white-space:nowrap;
-        }
+<body>
 
-    </style>
-
-    <table border="1">
-        <tr>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-
-        </tr>
-    </table>
-
-    <title>Hello, world!</title>
-
-    <h1>Hello, world!</h1>
-    <!-- 選擇年度 -->
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            選擇年度
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="">Action</a>
-        </div>
+<div class="wrapper">
+    <div id="one">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>
+                        1
+                    </td><td>
+                        1
+                    </td><td>
+                        1
+                    </td><td>
+                        1
+                    </td>
+                </tr>
+            </thead>
+        </table>
     </div>
+</div>
+
+
+@php
+    $courses = \App\Models\User::find(Auth::id())->teacher()->first()->courses()->get();
+
+    $years = array();
+    foreach ($courses as $course){
+        $years[$course -> id] = $course -> year;
+    }
+    echo $courses;
+    rsort($years);
+    $datas = array();
+    $year_flag = 10;
+    echo "<hr>";
+    $i = 1;
+    foreach ($years as $year){
+        if ($year_flag != $year){
+            $datas[$i] = $year;
+        }
+        $year_flag = $year;
+        $i ++;
+    }
+        echo "<hr>";
+    foreach ($datas as $data){
+        echo $data . ",";
+    }
+@endphp
+
+
+</body>
+</html>
 
 
 
-@endsection
 
 

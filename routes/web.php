@@ -158,12 +158,35 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 
-    #課程
-        // naspace [ teacher/{course} ] =============================
-        Route::prefix('{course}')->group(function (){
+        //與TA聯繫
+        Route::get('ta',[
+            TeacherController::class,'TA'
+        ])->name('teacher.ta');
+
+    #年度
+        // namespace[teacher/{year}} ] ================================
+        Route::prefix('{year}')->group(function (){
             //首頁
             Route::get('index',[
-                TeacherController::class,'course'
-            ])->name('teacher.course.index');
+                TeacherController::class,'year'
+            ])->name('teacher.year');
+
+        #課程
+            // naspace [ teacher/{year}/ {course} ] =============================
+            Route::prefix('{course}')->group(function (){
+                //首頁
+                Route::get('index',[
+                    TeacherController::class,'course'
+                ])->name('teacher.course.index');
+            });
+
         });
+
+    });
+
+#TA
+    Route::prefix('TA')->group(function (){
+        Route::get('index',[
+            TaController::class,'setting'
+        ])->name('ta.setting');
     });

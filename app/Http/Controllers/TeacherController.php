@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Notice;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,22 +18,33 @@ class TeacherController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+//    {}
+//    public function fack()
     {
-        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
-
         return view('teacher.index',[
-            'courses' => $courses,
         ]);
     }
 
-    public function course(Request $request){
+    public function year(Request $request , $yead_id)
+    {
 //        抓取該教授的所有課程
-        $courses = Teacher::where(
-            'user_id',Auth::user()->id
-        )-> first() ->courses() -> get();
+//        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
 
-        return view('teacher.course',[
+        return view('teacher.year.index',[
+            'year' => $yead_id,
+        ]);
+    }
 
+    public function course(Request $request,$year_id,$course_id){
+//        抓取該教授的所有課程
+//        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
+        $course = Course::find($course_id);
+        $notices = Notice::all();
+        $user = User::find(Auth::id());
+        return view('teacher.course.index',[
+            'course' => $course,
+            'notices' => $notices,
+            'user' => $user,
         ]);
 
     }
@@ -103,10 +115,16 @@ class TeacherController extends Controller
         //
     }
 
+    public function TA(){
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
+
+        return view('teacher.ta',[
+            'courses' => $courses,
+        ]);
+    }
+
     public function test(Teacher $teacher)
     {
-        $data = '';
-
         return view('teacher.data');
     }
 

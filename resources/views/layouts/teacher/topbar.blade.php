@@ -1,23 +1,21 @@
 <!-- Topbar -->
-<nav class="navbar navbar-expand bg-light mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-gray-100 topbar mb-4 static-top shadow">
 
-    {{--    有待研究的button--}}
-    <button id="sidebarToggleTop" class="btn btn-wrap d-md-none rounded-circle mr-3">
-        <i class="fa fa-bars">asdfdsfsdafds</i>
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
     </button>
 
     <!-- Topbar Search -->
-@yield('search')
+    @yield('search')
+    @yield('header_text')
 
-{{--    Topbar Courses  --}}
-@yield('courses_list')
-
-<!-- Topbar Navbar -->
+    <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
+        @yield('header_item')
 
         @include('layouts.teacher.message')
 
-        {{--        待研究--}}
         <div class="topbar-divider d-none d-sm-block"></div>
 
         <!-- Nav Item - User Information -->
@@ -43,4 +41,3 @@
     </ul>
 
 </nav>
-<!-- End of Topbar -->

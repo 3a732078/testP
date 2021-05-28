@@ -10,22 +10,54 @@
 @endsection
 
 {{-- TopBar Courses--}}
-@section('courses_list')
-    <table style="display: block;overflow-x: auto;white-space: nowrap "; width="80px">
-        @if ( count($courses) > 0)
-            @foreach($courses as $course)
-                <ul>
-                    <li>
-                        <a class="collapse-item" href="/classes/{{ $course->id }}" >
-                            <span >
-                                {{$course -> name}}
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            @endforeach
-        @endif
-    </table>
+@section('hearder_item')
+    {{-- !先選擇年度   --}}
+@endsection
+
+{{-- search --}}
+@section('search')
+    <div class="search-container">
+        <form action="{{route('notes.search')}}" class="ml-md-3">
+            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">
+            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>
+        </form>
+    </div>
+@endsection
+
+{{-- 頁面提示 --}}
+@section('header_text')
+    <h3 style="margin-left: 20px">
+        請選擇年度
+    </h3>
+@endsection
+
+{{-- !選擇年度 --}}
+@section('year')
+
+    @php
+        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
+
+        $years = array();
+        foreach ($courses as $course){
+            $years[$course -> id] = $course -> year;
+        }
+        rsort($years);
+        $datas = array();
+        $year_flag = 10;
+        $i = 1;
+        foreach ($years as $year){
+            if ($year_flag != $year){
+                $datas[$i] = $year;
+            }
+            $year_flag = $year;
+            $i ++;
+        }
+        foreach ($datas as $data){
+            echo "<a class= 'collapse-item' href='$data/index'>$data </a>";
+
+        }
+    @endphp
+
 @endsection
 
 {{-- message--}}
