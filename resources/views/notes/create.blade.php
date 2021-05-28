@@ -78,8 +78,8 @@
     <button id="addpage">+</button>
     <div style="position: relative">
         <div align="left">
-            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;,
-            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>
+            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>
+{{--            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>--}}
 {{--            第--}}
 {{--            @for($i=0;$i<count($images);$i++)--}}
 {{--                <button onclick="bookimg({{$i+1}})" id="num" class="btn btn-danger btn-sm">{{$i+1}}</button>--}}
@@ -661,6 +661,8 @@
 
         pagebtn.onclick = function() {
             console.log("當前點擊頁數"+pagebtn.value);
+            nowPage = pagebtn.value;
+            document.getElementById("page").value=`${nowPage}`;
             console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
             // linetext = [];
             // textarr = [];
@@ -807,6 +809,8 @@
         console.log("123");
         const f = document.getElementById('firstpage');
         console.log("當前點擊頁數"+f.value);
+        nowPage = f.value;
+        document.getElementById("page").value=`${nowPage}`;
         console.log("當前點擊頁數之內容："+jsonStash[moarray-1]);
         // linetext = [];
         // textarr = [];
