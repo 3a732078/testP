@@ -698,7 +698,7 @@
             var list=document.getElementById("above")
             list.insertBefore(textarea,list.childNodes[0]);
             note.style.display="none";
-
+            document.getElementById("photo").style.display="none";
             if (typeof objsonNow[0][4] !== 'undefined'){
                 document.getElementById("photo").display="none";
             }
@@ -714,6 +714,7 @@
                     document.getElementById("photo").display="none";
                 }
                 textarea.style.display="block";
+                document.getElementById("photo").style.display="none";
             }
             else {
                 textarea.hidden = true;
@@ -722,6 +723,9 @@
                 note.style.display="block";
                 if (typeof objsonNow[0][4] !== 'undefined'){
                     document.getElementById("photo").display="block";
+                }
+                if(document.getElementById("photo").style.display==="none"){
+                    document.getElementById("photo").style.display="block";
                 }
             }
         }
