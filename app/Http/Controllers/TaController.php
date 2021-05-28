@@ -46,12 +46,16 @@ class TaController extends Controller
 
         }
     }
-    public function course(Request $request)
+    public function course(Request $request,$class)
     {
+//        dd($class);
         $student = Student::where('user_id', $request->user()->id)->value('id');
+        session_start();
+        $_SESSION['class']=$class;
 
-        $course = Ta::where('student_id', $student)->value('course_id');
-
+//
+//        $course = Ta::where('student_id', $student)->value('course_id');
+        $course=$class;
         $course_name=Course::where('id', $course)->value('name');
         $list=CourseStudent::where('course_id', $course)->where('student_id','!=',$student)->get();
 
@@ -70,12 +74,14 @@ class TaController extends Controller
             array_push($stu_id,$sid);
             array_push($classlist,$class);
         }
-        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist]);
+        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist,'course'=>$course]);
 
     }
 
-    public function tacourse()
+    public function tacourse(Request $request,$class)
     {
+
+//        dd($class);
         $tai=User::where('id',Auth::id())->value('id');
         $taui=Student::where('user_id',$tai)->value('id');
         $taci=Ta::where('student_id',$taui)->get();
@@ -93,7 +99,7 @@ class TaController extends Controller
             array_push($tacid,$cid);
         }
 
-        return view('ta.tacourse',['tacid'=>$tacid,'tac'=>$tac,'count'=>$count]);
+        return view('ta.tacourse',['tacid'=>$tacid,'tac'=>$tac,'count'=>$count,'class'=>$class]);
 
     }
     /**
