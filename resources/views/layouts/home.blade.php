@@ -204,7 +204,7 @@
                         <a class="collapse-item" href="/notes/create" style="color:black;line-height:15px;">-&ensp;空白筆記</a>
                         <a class="collapse-item" href="/notes/insert" style="color:black;line-height:15px;">-&ensp;照片筆記</a>
                     </div>
-                    <a class="collapse-item" href="{{route('notes.mynotes')}}">我的筆記</a>
+                    <a class="collapse-item" href="{{route('notes.mynotes')}}">筆記列表</a>
                     <a class="collapse-item" href="{{route('notes.search')}}">搜尋筆記</a>
                     <a class="collapse-item" href="{{route('favor.index')}}">收藏筆記</a>
                 </div>
