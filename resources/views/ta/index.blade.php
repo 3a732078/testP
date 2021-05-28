@@ -9,12 +9,17 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">已選課程:</h6>
-                <a class="collapse-item" href="">統計學</a>
+                @if ($count > 0)
+                    @for($i = 0; $i < $count; $i++)
+                        <a class="collapse-item" href="/ta/classes/@php echo $tacid[$i]; @endphp" >@php echo $tac[$i]; @endphp</a>
+                    @endfor
+                @endif
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
+    @if(1!=1)
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
            aria-expanded="true" aria-controls="collapseUtilities">
@@ -62,4 +67,5 @@
             <i class="fas fa-fw fa-comment"></i>
             <span>與Ta聯繫</span></a>
     </li>
+    @endif
 @endsection
