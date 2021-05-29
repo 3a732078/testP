@@ -14,7 +14,7 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link "  href='index'>最新消息</a>
         </li>
 
         <li class="nav-item">
@@ -22,7 +22,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
+            <a class="nav-link active" aria-current="page" href= 'behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
@@ -55,12 +55,12 @@
 
 {{-- search --}}
 @section('search')
-{{--    <div class="search-container">--}}
-{{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
-{{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
-{{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
-{{--        </form>--}}
-{{--    </div>--}}
+    {{--    <div class="search-container">--}}
+    {{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
+    {{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
+    {{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
+    {{--        </form>--}}
+    {{--    </div>--}}
 @endsection
 
 
@@ -69,19 +69,19 @@
 @section('side_courses')
     <h5 class="collapse-header">課程列表:</h5>
     @foreach($years as $year)
-    <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-        <option value="{{route('teacher.course',$year)}}"><h6>{{$year}}學年度</h6></option>
-        @foreach($courses as $course)
-            <option value="{{$course -> id}}/index">
-                <h5>
-                    <a href="#">
-                        {{$course -> name}} ({{$course -> classroom}})
-                    </a>
-                </h5>
-            </option>
-        @endforeach
-    </select>
-    </a>
+        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+            <option value="{{route('teacher.course',$year)}}"><h6>{{$year}}學年度</h6></option>
+            @foreach($courses as $course)
+                <option value="{{$course -> id}}/index">
+                    <h5>
+                        <a href="#">
+                            {{$course -> name}} ({{$course -> classroom}})
+                        </a>
+                    </h5>
+                </option>
+            @endforeach
+        </select>
+        </a>
     @endforeach
 @endsection
 

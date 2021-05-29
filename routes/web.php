@@ -161,6 +161,21 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 
+        //常見問題
+        Route::get('problem',[
+            TeacherController::class,'problem'
+        ])  -> name('teacher.problem');
+
+        //行事曆
+        Route::get('behave',[
+            TeacherController::class,'behave'
+        ])  -> name('teacher.behave');
+
+        //系統建議
+        Route::get('system_suggest',[
+            TeacherController::class,'system_suggest'
+        ])  -> name('teacher.system_suggest');
+
         //與TA聯繫
         Route::get('ta',[
             TeacherController::class,'TA'
