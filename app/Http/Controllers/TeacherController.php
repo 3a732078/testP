@@ -21,7 +21,22 @@ class TeacherController extends Controller
 //    {}
 //    public function fack()
     {
+
+        //=== 抓取課程年度陣列
+//        $years = array();
+
+        //=== 抓取該老師所有課程
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get()->
+        unique('year')->sortbydesc('year');
+
+        // === 寫入資料
+        foreach ($courses as $course) {
+            $years[$course->id] = $course->year;
+        }
+
         return view('teacher.index',[
+            'courses'=>$courses,
+            'years' => $years,
         ]);
     }
 

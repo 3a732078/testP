@@ -166,23 +166,22 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'TA'
         ])->name('teacher.ta');
 
-    #年度
-        // namespace[teacher/{year}} ] ================================
+    #選擇課程
+        // namespace[teacher/{course_id}} ] ================================
+        Route::prefix('{course_id}')->group(function (){
+            //首頁
+            Route::get('index',[
+                TeacherController::class,'course'
+            ])->name('teacher.course');
+        });
+
+    #選擇年度
+        // naspace [ teacher/{year_id} ] =============================
         Route::prefix('{year}')->group(function (){
             //首頁
             Route::get('index',[
                 TeacherController::class,'year'
             ])->name('teacher.year');
-
-        #課程
-            // naspace [ teacher/{year}/ {course} ] =============================
-            Route::prefix('{course}')->group(function (){
-                //首頁
-                Route::get('index',[
-                    TeacherController::class,'course'
-                ])->name('teacher.course.index');
-            });
-
         });
 
     });
