@@ -24,14 +24,15 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $ran = random_int(0,1);
-        if ($ran == 0){
-            $type = '學生';
+        $ran = random_int(1,2);
+        if($ran == 1){
+            $type = "老師";
         }else{
-            $type = '老師';
+            $type = "學生";
         }
+
         return [
-            'account' => $this->faker->text(10),
+            'account' => $this->faker->unique()->md5,
             'name' => $this->faker->name,
             'password' => Hash::make('1234'),
             'email' => $this->faker->unique()->safeEmail,
