@@ -37,7 +37,11 @@
 {{-- 頁面提示 --}}
 @section('header_text')
     <div class="row row-cols-2" >
-        <div class="col-12">
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-6">
             <h6 style="margin-left: 20px">
                 正處於【教室】環境
             </h6>
@@ -47,10 +51,9 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success ">教室</button>
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 => 辦公室  </button>
         </div>
     </div>
-
 @endsection
 
 {{-- search --}}

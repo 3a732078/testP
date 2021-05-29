@@ -11,61 +11,44 @@
 
 {{-- TopBar Courses--}}
 @section('header_item')
-    {{--        @php--}}
-    {{--            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();--}}
-    {{--            $datas = array();--}}
-    {{--            foreach ($courses as $course){--}}
-    {{--                $$datas[$course -> id] = $course -> where('year','=',110);--}}
-    {{--            }--}}
-    {{--        @endphp--}}
 
-    @php
-        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-    @endphp
-    @if ( count($courses) > 0)
-        @foreach($courses as $course)
+    <h1>
+        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+            @foreach($years as $year)
+                <option value="{{route('teacher.year',$course -> year)}}">
+                    <h6>
+                        {{$year}}學年度
+                    </h6>
+                </option>
+            @endforeach
+        </select>
+    </h1>
 
-            <ul>
-                <li>
-                    <a class="collapse-item" href='{{ $course->id }}/index' >
-                                <span >
-                                    {{$course -> name}}
-                                </span>
-                    </a>
-                </li>
-            </ul>
-        @endforeach
-    @endif
-@endsection
-
-{{-- !選擇年度 --}}
-@section('year')
-
-    @php
-        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-
-        $years = array();
-        foreach ($courses as $course){
-            $years[$course -> id] = $course -> year;
-        }
-        rsort($years);
-        $datas = array();
-        $year_flag = 10;
-        $i = 1;
-        foreach ($years as $year){
-            if ($year_flag != $year){
-                $datas[$i] = $year;
-            }
-            $year_flag = $year;
-            $i ++;
-        }
-        foreach ($datas as $data){
-            echo "<a class= 'collapse-item' href='index/$data'>$data </a>";
-
-        }
-    @endphp
 
 @endsection
+
+{{-- 頁面提示 --}}
+@section('header_text')
+    <div class="row row-cols-2" >
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-6">
+            <h6 style="margin-left: 20px">
+                正處於【教室】環境
+            </h6>
+        </div>
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 => 辦公室  </button>
+        </div>
+    </div>
+@endsection
+
 
 {{-- Content --}}
 @section('content')
@@ -150,7 +133,7 @@
 
 
                     </div>
-                
+
 
             </div>
 

@@ -176,25 +176,25 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'system_suggest'
         ])  -> name('teacher.system_suggest');
 
-        //與TA聯繫
-        Route::get('ta',[
-            TeacherController::class,'TA'
-        ])->name('teacher.ta');
-
     #選擇課程
         // namespace[teacher/{course_id}} ] ================================
         Route::prefix('{course_id}')->group(function (){
             //首頁
-            Route::get('index',[
+            Route::get('course',[
                 TeacherController::class,'course'
-            ])->name('teacher.course');
+            ])->name('teacher.course.index');
+
+            //與TA聯繫
+            Route::get('ta',[
+                TeacherController::class,'TA'
+            ])->name('teacher.course.ta');
         });
 
     #選擇年度
         // naspace [ teacher/{year_id} ] =============================
         Route::prefix('{year}')->group(function (){
             //首頁
-            Route::get('index',[
+            Route::get('year',[
                 TeacherController::class,'year'
             ])->name('teacher.year');
         });
@@ -203,7 +203,8 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
 #TA
     Route::prefix('TA')->group(function (){
+        //檢視TA主頁
         Route::get('index',[
-            TaController::class,'setting'
-        ])->name('ta.setting');
+            TaController::class,'index'
+        ])->name('ta.index');
     });
