@@ -16,14 +16,14 @@ class TeacherSeeder extends Seeder
     public function run()
     {
         //抓取所有老師資料
-        $teachers = User::where('type','老師')->get();
+        $users_teacher = User::where('type','老師')->get();
 
 
 
-        foreach ($teachers as $teacher){
-            $department_id = random_int(0,4);
+        foreach ($users_teacher as $user_teacher){
+            $department_id = random_int(1,4);
             Teacher::create([
-                'user_id' => $teacher -> id,
+                'user_id' => $user_teacher -> id,
                 'department_id' => $department_id,
             ]);
         }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,25 +21,23 @@ class CourseSeeder extends Seeder
             ['四資','四流','四工','四冷'],
             ['一','二','三']
         ];
-        $teachers = User::where('type',"老師")->get();
+        $teachers = Teacher::all();
 
-        for($int = 1 ; $int < 20 ; $int++){
+        for($int = 1 ; $int < 200 ; $int++){
             foreach ($teachers as $teacher){
-                $ran_department = random_int(1,4);
-                $ran_grade = random_int(1,3);
-                $ran_courses = random_int(1,5);
+                $ran_department = random_int(1,4);//在$classroom使用時-1
+                $ran_grade = random_int(0,2);
+                $ran_courses = random_int(0,4);
                 Course::create([
-                    'teacher_id' => $teacher -> teacher() -> id,
+                    'teacher_id' => $teacher -> id,
                     'department_id' => $ran_department,
                     'name' => $courses[$ran_courses],
-                    'grade' => "2",
-                    'classroom' => $classroom[0][$ran_department].$classroom[1][$ran_grade]."甲",
+                    'grade' => $ran_grade + 1 ,
+                    'classroom' => $classroom[0][$ran_department-1].$classroom[1][$ran_grade]."甲",
                     'year' => random_int(95,110),
                     'semester' => "1",
                 ]);
-
             }
-
         }
 //        Course::factory()->count(100)->create();
     }

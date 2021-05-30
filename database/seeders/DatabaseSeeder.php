@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
     # [ call ]
-//        $this->call(UserSeeder::class);
+        $this->call(UserSeeder::class);
         $this->call(DepartmentSeeder::class);
-//        $this->call(TeacherSeeder::class);
-//        $this->call(StudentSeeder::class);
-//        $this->call(CourseSeeder::class); //  --- 建立課程
+        $this->call(TeacherSeeder::class);
+        $this->call(StudentSeeder::class);
+        $this->call(CourseSeeder::class); // --- 建立課程
 
         //        ----- relatetion ----
 
