@@ -11,7 +11,13 @@
 
 {{-- TopBar Courses--}}
 @section('header_item')
-
+{{-- 修改topbar bd --}}
+<style>
+    .topbar{
+        background-color: #6a1a21;
+    }
+</style>
+{{-- 年度列表--}}
     <h1>
         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
             @foreach($years as $year)
@@ -23,6 +29,8 @@
             @endforeach
         </select>
     </h1>
+
+{{-- 課程選單 --}}
 
 
 @endsection
@@ -44,7 +52,7 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 => 辦公室  </button>
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
         </div>
     </div>
 @endsection

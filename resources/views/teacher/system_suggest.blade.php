@@ -51,7 +51,7 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 => 辦公室  </button>
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -64,28 +64,6 @@
     {{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
     {{--        </form>--}}
     {{--    </div>--}}
-@endsection
-
-
-
-{{-- 課程列表 --}}
-@section('side_courses')
-    <h5 class="collapse-header">課程列表:</h5>
-    @foreach($years as $year)
-        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-            <option value="{{route('teacher.course',$year)}}"><h6>{{$year}}學年度</h6></option>
-            @foreach($courses as $course)
-                <option value="{{$course -> id}}/index">
-                    <h5>
-                        <a href="#">
-                            {{$course -> name}} ({{$course -> classroom}})
-                        </a>
-                    </h5>
-                </option>
-            @endforeach
-        </select>
-        </a>
-    @endforeach
 @endsection
 
 {{-- Content --}}
