@@ -32,20 +32,23 @@
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
+
+                    {{--                    抓取列表資料--}}
                     @php
                         $years = array();
 
                         //=== 抓取該老師所有課程
                         $courses = \App\Models\User::find(
-                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()->
-                        unique('year')->sortbydesc('year');
+                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()->sortbydesc('year');
 
+                        $datas = $courses -> unique('year');
                         // === 寫入資料
-                        foreach ($courses as $course) {
+                        foreach ( $datas as $course) {
                             $years[$course->id] = $course->year;
                         }
                     @endphp
 
+                    {{--                    顯示列表資料--}}
                     <h5 class="collapse-header">課程列表:</h5>
                     @foreach($years as $year)
                         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
