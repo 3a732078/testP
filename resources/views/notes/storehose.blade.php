@@ -15,7 +15,7 @@
                     <div class="card-header">
                         <i class="fa fa-heart" style="color: #B22222;"></i>&ensp;
 {{--                        收藏庫--}}
-                        <button  class="btn btn-default btn-xs" onclick="change('course')" id="coursehref" style="color:black;background-color: #9ca8b8 ;line-height: 20px;">課程之筆記</button>
+                        <button  class="btn btn-default btn-xs" onclick="change('courses')" id="coursehref" style="color:black;background-color: #9ca8b8 ;line-height: 20px;">課程之筆記</button>
                         <button  class="btn btn-default btn-xs" onclick="change('only')" id="onlyhref" style="color:black;background-color: #9ca8b8 ;line-height: 20px;">純筆記</button>
                     </div>
                     <div class="card-body">
@@ -110,7 +110,7 @@
 
         function change(judgment) {
 
-            if (judgment === 'course'){
+            if (judgment === 'courses'){
                 console.error(123);
                 document.getElementById("coursehref").disabled = true;
                 document.getElementById("onlyhref").disabled = false;

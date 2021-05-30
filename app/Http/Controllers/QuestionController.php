@@ -38,8 +38,8 @@ class QuestionController extends Controller
         for($i=0;$i<$count;$i++){
 //            $courses = Coursestudent::where('student_id', $student)->value('id');
             $course=$courses->pluck('course_id');
-//            echo $course[$i];
-//            echo "抓到的課堂ID是：".$course;
+//            echo $courses[$i];
+//            echo "抓到的課堂ID是：".$courses;
             $ta=Ta::where('course_id', $course[$i])->value('student_id');
 
             $tastu=Student::where('id', $ta)->value('user_id');
@@ -221,6 +221,6 @@ class QuestionController extends Controller
         }
 
 
-//        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class]);
+//        return view('classes.index',['courses'=>$courses,'notices'=>$notices,'class'=>$class]);
     }
 }

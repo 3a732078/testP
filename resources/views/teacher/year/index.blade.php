@@ -14,8 +14,8 @@
 {{--        @php--}}
 {{--            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();--}}
 {{--            $datas = array();--}}
-{{--            foreach ($courses as $course){--}}
-{{--                $$datas[$course -> id] = $course -> where('year','=',110);--}}
+{{--            foreach ($courses as $courses){--}}
+{{--                $$datas[$courses -> id] = $courses -> where('year','=',110);--}}
 {{--            }--}}
 {{--        @endphp--}}
 

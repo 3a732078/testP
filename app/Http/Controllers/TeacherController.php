@@ -54,7 +54,7 @@ class TeacherController extends Controller
 
         $notices = $course->notices()->get();
 
-        return view('teacher.course.index',[
+        return view('teacher.courses.notices',[
             'course' => $course,
             'notices' => $notices,
             'years' => $years,

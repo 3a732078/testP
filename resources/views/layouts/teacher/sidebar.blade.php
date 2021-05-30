@@ -59,7 +59,7 @@
                             </option>
                             @foreach($courses as $course)
                                 @if( $course -> year == $year )
-                                    <option value="{{route('teacher.course.index',$course -> id)}}">
+                                    <option value="{{route('teacher.courses.notices',$course -> id)}}">
                                         <h5>
                                             <a href="teacher/{{$course -> id}}/course">
                                                 {{$course -> name}} ({{$course -> classroom}})
