@@ -22,8 +22,12 @@ class DepartmentFactory extends Factory
      */
     public function definition()
     {
-        return [
-          'name' => $this->faker->city."館"
-        ];
+        $names = ["資訊管理系","流通管理系","工業工程系","冷凍工程系"];
+        foreach ($names as $name){
+            return [
+                'name' => $name
+            ];
+        }
+
     }
 }

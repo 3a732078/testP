@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
 
     # [ call ]
 //        $this->call(UserSeeder::class);
-//        $this->call(DepartmentSeeder::class);
+        $this->call(DepartmentSeeder::class);
 //        $this->call(TeacherSeeder::class);
 //        $this->call(StudentSeeder::class);
-        $this->call(CourseSeeder::class); //  --- 建立課程
+//        $this->call(CourseSeeder::class); //  --- 建立課程
 
         //        ----- relatetion ----
 
