@@ -14,19 +14,19 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link " href="index">最新消息</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href='problem'>常見問題</a>
+            <a class="nav-link active" aria-current="page" href="problem">常見問題</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
+            <a class="nav-link" href= 'behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href= 'system_suggest'>系統建議</a>
+            <a class="nav-link" href="system_suggest">系統建議</a>
         </li>
         {{--        <li class="nav-item">--}}
         {{--            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--}}
@@ -58,20 +58,14 @@
 
 {{-- search --}}
 @section('search')
-{{--    <div class="search-container">--}}
-{{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
-{{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
-{{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
-{{--        </form>--}}
-{{--    </div>--}}
+    {{--    <div class="search-container">--}}
+    {{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
+    {{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
+    {{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
+    {{--        </form>--}}
+    {{--    </div>--}}
 @endsection
 
-
-
-{{-- 課程列表 --}}
-@section('side_courses')
-
-@endsection
 
 {{-- Content --}}
 @section('content')

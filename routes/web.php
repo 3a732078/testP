@@ -131,7 +131,7 @@ Route::post('/replies',[CommentController::class,'reply'])->name('comments.reply
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
 //TA:顯示課堂學生列表
-Route::get('ta/course/{class}',[TaController::class,'course'])->name('ta.course');
+Route::get('ta/courses/{class}',[TaController::class,'course'])->name('ta.courses');
 
 //TA查看學生訊息
 Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('questions.tashow')->where('id', '[0-9]+');
@@ -161,12 +161,60 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 
-    #課程
-        // naspace [ teacher/{course} ] =============================
-        Route::prefix('{course}')->group(function (){
-            //首頁
-            Route::get('index',[
-                TeacherController::class,'course'
-            ])->name('teacher.course.index');
+        //常見問題
+        Route::get('problem',[
+            TeacherController::class,'problem'
+        ])  -> name('teacher.problem');
+
+        //行事曆
+        Route::get('behave',[
+            TeacherController::class,'behave'
+        ])  -> name('teacher.behave');
+
+        //系統建議
+        Route::get('system_suggest',[
+            TeacherController::class,'system_suggest'
+        ])  -> name('teacher.system_suggest');
+
+    #選擇課程
+        // namespace[teacher/{course_id}} ] ================================
+        Route::prefix('{course_id}')->group(function (){
+            //首頁(預設公告)
+            Route::get('courses',[
+                CourseController::class,'courses'
+            ])->name('teacher.courses.notices');
+
+            //教材區
+            Route::get('text_materials',[
+                CourseController::class,'text_materials'
+            ])->name('teacher.courses.text_materials');
+
+            //評量區
+            Route::get('home_works',[
+                CourseController::class,'home_works'
+            ])->name('teacher.courses.home_works');
+
+            //TA 相關事務
+            Route::get('TA_offices',[
+                CourseController::class,'TA_offices'
+            ])->name('teacher.courses.TA_offices');
         });
+
+    #選擇年度
+        // naspace [ teacher/{year_id} ] =============================
+        Route::prefix('{year}')->group(function (){
+            //首頁
+            Route::get('year',[
+                TeacherController::class,'year'
+            ])->name('teacher.year');
+        });
+
+    });
+
+#TA
+    Route::prefix('TA')->group(function (){
+        //檢視TA主頁
+        Route::get('index',[
+            TaController::class,'index'
+        ])->name('ta.index');
     });

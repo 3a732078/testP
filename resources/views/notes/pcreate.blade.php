@@ -82,8 +82,8 @@
     <button id="addpage">+</button>
     <div style="position: relative">
         <div align="left">
-            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>&ensp;/&ensp;5&ensp;,
-            <button onclick="changep()" id="num" class="btn btn-danger btn-sm">1</button>
+            <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE=1>
+
         </div>
 
 

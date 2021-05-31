@@ -1,9 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh_TW">
+<!doctype html>
+<html lang="en">
 
 @include('layouts.teacher.head')
 
-<body id="page-top">
+<body id = "page-top">
 
 <!-- Page Wrapper -->
 <div id="wrapper">

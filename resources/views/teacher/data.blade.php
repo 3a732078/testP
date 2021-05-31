@@ -1,64 +1,21 @@
-@extends('layouts.teacher.main')
+@include('layouts.teacher.head')
 
-@section('content')
-    <style>
-        table {
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-            width: 200px;
-        }
-        #scrollDiv{
-            display: inline-block;
-            float: left;
-            overflow-x: auto;
-            white-space:nowrap;
-        }
+<ul class="nav nav-pills nav-fill">
 
-    </style>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+    </li>
 
-    <table border="1">
-        <tr>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
-            <td>
-                <a href="#"><span>test</span></a>
-            </td>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Much longer nav link</a>
+    </li>
 
-        </tr>
-    </table>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+    </li>
 
-    <title>Hello, world!</title>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li>
 
-    <h1>Hello, world!</h1>
-    <!-- 選擇年度 -->
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            選擇年度
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="">Action</a>
-        </div>
-    </div>
-
-
-
-@endsection
-
-
+</ul>
