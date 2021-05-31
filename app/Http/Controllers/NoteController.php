@@ -680,17 +680,18 @@ class NoteController extends Controller
         }else{
             $ans=true;
         }
+        $resp=true;
 
         //學生選修了哪些課
         $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
-        $courseId = [];
+        $courseIds = [];
         for ($i=0;$i<count($studentClass);$i++){
-            $courseId[$i]=$studentClass[$i]['course_id'];
+            $courseIds[$i]=$studentClass[$i]['course_id'];
         }
         $course = Course::all()->toArray();
         $courseName = [];
         $arr = array_flip(array_column($course, 'id'));
-        foreach($courseId as $row){
+        foreach($courseIds as $row){
             if (isset($arr[$row])) {
                 $courseName[] = $course[$arr[$row]]['name'];
             }
@@ -712,6 +713,10 @@ class NoteController extends Controller
                             ->where('attach',$course)
                             ->where("textfile", "like", '%' . $search . '%')
                             ->where('share',1)
+
+                            ->orwhere('attach', "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
+                            ->where('share',1)
                             ->get();
         }else{
             $class=null;
@@ -719,22 +724,31 @@ class NoteController extends Controller
 
             //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
             $searchs=Note::where("textfile", "like", '%' . $search . '%')
-                            //條件1(教材筆記
+                            //教材筆記
                             ->whereIn('textbook_id',$textBookId)
                             ->where('share',1)
 
                             //無分類筆記
                             ->orWhere('textbook_id', null)
                             ->where("textfile", "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
                             ->where('share',1)
 
                             //搜尋課程
-//                            ->orwhere('attach',$courseName)
-//                            ->where('share',1)
+                            ->orwhere('attach', "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
+                            ->where('share',1)
+
+                            //純筆記
+                            ->orWhere('textbook_id', null)
+                            ->where('attach',null)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->where('share',1)
                             ->get();
+
         }
         $id=$request->user()->id;
-        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName]);
+        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName,'resp'=>$resp]);
 
     }
 

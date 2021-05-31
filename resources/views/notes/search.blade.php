@@ -27,7 +27,7 @@
 @if($ans==true)
     @if(count($searchs)> 0)
         <div class="table-responsive">
-            <table class="table task-table table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0"
+            <table class="table task-table table table-hover table-bordered" hidden id="dataTable" width="100%" cellspacing="0"
                    style="background-color: #FFF5EE;color: #2d3748; border:2px #2d3748">
                 <thead style="background-color: #bac8f3">
                 <tr>
@@ -44,14 +44,11 @@
                     <th></th>
                 </tr>
                 </thead>
-                <tbody>
+
         @foreach ($searchs as $search)
             @if($class!==null)
                 @if(\App\Models\Course::find($class)->name === $search->attach)
-{{--                <form method="POST" role="form" enctype="multipart/form-data">--}}
-{{--                    @csrf--}}
-{{--                    @method('POST')--}}
-
+                <tbody>
                     <tr>
                     <td width="280">{{basename($search->textfile,'.json')}}</td>
                     <td width="500" align="center">
@@ -82,15 +79,17 @@
                         @endif
                     </td>
                     </tr>
+                </tbody>
 
-{{--                </form>--}}
-                @else
+                @elseif(\App\Models\Course::find($class)->name !== $search->attach)
                     查無筆記
                     @php
-                    break;
+                    $resp=false;
                     @endphp
+                    @break;
                 @endif
             @elseif($class === null)
+                <tbody>
                 <tr>
                     <td width="280">{{basename($search->textfile,'.json')}}</td>
                     <td width="500" align="center">
@@ -123,11 +122,10 @@
                         @endif
                     </td>
                 </tr>
+                </tbody>
             @endif
         @endforeach
-            </tbody>
             </table>
-            </form>
         </div>
     @else
        查無筆記
@@ -136,6 +134,11 @@
 
 @endif
 </div>
+    <script>
+        @if($resp === true)
+            document.getElementById("dataTable").hidden=  false;
+        @endif
+    </script>
 @endsection
 
 
