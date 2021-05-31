@@ -662,14 +662,6 @@ class NoteController extends Controller
     public function search(Request $request)
     {
         session_start();
-        if (isset($_SESSION['classId'])){
-            $class=$_SESSION['classId'];//課程Id
-            $ta=$_SESSION['ta'];
-        }else{
-            $class=null;
-            $ta=null;
-        }
-        $id=$request->user()->id;
         //撈出該學生所有修的課程
         $student=Student::where('user_id',Auth::id())->value('id');
         $courseId = CourseStudent::where('student_id', $student)->get();
@@ -689,15 +681,60 @@ class NoteController extends Controller
             $ans=true;
         }
 
-        //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
-        $searchs=Note::where("title", "like", '%' . $search . '%')
-            ->whereIn('textbook_id',$textBookId)
-            ->where('share',1)
-            ->orWhere('textbook_id', null)
-            ->where("title", "like", '%' . $search . '%')
-            ->where('share',1)
-            ->get();
-        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta]);
+        //學生選修了哪些課
+        $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
+        $courseId = [];
+        for ($i=0;$i<count($studentClass);$i++){
+            $courseId[$i]=$studentClass[$i]['course_id'];
+        }
+        $course = Course::all()->toArray();
+        $courseName = [];
+        $arr = array_flip(array_column($course, 'id'));
+        foreach($courseId as $row){
+            if (isset($arr[$row])) {
+                $courseName[] = $course[$arr[$row]]['name'];
+            }
+        }
+
+        if (isset($_SESSION['classId'])){
+            $class=$_SESSION['classId'];//課程Id
+            $ta=$_SESSION['ta'];
+
+            $course = Course::find($class)->name;
+            //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
+            $searchs=Note::where("textfile", "like", '%' . $search . '%')
+                            //條件1(教材筆記
+                            ->whereIn('textbook_id',$textBookId)
+                            ->where('share',1)
+
+                            //無分類筆記
+                            ->orWhere('textbook_id', null)
+                            ->where('attach',$course)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->where('share',1)
+                            ->get();
+        }else{
+            $class=null;
+            $ta=null;
+
+            //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
+            $searchs=Note::where("textfile", "like", '%' . $search . '%')
+                            //條件1(教材筆記
+                            ->whereIn('textbook_id',$textBookId)
+                            ->where('share',1)
+
+                            //無分類筆記
+                            ->orWhere('textbook_id', null)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->where('share',1)
+
+                            //搜尋課程
+//                            ->orwhere('attach',$courseName)
+//                            ->where('share',1)
+                            ->get();
+        }
+        $id=$request->user()->id;
+        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName]);
 
     }
 
