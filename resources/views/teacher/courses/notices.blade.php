@@ -47,13 +47,18 @@
                     <ul class=" nav nav-tabs" role="tablist">
                         <tr>
                         @foreach($courses_year as $course)
-                            <td>
-                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-                            </td>
-
-                            <td>
-                                <a class="nav-link nav-item" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-                            </td>
+                            @if($course -> id == $course_id)
+                                <td>
+                                    {{$course -> name}}【{{$course -> classroom}}】
+                                </td>
+                                @else
+                                <td>
+                                    <a class="nav-link nav-item"  data-toggle="tab"
+                                       href="" role="tab"  aria-selected="false">
+                                        {{$course -> name}}【{{$course -> classroom}}】
+                                    </a>
+                                </td>
+                            @endif
                         @endforeach
                         </tr>
                     </ul>
