@@ -26,6 +26,13 @@ class TeacherController extends Controller
         //=== 抓取課程年度陣列
 //        $years = array();
 
+//        $courses = \App\Models\User::find(
+//            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
+//            ->sortbydesc('year');
+//
+//        $courses -> unique('year');
+//        return $courses;
+
         return view('teacher.index',[
 
         ]);

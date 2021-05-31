@@ -25,7 +25,7 @@ class CourseSeeder extends Seeder
 
         $teachers = Teacher::all();
 
-        for($int = 1 ; $int < 10 ; $int++){
+        for($int = 1 ; $int < 100 ; $int++){
 
             foreach ($teachers as $teacher){
 

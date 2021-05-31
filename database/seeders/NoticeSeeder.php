@@ -13,6 +13,6 @@ class NoticeSeeder extends Seeder
      */
     public function run()
     {
-        
+
     }
 }

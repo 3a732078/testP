@@ -12,7 +12,7 @@
 {{-- TopBar Courses--}}
 @section('header_item')
 {{-- 年度列表--}}
-<div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;" >
+<div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
     <div class="col-sm-4">
         <h1>
             <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
@@ -41,13 +41,24 @@
 
     {{-- 第二列 --}}
     <div class="col-sm-12">
+        {{-- 快速跳轉課程列表--}}
         <h6>
-            @foreach($courses_year as $course)
-                <a href="">
-                    {{$course -> name}}({{$course -> classroom}}) |
-                </a>
-            @endforeach
+                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
+                    <ul class=" nav nav-tabs" role="tablist">
+                        <tr>
+                        @foreach($courses_year as $course)
+                            <td>
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                            </td>
 
+                            <td>
+                                <a class="nav-link nav-item" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
+                            </td>
+                        @endforeach
+                        </tr>
+                    </ul>
+
+                </table>
         </h6>
     </div>
 </div>

@@ -34,11 +34,13 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    //公告
+    // ============  公告
     public function courses($course_id)
     {
         //=== 使用id抓取課程
         $course = Course::find($course_id);
+        //抓取該課程所有公告
+        $notices = $course->notices()->get();
 
         $courses = Auth::user()->teacher()->first()->courses()->get()->
         sortbydesc('year');
@@ -47,11 +49,8 @@ class CourseController extends Controller
             $years[$data -> id] = $data -> year;
         }
 
-        //抓取該課程所有公告
-        $notices = $course->notices()->get();
-
         //使用該年度抓取所有課程
-        $courses_year = Teacher::find(Auth::id())->courses()->where('year',$course -> year)-> get() -> sortby('classroom');
+        $courses_year = Teacher::find(Auth::id())->courses()->get()-> sortby('classroom')->where('year',$course -> year);
 
 //        return $courses_year;
 
@@ -59,11 +58,11 @@ class CourseController extends Controller
             'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,
+            'course_id' => $course_id,
         ]);
-
     }
 
-    // === 教材區
+    // ========== 教材區
     public function text_materials($course_id)
     {
         //=== 使用id抓取課程
@@ -92,9 +91,9 @@ class CourseController extends Controller
         $course = Course::find($course_id);
 
         $courses = Auth::user()->teacher()->first()->courses()->get()->
-        unique('year')->sortbydesc('year');
+        sortbydesc('year');
 
-        foreach ($courses as $data){
+        foreach ($courses->unique('year') as $data){
             $years[$data -> id] = $data -> year;
         }
 

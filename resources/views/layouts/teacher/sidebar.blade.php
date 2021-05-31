@@ -35,18 +35,17 @@
 
                     {{--                    抓取列表資料--}}
                     @php
-                        $years = array();
-
                         //=== 抓取該老師所有課程
                         $courses = \App\Models\User::find(
                             \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
                             ->sortbydesc('year');
 
-                        // === 寫入資料
-                        $datas = $courses -> unique('year');
-                        foreach ( $datas as $course) {
+                        // === $years寫入資料
+                        foreach ( $courses -> unique('year') as $course) {
                             $years[$course->id] = $course->year;
                         }
+
+                        //
                     @endphp
 
                     {{-- 顯示列表資料 --}}
@@ -59,7 +58,8 @@
                                 </h6>
                             </option>
 
-                            @foreach($courses as $course)
+                            @foreach($courses -> sortby('classroom') as $course)
+                                @if($course -> year == $year)
                                     <option value="{{route('teacher.courses.notices',$course -> id)}}">
                                         <h5>
                                             <a href="teacher/{{$course -> id}}/course">
@@ -67,6 +67,7 @@
                                             </a>
                                         </h5>
                                     </option>
+                                @endif
                             @endforeach
                         </select>
                         </a>
