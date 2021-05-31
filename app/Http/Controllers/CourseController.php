@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Notice;
 use App\Models\Ta;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,19 +41,26 @@ class CourseController extends Controller
         $course = Course::find($course_id);
 
         $courses = Auth::user()->teacher()->first()->courses()->get()->
-        unique('year')->sortbydesc('year');
+        sortbydesc('year');
 
-        foreach ($courses as $data){
+        foreach ($courses->unique('year') as $data){
             $years[$data -> id] = $data -> year;
         }
 
+        //抓取該課程所有公告
         $notices = $course->notices()->get();
 
+        //使用該年度抓取所有課程
+        $courses_year = Teacher::find(Auth::id())->courses()->where('year',$course -> year)-> get() -> sortby('classroom');
+
+//        return $courses_year;
+
         return view('teacher.courses.notices',[
-            'course' => $course,
+            'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,
         ]);
+
     }
 
     // === 教材區

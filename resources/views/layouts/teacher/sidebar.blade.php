@@ -42,27 +42,24 @@
                             \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
                             ->sortbydesc('year');
 
-                        $datas = $courses -> unique('year');
                         // === 寫入資料
+                        $datas = $courses -> unique('year');
                         foreach ( $datas as $course) {
                             $years[$course->id] = $course->year;
                         }
-
-                        //優化list
-                        $courses->sortby('department_id');
                     @endphp
 
-                    {{--                    顯示列表資料--}}
+                    {{-- 顯示列表資料 --}}
                     <h5 class="collapse-header">課程列表:</h5>
                     @foreach($years as $year)
                         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                            <option value="{{route('teacher.year',$year)}}">
+                            <option value="{{route('teacher.year.index',$year)}}">
                                 <h6>
                                     {{$year}}學年度
                                 </h6>
                             </option>
+
                             @foreach($courses as $course)
-                                @if( $course -> year == $year )
                                     <option value="{{route('teacher.courses.notices',$course -> id)}}">
                                         <h5>
                                             <a href="teacher/{{$course -> id}}/course">
@@ -70,7 +67,6 @@
                                             </a>
                                         </h5>
                                     </option>
-                                @endif
                             @endforeach
                         </select>
                         </a>
