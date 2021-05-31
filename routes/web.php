@@ -131,7 +131,7 @@ Route::post('/replies',[CommentController::class,'reply'])->name('comments.reply
 Route::post('score',[NoteScoreController::class,'store'])->name('score.store');
 
 //TA:顯示課堂學生列表
-Route::get('ta/courses/{class}',[TaController::class,'course'])->name('ta.courses');
+Route::get('ta/course/{class}',[TaController::class,'course'])->name('ta.course');
 
 //TA查看學生訊息
 Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('questions.tashow')->where('id', '[0-9]+');

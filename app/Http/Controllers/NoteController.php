@@ -78,7 +78,7 @@ class NoteController extends Controller
 //        dd($images);
         $num = $request->num != null ? $request->num : 1 ;
 
-        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'courses'=>$course]);
+        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course,'courses'=>$course]);
     }
 
     public function create(Request $request)
@@ -419,7 +419,7 @@ class NoteController extends Controller
                 ->get();
 
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname,
-                'className'=>$className,'textbookId'=>$textbookId,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+                'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -500,7 +500,7 @@ class NoteController extends Controller
                 ->where('comment_id','!=',null)
                 ->get();
 
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
@@ -590,7 +590,7 @@ class NoteController extends Controller
         $replies=Comment::where('note_id',$id)
             ->where('comment_id','!=',null)
             ->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -716,14 +716,14 @@ class NoteController extends Controller
         $course = Course::all()->toArray();
         $courseName = [];
         //1
-//        $arr = array_flip(array_column($courses, 'id'));
+//        $arr = array_flip(array_column($course, 'id'));
 //        foreach($courseId as $row){
 //            if (isset($arr[$row])) {
-//                $courseName[] = $courses[$arr[$row]]['name'];
+//                $courseName[] = $course[$arr[$row]]['name'];
 //            }
 //        }
         //2
-//        $arr3 = array_combine(array_column($courses, 'id'), array_column($courses, 'name'));
+//        $arr3 = array_combine(array_column($course, 'id'), array_column($course, 'name'));
 //        foreach($courseId as $row){
 //            if( isset($arr3[$row])){
 //                $courseName[] = $arr3[$row];
