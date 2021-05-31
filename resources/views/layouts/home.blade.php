@@ -181,7 +181,7 @@
                             </div>
                         @endforeach
                         <a class="nav-link collapsed mh5" href="/notes/classes/attach/{{$class}}"
-                           style="color:#B22222;line-height:15px;">無引用教材之筆記
+                           style="color:#B22222;line-height:15px;">無分類之筆記
                         </a>
                     </div>
                 </div>

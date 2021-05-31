@@ -79,9 +79,9 @@
                 <title>{{$name}}</title>
                 {{--    課程：{{$class}}<br>--}}
                 <h5 align="center">
-                    <a href="{{url()->previous()}}"><i class="fas fa-arrow-left"></i></a>
+                    <a href="{{url()->previous()}}"><i class="fas fa-arrow-left"></i></a>&ensp;
                     筆記名稱：{{$name}}&ensp;|&ensp;
-                    作者：{{$author}}
+                    作者：{{$author}}&ensp;
                     <a href="/"><i class="fas fa-home home" style="color:#000"></i></a>
                 </h5>
                 <div style="display:none">
@@ -102,7 +102,7 @@
 {{--{{$notes->links()}}//頁數--}}
 <br><br>
 <div align="center" style="position: relative;">
-    <center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center>
+    <p><center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center></p>
     @if($textbookId!==null)
         @if(count($images)> 0)
             <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
