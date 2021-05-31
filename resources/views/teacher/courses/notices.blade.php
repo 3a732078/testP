@@ -53,8 +53,7 @@
                                 </td>
                                 @else
                                 <td>
-                                    <a class="nav-link nav-item"  data-toggle="tab"
-                                       href="" role="tab"  aria-selected="false">
+                                    <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
                                         {{$course -> name}}【{{$course -> classroom}}】
                                     </a>
                                 </td>
@@ -72,9 +71,9 @@
 
 {{-- 頁面提示 --}}
 @section('header_text')
-    <div class="row row-cols-2 "  >
+    <div class="row row-cols-2 " style="margin-top: 10px" >
             <div class="col-sm-12">
-                <h6 style="margin-left: 20px">
+                <h6 style="margin-left: 15px">
                     正處於【教室】環境
                 </h6>
             </div>

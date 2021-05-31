@@ -201,11 +201,11 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         });
 
     #選擇年度
-        // naspace [ teacher/{year_id} ] =============================
+        // naspace [ teacher/{year_id} ] ================ [ CourseController ]
         Route::prefix('{year}')->group(function (){
             //首頁
             Route::get('year',[
-                TeacherController::class,'year'
+                CourseController::class,'year'
             ])->name('teacher.year.index');
         });
 

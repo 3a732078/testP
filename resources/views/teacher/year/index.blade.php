@@ -12,13 +12,13 @@
 {{-- TopBar Courses--}}
 @section('header_item')
     {{-- 年度列表--}}
-    <div class="row row-cols-2" >
-        <div class="col-sm-12">
+    <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
+        <div class="col-sm-4">
             <h1>
                 <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                    <option>
+                    <option >
                         <h6>
-                            請選擇學年度
+                            選擇年度
                         </h6>
                     </option>
                     @foreach($years as $year)
@@ -29,40 +29,43 @@
                         </option>
                     @endforeach
                 </select>
-
             </h1>
         </div>
 
-        <div class="col-sm-4">
-            <h6>
-                {{$course -> name}}
-            </h6>
-        </div>
         <div class="col-sm-8">
-            <h6>
-                {{$course -> classroom}}
-            </h6>
-        </div>
-    </div>
-
-    {{-- 功能選單 --}}
-    <div class="row row-cols-12 card-header bg-transparent " style="width:350px;height: auto;" >
-        {{-- 課程內位置 --}}
-        <div class="col-sm-12">
             <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
             <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
             <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
             <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
-        {{-- 課程列表 --}}
-        <div class="col-sm-12 container-fluid">
-            <table style="display: block;overflow: auto; white-space: nowrap;">
+        {{-- 第二列 --}}
+        <div class="col-sm-12">
+            {{-- 快速跳轉課程列表--}}
+            <h6>
+                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
+                    <ul class=" nav nav-tabs" role="tablist">
+                        <tr>
+                            @foreach($courses_year as $course)
+                                @if($course -> id == $course_id)
+                                    <td>
+                                        {{$course -> name}}【{{$course -> classroom}}】
+                                    </td>
+                                @else
+                                    <td>
+                                        <a class="nav-link nav-item"  data-toggle="tab"
+                                           href="" role="tab"  aria-selected="false">
+                                            {{$course -> name}}【{{$course -> classroom}}】
+                                        </a>
+                                    </td>
+                                @endif
+                            @endforeach
+                        </tr>
+                    </ul>
 
-
-            </table>
+                </table>
+            </h6>
         </div>
-
     </div>
 
 @endsection

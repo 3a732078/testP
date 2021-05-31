@@ -38,33 +38,6 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function year(Request $request , $year_id)
-    {
-
-        //===先抓取所有的年度
-        $courses = Course::all()->unique('year')->sortByDesc('year');
-
-        foreach ($courses as $data) {
-            $years[$data->id] = $data->year;
-        }
-
-        //===改抓取該年度所有課程 使用 [ $year_id]
-        $courses = Course::where('year',$year_id)->get()->sortbydesc('classroom');
-
-        //=== 預設顯示科系id較小的課程
-        $course = $courses->sortby('department_id')->first();
-
-        //=== 抓取該課程的所有公告
-        $notices = $course->notices()->get();
-
-        return view('teacher.year.index',[
-            'course' => $course,
-            'notices' => $notices,
-            'years' => $years,
-            'courses' => $courses,
-        ]);
-    }
-
     public function course(Request $request,$course_id){
 
         //=== 使用id抓取課程
