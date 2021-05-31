@@ -47,7 +47,7 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-            選擇課程
+            選擇：
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
@@ -74,6 +74,8 @@
             </div>
         </li>
 
+        @yield('navno')
+
         @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
@@ -89,15 +91,15 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">上課教材:</h6>
                         @foreach($course as $value)
-                            <a class="nav-link collapsed mh5" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{ $value->name }}</span></a>
+                            <a class="collapse-item" href="#{{ $value->name }}" data-toggle="collapse" style="color:black;line-height:25px;"><span>{{ $value->name }}</span></a>
                             <div id="{{ $value->name }}" class="collapse">
                                 <a class="collapse-item" href="/textbooks/show/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材</a>
                                 <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材筆記</a>
                                 <hr class="sidebar-divider bg-dark">
                             </div>
                         @endforeach
-                        <a class="nav-link collapsed mh5" href="/notes/classes/attach/{{$class}}"
-                           style="color:#B22222;line-height:15px;">無分類之筆記
+                        <a class="collapse-item" href="/notes/classes/attach/{{$class}}"
+                           style="color:#B22222;line-height:25px;">無分類之筆記
                         </a>
                     </div>
                 </div>
@@ -136,7 +138,7 @@
             聯繫
         </div>
 
-        @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
+            @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
                 <li class="nav-item">
                     <a class="nav-link" href="/questions/classes/{{$ta}}">
                         <i class="fas fa-fw fa-comment"></i>

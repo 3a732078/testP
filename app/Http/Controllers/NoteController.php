@@ -84,8 +84,15 @@ class NoteController extends Controller
     public function create(Request $request)
     {
         session_start();
-        $classId=$_SESSION['classId'];//課程Id
-        $classname = Course::where('id', $classId)->value('name');
+        if (isset($_SESSION['classId'])){
+            $classId=$_SESSION['classId'];//課程Id
+            $classname = Course::where('id', $classId)->value('name');
+        }else {
+            $classId = null;
+            $ta = null;
+            $classname = "無分類";
+        }
+
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -755,8 +762,13 @@ class NoteController extends Controller
     public function mynote(Request $request)
     {
         session_start();
-        $ta=$_SESSION['ta'];
-        $class=$_SESSION['classId'];//課程Id
+        if (isset($_SESSION['classId'])) {
+            $ta = $_SESSION['ta'];
+            $class = $_SESSION['classId'];//課程Id
+        }else {
+            $class = null;
+            $ta = null;
+        }
         //        dd(Course::all()->values('name'),$request->user()->student->id);
         $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
         $courseId = [];
