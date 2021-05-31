@@ -27,35 +27,48 @@
 @if($ans==true)
     @if(count($searchs)> 0)
         <div class="table-responsive">
-
+            <table class="table task-table table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0"
+                   style="background-color: #FFF5EE;color: #2d3748; border:2px #2d3748">
+                <thead style="background-color: #bac8f3">
+                <tr>
+                    <th>標題</th>
+                    <th class="mh1">引用教材</th>
+                    <style type="text/css">
+                        .mh1{
+                            text-align:center;/** 设置水平方向居中 */
+                            vertical-align:middle/** 设置垂直方向居中 */
+                        }
+                    </style>
+                    <th class="mh1">所屬課程</th>
+                    <th class="mh1">作者</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
         @foreach ($searchs as $search)
-            <form method="POST" role="form" enctype="multipart/form-data">
-                @csrf
-                @method('POST')
-                <table class="table task-table table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0"
-                       style="background-color: #FFFDD0;color: #2d3748; border:2px #2d3748">
-                    <thead style="background-color: #bac8f3">
+            @if($class!==null)
+                @if(\App\Models\Course::find($class)->name === $search->attach)
+{{--                <form method="POST" role="form" enctype="multipart/form-data">--}}
+{{--                    @csrf--}}
+{{--                    @method('POST')--}}
+
                     <tr>
-                        <th>標題</th>
-                        <th class="mh1">引用教材</th>
-                        <style type="text/css">
-                            .mh1{
-                                text-align:center;/** 设置水平方向居中 */
-                                vertical-align:middle/** 设置垂直方向居中 */
-                            }
-                        </style>
-                        <th class="mh1">作者</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                    <td width="280">{{$search->title}}</td>
+                    <td width="280">{{basename($search->textfile,'.json')}}</td>
                     <td width="500" align="center">
                         @if($search->textbook==null)
                             無引用教材
                         @else
                             {{$search->textbook->name}}
+                        @endif
+                    </td>
+                    <td width="170" align="center">
+                        @for($i=0;$i<count($courseName);$i++)
+                            @if($search->attach===$courseName[$i])
+                               {{$courseName[$i]}}
+                            @endif
+                        @endfor
+                        @if($search->attach===null)
+                            <span style="color:#8674A1;"> 無</span>
                         @endif
                     </td>
                     <td width="500" align="center">
@@ -68,11 +81,53 @@
                         <a class="btn btn-primary btn-sm" href="/notes/classes/{{$search->id}}">檢視筆記</a>
                         @endif
                     </td>
+                    </tr>
+
+{{--                </form>--}}
+                @else
+                    查無筆記
+                    @php
+                    break;
+                    @endphp
+                @endif
+            @elseif($class === null)
+                <tr>
+                    <td width="280">{{basename($search->textfile,'.json')}}</td>
+                    <td width="500" align="center">
+                        @if($search->textbook==null)
+                            無引用教材
+                        @else
+                            {{$search->textbook->name}}
+                        @endif
+                    </td>
+                    <td width="170" align="center">
+                        @for($i=0;$i<count($courseName);$i++)
+                            @if($search->attach===$courseName[$i])
+                                {{--                                                    <span style="color:#2E8B57;">{{$courseName[$i]}}</span>--}}
+                                {{--                                                    <span style="color:#B47157;background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">{{$courseName[$i]}}</span>--}}
+                                {{$courseName[$i]}}
+                            @endif
+                        @endfor
+                        @if($search->attach===null)
+                            <span style="color:#8674A1;"> 無</span>
+                        @endif
+                    </td>
+                    <td width="170" align="center">
+                        {{$search->user->name}}
+                    </td>
+                    <td width="170" align="center">
+                        @if($search->user_id==$id)
+                            <a class="btn btn-primary btn-sm" href="/notes/{{$search->id}}">檢視筆記</a>
+                        @else
+                            <a class="btn btn-primary btn-sm" href="/notes/classes/{{$search->id}}">檢視筆記</a>
+                        @endif
+                    </td>
                 </tr>
-                    </tbody>
-                </table>
-            </form>
+            @endif
         @endforeach
+            </tbody>
+            </table>
+            </form>
         </div>
     @else
        查無筆記

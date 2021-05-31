@@ -15,7 +15,7 @@
                     <div class="card-header">
                         <i class="fa fa-folder" aria-hidden="true" style="color: #FAD689"></i>&ensp;
 {{--                        筆記列表 - &ensp;--}}
-                        <button  class="btn btn-default btn-xs" onclick="change('courses')" id="coursehref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">課程之筆記</button>
+                        <button  class="btn btn-default btn-xs" onclick="change('course')" id="coursehref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">課程之筆記</button>
                         <button  class="btn btn-default btn-xs" onclick="change('assist')" id="assisthref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">協同筆記</button>
                         <button  class="btn btn-default btn-xs" onclick="change('author')" id="authorhref" style="color:black;background-color: #B5CAA0 ;line-height: 20px;">純筆記</button>
 {{--                        #B4A582--}}
@@ -205,7 +205,7 @@
 
         function change(judgment) {
 
-            if (judgment === 'courses'){
+            if (judgment === 'course'){
                 console.error(123);
                 document.getElementById("coursehref").disabled = true;
                 document.getElementById("assisthref").disabled=  false;

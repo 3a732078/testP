@@ -26,7 +26,7 @@ class CourseController extends Controller
         $ta=Ta::where('course_id',$class)->value('id');
         $_SESSION['ta']=$ta;
 
-        return view('classes.index',['courses'=>$course,'notices'=>$notices,'class'=>$class,'ta'=>$ta]);
+        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class,'ta'=>$ta,'courses'=>$course,]);
     }
 
     /**
