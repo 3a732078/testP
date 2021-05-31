@@ -39,13 +39,17 @@
 
                         //=== 抓取該老師所有課程
                         $courses = \App\Models\User::find(
-                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()->sortbydesc('year');
+                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
+                            ->sortbydesc('year');
 
                         $datas = $courses -> unique('year');
                         // === 寫入資料
                         foreach ( $datas as $course) {
                             $years[$course->id] = $course->year;
                         }
+
+                        //優化list
+                        $courses->sortby('department_id');
                     @endphp
 
                     {{--                    顯示列表資料--}}
