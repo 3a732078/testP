@@ -177,7 +177,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         ])  -> name('teacher.system_suggest');
 
     #選擇課程
-        // namespace[teacher/{course_id}} ] ================================
+        // namespace[teacher/{course_id}} ] ======= CourseController
         Route::prefix('{course_id}')->group(function (){
             //首頁(預設公告)
             Route::get('courses',[
@@ -201,12 +201,12 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         });
 
     #選擇年度
-        // naspace [ teacher/{year_id} ] =============================
+        // naspace [ teacher/{year_id} ] ================ [ CourseController ]
         Route::prefix('{year}')->group(function (){
             //首頁
             Route::get('year',[
-                TeacherController::class,'year'
-            ])->name('teacher.year');
+                CourseController::class,'year'
+            ])->name('teacher.year.index');
         });
 
     });

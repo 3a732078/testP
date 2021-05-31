@@ -35,30 +35,31 @@
 
                     {{--                    抓取列表資料--}}
                     @php
-                        $years = array();
-
                         //=== 抓取該老師所有課程
                         $courses = \App\Models\User::find(
-                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()->sortbydesc('year');
+                            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
+                            ->sortbydesc('year');
 
-                        $datas = $courses -> unique('year');
-                        // === 寫入資料
-                        foreach ( $datas as $course) {
+                        // === $years寫入資料
+                        foreach ( $courses -> unique('year') as $course) {
                             $years[$course->id] = $course->year;
                         }
+
+                        //
                     @endphp
 
-                    {{--                    顯示列表資料--}}
+                    {{-- 顯示列表資料 --}}
                     <h5 class="collapse-header">課程列表:</h5>
                     @foreach($years as $year)
                         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                            <option value="{{route('teacher.year',$year)}}">
+                            <option value="{{route('teacher.year.index',$year)}}">
                                 <h6>
                                     {{$year}}學年度
                                 </h6>
                             </option>
-                            @foreach($courses as $course)
-                                @if( $course -> year == $year )
+
+                            @foreach($courses -> sortby('classroom') as $course)
+                                @if($course -> year == $year)
                                     <option value="{{route('teacher.courses.notices',$course -> id)}}">
                                         <h5>
                                             <a href="teacher/{{$course -> id}}/course">

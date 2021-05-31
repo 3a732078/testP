@@ -11,64 +11,84 @@
 
 {{-- TopBar Courses--}}
 @section('header_item')
-{{--        @php--}}
-{{--            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();--}}
-{{--            $datas = array();--}}
-{{--            foreach ($courses as $courses){--}}
-{{--                $$datas[$courses -> id] = $courses -> where('year','=',110);--}}
-{{--            }--}}
-{{--        @endphp--}}
+    {{-- 年度列表--}}
+    <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
+        <div class="col-sm-4">
+            <h1>
+                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+                    <option >
+                        <h6>
+                            選擇年度
+                        </h6>
+                    </option>
+                    @foreach($years as $year)
+                        <option value="{{route('teacher.year.index',$year)}}">
+                            <h6>
+                                {{$year}}學年度
+                            </h6>
+                        </option>
+                    @endforeach
+                </select>
+            </h1>
+        </div>
 
-        @php
-                        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-        @endphp
-            @if ( count($courses) > 0)
-                @foreach($courses as $course)
+        <div class="col-sm-8">
+            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+        </div>
 
-                    <ul>
-                        <li>
-                            <a class="collapse-item" href='{{ $course->id }}/index' >
-                                <span >
-                                    {{$course -> name}}
-                                </span>
-                            </a>
-                        </li>
+        {{-- 第二列 --}}
+        <div class="col-sm-12">
+            {{-- 快速跳轉課程列表--}}
+            <h6>
+                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
+                    <ul class=" nav nav-tabs" role="tablist">
+                        <tr>
+                            @foreach($courses_year as $course)
+                                @if($course -> id == $course_id)
+                                    <td>
+                                        {{$course -> name}}【{{$course -> classroom}}】
+                                    </td>
+                                @else
+                                    <td>
+                                        <a class="nav-link nav-item"  data-toggle="tab"
+                                           href="" role="tab"  aria-selected="false">
+                                            {{$course -> name}}【{{$course -> classroom}}】
+                                        </a>
+                                    </td>
+                                @endif
+                            @endforeach
+                        </tr>
                     </ul>
-                @endforeach
-            @endif
-    @endsection
 
-    {{-- !選擇年度 --}}
-    @section('year')
-
-        @php
-            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-
-            $years = array();
-            foreach ($courses as $course){
-                $years[$course -> id] = $course -> year;
-            }
-            rsort($years);
-            $datas = array();
-            $year_flag = 10;
-            $i = 1;
-            foreach ($years as $year){
-                if ($year_flag != $year){
-                    $datas[$i] = $year;
-                }
-                $year_flag = $year;
-                $i ++;
-            }
-            foreach ($datas as $data){
-                echo "<a class= 'collapse-item' href='index/$data'>$data </a>";
-
-            }
-    @endphp
+                </table>
+            </h6>
+        </div>
+    </div>
 
 @endsection
 
+{{-- 頁面提示 --}}
+@section('header_text')
+    <div class="row row-cols-2 "  >
+        <div class="col-sm-12">
+            <h6 style="margin-left: 20px">
+                正處於【教室】環境
+            </h6>
+        </div>
+
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+        </div>
+    </div>
+@endsection
+
+
 {{-- Content --}}
 @section('content')
+
 
 @endsection
 

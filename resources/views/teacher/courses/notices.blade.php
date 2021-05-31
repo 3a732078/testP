@@ -12,161 +12,82 @@
 {{-- TopBar Courses--}}
 @section('header_item')
 {{-- 年度列表--}}
-<div class="row row-cols-2" >
-    <div class="col-sm-12">
+<div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
+    <div class="col-sm-4">
         <h1>
             <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+                <option >
+                    <h6>
+                        選擇年度
+                    </h6>
+                </option>
                 @foreach($years as $year)
-                    <option value="{{route('teacher.year',$course -> year)}}">
+                    <option value="{{route('teacher.year.index',$year)}}">
                         <h6>
                             {{$year}}學年度
                         </h6>
                     </option>
                 @endforeach
             </select>
-
         </h1>
     </div>
 
-    <div class="col-sm-4">
-        <h6>
-            {{$course -> name}}
-        </h6>
-    </div>
     <div class="col-sm-8">
+        <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
+        <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
+        <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
+        <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+    </div>
+
+    {{-- 第二列 --}}
+    <div class="col-sm-12">
+        {{-- 快速跳轉課程列表--}}
         <h6>
-            {{$course -> classroom}}
+                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
+                    <ul class=" nav nav-tabs" role="tablist">
+                        <tr>
+                        @foreach($courses_year as $course)
+                            @if($course -> id == $course_id)
+                                <td>
+                                    {{$course -> name}}【{{$course -> classroom}}】
+                                </td>
+                                @else
+                                <td>
+                                    <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
+                                        {{$course -> name}}【{{$course -> classroom}}】
+                                    </a>
+                                </td>
+                            @endif
+                        @endforeach
+                        </tr>
+                    </ul>
+
+                </table>
         </h6>
     </div>
 </div>
-
-{{-- 功能選單 --}}
-    <div class="row row-cols-2"style="margin-left: 10px" >
-        <div class="col-sm-12">
-            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
-            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA</button>
-        </div>
-
-
-    </div>
 
 @endsection
 
 {{-- 頁面提示 --}}
 @section('header_text')
-    <div class="row row-cols-2" >
+    <div class="row row-cols-2 " style="margin-top: 10px" >
+            <div class="col-sm-12">
+                <h6 style="margin-left: 15px">
+                    正處於【教室】環境
+                </h6>
+            </div>
 
-        <div class="col-sm-6">
+            <div class="col-sm-12">
+                <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+            </div>
         </div>
-
-        <div class="col-6">
-            <h6 style="margin-left: 20px">
-                正處於【教室】環境
-            </h6>
-        </div>
-
-        <div class="col-sm-6">
-        </div>
-
-        <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
-        </div>
-    </div>
 @endsection
 
 
 {{-- Content --}}
 @section('content')
-    <!-- =======  Section courses title======= -->
-    <section id="course_title" class="cousrse notion-bg">
-        <div class="container">
 
-            <div class="row">
-
-                <div class="col-lg-6 col-md-4 col-2 d-flex align-items-center justify-content-center">
-                    <h1>
-                        110學年度上學期
-                    </h1>
-                </div>
-
-                <div class="col-lg-6 col-md-4 col-2 d-flex align-items-center justify-content-center">
-                    <h1>
-                        {{$course -> name}}
-                    </h1>
-                </div>
-
-                <div class="col-lg-6 col-md-4 col-2 d-flex align-items-center justify-content-center">
-                    <img src="{{asset('assets/img/clients/client-3.png')}}" class="img-fluid" alt="">
-                </div>
-            </div>
-
-        </div>
-    </section>
-    <!-- End Title Section -->
-
-    <!-- ======= Content Section ======= -->
-    <section id="course_content" class="course notice_bg">
-        <div class="container">
-            <div class="row">
-                {{--   contant                 --}}
-                    <div class="table-responsive">
-
-
-                        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>標題</th>
-                                <th>發佈者</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            @foreach ($notices as $notice)
-                                <tr>
-                                    <td >
-                                        {{$notice -> title}}
-                                    </td>
-                                    <td>
-                                        $user ->name
-                                    </td>
-                                    <td width="100" align="center">
-                                        <input type="button"
-                                               class="btn btn-outline-dark btn-sm"
-                                               onclick="location.href = '{{$notice->id}}'"
-                                               value="檢視公告"
-                                        />
-
-                                        <form action="{{$selected -> id}}/{{$notice -> id}}"
-                                              method="post"
-                                        >
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger"
-                                                    type="submit"
-                                            >
-                                                刪除
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-
-                            @endforeach
-
-                            </tbody>
-                        </table>
-
-
-                    </div>
-
-
-            </div>
-
-        </div>
-    </section>
-    <!-- End Course Section -->
 
 @endsection
 

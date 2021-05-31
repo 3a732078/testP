@@ -19,15 +19,21 @@ class CourseSeeder extends Seeder
         $courses = ['統計學','會計學','管理數學','經濟學','微積分','資料庫'];
         $classroom = [
             ['四資','四流','四工','四冷'],
-            ['一','二','三']
+            ['一','二','三'],
+            ['甲','乙'],
         ];
+
         $teachers = Teacher::all();
 
-        for($int = 1 ; $int < 200 ; $int++){
+        for($int = 1 ; $int < 100 ; $int++){
+
             foreach ($teachers as $teacher){
+
                 $ran_department = random_int(1,4);//在$classroom使用時-1
                 $ran_grade = random_int(0,2);
                 $ran_courses = random_int(0,4);
+                $ran_class = random_int(0,1);
+
                 Course::create([
                     'teacher_id' => $teacher -> id,
                     'department_id' => $ran_department,
@@ -39,6 +45,6 @@ class CourseSeeder extends Seeder
                 ]);
             }
         }
-//        Course::factory()->count(100)->create();
+//        Course::factory()->count(20)->create();
     }
 }

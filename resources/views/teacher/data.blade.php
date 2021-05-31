@@ -17,5 +17,28 @@
     <li class="nav-item">
         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
     </li>
-
 </ul>
+
+<style>
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+</style>
+
+<table style="width: 200px" border="1">
+    <tr>
+        <td>
+            asdfsfasdfd
+        </td>
+        <td>
+            adfjklsdj;asfsdj;
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">asdfasjdlkfjalk;sdjfklasjfkld ;jkfdl;saj fklsd jfklas; jkl;sad</td>
+    </tr>
+
+</table>
