@@ -229,6 +229,66 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 TeacherController::class,'index_office'
             ])  -> name('teacher.index.office');
 
+            //常見問題
+            Route::get('problem',[
+                TeacherController::class,'problem'
+            ])  -> name('teacher.problem.office');
+
+            //行事曆
+            Route::get('behave',[
+                TeacherController::class,'behave'
+            ])  -> name('teacher.behave.office');
+
+            //系統建議
+            Route::get('system_suggest',[
+                TeacherController::class,'system_suggest'
+            ])  -> name('teacher.system_suggest.office');
+
+        #選擇課程
+            // namespace[teacher/{course_id}} ] ======= CourseController
+            Route::prefix('{course_id}')->group(function (){
+                //首頁(預設公告)
+                Route::get('courses',[
+                    CourseController::class,'courses'
+                ])->name('teacher.courses.notices.office');
+
+            #選擇公告
+                // url [teacher/{course_id}/course] ======= NoticeController
+                Route::prefix('courses')->group(function (){
+
+                    // 顯示公告內容
+                    Route::get('{notice_id}/show',[
+                        NoticeController::class,'teacher_notice_show'
+                    ])->name('teacher.notice.show.office');
+
+                });
+        #選擇課程
+            // namespace[teacher/{course_id}} ] ======= CourseController
+                //教材區
+                Route::get('text_materials',[
+                    CourseController::class,'text_materials'
+                ])->name('teacher.courses.text_materials.office');
+
+                //評量區
+                Route::get('home_works',[
+                    CourseController::class,'home_works'
+                ])->name('teacher.courses.home_works.office');
+
+                //TA 相關事務
+                Route::get('TA_office',[
+                    CourseController::class,'TA_office'
+                ])->name('teacher.courses.TA_office.office');
+            });
+
+        #選擇年度
+            // naspace [ teacher/{year_id} ] ================ [ CourseController ]
+            Route::prefix('{year}')->group(function (){
+                //首頁
+                Route::get('year',[
+                    CourseController::class,'year'
+                ])->name('teacher.year.index.office');
+            });
+
         });
 
     });
