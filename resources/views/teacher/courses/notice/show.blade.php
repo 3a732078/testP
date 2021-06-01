@@ -33,10 +33,10 @@
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-primary">公告區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',$course_id)}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.home_works',$course_id)}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.TA_offices',$course_id)}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -71,14 +71,21 @@
 
 {{-- 頁面提示 --}}
 @section('header_text')
-    <div class="row row-cols-2 " style="margin-top: 10px" >
-        <div class="col-sm-12">
+    <div class="row row-cols-2" >
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
                 正處於【教室】環境
             </h6>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
             <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
         </div>
     </div>
