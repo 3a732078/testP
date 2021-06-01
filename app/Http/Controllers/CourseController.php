@@ -67,22 +67,18 @@ class CourseController extends Controller
     // ============  公告
     public function courses($course_id)
     {
-        //=== 使用id抓取課程
-        $course = Course::find($course_id);
-        //抓取該課程所有公告
-        $notices = $course->notices()->get();
-
-        $courses = Auth::user()->teacher()->first()->courses()->get()->
-        sortbydesc('year');
-
-        foreach ($courses->unique('year') as $data){
-            $years[$data -> id] = $data -> year;
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
         }
 
-        //使用該年度抓取所有課程
-        $courses_year = Teacher::find(Auth::id())->courses()->get()-> sortby('classroom')->where('year',$course -> year);
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
 
-//        return $notices;
+        //使用該年度抓取所有課程
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
 
         return view('teacher.courses.notices',[
             'courses_year' => $courses_year,
@@ -90,6 +86,11 @@ class CourseController extends Controller
             'years' => $years,
             'course_id' => $course_id,
         ]);
+
+
+//        return $courses_year;
+
+
     }
 
     // ========== 教材區

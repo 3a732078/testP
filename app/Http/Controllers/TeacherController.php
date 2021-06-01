@@ -189,24 +189,28 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function test(Teacher $teacher){
-
-        //隨機在某個老師的某個課程裡新增公告
-
-        //==== 隨便抓取某個老師的資料
-        $teachers = Teacher::all()->sortByDesc('id');
-        $ran_teachers = random_int(1,$teachers->first()->id);
-        $teacher = $teachers->where('id',$ran_teachers)->first();
-
-        // ======隨便抓取該老師的某個課程
-        $courses = Course::all()->where('teacher_id',$teacher->id);
-        $deep_courses = 0;
-        foreach ($courses as $course){
-            $deep_courses ++;
+    public function test(Teacher $teacher)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
         }
-        $ran_courses = random_int(1, $deep_courses);
 
-        return $deep_courses;
+
+        #抓取當年度課程
+            //抓取該老師有教的課程
+        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())
+            ->teacher() -> first()->courses() -> get();
+        foreach ($years as $year){
+            foreach ($courses -> sortBy('classroom') as $course){
+                if ($course -> year == $year){
+                    echo $course;
+                }
+            }
+            echo "=======================" ;
+        }
+
 
 //        return view('teacher.data');
     }
