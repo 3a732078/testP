@@ -99,7 +99,7 @@
 
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
-        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+        <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
             <div class="row justify-content-between">
                 <div class="col-4">
                     <h4>

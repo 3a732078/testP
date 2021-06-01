@@ -267,7 +267,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                     ])->name('teacher.office.notice.edit');
 
                     // 儲存公告內容
-                    Route::get('{notice_id}/',[
+                    Route::put('{notice_id}/',[
                         NoticeController::class,'teacher_office_notice_store'
                     ])->name('teacher.office.notice.store');
 

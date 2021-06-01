@@ -98,88 +98,98 @@
 @section('content')
 
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
-        {{-- Header--}}
-        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            <div class="row" style="width: auto" >
-                <div class="col-10">
-                    <h3>
-                        文章內容
-                    </h3>
-                </div>
-                <div class="col-2">
 
-                    <button type="button"
-                            onclick="location.href = '{{route('teacher.office.notice.store',[$course_id,$notice->id])}}'"
-                            class="btn btn-success ;">完成</button>
+        <form class="form-group" method="post" action="{{route('teacher.office.notice.store',[$course_id,$notice -> id])}}">
+            @csrf
+            @method('put')
+            {{-- Header--}}
+            <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
+                <div class="row" style="width: auto" >
+                    <div class="col-10">
+                        <h3>
+                            文章內容
+                        </h3>
+                    </div>
+                    <div class="col-2">
+
+                            <button type="submit"
+                                    class="btn btn-success ;">
+                                完成
+                            </button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        {{-- body --}}
-        <div class="card-body text-success">
+            {{-- body --}}
+            <div class="card-body text-success">
 
-            {{-- table --}}
-            <table class="table table-striped">
-                {{-- head --}}
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
+                {{-- table --}}
+                <table class="table table-striped">
+                    {{-- head --}}
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
 
-                {{-- body --}}
-                <tbody>
+                    {{-- body --}}
+                    <tbody>
 
-                <tr>
-                    <th scope="row" style="width: 200px;height: 10px">版名: </th>
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">版名: </th>
 
-                    <td> 課程公告留言板 </td>
-                </tr>
+                        <td> 課程公告留言板 </td>
+                    </tr>
 
-                <tr>
-                    <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
 
-                    {{-- 發布者 --}}
-                    <td>
-                        @if($notice -> teacher_id != null)
-                            老師
-                        @elseif($notice -> ta_id != null)
-                            TA
-                        @else
-                            管理者
-                        @endif
-                    </td>
-                </tr>
+                        {{-- 發布者 --}}
+                        <td>
+                            @if($notice -> teacher_id != null)
+                                老師
+                            @elseif($notice -> ta_id != null)
+                                TA
+                            @else
+                                管理者
+                            @endif
+                        </td>
+                    </tr>
 
-                <tr>
-                    <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
 
-                    <td> {{$notice -> created_at}} </td>
-                </tr>
+                        <td> {{$notice -> created_at}} </td>
+                    </tr>
 
-                <tr>
-                    <th scope="row" style="width: 200px;height: 10px">標題: </th>
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">標題: </th>
 
-                    <td> {{$notice -> title}} </td>
-                </tr>
+                        <td>
+                            {{-- 標題 ================ 【on edit】--}}
+                            <input type="text" name="title" value="{{$notice -> title}}">
+                        </td>
+                    </tr>
 
-                <tr style="height: 200px">
-                    <th >
-                        {{-- 內容 --}}
-                        內容:
-                    </th>
-                    <td class="card bg-light w-auto h-auto" >
-                        {{-- 內容 --}}
-                        {{$notice -> content}}
-                    </td>
+                    <tr style="height: 200px">
+                        <th >
+                            {{-- 內容 --}}
+                            內容:
+                        </th>
+                        <td class="card bg-light w-auto h-auto" >
+                            {{-- 內容  ================ 【on edit】 --}}
+                            <textarea name="notice_content" id="notice_content" cols="100" rows="10" >{{$notice -> content}}</textarea>
 
-                </tr>
+                        </td>
+
+                    </tr>
 
 
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        </form>
     </div>
 @endsection
 
