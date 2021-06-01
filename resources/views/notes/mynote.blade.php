@@ -114,6 +114,7 @@
                                 <thead>
                                 <tr style="background-color: #77969A ;color: #2d3748; border:2px #2d3748">
                                     <th>標題</th>
+                                    <th class="mh1">邀請者</th>
                                     <th class="mh1">引用教材</th>
                                     <style type="text/css">
                                         .mh1{
@@ -133,7 +134,10 @@
                                         @method('POST')
                                         <tr>
                                             <td width="280">{{basename($note->textfile,'.json')}}</td>
-                                            <td width="500" align="center">
+                                            <td width="170" align="center">
+                                                {{\App\Models\User::where('id',$note->user_id)->value('name')}}
+                                            </td>
+                                            <td width="370" align="center">
                                                 @if($note->textbook_id==null)
                                                     無引用教材
                                                 @else

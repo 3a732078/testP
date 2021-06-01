@@ -368,10 +368,18 @@
                                 登出
                             </a>
                             @if(\Illuminate\Support\Facades\Auth::user()->type=='學生')
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#tota">
-                                切換為TA
-                            </a>
+                                @php
+                                    $id=\Illuminate\Support\Facades\Auth::id();
+                                    $identified=\App\Models\Student::where('user_id',$id)->value('id');
+                                    $quantity=\App\Models\Ta::where('student_id',$identified)->get();
+
+                                @endphp
+                                @if(count($quantity)>0)
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#tota">
+                                        切換為TA
+                                    </a>
                                 @endif
+                            @endif
                         </div>
                     </li>
 
