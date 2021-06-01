@@ -197,7 +197,6 @@ class TeacherController extends Controller
             $years[] = $course -> year;
         }
 
-
         #抓取當年度課程
             //抓取該老師有教的課程
         $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())

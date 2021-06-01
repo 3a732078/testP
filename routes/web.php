@@ -194,7 +194,8 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 ])->name('teacher.notice.show');
 
             });
-
+    #選擇課程
+        // namespace[teacher/{course_id}} ] ======= CourseController
             //教材區
             Route::get('text_materials',[
                 CourseController::class,'text_materials'
