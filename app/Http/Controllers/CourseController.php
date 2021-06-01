@@ -49,7 +49,7 @@ class CourseController extends Controller
         //=== 抓取該課程的所有公告
         $notices = $course->notices()->get();
 
-//        return $courses;
+//        return $notices;
 
         return view('teacher.year.index',[
             'courses_year' => $courses,
@@ -82,7 +82,7 @@ class CourseController extends Controller
         //使用該年度抓取所有課程
         $courses_year = Teacher::find(Auth::id())->courses()->get()-> sortby('classroom')->where('year',$course -> year);
 
-//        return $courses_year;
+//        return $notices;
 
         return view('teacher.courses.notices',[
             'courses_year' => $courses_year,

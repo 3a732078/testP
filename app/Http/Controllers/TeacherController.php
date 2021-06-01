@@ -53,6 +53,8 @@ class TeacherController extends Controller
         //抓取該課程所有公告
         $notices = $course->notices()->get();
 
+//        return $notices;
+
         return view('teacher.courses.notices',[
             'course' => $course,
             'notices' => $notices,
@@ -187,9 +189,26 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function test(Teacher $teacher)
-    {
-        return view('teacher.data');
+    public function test(Teacher $teacher){
+
+        //隨機在某個老師的某個課程裡新增公告
+
+        //==== 隨便抓取某個老師的資料
+        $teachers = Teacher::all()->sortByDesc('id');
+        $ran_teachers = random_int(1,$teachers->first()->id);
+        $teacher = $teachers->where('id',$ran_teachers)->first();
+
+        // ======隨便抓取該老師的某個課程
+        $courses = Course::all()->where('teacher_id',$teacher->id);
+        $deep_courses = 0;
+        foreach ($courses as $course){
+            $deep_courses ++;
+        }
+        $ran_courses = random_int(1, $deep_courses);
+
+        return $deep_courses;
+
+//        return view('teacher.data');
     }
 
 

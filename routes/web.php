@@ -184,6 +184,17 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 CourseController::class,'courses'
             ])->name('teacher.courses.notices');
 
+        #選擇公告
+            // url [teacher/{course_id}/course] ======= NoticesController
+            Route::prefix('courses')->group(function (){
+
+                // 顯示公告內容
+                Route::get('{notice_id}/show',[
+                    NoticeController::class,'show'
+                ])->name('teacher.notice.show');
+
+            });
+
             //教材區
             Route::get('text_materials',[
                 CourseController::class,'text_materials'

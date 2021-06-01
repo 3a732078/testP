@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Notice;
 use Illuminate\Database\Seeder;
 
 class NoticeSeeder extends Seeder
@@ -13,6 +14,6 @@ class NoticeSeeder extends Seeder
      */
     public function run()
     {
-
+        Notice::factory()->count(3000)->create();
     }
 }

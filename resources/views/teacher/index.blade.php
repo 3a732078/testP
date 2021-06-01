@@ -41,8 +41,8 @@
         <div class="col-sm-6">
         </div>
 
-        <div class="col-6">
-            <h6 style="margin-left: 20px">
+        <div class="col-6" style="margin-top: 10px;">
+            <h6 style="margin-left: 15px">
                 正處於【教室】環境
             </h6>
         </div>
