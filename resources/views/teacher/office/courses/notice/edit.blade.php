@@ -1,4 +1,4 @@
-@extends('layouts.teacher.main')
+@extends('layouts.teacher.office.main')
 {{--@section('header_name')--}}
 {{--    --}}{{-- 直接寫入 --}}
 {{--    #--}}
@@ -78,7 +78,7 @@
 
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
-                正處於【教室】環境
+                正在【辦公室】環境
             </h6>
         </div>
 
@@ -87,8 +87,8 @@
 
         <div class="col-sm-6">
             <button type="button"
-                    class="btn btn-success  "
-                    onclick="location.href='{{route('teacher.office.notice.show',[$course_id,$notice -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+                    class="btn btn-warning  "
+                    onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -100,9 +100,19 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            <h4>
-                文章內容
-            </h4>
+            <div class="row" style="width: auto" >
+                <div class="col-10">
+                    <h3>
+                        文章內容
+                    </h3>
+                </div>
+                <div class="col-2">
+
+                    <button type="button"
+                            onclick="location.href = '{{route('teacher.office.notice.store',[$course_id,$notice->id])}}'"
+                            class="btn btn-success ;">完成</button>
+                </div>
+            </div>
         </div>
 
         {{-- body --}}
@@ -121,50 +131,50 @@
                 {{-- body --}}
                 <tbody>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">版名: </th>
+                <tr>
+                    <th scope="row" style="width: 200px;height: 10px">版名: </th>
 
-                        <td> 課程公告留言板 </td>
-                    </tr>
+                    <td> 課程公告留言板 </td>
+                </tr>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
+                <tr>
+                    <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
 
-                        {{-- 發布者 --}}
-                        <td>
-                            @if($notice -> teacher_id != null)
-                                老師
-                            @elseif($notice -> ta_id != null)
-                                TA
-                            @else
-                                管理者
-                            @endif
-                        </td>
-                    </tr>
+                    {{-- 發布者 --}}
+                    <td>
+                        @if($notice -> teacher_id != null)
+                            老師
+                        @elseif($notice -> ta_id != null)
+                            TA
+                        @else
+                            管理者
+                        @endif
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
+                <tr>
+                    <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
 
-                        <td> {{$notice -> created_at}} </td>
-                    </tr>
+                    <td> {{$notice -> created_at}} </td>
+                </tr>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">標題: </th>
+                <tr>
+                    <th scope="row" style="width: 200px;height: 10px">標題: </th>
 
-                        <td> {{$notice -> title}} </td>
-                    </tr>
+                    <td> {{$notice -> title}} </td>
+                </tr>
 
-                    <tr style="height: 200px">
-                        <th >
-                            {{-- 內容 --}}
-                            內容:
-                        </th>
-                        <td class="card bg-light w-auto h-auto" >
-                            {{-- 內容 --}}
-                            {{$notice -> content}}
-                        </td>
+                <tr style="height: 200px">
+                    <th >
+                        {{-- 內容 --}}
+                        內容:
+                    </th>
+                    <td class="card bg-light w-auto h-auto" >
+                        {{-- 內容 --}}
+                        {{$notice -> content}}
+                    </td>
 
-                    </tr>
+                </tr>
 
 
                 </tbody>

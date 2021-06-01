@@ -9,7 +9,7 @@
 <div id="wrapper">
 
     <!-- Side bar -->
-    @include('layouts.teacher.sidebar')
+    @include('layouts.teacher.office.sidebar')
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">

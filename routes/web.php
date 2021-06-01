@@ -258,8 +258,18 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
                     // 顯示公告內容
                     Route::get('{notice_id}/show',[
-                        NoticeController::class,'teacher_notice_show'
-                    ])->name('teacher.notice.show.office');
+                        NoticeController::class,'teacher_office_notice_show'
+                    ])->name('teacher.office.notice.show');
+
+                    // 修改公告內容
+                    Route::get('{notice_id}/edit',[
+                        NoticeController::class,'teacher_office_notice_edit'
+                    ])->name('teacher.office.notice.edit');
+
+                    // 儲存公告內容
+                    Route::get('{notice_id}/',[
+                        NoticeController::class,'teacher_office_notice_store'
+                    ])->name('teacher.office.notice.store');
 
                 });
         #選擇課程

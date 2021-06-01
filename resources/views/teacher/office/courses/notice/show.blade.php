@@ -1,4 +1,4 @@
-@extends('layouts.teacher.main')
+@extends('layouts.teacher.office.main')
 {{--@section('header_name')--}}
 {{--    --}}{{-- 直接寫入 --}}
 {{--    #--}}
@@ -78,7 +78,7 @@
 
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
-                正處於【教室】環境
+                正在【辦公室】環境
             </h6>
         </div>
 
@@ -87,8 +87,8 @@
 
         <div class="col-sm-6">
             <button type="button"
-                    class="btn btn-success  "
-                    onclick="location.href='{{route('teacher.office.notice.show',[$course_id,$notice -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+                    class="btn btn-warning  "
+                    onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -100,9 +100,19 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            <h4>
-                文章內容
-            </h4>
+            <div class="row justify-content-between">
+                <div class="col-4">
+                    <h4>
+                        文章內容
+                    </h4>
+                </div>
+                <div class="col-4">
+                    <button type="button"
+                            onclick="location.href = '{{route('teacher.office.notice.edit',[$course_id,$notice->id])}}'"
+                            class="btn btn-outline-primary ;">修改</button>
+                    <button type="button" class="btn btn-danger">刪除</button>
+                </div>
+            </div>
         </div>
 
         {{-- body --}}

@@ -118,4 +118,79 @@ class NoticeController extends Controller
 
 
     }
+
+    public function teacher_office_notice_show($course_id,$notice_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該公告
+        $notice = Notice::find($notice_id);
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        return view('teacher.office.courses.notice.show',[
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'notice' => $notice,
+        ]);
+
+//        return $courses_year;
+    }
+
+    public function teacher_office_notice_edit($course_id,$notice_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該公告
+        $notice = Notice::find($notice_id);
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        return view('teacher.office.courses.notice.edit',[
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'notice' => $notice,
+        ]);
+
+//        return $courses_year;
+    }
+
+    public function teacher_office_notice_store($course_id,$notice_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該公告
+        $notice = Notice::find($notice_id);
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        return view('teacher.office.courses.notice.edit',[
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'notice' => $notice,
+        ]);
+
+//        return $courses_year;
+    }
 }
