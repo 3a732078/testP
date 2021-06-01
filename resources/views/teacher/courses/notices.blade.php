@@ -117,13 +117,15 @@
                             <td> <h5>{{$notice -> title}}</h5></td>
 
                             {{-- 發布者 --}}
-                            @if($notice -> teacher_id != null)
-                                <td>老師</td>
-                            @elseif($notice -> ta_id != null)
-                                <td>TA</td>
-                            @else
-                                <td>管理者</td>
-                            @endif
+                            <td>
+                                @if($notice -> teacher_id != null)
+                                    老師
+                                @elseif($notice -> ta_id != null)
+                                    TA
+                                @else
+                                    管理者
+                                @endif
+                            </td>
 
                             {{-- 功能按鈕 --}}
                             <td>

@@ -91,7 +91,9 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            {{$course ->name}}
+            <h1>
+                文章內容
+            </h1>
         </div>
 
         {{-- body --}}
@@ -102,47 +104,62 @@
                 {{-- head --}}
                 <thead>
                 <tr>
-                    <th scope="col">編號</th>
-                    <th scope="col">標題</th>
-                    <th scope="col">發布者</th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
                 </thead>
 
                 {{-- body --}}
                 <tbody>
+
                     <tr>
-                        <th scope="row">{{$notice -> id}}</th>
-                        <td> <h5>{{$notice -> title}}</h5></td>
+                        <th scope="row" style="width: 200px;height: 10px">版名: </th>
+
+                        <td> 課程公告留言板 </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
 
                         {{-- 發布者 --}}
-                        @if($notice -> teacher_id != null)
-                            <td>老師</td>
-                        @elseif($notice -> ta_id != null)
-                            <td>TA</td>
-                        @else
-                            <td>管理者</td>
-                        @endif
-
-                        {{-- 功能按鈕 --}}
                         <td>
-                            <button type="button" class="btn btn-outline-primary btn-sm"
-                                    onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
-                            >
-                                檢視
-                            </button>
+                            @if($notice -> teacher_id != null)
+                                老師
+                            @elseif($notice -> ta_id != null)
+                                TA
+                            @else
+                                管理者
+                            @endif
                         </td>
                     </tr>
+
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
+
+                        <td> {{$notice -> created_at}} </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row" style="width: 200px;height: 10px">標題: </th>
+
+                        <td> {{$notice -> title}} </td>
+                    </tr>
+
+                    <tr style="height: 200px">
+                        <th >
+                            {{-- 內容 --}}
+                            內容:
+                        </th>
+                        <td class="card bg-light w-auto h-auto" >
+                            {{-- 內容 --}}
+                            {{$notice -> content}}
+                        </td>
+
+                    </tr>
+
+
                 </tbody>
             </table>
-        </div>
-
-        {{-- footer--}}
-        <div class="card-footer bg-primary border-primary">
-
-            {{-- 先當作頁碼使用吧 --}}
-            <button type="button" class="btn btn-outline-warning btn-sm">1</button>
-
         </div>
     </div>
 @endsection
