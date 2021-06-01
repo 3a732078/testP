@@ -33,10 +33,10 @@
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-primary">公告區</button>
-            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',$course_id)}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.home_works',$course_id)}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.TA_offices',$course_id)}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
