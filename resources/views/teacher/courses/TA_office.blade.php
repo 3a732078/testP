@@ -36,7 +36,7 @@
             <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-outline-secondary">公告區</button>
             <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
             <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-primary">TA相關事務</button>
+            <button type="button" onclick="location.href = 'TA_office'" class="btn btn-sm btn-primary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -53,7 +53,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.TA_offices',$course -> id)}}">
+                                        <a href="{{route('teacher.courses.TA_office',$course -> id)}}">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>

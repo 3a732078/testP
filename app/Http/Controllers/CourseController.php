@@ -145,7 +145,7 @@ class CourseController extends Controller
     }
 
     // === TA相關事務
-    public function TA_offices($course_id)
+    public function TA_office($course_id)
     {
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
@@ -160,7 +160,7 @@ class CourseController extends Controller
         //使用該年度抓取所有課程
         $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
 
-        return view('teacher.courses.TA_offices',[
+        return view('teacher.courses.TA_office',[
             'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,

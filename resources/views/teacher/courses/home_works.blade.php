@@ -36,7 +36,7 @@
             <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-outline-secondary">公告區</button>
             <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
             <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-primary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_offices'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+            <button type="button" onclick="location.href = 'TA_office'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}

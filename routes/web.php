@@ -207,9 +207,9 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             ])->name('teacher.courses.home_works');
 
             //TA 相關事務
-            Route::get('TA_offices',[
-                CourseController::class,'TA_offices'
-            ])->name('teacher.courses.TA_offices');
+            Route::get('TA_office',[
+                CourseController::class,'TA_office'
+            ])->name('teacher.courses.TA_office');
         });
 
     #選擇年度
@@ -221,12 +221,15 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             ])->name('teacher.year.index');
         });
 
+    #辦公室
+        // url [ teacher/office ] ====== TeacherController
+        Route::prefix('office')->group(function (){
+            //首頁
+            Route::get('index',[
+                TeacherController::class,'index_office'
+            ])  -> name('teacher.index.office');
+
+        });
+
     });
 
-#TA
-    Route::prefix('TA')->group(function (){
-        //檢視TA主頁
-        Route::get('index',[
-            TaController::class,'index'
-        ])->name('ta.index');
-    });
