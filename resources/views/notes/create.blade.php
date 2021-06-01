@@ -32,7 +32,7 @@
         @method('POST')
         <p>課程：
         <select id="class" name="class" style="font-size: 16px">
-
+            @if($classname !== "無分類")
                 @foreach($coursename as $coursenames)
                     @if($classname===$coursenames)
                         <option value="{{$coursenames}}" selected>  {{$coursenames}} </option>
@@ -42,6 +42,9 @@
                 @endforeach
                   <option>  無分類 </option>
 
+            @elseif($classname === "無分類")
+                  <option> 無分類 </option>
+            @endif
         </select>
         </p>
         筆記名稱：<input name="notename" id="notename" style="font-size: 16px">
