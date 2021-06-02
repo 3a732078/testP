@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Course;
+use App\Models\CourseStudent;
 use App\Models\Notice;
 use App\Models\User;
 use Database\Factories\TeacherFactory;
@@ -33,6 +34,12 @@ class DatabaseSeeder extends Seeder
         $courses = Course::all();
         if (count($courses) == 0 ) {
             $this->call(CourseSeeder::class); // --- 建立課程
+        }
+
+        // === 建立學生與課程
+        $course_students = CourseStudent::all();
+        if (count($course_students) == 0 ){
+            $this->call(CourseStudentSeeder::class);
         }
 
         // === 建立課程公告

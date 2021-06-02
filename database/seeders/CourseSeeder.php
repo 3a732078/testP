@@ -41,7 +41,7 @@ class CourseSeeder extends Seeder
                     'grade' => $ran_grade + 1 ,
                     'classroom' => $classroom[0][$ran_department-1].$classroom[1][$ran_grade]."甲",
                     'year' => random_int(95,110),
-                    'semester' => "1",
+                    'semester' => random_int(1,2),
                 ]);
             }
         }

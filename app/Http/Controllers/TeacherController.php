@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Notice;
+use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -191,24 +192,13 @@ class TeacherController extends Controller
 
     public function test(Teacher $teacher)
     {
-        // === $years寫入資料
-        $courses = \App\Models\Course::all()-> sortByDesc('year');
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
+        $courses = Course::all();
+        $students = Student::all();
 
-        #抓取當年度課程
-            //抓取該老師有教的課程
-        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())
-            ->teacher() -> first()->courses() -> get();
-        foreach ($years as $year){
-            foreach ($courses -> sortBy('classroom') as $course){
-                if ($course -> year == $year){
-                    echo $course;
-                }
-            }
-            echo "=======================" ;
-        }
+        $ran_course = random_int(1,count($courses));
+        $ran_student = random_int(1,count($students));
+
+        return $ran_course ;
 
 
 //        return view('teacher.data');

@@ -99,7 +99,7 @@
 
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
 
-        <form class="form-group" method="post" action="{{route('teacher.office.notice.store',[$course_id,$notice -> id])}}">
+        <form class="form-group" method="post" action="{{route('teacher.office.notice.update',[$course_id,$notice -> id])}}">
             @csrf
             @method('put')
             {{-- Header--}}
