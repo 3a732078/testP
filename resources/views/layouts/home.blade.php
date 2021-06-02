@@ -365,7 +365,8 @@
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 登出
                             </a>
-                            @if(\Illuminate\Support\Facades\Auth::user()->type=='學生')
+                            @php $ta=Session::get('ta');@endphp
+                            @if($ta===1)
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#tota">
                                 切換為TA
                             </a>

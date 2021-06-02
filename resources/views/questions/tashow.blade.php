@@ -2,7 +2,7 @@
 
     <meta charset="utf-8">
 
-    <title>私訊(TA)</title>
+    <title>私訊(TA)-{{$classn}}</title>
 
 </head>
 <div class="container">
@@ -20,6 +20,8 @@
 {{--        <p class="message-content">我是TA</p>--}}
 {{--        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>--}}
 {{--    </div>--}}
+    {{$classn}}-TA訊息頁面
+    <p>___________________________</p>
     @foreach ($questions as $question)
         @if($question->response)
             <div class="message-blue">
@@ -46,6 +48,8 @@
     </div>
     <button>送出</button>
 </form>
+<a href="{{url()->previous()}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>|<a href="/ta"><i class="fas fa-home home" style="color:#00a6a6"></i></a>
+
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
 
@@ -158,3 +162,4 @@
         element.scrollIntoView({block: "end"});
     }
 </script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
