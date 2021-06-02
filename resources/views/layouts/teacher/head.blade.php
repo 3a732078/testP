@@ -114,4 +114,35 @@
     }
 </style>
 
+<script>
+    function prink_check(){
+        var txt;
+        if(confirm("一旦儲存就無法還原!!")){
+            txt = 1;
+            return then(txt);
+        }else{
+            txt = 0
+            return then(txt);
+        }
+    }
+
+    function then (txt){
+        if (txt == 1 ){
+            alert("正在更新~~~~");
+        }else {
+            alert('NO NO NO 不能反悔')
+        }
+    }
+
+    function serious_check(){
+        var txt;
+        if(confirm("一旦儲存就無法還原!!")){
+            txt = 1;
+            return then(txt);
+        }else{
+            txt = 0
+            return then(txt);
+        }
+    }
+</script>
 </head>

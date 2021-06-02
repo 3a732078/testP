@@ -113,6 +113,7 @@
                     <div class="col-2">
 
                             <button type="submit"
+                                    onclick="prink_check()"
                                     class="btn btn-success ;">
                                 完成
                             </button>
