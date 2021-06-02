@@ -216,7 +216,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         // naspace [ teacher/{year_id} ] ================ [ CourseController ]
         Route::prefix('{year}')->group(function (){
             //首頁
-            Route::get('year',[
+            Route::get('{semester}/year',[
                 CourseController::class,'year'
             ])->name('teacher.year.index');
         });
@@ -245,7 +245,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             ])  -> name('teacher.office.system_suggest');
 
         #選擇課程
-            // namespace[teacher/{course_id}} ] ======= CourseController
+            // namespace[teacher/office/{course_id}} ] ======= CourseController
             Route::prefix('{course_id}')->group(function (){
                 //首頁(預設公告)
                 Route::get('courses',[
@@ -253,7 +253,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 ])->name('teacher.office.courses.notices');
 
             #選擇公告
-                // url [teacher/{course_id}/course] ======= NoticeController
+                // url [teacher/office/{course_id}/courses] ======= NoticeController
                     /* useful code
                      ,[$course_id,$notice -> id]
                      */
@@ -301,13 +301,32 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 Route::get('TA_office',[
                     CourseController::class,'office_TA_office'
                 ])->name('teacher.office.courses.TA_office');
+
+            #TA相關事務
+                // url [teacher/office/{$course_id}/TA_office ] ===== TAController
+                Route::prefix('TA_office')->group(function (){
+
+                    //設定TA
+                    Route::get('create',[
+                        TaController::class,'create'
+                    ])->name('teacher.office.courses.TA_office.create');
+
+                    //與TA聯繫
+                    Route::get('{TA_id}/message',[
+                        TaController::class,'create'
+                    ])->name('teacher.office.courses.TA_office.create');
+
+                });
+
             });
+
+
 
         #選擇年度
             // naspace [ teacher/{year_id} ] ================ [ CourseController ]
             Route::prefix('{year}')->group(function (){
                 //首頁
-                Route::get('year',[
+                Route::get('{semester}/year',[
                     CourseController::class,'year'
                 ])->name('teacher.office.year.index');
             });

@@ -51,8 +51,8 @@
                     @foreach($years as $year)
                         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
 
-                            {{-- 上學期 --}}
-                            <option value="{{route('teacher.year.index',$year)}}">
+                            {{-- 下學期 --}}
+                            <option value="{{route('teacher.year.index',[$year,2])}}">
                                 <h6>
                                     {{$year}}學年度 【下學期】
                                 </h6>
@@ -72,8 +72,9 @@
                         </select>
 
                         <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                        {{-- 下學期 --}}
-                            <option value="{{route('teacher.year.index',$year)}}">
+
+                            {{-- 上學期 --}}
+                            <option value="{{route('teacher.year.index',[$year,1])}}">
                                 <h6>
                                     {{$year}}學年度 【上學期】
                                 </h6>
@@ -93,6 +94,8 @@
 
                         </select>
                     @endforeach
+
+
                     @yield('side_courses')
                 </div>
             </div>

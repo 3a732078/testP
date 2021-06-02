@@ -22,13 +22,22 @@
                         </h6>
                     </option>
                     @foreach($years as $year)
-                        <option value="{{route('teacher.year.index',$year)}}">
+                        {{-- 下學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,2])}}">
                             <h6>
-                                {{$year}}學年度
+                                {{$year}}學年度【下學期】
+                            </h6>
+                        </option>
+
+                        {{-- 上學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,1])}}">
+                            <h6>
+                                {{$year}}學年度【上學期】
                             </h6>
                         </option>
                     @endforeach
                 </select>
+
             </h1>
         </div>
 
@@ -53,7 +62,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.home_works',$course -> id)}}" role="tab"  aria-selected="false">
+                                        <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>

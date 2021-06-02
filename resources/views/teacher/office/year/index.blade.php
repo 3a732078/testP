@@ -22,7 +22,14 @@
                         </h6>
                     </option>
                     @foreach($years as $year)
-                        <option value="{{route('teacher.year.index',$year)}}">
+                        {{-- 下學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,2])}}">
+                            <h6>
+                                {{$year}}學年度
+                            </h6>
+                        </option>
+                        {{-- 上學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,1])}}">
                             <h6>
                                 {{$year}}學年度
                             </h6>

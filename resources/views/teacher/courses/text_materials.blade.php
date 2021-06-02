@@ -22,19 +22,28 @@
                         </h6>
                     </option>
                     @foreach($years as $year)
-                        <option value="{{route('teacher.year.index',$year)}}">
+                        {{-- 下學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,2])}}">
                             <h6>
-                                {{$year}}學年度
+                                {{$year}}學年度【下學期】
+                            </h6>
+                        </option>
+
+                        {{-- 上學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,1])}}">
+                            <h6>
+                                {{$year}}學年度【上學期】
                             </h6>
                         </option>
                     @endforeach
                 </select>
+
             </h1>
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = 'courses'"           class="btn btn-sm btn-outline-secondary">公告區</button>
-            <button type="button" onclick="location.href = 'text_materials'"    class="btn btn-sm btn-primary">教材區</button>
+            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-outline-secondary">公告區</button>
+            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-primary">教材區</button>
             <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
             <button type="button" onclick="location.href = 'TA_office'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
@@ -53,7 +62,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.text_materials',$course -> id)}}" role="tab"  aria-selected="false">
+                                        <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>

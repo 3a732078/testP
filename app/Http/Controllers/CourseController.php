@@ -31,32 +31,39 @@ class CourseController extends Controller
     }
 
     // ======= year.index
-    public function year(Request $request , $year_id)
+    public function year(Request $request ,$year_id, $semester)
     {
+        //        return $courses_year;
+        $course = Course::all();
+        //=== 抓取該課程的所有公告
+        if (isset($courses)){
+            //===先抓取所有的年度
+            $courses = Course::all()->sortByDesc('year');
+            foreach ($courses->unique('year') as $data) {
+                $years[$data->id] = $data->year;
+            }
 
-        //===先抓取所有的年度
-        $courses = Course::all()->sortByDesc('year');
-        foreach ($courses->unique('year') as $data) {
-            $years[$data->id] = $data->year;
+            //===改抓取 該年度所有課程 使用 [ $year_id]
+            $courses_year = User::find(Auth::id()) -> teacher()->first() -> courses()
+                -> where('year',$year_id)-> where('semester' ,$semester) -> get()->sortby('classroom');
+
+            //=== 預設顯示科系id較小的課程
+            $course = $courses_year-> first();
+
+            // === 抓取該課程的所有公告
+            $notices = $course -> notices() -> get();
+
+            return view('teacher.year.index',[
+                'courses_year' => $courses_year,
+                'notices' => $notices,
+                'years' => $years,
+                'course_id' => $course -> id,
+            ]);
+
+        }else{
+            return back()->with('null',"該年度沒有課程");
         }
 
-        //===改抓取 該年度所有課程 使用 [ $year_id]
-        $courses = User::find(Auth::id()) -> teacher()->first() -> courses() -> where('year',$year_id)->get()->sortby('classroom');
-
-        //=== 預設顯示科系id較小的課程
-        $course = $courses-> first();
-
-        //=== 抓取該課程的所有公告
-        $notices = $course->notices()->get();
-
-//        return $notices;
-
-        return view('teacher.year.index',[
-            'courses_year' => $courses,
-            'notices' => $notices,
-            'years' => $years,
-            'course_id' => $course -> id,
-        ]);
     }
 
     /**
@@ -77,8 +84,9 @@ class CourseController extends Controller
         $course = Course::find($course_id);
         $notices = $course->notices()->get();
 
-        //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        //使用該年度 抓取所有 該學期的 課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
         return view('teacher.courses.notices',[
             'courses_year' => $courses_year,
@@ -105,7 +113,8 @@ class CourseController extends Controller
         $notices = $course->notices()->get();
 
         //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
         return view('teacher.office.courses.notices',[
             'courses_year' => $courses_year,
@@ -114,9 +123,7 @@ class CourseController extends Controller
             'course_id' => $course_id,
         ]);
 
-
 //        return $courses_year;
-
     }
 
     // ========== 教材區
@@ -133,9 +140,10 @@ class CourseController extends Controller
         $notices = $course->notices()->get();
 
         //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
-//        return $courses_year;
+        //        return $courses_year;
 
         return view('teacher.courses.text_materials',[
             'courses_year' => $courses_year,
@@ -159,9 +167,10 @@ class CourseController extends Controller
         $notices = $course->notices()->get();
 
         //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
-//        return $courses_year;
+        //        return $courses_year;
 
         return view('teacher.courses.home_works',[
             'courses_year' => $courses_year,
@@ -185,7 +194,8 @@ class CourseController extends Controller
         $notices = $course->notices()->get();
 
         //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
         $TA = Course::find($course_id)->ta()->first();
 
@@ -214,7 +224,8 @@ class CourseController extends Controller
         $notices = $course->notices()->get();
 
         //使用該年度抓取所有課程
-        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
         $TA = Course::find($course_id)->ta()->first();
 

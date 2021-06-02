@@ -107,9 +107,28 @@ class TaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($course_id)
     {
-        //
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
+
+        //使用該年度 抓取所有 該學期的 課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+
+        return view('teacher.office.courses.TA.create',[
+            'courses_year' => $courses_year,
+            'notices' => $notices,
+            'years' => $years,
+            'course_id' => $course_id,
+        ]);
     }
 
     /**
@@ -166,5 +185,30 @@ class TaController extends Controller
     public function destroy(Ta $ta)
     {
         //
+    }
+
+    // 老師與TA聯繫
+    public function message($course_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
+
+        //使用該年度 抓取所有 該學期的 課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+
+        return view('teacher.office.courses.TA.message',[
+            'courses_year' => $courses_year,
+            'notices' => $notices,
+            'years' => $years,
+            'course_id' => $course_id,
+        ]);
     }
 }

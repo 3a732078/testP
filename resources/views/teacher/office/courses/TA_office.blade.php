@@ -22,7 +22,14 @@
                         </h6>
                     </option>
                     @foreach($years as $year)
-                        <option value="{{route('teacher.year.index',$year)}}">
+                        {{-- 下學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,2])}}">
+                            <h6>
+                                {{$year}}學年度
+                            </h6>
+                        </option>
+                        {{-- 上學期 --}}
+                        <option value="{{route('teacher.year.index',[$year,1])}}">
                             <h6>
                                 {{$year}}學年度
                             </h6>
@@ -88,7 +95,7 @@
         <div class="col-sm-6">
             <button type="button"
                     class="btn btn-warning  "
-                    onclick="location.href='{{route('teacher.courses.notices',[$course_id,])}}'"
+                    onclick="location.href='{{route('teacher.courses.TA_office',[$course_id,])}}'"
                     style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
@@ -97,28 +104,21 @@
 
 {{-- Content --}}
 @section('content')
-
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
             <div class="row jumbotron-fluid">
                 <div class="col-4">
                     <h3>
-                        聯絡TA
+                        TA相關事務
                     </h3>
                 </div>
 
-                <div class="col-4">
-
-                    姓名: {{$TA -> student() -> first() -> user() -> first() -> name}}
-
-                </div>
+                <div class="col-4"></div>
 
                 <div class="col-4">
                     <h4>
-                        <form action="">
-                            <input type="text" name="text" id="text">
-                        </form>
+                        {{$course ->name}} 【{{$course -> classroom}}】
                     </h4>
                 </div>
 
@@ -127,7 +127,51 @@
 
         {{-- body --}}
         <div class="card-body text-success">
+            @if(isset($TA) )
 
+                <div class="row">
+                    <div class="col-4">
+                        <h2>
+                            {{$TA -> student() -> first() -> user() -> first() -> name}}
+                        </h2>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-4">
+                        <button type="button"
+                                onclick="location.href = '{{route('teacher.office.courses.TA_office.message',[$course_id,$TA -> id])}}'"
+                                class="btn btn-light">
+                            聯絡
+                        </button>
+
+                    </div>
+
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-4">
+                        <h2>
+                            尚未在這堂課設定TA
+                        </h2>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-4">
+                        <button type="button"
+                                onclick="location.href = '{{route('teacher.office.course.TA_office.create',[$course_id])}}'"
+                                class="btn btn-primary">
+                            設定TA
+                        </button>
+                    </div>
+
+                </div>
+            @endif
 
         </div>
 
