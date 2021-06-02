@@ -86,10 +86,10 @@
             Message
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" href= "teacher/{{$course -> id}}/ta">
-                <i class="fas fa-fw fa-comment"></i>
-                <span>與Ta聯繫</span></a>
-        </li>
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href= "teacher/{{$course -> id}}/ta">--}}
+{{--                <i class="fas fa-fw fa-comment"></i>--}}
+{{--                <span>與Ta聯繫</span></a>--}}
+{{--        </li>--}}
     </ul>
 </div>
