@@ -144,6 +144,66 @@ class NoticeController extends Controller
 //        return $courses_year;
     }
 
+    public function teacher_office_notice_create(Request $request,$course_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        return view('teacher.office.courses.notice.create',[
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+        ]);
+
+//        return $request;
+    }
+
+    //儲存新公告
+    public function teacher_office_notice_store(Request $request,$course_id)
+    {
+        #判斷是否有空值並且反映
+            //根本不會啊 ====================
+
+        #導回所有的公告列保
+            // === insert
+        $notice = new Notice();
+        $notice -> teacher_id = User::find(Auth::id())->teacher()->first()->id;
+        $notice -> course_id = $course_id;
+        $notice -> title = $request -> notice_content;
+        $notice -> content = $request -> notice_content;
+        $notice -> save();
+
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        //抓取該課程所有的公告
+        $course = Course::find($course_id);
+        $notices = $course -> notices()->get();
+
+        return view('teacher.office.courses.notices',[
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'notices' => $notices,
+        ]);
+
+//        return $request;
+    }
+
     public function teacher_office_notice_edit($course_id,$notice_id)
     {
         // === $years寫入資料
@@ -169,7 +229,7 @@ class NoticeController extends Controller
 //        return $courses_year;
     }
 
-    public function teacher_office_notice_store(Request $request,$course_id,$notice_id)
+    public function teacher_office_notice_update(Request $request,$course_id,$notice_id)
     {
         #導回show 之前先做update的動作
             // === update        //抓取該公告

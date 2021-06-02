@@ -96,90 +96,113 @@
 
 {{-- Content --}}
 @section('content')
+    <div class="row justify-content-end">
+        <div class="row">
+            <div class="col-8">
+                <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+                {{-- Header--}}
+                <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <h4>
+                                文章內容
+                            </h4>
+                        </div>
 
-    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
-        {{-- Header--}}
-        <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
-            <div class="row justify-content-between">
-                <div class="col-4">
-                    <h4>
-                        文章內容
-                    </h4>
+                        <div class="col-4">
+                        </div>
+
+                        <div class="col-4">
+                            <button type="button"
+                                    onclick="location.href = '{{route('teacher.office.notice.edit',[$course_id,$notice->id])}}'"
+                                    class="btn btn-outline-primary ;">修改</button>
+                            <button type="button" class="btn btn-danger">刪除</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <button type="button"
-                            onclick="location.href = '{{route('teacher.office.notice.edit',[$course_id,$notice->id])}}'"
-                            class="btn btn-outline-primary ;">修改</button>
-                    <button type="button" class="btn btn-danger">刪除</button>
-                </div>
-            </div>
-        </div>
-
-        {{-- body --}}
-        <div class="card-body text-success">
-
-            {{-- table --}}
-            <table class="table table-striped">
-                {{-- head --}}
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
 
                 {{-- body --}}
-                <tbody>
+                <div class="card-body text-success">
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">版名: </th>
+                    {{-- table --}}
+                    <table class="table table-striped">
+                        {{-- head --}}
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
 
-                        <td> 課程公告留言板 </td>
-                    </tr>
+                        {{-- body --}}
+                        <tbody>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
+                            <tr>
+                                <th scope="row" style="width: 200px;height: 10px">版名: </th>
 
-                        {{-- 發布者 --}}
-                        <td>
-                            @if($notice -> teacher_id != null)
-                                老師
-                            @elseif($notice -> ta_id != null)
-                                TA
-                            @else
-                                管理者
-                            @endif
-                        </td>
-                    </tr>
+                                <td> 課程公告留言板 </td>
+                            </tr>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
+                            <tr>
+                                <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
 
-                        <td> {{$notice -> created_at}} </td>
-                    </tr>
+                                {{-- 發布者 --}}
+                                <td>
+                                    @if($notice -> teacher_id != null)
+                                        老師
+                                    @elseif($notice -> ta_id != null)
+                                        TA
+                                    @else
+                                        管理者
+                                    @endif
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <th scope="row" style="width: 200px;height: 10px">標題: </th>
+                            <tr>
+                                <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
 
-                        <td> {{$notice -> title}} </td>
-                    </tr>
+                                <td> {{$notice -> created_at}} </td>
+                            </tr>
 
-                    <tr style="height: 200px">
-                        <th >
-                            {{-- 內容 --}}
-                            內容:
-                        </th>
-                        <td class="card bg-light w-auto h-auto" >
-                            {{-- 內容 --}}
-                            {{$notice -> content}}
-                        </td>
+                            <tr>
+                                <th scope="row" style="width: 200px;height: 10px">標題: </th>
 
-                    </tr>
+                                <td> {{$notice -> title}} </td>
+                            </tr>
+
+                            <tr style="height: 200px">
+                                <th >
+                                    {{-- 內容 --}}
+                                    內容:
+                                </th>
+                                <td class="card bg-light w-auto h-auto" >
+                                    {{-- 內容 --}}
+                                    {{$notice -> content}}
+                                </td>
+
+                            </tr>
 
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+
+            <div class="col-2">
+                <button class="btn-lg btn-success"
+                            onclick="location.href = '{{route('teacher.office.notice.create',[$course_id,])}}'"
+                            style="margin-top: 50px; margin-left: 160px"
+                >
+                        新增公告
+                </button>
+            </div>
+
+            <div class="col-2">
+            </div>
+
+
         </div>
-    </div>
+
 @endsection
 

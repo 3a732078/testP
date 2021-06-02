@@ -1,4 +1,4 @@
-@extends('layouts.teacher.main')
+@extends('layouts.teacher.office.main')
 {{--@section('header_name')--}}
 {{--    --}}{{-- 直接寫入 --}}
 {{--    #--}}
@@ -78,7 +78,7 @@
 
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
-                正處於【教室】環境
+                正在【辦公室】環境
             </h6>
         </div>
 
@@ -86,7 +86,10 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+            <button type="button"
+                    class="btn btn-warning  "
+                    onclick="location.href='{{route('teacher.courses.notices',[$course_id,])}}'"
+                    style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -112,7 +115,14 @@
                     <th scope="col">編號</th>
                     <th scope="col">標題</th>
                     <th scope="col">發布者</th>
-                    <th scope="col"></th>
+                    <th scope="col">
+                        <button type="button"
+                                class="btn btn-success "
+                                onclick="location.href='{{route('teacher.office.notice.create',[$course_id,])}}'"
+                        >
+                            新增
+                        </button>
+                    </th>
                 </tr>
                 </thead>
 

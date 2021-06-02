@@ -117,7 +117,7 @@
 <script>
     function prink_check(){
         var txt;
-        if(confirm("一旦儲存就無法還原!!")){
+        if(confirm("一旦確定就無法還原!!")){
             txt = 1;
             return then(txt);
         }else{
@@ -141,7 +141,6 @@
             return then(txt);
         }else{
             txt = 0
-            return then(txt);
         }
     }
 </script>

@@ -92,6 +92,33 @@ class CourseController extends Controller
 
     }
 
+    public function office_courses($course_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
+
+        //使用該年度抓取所有課程
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        return view('teacher.office.courses.notices',[
+            'courses_year' => $courses_year,
+            'notices' => $notices,
+            'years' => $years,
+            'course_id' => $course_id,
+        ]);
+
+
+//        return $courses_year;
+
+    }
+
     // ========== 教材區
     public function text_materials($course_id)
     {
