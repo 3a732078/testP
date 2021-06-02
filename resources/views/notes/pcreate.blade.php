@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div style="padding:20px;margin-top:30px;">
     <title>新增筆記(照片)</title>
-    <h1>新增筆記(照片)　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
+    <h1>新增筆記(照片)</h1>
 
     @if ($message = Session::get('alert'))
         <script>alert("{{ $message }}");</script>
