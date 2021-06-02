@@ -1,7 +1,7 @@
 
 <html>
 <head>
-    <title>教授 教材列表</title>
+    <title>教材列表</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
@@ -20,6 +20,7 @@
         </div>
         <div class="p-4 pt-5">
             <h1><a href="index.html" class="logo">教材列表</a></h1>
+            <a href="{{url()->previous()}}" style="color:#FFFFFF"><i class="fas fa-arrow-left"></i></a>|
             <a href="/" style="color:#FFFFFF"><i class="fas fa-home home" style="color:#FFFFFF"></i>  回首頁</a>
             <ul class="list-unstyled components mb-5">
                 @foreach($courses as $course)

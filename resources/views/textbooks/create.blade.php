@@ -2,6 +2,9 @@
     <form id="upload" name="upload" action="/textbooks" method="POST" role="form" enctype="multipart/form-data">
         @csrf
         @method('POST')
+
+        <a href="{{url()->previous()}}"><i class="fas fa-arrow-left"></i></a>|
+        <a href="/"><i class="fas fa-home home"></i>  回首頁</a>
         <div>
             <label for="title">標題</label><br><br>
             <input id="title" name="title" placeholder="請輸入檔案名稱">
