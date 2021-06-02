@@ -86,7 +86,9 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+            <button type="button"
+                    onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id,])}} '"
+                    class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -94,7 +96,74 @@
 
 {{-- Content --}}
 @section('content')
+    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+        {{-- Header--}}
+        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+            <div class="row jumbotron-fluid">
+                <div class="col-4">
+                    <h3>
+                        TA相關事務
+                    </h3>
+                </div>
 
+                <div class="col-4"></div>
+
+                <div class="col-4">
+                    <h4>
+                        {{$course ->name}} 【{{$course -> classroom}}】
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+
+        {{-- body --}}
+        <div class="card-body text-success">
+            @if(isset($TA) )
+
+                <div class="row">
+                    <div class="col-4">
+                        <h2>
+                            {{$TA -> student() -> first() -> user() -> first() -> name}}
+                        </h2>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-4">
+                        <button type="button"
+                                onclick="location.href = 'TA_office/message'"
+                                class="btn btn-light">
+                            聯絡
+                        </button>
+
+                    </div>
+
+                </div>
+            @else
+                <div class="row">
+                    <div class="col-4">
+                        <h2>
+                            尚未在這堂課設定TA
+                        </h2>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                </div>
+            @endif
+
+        </div>
+
+    </div>
 
 @endsection
 

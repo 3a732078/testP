@@ -22,7 +22,7 @@
                     </h6>
                 </option>
                 @foreach($years as $year)
-                    <option value="{{route('teacher.year.index',$year)}}">
+                    <option value="{{route('teacher.office.year.index',$year)}}">
                         <h6>
                             {{$year}}學年度
                         </h6>
@@ -53,7 +53,7 @@
                                 </td>
                             @else
                                 <td>
-                                    <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
+                                    <a href="{{route('teacher.office.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
                                         {{$course -> name}}【{{$course -> classroom}}】
                                     </a>
                                 </td>
@@ -101,7 +101,7 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            {{$course ->name}}
+            {{$course ->name}}【{{$course -> classroom}}】
         </div>
 
         {{-- body --}}
@@ -147,7 +147,7 @@
                             {{-- 功能按鈕 --}}
                             <td>
                                 <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
+                                        onclick="location.href='{{route('teacher.office.notice.show',[$course_id,$notice-> id])}}'"
                                 >
                                     檢視
                                 </button>

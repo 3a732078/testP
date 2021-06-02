@@ -1,4 +1,4 @@
-@extends('layouts.teacher.main')
+@extends('layouts.teacher.office.main')
 {{--@section('header_name')--}}
 {{--    --}}{{-- 直接寫入 --}}
 {{--    #--}}
@@ -78,7 +78,7 @@
 
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
-                正處於【教室】環境
+                正在【辦公室】環境
             </h6>
         </div>
 
@@ -86,7 +86,10 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+            <button type="button"
+                    class="btn btn-warning  "
+                    onclick="location.href='{{route('teacher.courses.notices',[$course_id,])}}'"
+                    style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -95,6 +98,40 @@
 {{-- Content --}}
 @section('content')
 
+    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+        {{-- Header--}}
+        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+            <div class="row jumbotron-fluid">
+                <div class="col-4">
+                    <h3>
+                        聯絡TA
+                    </h3>
+                </div>
+
+                <div class="col-4">
+
+                    姓名: {{$TA -> student() -> first() -> user() -> first() -> name}}
+
+                </div>
+
+                <div class="col-4">
+                    <h4>
+                        <form action="">
+                            <input type="text" name="text" id="text">
+                        </form>
+                    </h4>
+                </div>
+
+            </div>
+        </div>
+
+        {{-- body --}}
+        <div class="card-body text-success">
+
+
+        </div>
+
+    </div>
 
 @endsection
 

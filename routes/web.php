@@ -299,7 +299,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
                 //TA 相關事務
                 Route::get('TA_office',[
-                    CourseController::class,'TA_office'
+                    CourseController::class,'office_TA_office'
                 ])->name('teacher.office.courses.TA_office');
             });
 

@@ -100,8 +100,12 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            {{$course ->name}}
-        </div>
+
+            <div class="row jumbotron-fluid">
+                <h3>
+                    {{$course ->name}} 【{{$course -> classroom}}】
+                </h3>
+            </div>
 
         {{-- body --}}
         <div class="card-body text-success">
@@ -152,11 +156,10 @@
         </div>
 
         {{-- footer--}}
-        <div class="card-footer bg-primary border-primary">
+        <div class="card-footer bg- border-primary">
 
             {{-- 先當作頁碼使用吧 --}}
-            <button type="button" class="btn btn-outline-warning btn-sm">1</button>
-
+            <button type="button" class="btn btn-warning btn-sm">1</button>
         </div>
     </div>
 @endsection

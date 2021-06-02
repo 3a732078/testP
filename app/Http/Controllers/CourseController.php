@@ -187,13 +187,48 @@ class CourseController extends Controller
         //使用該年度抓取所有課程
         $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
 
+        $TA = Course::find($course_id)->ta()->first();
+
+//        return $TA;
+
         return view('teacher.courses.TA_office',[
             'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,
             'course_id' => $course_id,
+            'TA' => $TA,
         ]);
     }
+
+    // === TA相關事務
+    public function office_TA_office($course_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
+
+        //使用該年度抓取所有課程
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        $TA = Course::find($course_id)->ta()->first();
+
+//        return $TA;
+
+        return view('teacher.office.courses.TA_office',[
+            'courses_year' => $courses_year,
+            'notices' => $notices,
+            'years' => $years,
+            'course_id' => $course_id,
+            'TA' => $TA,
+        ]);
+    }
+
     public function create()
     {
         //
