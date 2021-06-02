@@ -164,8 +164,9 @@ class QuestionController extends Controller
         $class=$_SESSION['class'];
         $ta=Ta::where('student_id', $loginstudent)->value('id');
         $questions=Question::where('ta_id', $ta)->where('student_id', $id)->get();
+        $classn=Course::where('id',$class)->value('name');
 
-        return view('questions.tashow',['questions'=>$questions,'id'=>$id,'ta'=>$ta,'class'=>$class]);
+        return view('questions.tashow',['questions'=>$questions,'id'=>$id,'ta'=>$ta,'class'=>$class,'classn'=>$classn]);
 
     }
 

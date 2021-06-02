@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\DefaultNote;
 use App\Models\Note;
+use App\Models\Student;
+use App\Models\Ta;
 use App\Models\Teacher;
 use App\Models\Textbook;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -87,6 +90,14 @@ class TextbookController extends Controller
     {
         $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
         $courses=Course::where('teacher_id',$teacher)->get();
+        $ta=$courses;
+        if(count($ta)===0)
+        {
+            $user=User::where('id',$request->user()->id)->value('id');
+            $stu=Student::where('user_id',$user)->value('id');
+            $tac=Ta::where('student_id',$stu)->value('course_id');
+            $courses=Course::where('id',$tac)->get();
+        }
         $textbooks=Textbook::all();
         return view('textbooks.indext',['courses'=>$courses,'textbooks'=>$textbooks]);
     }
@@ -99,6 +110,14 @@ class TextbookController extends Controller
     {
         $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
         $courses=Course::where('teacher_id',$teacher)->get();
+        $ta=$courses;
+        if(count($ta)===0)
+        {
+            $user=User::where('id',$request->user()->id)->value('id');
+            $stu=Student::where('user_id',$user)->value('id');
+            $tac=Ta::where('student_id',$stu)->value('course_id');
+            $courses=Course::where('id',$tac)->get();
+        }
         return view('textbooks.create',['courses'=>$courses]);
     }
 
@@ -111,7 +130,7 @@ class TextbookController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'toimage' => 'required|mimes:docx,doc,pptx,ppt',
+            'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
             'title'=>'required',
             'subject'=>'required'
         ]);
@@ -148,7 +167,7 @@ class TextbookController extends Controller
         File::delete(public_path().'\images\\'.$Name.'\\'.$FileName);
 
         Storage::delete('pdf/'.$uploadhash);
-
+        return redirect('/textbooks');
     }
 
     /**
@@ -161,6 +180,15 @@ class TextbookController extends Controller
     {
         $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
         $courses=Course::where('teacher_id',$teacher)->get();
+        $ta=$courses;
+        if(count($ta)===0)
+        {
+            $user=User::where('id',$request->user()->id)->value('id');
+            $stu=Student::where('user_id',$user)->value('id');
+            $tac=Ta::where('student_id',$stu)->value('course_id');
+            $courses=Course::where('id',$tac)->get();
+        }
+
         $textbooks=Textbook::all();
 
         $textbookimg=Textbook::find($id);
@@ -213,6 +241,6 @@ class TextbookController extends Controller
     {
         $text=Textbook::where('id',$id);
         $text->delete();
-        return view('teacher.index');
+        return redirect('/textbooks');
     }
 }
