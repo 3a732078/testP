@@ -311,10 +311,15 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                         TaController::class,'create'
                     ])->name('teacher.office.courses.TA_office.create');
 
+                    //設定TA
+                    Route::get('{student_id}/store',[
+                        TaController::class,'store'
+                    ])->name('teacher.office.courses.TA_office.store');
+
                     //與TA聯繫
                     Route::get('{TA_id}/message',[
                         TaController::class,'create'
-                    ])->name('teacher.office.courses.TA_office.create');
+                    ])->name('teacher.office.courses.TA_office.message');
 
                 });
 

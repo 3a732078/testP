@@ -164,7 +164,7 @@
 
                     <div class="col-4">
                         <button type="button"
-                                onclick="location.href = '{{route('teacher.office.course.TA_office.create',[$course_id])}}'"
+                                onclick="location.href = '{{route('teacher.office.courses.TA_office.create',[$course_id])}}'"
                                 class="btn btn-primary">
                             設定TA
                         </button>

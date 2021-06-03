@@ -115,19 +115,21 @@ class TaController extends Controller
             $years[] = $course -> year;
         }
 
-        //抓取該課程所有公告
-        $course = Course::find($course_id);
-        $notices = $course->notices()->get();
-
         //使用該年度 抓取所有 該學期的 課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
+        // 抓取該系所的所有學生
+        $department_students = Course::find($course_id)->department() -> first()
+            ->students()->get();
+
+//        return $department_students;
+
         return view('teacher.office.courses.TA.create',[
             'courses_year' => $courses_year,
-            'notices' => $notices,
             'years' => $years,
             'course_id' => $course_id,
+            'department_students'=>$department_students,
         ]);
     }
 

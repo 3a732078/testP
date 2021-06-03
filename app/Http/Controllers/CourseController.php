@@ -197,17 +197,12 @@ class CourseController extends Controller
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
-        $TA = Course::find($course_id)->ta()->first();
-
-//        return $TA;
-
         return view('teacher.courses.TA_office',[
             'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,
             'course_id' => $course_id,
-            'TA' => $TA,
-        ]);
+            ]);
     }
 
     // === TA相關事務
@@ -227,16 +222,12 @@ class CourseController extends Controller
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
-        $TA = Course::find($course_id)->ta()->first();
-
-//        return $TA;
 
         return view('teacher.office.courses.TA_office',[
             'courses_year' => $courses_year,
             'notices' => $notices,
             'years' => $years,
             'course_id' => $course_id,
-            'TA' => $TA,
         ]);
     }
 
