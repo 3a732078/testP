@@ -184,7 +184,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
+        return view('notes.pcreate',['classId'=>$classId,'classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     /**
@@ -324,7 +324,7 @@ class NoteController extends Controller
         $tojsonn=count($tojson);
         $sjson = json_encode($tojson);
 //         dd($tojson);
-        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
+        return view('notes.pcreate',['classId'=>$classId,'classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
 
     }
 
