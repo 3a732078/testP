@@ -83,8 +83,7 @@ class TextbookController extends Controller
             $num = $request->num != null ? $request->num : 1 ;
             }
 
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'courses'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);
-    }
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'courses'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);    }
 
     public function indext(Request $request)
     {
@@ -118,6 +117,7 @@ class TextbookController extends Controller
             $tac=Ta::where('student_id',$stu)->value('course_id');
             $courses=Course::where('id',$tac)->get();
         }
+
         return view('textbooks.create',['courses'=>$courses]);
     }
 
@@ -168,6 +168,7 @@ class TextbookController extends Controller
 
         Storage::delete('pdf/'.$uploadhash);
         return redirect('/textbooks');
+
     }
 
     /**

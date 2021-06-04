@@ -49,6 +49,7 @@
     <button>送出</button>
 </form>
 <a href="{{url()->previous()}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>|<a href="/ta"><i class="fas fa-home home" style="color:#00a6a6"></i></a>
+
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
 

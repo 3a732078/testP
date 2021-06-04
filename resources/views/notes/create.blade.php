@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div style="padding:20px;margin-top:30px;">
     <title>新增筆記</title>
-    <h1>新增筆記</h1>
+    <h1>新增筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
 
     @if ($message = Session::get('alert'))
         <script>alert("{{ $message }}");</script>
@@ -66,9 +66,15 @@
         </div>
 
     </form>
+<<<<<<< HEAD
+{{--    <button onclick="add()" id="send" name="send" type="submit">save</button>--}}
+    文字：<input id="word" type="checkbox">
+    插圖：<input id="pic" type="checkbox">
+=======
 
     <input id="word" type="checkbox">&ensp;移動文字&ensp;|&ensp;
     <input id="pic" type="checkbox">&ensp;移動插圖&ensp;|&ensp;
+>>>>>>> e5a0b11881fad5f3fe392b3791ef25ec68822c09
 
 
     <button style="font-size: 14px"><div id="clear">清空畫布</div></button>&ensp;|&ensp;
@@ -450,24 +456,32 @@
 
     let linetext= []
     function add(){
+        pbtnarr.push(u)
         linetext.push(textarr)
         linetext.push(lines)
         linetext.push(picarr)
-        // wordarea.push(textarea.value)
-        // linetext.push(wordarea)
         linetext.push(textarea.value)
-
         var linestr = JSON.stringify(linetext);
-        console.log(linestr)
+
+        textarrStash[u-1] = textarr;
+        linesStash[u-1] = lines;
+        picarrStash[u-1] = picarr;
+        wordareaStash[u-1] = textarea.value;
+        jsonStash[u-1] =linestr;
+
+
+        // for(var ada=0;ada<jsonStash.length;ada++){
+        //     console.log("最終確認第" + [ada] + "陣列儲存情況：" + jsonStash[ada]);
+        // }
 
         let finalJson = [];
-        for (var i = 0; i < l; i++) {
-            if (jsonStash[i] == null) finalJson[i] = [[],[],[],''];
-            else finalJson[i] = JSON.parse(jsonStash[i]);
+        for (var ada=0;ada<jsonStash.length;ada++) {
+            if (jsonStash[ada] == null) finalJson[ada] = [[],[],[],''];
+            else finalJson[ada] = JSON.parse(jsonStash[ada]);
         }
 
 
-        finalJson[0]= JSON.parse(linestr);
+        // finalJson[0]= JSON.parse(linestr);
         document.json.json.value = JSON.stringify(finalJson);
         document.json.pages.value = l;
     }
@@ -611,6 +625,9 @@
         picarrStash[u-1] = picarr;
         wordareaStash[u-1] = textarea.value;
         jsonStash[u-1] =linestr;
+        for(var tes=0;tes<jsonStash.length;tes++){
+            console.log("確認第" + [tes] + "陣列儲存情況：" + jsonStash[tes]);
+        }
 
         linetext = [];
         textarr = [];
@@ -638,7 +655,8 @@
         var pagebtn=document.createElement("button")
         var pagenum=document.createTextNode(u)
         pagebtn.appendChild(pagenum)
-
+        nowPage = u;
+        document.getElementById("page").value=`${nowPage}`;
 
         console.log(pbtnarr);
         pagebtn.value=u;
