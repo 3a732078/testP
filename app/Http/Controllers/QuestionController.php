@@ -146,11 +146,13 @@ class QuestionController extends Controller
     public function show(Request $request,$id)
     {
 //        $question=Question::find($id);
+        session_start();
+        $classId=($_SESSION['class']);
         $student = Student::where('user_id', $request->user()->id)->value('id');
         $class=Ta::where('id', $id)->value('course_id');
         $questions=Question::where('ta_id', $id)->where('student_id', $student)->get();
 
-        return view('questions.show',['questions'=>$questions,'id'=>$id,'student'=>$student,'class'=>$class]);
+        return view('questions.show',['questions'=>$questions,'id'=>$id,'student'=>$student,'class'=>$class,'classId'=>$classId]);
 
     }
     public function tashow(Request $request,$id){

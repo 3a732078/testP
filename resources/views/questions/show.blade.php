@@ -5,7 +5,6 @@
     <title>私訊</title>
 
 </head>
-<a href="/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>
 <div class="container">
 {{--    <div class="message-blue">--}}
 {{--        <p class="message-content">現在是2021/01/22下午2:57分</p>--}}
@@ -21,6 +20,8 @@
 {{--        <p class="message-content">我是學生</p>--}}
 {{--        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>--}}
 {{--    </div>--}}
+    與TA訊息頁面
+    <p>___________________________</p>
     @foreach ($questions as $question)
         @if($question->response)
             <div class="message-blue">
