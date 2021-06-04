@@ -20,7 +20,6 @@
         </div>
         <div class="p-4 pt-5">
             <h1><a href="index.html" class="logo">教材列表</a></h1>
-            <a href="{{url()->previous()}}" style="color:#FFFFFF"><i class="fas fa-arrow-left"></i></a>|
             <a href="/" style="color:#FFFFFF"><i class="fas fa-home home" style="color:#FFFFFF"></i>  回首頁</a>
             <ul class="list-unstyled components mb-5">
                 @foreach($courses as $course)
