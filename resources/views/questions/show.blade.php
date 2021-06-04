@@ -46,6 +46,9 @@
     <button>送出</button>
 </form>
 
+<a href="/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>
+
+
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
 
@@ -160,3 +163,4 @@
     }
     </script>
 
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
