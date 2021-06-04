@@ -5,6 +5,7 @@
     <title>私訊</title>
 
 </head>
+<a href="/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>
 <div class="container">
 {{--    <div class="message-blue">--}}
 {{--        <p class="message-content">現在是2021/01/22下午2:57分</p>--}}

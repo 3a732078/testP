@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Notice;
+use App\Models\Student;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,36 +18,102 @@ class TeacherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //最新公告
     public function index()
 //    {}
 //    public function fack()
     {
+
+        //=== 抓取課程年度陣列
+//        $years = array();
+
+//        $courses = \App\Models\User::find(
+//            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
+//            ->sortbydesc('year');
+//
+//        $courses -> unique('year');
+//        return $courses;
+
         return view('teacher.index',[
+
         ]);
     }
 
-    public function year(Request $request , $yead_id)
-    {
-//        抓取該教授的所有課程
-//        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
+    public function course(Request $request,$course_id){
 
-        return view('teacher.year.index',[
-            'year' => $yead_id,
-        ]);
-    }
-
-    public function course(Request $request,$year_id,$course_id){
-//        抓取該教授的所有課程
-//        $courses = User::find(Auth::id())->teacher()->first()->courses()->get();
+        //=== 使用id抓取課程
         $course = Course::find($course_id);
-        $notices = Notice::all();
-        $user = User::find(Auth::id());
-        return view('teacher.course.index',[
+
+        $courses = Auth::user()->teacher()->first()->courses()->get()->
+        unique('year')->sortbydesc('year');
+
+        foreach ($courses as $data){
+            $years[$data -> id] = $data -> year;
+        }
+
+        //抓取該課程所有公告
+        $notices = $course->notices()->get();
+
+//        return $notices;
+
+        return view('teacher.courses.notices',[
             'course' => $course,
             'notices' => $notices,
-            'user' => $user,
+            'years' => $years,
         ]);
+    }
 
+    //系統建議
+    public function problem(){
+
+        //=== 抓取該老師所有課程
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get()->
+        unique('year')->sortbydesc('year');
+
+        // === 寫入資料
+        foreach ($courses as $course) {
+            $years[$course->id] = $course->year;
+        }
+
+        return view('teacher.problem',[
+            'courses'=>$courses,
+            'years' => $years,
+        ]);
+    }
+
+    //行事曆
+    public function behave(){
+
+        //=== 抓取該老師所有課程
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get()->
+        unique('year')->sortbydesc('year');
+
+        // === 寫入資料
+        foreach ($courses as $course) {
+            $years[$course->id] = $course->year;
+        }
+
+        return view('teacher.behave',[
+            'courses'=>$courses,
+            'years' => $years,
+        ]);
+    }
+
+    //系統建議
+    public function system_suggest(){
+        //=== 抓取該老師所有課程
+        $courses = User::find(Auth::id())->teacher()->first()->courses()->get()->
+        unique('year')->sortbydesc('year');
+
+        // === 寫入資料
+        foreach ($courses as $course) {
+            $years[$course->id] = $course->year;
+        }
+
+        return view('teacher.system_suggest',[
+            'courses'=>$courses,
+            'years' => $years,
+        ]);
     }
 
     /**
@@ -125,7 +192,16 @@ class TeacherController extends Controller
 
     public function test(Teacher $teacher)
     {
-        return view('teacher.data');
+        $courses = Course::all();
+        $students = Student::all();
+
+        $ran_course = random_int(1,count($courses));
+        $ran_student = random_int(1,count($students));
+
+        return $ran_course ;
+
+
+//        return view('teacher.data');
     }
 
 

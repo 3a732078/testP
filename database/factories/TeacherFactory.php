@@ -23,12 +23,8 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
-        $user_id = User::where('type','老師') -> first() -> id;
-        $department_id = Department::find(8) -> id ;
-
         return [
-            'user_id' => $user_id,
-            'department_id' => $department_id,
         ];
+
     }
 }

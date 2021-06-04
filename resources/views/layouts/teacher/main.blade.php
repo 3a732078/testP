@@ -18,7 +18,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            @include('layouts.teacher.topbar')
+            @include('layouts.teacher.office.topbar')
 
             <!-- content -->
             @yield('content')

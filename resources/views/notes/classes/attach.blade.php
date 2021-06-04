@@ -1,7 +1,7 @@
 @extends('layouts/home')
 @section('search')
     <div align="left">
-        <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹課程筆記</h3>
+        <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹無分類筆記</h3>
     </div>
 @endsection
 @section('notice')

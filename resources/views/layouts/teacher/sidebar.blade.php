@@ -2,7 +2,7 @@
     <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/teacher">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('teacher.index')}}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-sticky-note"></i>
             </div>
@@ -22,36 +22,97 @@
             Interface
         </div>
 
-        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- 課程列表 -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-folder-open"></i>
-                <span>選擇年度</span>
+                <span>選擇課程</span>
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">年度:</h6>
-                    @yield('year')
+
+                    {{--                    抓取列表資料--}}
+                    @php
+                        // === $years寫入資料
+                        $courses = \App\Models\Course::all()->sortbydesc('year');
+                        foreach ( $courses -> unique('year') as $course) {
+                                $years[] = $course->year;
+                        }
+
+                        //抓取該老師有教的課程
+                        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())
+                        ->teacher() -> first()->courses() -> get();
+                    @endphp
+
+                    {{-- 顯示列表資料 --}}
+                    <h5 class="collapse-header">課程列表:</h5>
+                    @foreach($years as $year)
+                        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+
+                            {{-- 上學期 --}}
+                            <option value="{{route('teacher.year.index',$year)}}">
+                                <h6>
+                                    {{$year}}學年度 【下學期】
+                                </h6>
+                            </option>
+
+                            @foreach($courses -> sortByDesc('classroom')  as $course)
+                                @if($course -> year == $year && $course -> semester == 2)
+                                    <option value="{{route('teacher.courses.notices',$course -> id)}}">
+                                        <h5>
+                                            <a href="teacher/{{$course -> id}}/course">
+                                                {{$course -> name}} ({{$course -> classroom}})
+                                            </a>
+                                        </h5>
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+
+                        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+                        {{-- 下學期 --}}
+                            <option value="{{route('teacher.year.index',$year)}}">
+                                <h6>
+                                    {{$year}}學年度 【上學期】
+                                </h6>
+                            </option>
+
+                            @foreach($courses -> sortByDesc('classroom')  as $course)
+                                @if($course -> year == $year && $course -> semester == 1)
+                                    <option value="{{route('teacher.courses.notices',$course -> id)}}">
+                                        <h5>
+                                            <a href="teacher/{{$course -> id}}/course">
+                                                {{$course -> name}} ({{$course -> classroom}})
+                                            </a>
+                                        </h5>
+                                    </option>
+                                @endif
+                            @endforeach
+
+                        </select>
+                    @endforeach
+                    @yield('side_courses')
                 </div>
             </div>
         </li>
 
+        <!-- 其他列表暫不使用 -->
         @include('layouts.teacher.side_nav_item')
 
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Message
-        </div>
+{{--        <!-- Heading -->--}}
+{{--        <div class="sidebar-heading">--}}
+{{--            Message--}}
+{{--        </div>--}}
 
-        <li class="nav-item">
-            <a class="nav-link" href= "{{route('teacher.ta')}}">
-                <i class="fas fa-fw fa-comment"></i>
-                <span>與Ta聯繫</span></a>
-        </li>
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href= "teacher/{{$course -> id}}/ta">--}}
+{{--                <i class="fas fa-fw fa-comment"></i>--}}
+{{--                <span>與Ta聯繫</span></a>--}}
+{{--        </li>--}}
     </ul>
 </div>

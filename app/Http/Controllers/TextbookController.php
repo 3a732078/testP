@@ -83,8 +83,7 @@ class TextbookController extends Controller
             $num = $request->num != null ? $request->num : 1 ;
             }
 
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);
-    }
+        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'courses'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);    }
 
     public function indext(Request $request)
     {

@@ -78,14 +78,21 @@ class NoteController extends Controller
 //        dd($images);
         $num = $request->num != null ? $request->num : 1 ;
 
-        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course]);
+        return view('notes.mynotes.ccreate',['classmate'=>$classmate,'textbookId'=>$textbookId,'classId'=>$classId,'images'=>$images,'num'=>$num,'textbook'=>$textbook, 'now'=>0,'course'=>$course,'courses'=>$course]);
     }
 
     public function create(Request $request)
     {
         session_start();
-        $classId=$_SESSION['classId'];//課程Id
-        $classname = Course::where('id', $classId)->value('name');
+        if (isset($_SESSION['classId'])){
+            $classId=$_SESSION['classId'];//課程Id
+            $classname = Course::where('id', $classId)->value('name');
+        }else {
+            $classId = null;
+            $ta = null;
+            $classname = "無分類";
+        }
+
         $id=$request->user()->id;
         $class=Student::where('user_id',$id)->value('classroom');
         $classroom=Student::where('classroom',$class)->get();
@@ -177,7 +184,7 @@ class NoteController extends Controller
         }
 
 
-        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
+        return view('notes.pcreate',['classId'=>$classId,'classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename]);
     }
 
     /**
@@ -317,7 +324,7 @@ class NoteController extends Controller
         $tojsonn=count($tojson);
         $sjson = json_encode($tojson);
 //         dd($tojson);
-        return view('notes.pcreate',['classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
+        return view('notes.pcreate',['classId'=>$classId,'classmate'=>$classmate,'classname'=>$classname],['coursename'=>$coursename,'sjson'=>$sjson,'tojsonn'=>$tojsonn,'tojson'=>$tojson]);
 
     }
 
@@ -419,7 +426,7 @@ class NoteController extends Controller
                 ->get();
 
             return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'comments'=>$comments,'replies'=>$replies,'uname'=>$uname,
-                'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+                'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
 
         $assist2=Assist::where('user_id',$request->user()->id)->get();
@@ -500,7 +507,7 @@ class NoteController extends Controller
                 ->where('comment_id','!=',null)
                 ->get();
 
-            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
+            return view('notes.show', ['id' => $id, 'json' => $file, 'name' => $notename,'share'=>$share,'classmate'=>$classmate,'userid'=>$userid,'count'=>$count,'ass'=>$ass,'uname'=>$uname,'comments'=>$comments,'replies'=>$replies,'className'=>$className,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images]);
         }
         else if ($user_id !== $login || $ident !== 1) {
             return redirect('notes/create')->with('alert', '無權限編輯該筆記');
@@ -590,7 +597,7 @@ class NoteController extends Controller
         $replies=Comment::where('note_id',$id)
             ->where('comment_id','!=',null)
             ->get();
-        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
+        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
     /**
      * Show the form for editing the specified resource.
@@ -662,14 +669,6 @@ class NoteController extends Controller
     public function search(Request $request)
     {
         session_start();
-        if (isset($_SESSION['classId'])){
-            $class=$_SESSION['classId'];//課程Id
-            $ta=$_SESSION['ta'];
-        }else{
-            $class=null;
-            $ta=null;
-        }
-        $id=$request->user()->id;
         //撈出該學生所有修的課程
         $student=Student::where('user_id',Auth::id())->value('id');
         $courseId = CourseStudent::where('student_id', $student)->get();
@@ -688,24 +687,88 @@ class NoteController extends Controller
         }else{
             $ans=true;
         }
+        $resp=true;
 
-        //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
-        $searchs=Note::where("title", "like", '%' . $search . '%')
-            ->whereIn('textbook_id',$textBookId)
-            ->where('share',1)
-            ->orWhere('textbook_id', null)
-            ->where("title", "like", '%' . $search . '%')
-            ->where('share',1)
-            ->get();
-        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta]);
+        //學生選修了哪些課
+        $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
+        $courseIds = [];
+        for ($i=0;$i<count($studentClass);$i++){
+            $courseIds[$i]=$studentClass[$i]['course_id'];
+        }
+        $course = Course::all()->toArray();
+        $courseName = [];
+        $arr = array_flip(array_column($course, 'id'));
+        foreach($courseIds as $row){
+            if (isset($arr[$row])) {
+                $courseName[] = $course[$arr[$row]]['name'];
+            }
+        }
+
+        if (isset($_SESSION['classId'])){
+            $class=$_SESSION['classId'];//課程Id
+            $ta=$_SESSION['ta'];
+
+            $course = Course::find($class)->name;
+            //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
+            $searchs=Note::where("textfile", "like", '%' . $search . '%')
+                            //條件1(教材筆記
+                            ->whereIn('textbook_id',$textBookId)
+                            ->where('share',1)
+
+                            //無分類筆記
+                            ->orWhere('textbook_id', null)
+                            ->where('attach',$course)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->where('share',1)
+
+                            ->orwhere('attach', "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
+                            ->where('share',1)
+                            ->get();
+        }else{
+            $class=null;
+            $ta=null;
+
+            //撈出標題符合關鍵字的筆記，且教材編號等於使用的教材編號
+            $searchs=Note::where("textfile", "like", '%' . $search . '%')
+                            //教材筆記
+                            ->whereIn('textbook_id',$textBookId)
+                            ->where('share',1)
+
+                            //無分類筆記
+                            ->orWhere('textbook_id', null)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
+                            ->where('share',1)
+
+                            //搜尋課程
+                            ->orwhere('attach', "like", '%' . $search . '%')
+                            ->whereIn('attach',$courseName)
+                            ->where('share',1)
+
+                            //純筆記
+                            ->orWhere('textbook_id', null)
+                            ->where('attach',null)
+                            ->where("textfile", "like", '%' . $search . '%')
+                            ->where('share',1)
+                            ->get();
+
+        }
+        $id=$request->user()->id;
+        return view('notes.search',['searchs'=>$searchs,'ans'=>$ans,'id'=>$id,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName,'resp'=>$resp]);
 
     }
 
     public function mynote(Request $request)
     {
         session_start();
-        $ta=$_SESSION['ta'];
-        $class=$_SESSION['classId'];//課程Id
+        if (isset($_SESSION['classId'])) {
+            $ta = $_SESSION['ta'];
+            $class = $_SESSION['classId'];//課程Id
+        }else {
+            $class = null;
+            $ta = null;
+        }
         //        dd(Course::all()->values('name'),$request->user()->student->id);
         $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
         $courseId = [];

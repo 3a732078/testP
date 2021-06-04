@@ -1,60 +1,44 @@
-<html>
 @include('layouts.teacher.head')
 
-<body>
+<ul class="nav nav-pills nav-fill">
 
-<div class="wrapper">
-    <div id="one">
-        <table border="1">
-            <thead>
-                <tr>
-                    <td>
-                        1
-                    </td><td>
-                        1
-                    </td><td>
-                        1
-                    </td><td>
-                        1
-                    </td>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="#">Active</a>
+    </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="#">Much longer nav link</a>
+    </li>
 
-@php
-    $courses = \App\Models\User::find(Auth::id())->teacher()->first()->courses()->get();
+    <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+    </li>
 
-    $years = array();
-    foreach ($courses as $course){
-        $years[$course -> id] = $course -> year;
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li>
+</ul>
+
+<style>
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
-    echo $courses;
-    rsort($years);
-    $datas = array();
-    $year_flag = 10;
-    echo "<hr>";
-    $i = 1;
-    foreach ($years as $year){
-        if ($year_flag != $year){
-            $datas[$i] = $year;
-        }
-        $year_flag = $year;
-        $i ++;
-    }
-        echo "<hr>";
-    foreach ($datas as $data){
-        echo $data . ",";
-    }
-@endphp
+</style>
 
+<table style="width: 200px" border="1">
+    <tr>
+        <td>
+            asdfsfasdfd
+        </td>
+        <td>
+            adfjklsdj;asfsdj;
+        </td>
+    </tr>
 
-</body>
-</html>
+    <tr>
+        <td colspan="2">asdfasjdlkfjalk;sdjfklasjfkld ;jkfdl;saj fklsd jfklas; jkl;sad</td>
+    </tr>
 
-
-
-
-
+</table>

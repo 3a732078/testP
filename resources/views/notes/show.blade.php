@@ -183,7 +183,7 @@
                  src="" alt="">
         </div>
 
-        <button onclick="add()" id="send" name="send" type="submit">儲存筆記</button>
+        <button onclick="add()" id="send" name="send" type="submit" class="btn btn-secondary btn-sm" style="margin-top: -5px">儲存筆記</button>
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
@@ -195,22 +195,22 @@
         @method('DELETE')
         <div style="display: none"><button id="ydelete" name="ydelete">刪除</button></div>
     </form>
-    <button onclick="dconfirm()">刪除筆記</button><br>
+    <button onclick="dconfirm()" class="btn btn-danger btn-sm" style="margin-top: -5px">刪除筆記</button><br>
     <br>
 
 {{--    ←上一頁<input id="page" value="當前頁數/總頁數">下一頁→--}}
     {{--{{$notes->links()}}//頁數--}}
 
-    移動文字：<input id="word" type="checkbox">&ensp;,
-    移動插圖：<input id="pic" type="checkbox">&emsp;
+    <input id="word" type="checkbox">&ensp;移動文字&ensp;|&ensp;
+    <input id="pic" type="checkbox">&ensp;移動插圖&ensp;|&ensp;
 
 
-    <button><div id="clear">清空畫布</div></button>
+    <button class="btn btn-warning btn-sm" style="color: #563F2E"><div id="clear"><b>清空畫布</b></div></button>&ensp;|&ensp;
 
     <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button><br>
 
 
-    <button onclick="save()">儲存</button>
+{{--    <button onclick="save()">儲存</button>--}}
 
     <form id="share" name="share" method="POST" action="{{ route('notes.share',$id) }}" onsubmit="return shareto()">
         @csrf

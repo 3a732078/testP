@@ -11,64 +11,157 @@
 
 {{-- TopBar Courses--}}
 @section('header_item')
-{{--        @php--}}
-{{--            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();--}}
-{{--            $datas = array();--}}
-{{--            foreach ($courses as $course){--}}
-{{--                $$datas[$course -> id] = $course -> where('year','=',110);--}}
-{{--            }--}}
-{{--        @endphp--}}
+    {{-- 年度列表--}}
+    <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
+        <div class="col-sm-4">
+            <h1>
+                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+                    <option >
+                        <h6>
+                            選擇年度
+                        </h6>
+                    </option>
+                    @foreach($years as $year)
+                        <option value="{{route('teacher.year.index',$year)}}">
+                            <h6>
+                                {{$year}}學年度
+                            </h6>
+                        </option>
+                    @endforeach
+                </select>
+            </h1>
+        </div>
 
-        @php
-                        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-        @endphp
-            @if ( count($courses) > 0)
-                @foreach($courses as $course)
+        <div class="col-sm-8">
+            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',$course_id)}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+        </div>
 
-                    <ul>
-                        <li>
-                            <a class="collapse-item" href='{{ $course->id }}/index' >
-                                <span >
-                                    {{$course -> name}}
-                                </span>
-                            </a>
-                        </li>
+        {{-- 第二列 --}}
+        <div class="col-sm-12">
+            {{-- 快速跳轉課程列表--}}
+            <h6>
+                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
+                    <ul class=" nav nav-tabs" role="tablist">
+                        <tr>
+                            @foreach($courses_year as $course)
+                                @if($course -> id == $course_id)
+                                    <td>
+                                        {{$course -> name}}【{{$course -> classroom}}】
+                                    </td>
+                                @else
+                                    <td>
+                                        <a href="{{route('teacher.courses.notices',$course -> id)}}"
+                                           role="tab"  aria-selected="false">
+                                            {{$course -> name}}【{{$course -> classroom}}】
+                                        </a>
+                                    </td>
+                                @endif
+                            @endforeach
+                        </tr>
                     </ul>
-                @endforeach
-            @endif
-    @endsection
 
-    {{-- !選擇年度 --}}
-    @section('year')
-
-        @php
-            $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-
-            $years = array();
-            foreach ($courses as $course){
-                $years[$course -> id] = $course -> year;
-            }
-            rsort($years);
-            $datas = array();
-            $year_flag = 10;
-            $i = 1;
-            foreach ($years as $year){
-                if ($year_flag != $year){
-                    $datas[$i] = $year;
-                }
-                $year_flag = $year;
-                $i ++;
-            }
-            foreach ($datas as $data){
-                echo "<a class= 'collapse-item' href='index/$data'>$data </a>";
-
-            }
-    @endphp
+                </table>
+            </h6>
+        </div>
+    </div>
 
 @endsection
+
+{{-- 頁面提示 --}}
+@section('header_text')
+    <div class="row row-cols-2" >
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-6" style="margin-top: 10px;">
+            <h6 style="margin-left: 15px">
+                正處於【教室】環境
+            </h6>
+        </div>
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+        </div>
+    </div>
+@endsection
+
 
 {{-- Content --}}
 @section('content')
 
+    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+        {{-- Header--}}
+        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+
+            <div class="row jumbotron-fluid">
+                <h3>
+                    {{$course ->name}} 【{{$course -> classroom}}】
+                </h3>
+            </div>
+
+            {{-- body --}}
+            <div class="card-body text-success">
+
+                {{-- table --}}
+                <table class="table table-striped">
+                    {{-- head --}}
+                    <thead>
+                    <tr>
+                        <th scope="col">編號</th>
+                        <th scope="col">標題</th>
+                        <th scope="col">發布者</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+
+                    {{-- body --}}
+                    <tbody>
+                    @foreach($notices as $notice)
+                        <tr>
+                            <th scope="row">{{$notice -> id}}</th>
+                            <td> <h5>{{$notice -> title}}</h5></td>
+
+                            {{-- 發布者 --}}
+                            <td>
+                                @if($notice -> teacher_id != null)
+                                    老師
+                                @elseif($notice -> ta_id != null)
+                                    TA
+                                @else
+                                    管理者
+                                @endif
+                            </td>
+
+                            {{-- 功能按鈕 --}}
+                            <td>
+                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                        onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
+                                >
+                                    檢視
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+
+                </table>
+            </div>
+
+            {{-- footer--}}
+            <div class="card-footer bg- border-primary">
+
+                {{-- 先當作頁碼使用吧 --}}
+                <button type="button" class="btn btn-warning btn-sm">1</button>
+            </div>
+        </div>
 @endsection
+
+
 

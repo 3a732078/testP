@@ -130,7 +130,7 @@ class DefaultNoteController extends Controller
         }
 
         return view('textbooks.defshow',['id'=>$id,'class'=>$class,'ta'=>$ta,'deftextbook'=>$deftextbook,'author'=>$author,
-            'name'=>$notename,'course'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'json'=>$file,'textbookId'=>$textbookId]);
+            'name'=>$notename,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'json'=>$file,'textbookId'=>$textbookId]);
     }
 
     /**

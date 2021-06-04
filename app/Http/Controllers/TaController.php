@@ -74,7 +74,7 @@ class TaController extends Controller
             array_push($stu_id,$sid);
             array_push($classlist,$class);
         }
-        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist,'course'=>$course]);
+        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist,'course'=>$course,'courses'=>$course]);
 
     }
 

@@ -1,9 +1,36 @@
 @extends('layouts/home')
 @section('search')
     <div align="left">
-        <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹筆記列表</h3>
+        @if($class !== null)
+            <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹筆記列表</h3>
+        @elseif($class === null)
+            <h3 class="mt-4">筆記列表</h3>
+        @endif
     </div>
 @endsection
+@if($class === null)
+    @section('navno')
+{{--        <hr class="sidebar-divider">--}}
+{{--        <div class="sidebar-heading">--}}
+{{--            建立--}}
+{{--        </div>--}}
+        <li class="nav-item" style="margin-top: -10px">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseU"
+               aria-expanded="true" aria-controls="collapseU">
+                <i class="fas fa-book-open"></i>
+                <span style="margin-left: 3px">寫筆記</span>
+            </a>
+            <div id="collapseU" class="collapse" aria-labelledby="headingUtilities"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">相關資訊:</h6>
+                    <a class="collapse-item" href="/notes/create">新增筆記</a>
+                    <a class="collapse-item" href="{{route('notes.mynotes')}}">筆記列表</a>
+                </div>
+            </div>
+        </li>
+    @endsection
+@endif
 @section('notice')
     <div id="layoutSidenav_content">
         <main>
@@ -23,6 +50,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
 {{--                            課程之筆記--}}
+                        @if($class !== null)
                             <div id="course">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -86,6 +114,7 @@
                                 <thead>
                                 <tr style="background-color: #77969A ;color: #2d3748; border:2px #2d3748">
                                     <th>標題</th>
+                                    <th class="mh1">邀請者</th>
                                     <th class="mh1">引用教材</th>
                                     <style type="text/css">
                                         .mh1{
@@ -105,7 +134,10 @@
                                         @method('POST')
                                         <tr>
                                             <td width="280">{{basename($note->textfile,'.json')}}</td>
-                                            <td width="500" align="center">
+                                            <td width="170" align="center">
+                                                {{\App\Models\User::where('id',$note->user_id)->value('name')}}
+                                            </td>
+                                            <td width="370" align="center">
                                                 @if($note->textbook_id==null)
                                                     無引用教材
                                                 @else
@@ -139,7 +171,7 @@
                                 </tbody>
                             </table>
                             </div>
-
+                            @endif
 {{--                            純筆記--}}
                             <div id="author">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -196,12 +228,21 @@
         </main>
     </div>
     <script>
-        document.getElementById("coursehref").disabled = true;
-        document.getElementById("assisthref").disabled=  false;
-        document.getElementById("authorhref").disabled = false;
-        document.getElementById("course").hidden=  false;
-        document.getElementById("assist").hidden=  true;
-        document.getElementById("author").hidden=  true;
+        @if($class === null)
+            document.getElementById("coursehref").hidden=  true;
+            document.getElementById("assisthref").hidden=  true;
+            // document.getElementById("authorhref").disabled = true;
+            document.getElementById("course").hidden=  true;
+            document.getElementById("assist").hidden=  true;
+            document.getElementById("author").hidden=  false;
+        @elseif($class !== null)
+            document.getElementById("coursehref").disabled = true;
+            document.getElementById("assisthref").disabled=  false;
+            document.getElementById("authorhref").disabled = false;
+            document.getElementById("course").hidden=  false;
+            document.getElementById("assist").hidden=  true;
+            document.getElementById("author").hidden=  true;
+        @endif
 
         function change(judgment) {
 
@@ -224,13 +265,15 @@
                 document.getElementById("author").hidden=  true;
             }
             if (judgment === 'author'){
-                console.error(456);
-                document.getElementById("coursehref").disabled = false;
-                document.getElementById("assisthref").disabled=  false;
-                document.getElementById("authorhref").disabled = true;
-                document.getElementById("course").hidden=  true;
-                document.getElementById("assist").hidden=  true;
-                document.getElementById("author").hidden=  false;
+                @if($class !== null)
+                    console.error(456);
+                    document.getElementById("coursehref").disabled = false;
+                    document.getElementById("assisthref").disabled=  false;
+                    document.getElementById("authorhref").disabled = true;
+                    document.getElementById("course").hidden=  true;
+                    document.getElementById("assist").hidden=  true;
+                    document.getElementById("author").hidden=  false;
+                @endif
             }
         }
     </script>

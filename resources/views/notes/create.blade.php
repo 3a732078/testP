@@ -30,9 +30,9 @@
     <form id="json" name="json" method="POST" action="/notes" enctype="multipart/form-data">
         @csrf
         @method('POST')
-        課程：
-        <select id="class" name="class">
-
+        <p>課程：
+        <select id="class" name="class" style="font-size: 16px">
+            @if($classname !== "無分類")
                 @foreach($coursename as $coursenames)
                     @if($classname===$coursenames)
                         <option value="{{$coursenames}}" selected>  {{$coursenames}} </option>
@@ -42,8 +42,12 @@
                 @endforeach
                   <option>  無分類 </option>
 
-        </select><br>
-        筆記名稱：<input name="notename" id="notename"><br>
+            @elseif($classname === "無分類")
+                  <option> 無分類 </option>
+            @endif
+        </select>
+        </p>
+        筆記名稱：<input name="notename" id="notename" style="font-size: 16px">
 
 
 
@@ -55,25 +59,31 @@
 
         </div>
 
-        <button onclick="add()" id="send" name="send" type="submit">save</button>
+        <button onclick="add()" id="send" name="send" type="submit" style="font-size: 14px">儲存筆記</button>
 
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
+<<<<<<< HEAD
 {{--    <button onclick="add()" id="send" name="send" type="submit">save</button>--}}
     文字：<input id="word" type="checkbox">
     插圖：<input id="pic" type="checkbox">
+=======
+
+    <input id="word" type="checkbox">&ensp;移動文字&ensp;|&ensp;
+    <input id="pic" type="checkbox">&ensp;移動插圖&ensp;|&ensp;
+>>>>>>> e5a0b11881fad5f3fe392b3791ef25ec68822c09
 
 
-    <button><div id="clear">清空畫布</div></button>
+    <button style="font-size: 14px"><div id="clear">清空畫布</div></button>&ensp;|&ensp;
 
 {{--    <button onclick="save()">儲存</button>--}}
 
-    <p id="demo"></p>
 
-    <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button><br>
+    <button onclick="opentext()" class="btn btn-outline-info" style="margin-top: -5px"><i class="fa fa-book" aria-hidden="true" style="font-size: 16px"></i></button><br>
+    <p id="demo"></p>
     <div id="addpa"><button onclick="firstpage()" id="firstpage" value="1">1</button></div>
     <button id="addpage">+</button>
     <div style="position: relative">

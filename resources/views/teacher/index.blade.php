@@ -10,162 +10,67 @@
 @endsection
 
 {{-- TopBar Courses--}}
-@section('hearder_item')
-    {{-- !先選擇年度   --}}
-@endsection
+@section('header_item')
+    <ul class="nav nav-tabs">
 
-{{-- search --}}
-@section('search')
-    <div class="search-container">
-        <form action="{{route('notes.search')}}" class="ml-md-3">
-            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">
-            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>
-        </form>
-    </div>
+        <li class="nav-item ">
+            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href='problem'>常見問題</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link "  href= 'behave'>校園行事曆</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href= 'system_suggest'>系統建議</a>
+        </li>
+        {{--        <li class="nav-item">--}}
+        {{--            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--}}
+        {{--        </li>--}}
+    </ul>
 @endsection
 
 {{-- 頁面提示 --}}
 @section('header_text')
-    <h3 style="margin-left: 20px">
-        請選擇年度
-    </h3>
+    <div class="row row-cols-2" >
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-6" style="margin-top: 10px;">
+            <h6 style="margin-left: 15px">
+                正處於【教室】環境
+            </h6>
+        </div>
+
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+            <button type="button" class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+        </div>
+    </div>
 @endsection
 
-{{-- !選擇年度 --}}
-@section('year')
-
-    @php
-        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get();
-
-        $years = array();
-        foreach ($courses as $course){
-            $years[$course -> id] = $course -> year;
-        }
-        rsort($years);
-        $datas = array();
-        $year_flag = 10;
-        $i = 1;
-        foreach ($years as $year){
-            if ($year_flag != $year){
-                $datas[$i] = $year;
-            }
-            $year_flag = $year;
-            $i ++;
-        }
-        foreach ($datas as $data){
-            echo "<a class= 'collapse-item' href='$data/index'>$data </a>";
-
-        }
-    @endphp
-
+{{-- search --}}
+@section('search')
+{{--    <div class="search-container">--}}
+{{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
+{{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
+{{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
+{{--        </form>--}}
+{{--    </div>--}}
 @endsection
 
-{{-- message--}}
-@section('message')
-    {{--    <!-- 通知 -->--}}
-    {{--    <li class="nav-item dropdown no-arrow mx-1">--}}
-    {{--        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"--}}
-    {{--           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-    {{--            <i class="fas fa-bell fa-fw"></i>--}}
-    {{--            <!-- Counter - Alerts -->--}}
-    {{--            <span class="badge badge-danger badge-counter">3+</span>--}}
-    {{--        </a>--}}
-    {{--        <!-- Dropdown - Alerts -->--}}
-    {{--        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"--}}
-    {{--             aria-labelledby="alertsDropdown">--}}
-    {{--            <h6 class="dropdown-header">--}}
-    {{--                Alerts Center--}}
-    {{--            </h6>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="mr-3">--}}
-    {{--                    <div class="icon-circle bg-primary">--}}
-    {{--                        <i class="fas fa-file-alt text-white"></i>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--                <div>--}}
-    {{--                    <div class="small text-gray-500">December 12, 2019</div>--}}
-    {{--                    <span class="font-weight-bold">A new monthly report is ready to download!</span>--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="mr-3">--}}
-    {{--                    <div class="icon-circle bg-success">--}}
-    {{--                        <i class="fas fa-donate text-white"></i>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--                <div>--}}
-    {{--                    <div class="small text-gray-500">December 7, 2019</div>--}}
-    {{--                    $290.29 has been deposited into your account!--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="mr-3">--}}
-    {{--                    <div class="icon-circle bg-warning">--}}
-    {{--                        <i class="fas fa-exclamation-triangle text-white"></i>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--                <div>--}}
-    {{--                    <div class="small text-gray-500">December 2, 2019</div>--}}
-    {{--                    Spending Alert: We've noticed unusually high spending for your account.--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>--}}
-    {{--        </div>--}}
-    {{--    </li>--}}
 
-    {{--    <!-- Messages -->--}}
-    {{--    <li class="nav-item dropdown no-arrow mx-1">--}}
-    {{--        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"--}}
-    {{--           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-    {{--            <i class="fas fa-envelope fa-fw"></i>--}}
-    {{--            <!-- Counter - Messages -->--}}
-    {{--            <span class="badge badge-danger badge-counter">7</span>--}}
-    {{--        </a>--}}
-    {{--        <!-- Dropdown - Messages -->--}}
-    {{--        <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"--}}
-    {{--             aria-labelledby="messagesDropdown">--}}
-    {{--            <h6 class="dropdown-header">--}}
-    {{--                Message Center--}}
-    {{--            </h6>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="dropdown-list-image mr-3">--}}
-    {{--                    <img class="rounded-circle" src="{{asset('/home/img/undraw_profile_1.svg')}}"--}}
-    {{--                         alt="">--}}
-    {{--                    <div class="status-indicator bg-success"></div>--}}
-    {{--                </div>--}}
-    {{--                <div class="font-weight-bold">--}}
-    {{--                    <div class="text-truncate">Hi there! I am wondering if you can help me with a--}}
-    {{--                        problem I've been having.</div>--}}
-    {{--                    <div class="small text-gray-500">統計ta· 時間</div>--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="dropdown-list-image mr-3">--}}
-    {{--                    <img class="rounded-circle" src="{{asset('/home/img/undraw_profile_2.svg')}}"--}}
-    {{--                         alt="">--}}
-    {{--                    <div class="status-indicator"></div>--}}
-    {{--                </div>--}}
-    {{--                <div>--}}
-    {{--                    <div class="text-truncate">I have the photos that you ordered last month, how--}}
-    {{--                        would you like them sent to you?</div>--}}
-    {{--                    <div class="small text-gray-500">CRMta · 時間</div>--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item d-flex align-items-center" href="#">--}}
-    {{--                <div class="dropdown-list-image mr-3">--}}
-    {{--                    <img class="rounded-circle" src="{{asset('/home/img/undraw_profile_3.svg')}}"--}}
-    {{--                         alt="">--}}
-    {{--                    <div class="status-indicator bg-warning"></div>--}}
-    {{--                </div>--}}
-    {{--                <div>--}}
-    {{--                    <div class="text-truncate">Last month's report looks great, I am very happy with--}}
-    {{--                        the progress so far, keep up the good work!</div>--}}
-    {{--                    <div class="small text-gray-500">會計學ta · 2d</div>--}}
-    {{--                </div>--}}
-    {{--            </a>--}}
-    {{--            <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>--}}
-    {{--        </div>--}}
-    {{--    </li>--}}
+
+{{-- 課程列表 --}}
+@section('side_courses')
+
 @endsection
 
 {{-- Content --}}

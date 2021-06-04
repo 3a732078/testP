@@ -43,7 +43,7 @@ class Course extends Model
 
     public function ta()
     {
-        return $this->belongsTo(Ta::class);
+        return $this->hasOne(Ta::class);
     }
 
     public function questions()

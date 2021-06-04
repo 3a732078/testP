@@ -15,6 +15,7 @@ class CreateNoticesTable extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->increments('id');
+
             $table->unsignedInteger('teacher_id')->nullable($value = true);
             $table->foreign('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
             $table->unsignedInteger('ta_id')->nullable($value = true);
@@ -22,7 +23,8 @@ class CreateNoticesTable extends Migration
             $table->unsignedInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->string('title');
-            $table->string('content')->nullable($value = true);
+            $table->longText('content');
+
             $table->timestamps();
         });
     }

@@ -161,35 +161,158 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             TeacherController::class,'index'
         ])  -> name('teacher.index');
 
-        //與TA聯繫
-        Route::get('ta',[
-            TeacherController::class,'TA'
-        ])->name('teacher.ta');
+        //常見問題
+        Route::get('problem',[
+            TeacherController::class,'problem'
+        ])  -> name('teacher.problem');
 
-    #年度
-        // namespace[teacher/{year}} ] ================================
+        //行事曆
+        Route::get('behave',[
+            TeacherController::class,'behave'
+        ])  -> name('teacher.behave');
+
+        //系統建議
+        Route::get('system_suggest',[
+            TeacherController::class,'system_suggest'
+        ])  -> name('teacher.system_suggest');
+
+    #選擇課程
+        // namespace[teacher/{course_id}} ] ======= CourseController
+        Route::prefix('{course_id}')->group(function (){
+            //首頁(預設公告)
+            Route::get('courses',[
+                CourseController::class,'courses'
+            ])->name('teacher.courses.notices');
+
+        #選擇公告
+            // url [teacher/{course_id}/course] ======= NoticeController
+            Route::prefix('courses')->group(function (){
+
+                // 顯示公告內容
+                Route::get('{notice_id}/show',[
+                    NoticeController::class,'teacher_notice_show'
+                ])->name('teacher.notice.show');
+
+            });
+    #選擇課程
+        // namespace[teacher/{course_id}} ] ======= CourseController
+            //教材區
+            Route::get('text_materials',[
+                CourseController::class,'text_materials'
+            ])->name('teacher.courses.text_materials');
+
+            //評量區
+            Route::get('home_works',[
+                CourseController::class,'home_works'
+            ])->name('teacher.courses.home_works');
+
+            //TA 相關事務
+            Route::get('TA_office',[
+                CourseController::class,'TA_office'
+            ])->name('teacher.courses.TA_office');
+        });
+
+    #選擇年度
+        // naspace [ teacher/{year_id} ] ================ [ CourseController ]
         Route::prefix('{year}')->group(function (){
             //首頁
-            Route::get('index',[
-                TeacherController::class,'year'
-            ])->name('teacher.year');
+            Route::get('year',[
+                CourseController::class,'year'
+            ])->name('teacher.year.index');
+        });
 
-        #課程
-            // naspace [ teacher/{year}/ {course} ] =============================
-            Route::prefix('{course}')->group(function (){
+    #辦公室
+        // url [ teacher/office ] ====== TeacherController
+        Route::prefix('office')->group(function (){
+            //首頁
+            Route::get('index',[
+                TeacherController::class,'index_office'
+            ])  -> name('teacher.office.index');
+
+            //常見問題
+            Route::get('problem',[
+                TeacherController::class,'problem'
+            ])  -> name('teacher.office.problem');
+
+            //行事曆
+            Route::get('behave',[
+                TeacherController::class,'behave'
+            ])  -> name('teacher.office.behave');
+
+            //系統建議
+            Route::get('system_suggest',[
+                TeacherController::class,'system_suggest'
+            ])  -> name('teacher.office.system_suggest');
+
+        #選擇課程
+            // namespace[teacher/{course_id}} ] ======= CourseController
+            Route::prefix('{course_id}')->group(function (){
+                //首頁(預設公告)
+                Route::get('courses',[
+                    CourseController::class,'office_courses'
+                ])->name('teacher.office.courses.notices');
+
+            #選擇公告
+                // url [teacher/{course_id}/course] ======= NoticeController
+                    /* useful code
+                     ,[$course_id,$notice -> id]
+                     */
+                Route::prefix('courses')->group(function (){
+
+                    // 顯示公告內容
+                    Route::get('{notice_id}/show',[
+                        NoticeController::class,'teacher_office_notice_show'
+                    ])->name('teacher.office.notice.show');
+
+                    // 新增公告內容
+                    Route::get('notice/create',[
+                        NoticeController::class,'teacher_office_notice_create'
+                    ])->name('teacher.office.notice.create');
+
+                    // 儲存公告內容
+                    Route::post('notices',[
+                        NoticeController::class,'teacher_office_notice_store'
+                    ])->name('teacher.office.notice.store');
+
+                    // 修改公告內容
+                    Route::get('{notice_id}/edit',[
+                        NoticeController::class,'teacher_office_notice_edit'
+                    ])->name('teacher.office.notice.edit');
+
+                    // 更新公告內容
+                    Route::put('notice/{notice_id}',[
+                        NoticeController::class,'teacher_office_notice_update'
+                    ])->name('teacher.office.notice.update');
+
+                });
+        #選擇課程
+            // namespace[teacher/{course_id}} ] ======= CourseController
+                //教材區
+                Route::get('text_materials',[
+                    CourseController::class,'text_materials'
+                ])->name('teacher.office.courses.text_materials');
+
+                //評量區
+                Route::get('home_works',[
+                    CourseController::class,'home_works'
+                ])->name('teacher.office.courses.home_works');
+
+                //TA 相關事務
+                Route::get('TA_office',[
+                    CourseController::class,'office_TA_office'
+                ])->name('teacher.office.courses.TA_office');
+            });
+
+        #選擇年度
+            // naspace [ teacher/{year_id} ] ================ [ CourseController ]
+            Route::prefix('{year}')->group(function (){
                 //首頁
-                Route::get('index',[
-                    TeacherController::class,'course'
-                ])->name('teacher.course.index');
+                Route::get('year',[
+                    CourseController::class,'year'
+                ])->name('teacher.office.year.index');
             });
 
         });
 
     });
 
-#TA
-    Route::prefix('TA')->group(function (){
-        Route::get('index',[
-            TaController::class,'setting'
-        ])->name('ta.setting');
-    });

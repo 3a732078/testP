@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div style="padding:20px;margin-top:30px;">
-    <h1>新增筆記　<button onclick="addeditor()"><i class="fas fa-plus"></i></button></h1>
+    <h1>新增教材筆記</h1>
 
     @if ($message = Session::get('alert'))
         <script>alert("{{ $message }}");</script>
@@ -34,9 +34,9 @@
         @csrf
         <p>
         課程：<span class="span.mark-pen" style="background-image: linear-gradient(transparent 50%, rgb(255, 255, 153) 50%)">
-            <input type="text" name="class" id="class" value="{{$course}}" SIZE={{strlen($course)}} readonly style="background-color:transparent;font-size:15px;border-style:none"></span>
+            <input type="text" name="class" id="class" value="{{$course}}" SIZE={{strlen($course)}} readonly style="background-color: transparent; font-size: 16px; border-style: none"></span>
         </p>
-        筆記名稱：<input name="notename" id="notename">&emsp;
+        筆記名稱：<input name="notename" id="notename" style="font-size: 16px;margin-top: -5px">&emsp;
 
         <div style="display: none">
             <input name="classId" value="{{$classId}}">
@@ -52,22 +52,23 @@
 
 
 {{--        <button id="send1" name="send" type="submit" disabled="disabled">傳送</button>--}}
-        <button onclick="add()" id="send" name="send" type="submit">儲存筆記</button>
+        <button onclick="add()" id="send" name="send" type="submit" style="font-size: 14px">儲存筆記</button>
         <div style="display: none">
             <input name="valuetojs" value="testsendvalue">
         </div>
 
     </form>
 {{--    <button onclick="add()" id="send" name="send">儲存</button>--}}
-    <p>移動文字：<input id="word" type="checkbox">&ensp;,
-    移動插圖：<input id="pic" type="checkbox"></p>
+
+    <input id="word" type="checkbox">&ensp;移動文字&ensp;|&ensp;
+    <input id="pic" type="checkbox">&ensp;移動插圖&ensp;|&ensp;
 
 
-    <button><div id="clear">清空畫布</div></button>
+    <button style="font-size: 14px"><div id="clear">清空畫布</div></button>&ensp;|&ensp;
 
-    <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button>
+    <button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true" style="font-size: 16px"></i></button>
 
-<p></p>
+<p></p><br>
     <div style="position: relative">
     <div align="left">
         <input readonly="readonly" id="page" value="" style="color: #be2617;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
@@ -145,6 +146,7 @@
             <button id="to" name="to" type="submit" value="send"></button>
         </div>
     </form>
+    <a href="/textbooks/show/{{$textbookId}}"><i class="fas fa-arrow-left" style="color:#FFFFFF"></i></a>
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>
