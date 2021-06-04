@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Department;
 use App\Models\Notice;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -192,13 +193,11 @@ class TeacherController extends Controller
 
     public function test(Teacher $teacher)
     {
-        $courses = Course::all();
-        $students = Student::all();
 
-        $ran_course = random_int(1,count($courses));
-        $ran_student = random_int(1,count($students));
+        $user_teachers= User::all()->where('type','老師');
 
-        return $ran_course ;
+
+        return $user_teachers ;
 
 
 //        return view('teacher.data');

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,15 +17,19 @@ class TeacherSeeder extends Seeder
     public function run()
     {
         //抓取所有老師資料
-        $users_teacher = User::where('type','老師')->get();
 
+        //抓取所有學生資料
+        $user_teachers= User::all()->where('type','老師');
 
+        $department_max_id = Department::all()->sortByDesc('id')->first()->id;
+        $department_min_id = Department::all()->first()->id;
 
-        foreach ($users_teacher as $user_teacher){
-            $department_id = random_int(1,4);
+        foreach ($user_teachers as $teacher){
+            $ran_department = random_int( $department_min_id , $department_max_id );
+
             Teacher::create([
-                'user_id' => $user_teacher -> id,
-                'department_id' => $department_id,
+                'user_id' => $teacher -> id,
+                'department_id' => $ran_department,
             ]);
         }
     }

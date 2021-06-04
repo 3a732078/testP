@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Notice;
+use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\User;
 use Database\Factories\TeacherFactory;
 use Illuminate\Database\Seeder;
@@ -23,10 +25,17 @@ class DatabaseSeeder extends Seeder
     # [ call ]
         // === 建立使用者
         $users = User::all();
-        if (count($users) == 0 ){
-            $this->call(UserSeeder::class);
+        if (count($users) < 10 ){
             $this->call(DepartmentSeeder::class);
+            $this->call(UserSeeder::class);
+        }
+        $teachers =Teacher::all();
+        if (count($teachers) == 0 ){
             $this->call(TeacherSeeder::class);
+        }
+
+        $students =Student::all();
+        if (count($students) == 0 ){
             $this->call(StudentSeeder::class);
         }
 

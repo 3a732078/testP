@@ -222,7 +222,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         });
 
     #辦公室
-        // url [ teacher/office ] ====== TeacherController
+        // url [ teacher/  office ] ====== TeacherController
         Route::prefix('office')->group(function (){
             //首頁
             Route::get('index',[
@@ -245,7 +245,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             ])  -> name('teacher.office.system_suggest');
 
         #選擇課程
-            // namespace[teacher/office/{course_id}} ] ======= CourseController
+            // namespace[teacher/  office /{course_id}} ] ======= CourseController
             Route::prefix('{course_id}')->group(function (){
                 //首頁(預設公告)
                 Route::get('courses',[
@@ -286,7 +286,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
                 });
         #選擇課程
-            // namespace[teacher/{course_id}} ] ======= CourseController
+            // namespace[teacher/ office /{course_id}} ] ======= CourseController
                 //教材區
                 Route::get('text_materials',[
                     CourseController::class,'text_materials'
@@ -303,7 +303,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 ])->name('teacher.office.courses.TA_office');
 
             #TA相關事務
-                // url [teacher/office/{$course_id}/TA_office ] ===== TAController
+                // url [teacher/ office /{$course_id}/TA_office ] ===== TAController
                 Route::prefix('TA_office')->group(function (){
 
                     //設定TA
@@ -331,8 +331,8 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             // naspace [ teacher/{year_id} ] ================ [ CourseController ]
             Route::prefix('{year}')->group(function (){
                 //首頁
-                Route::get('{semester}/year',[
-                    CourseController::class,'year'
+                Route::post('{semester}/year',[
+                    CourseController::class,'office_year'
                 ])->name('teacher.office.year.index');
             });
 

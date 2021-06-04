@@ -23,8 +23,14 @@ class TeacherFactory extends Factory
      */
     public function definition()
     {
+
+        $user_id_base = User::first()->id;
+
         return [
+            'user_id' => count(User::all() + $user_id_base - 1 ),
+            'department' => random_int(1,4),
         ];
+        // 總人數 500 老師約 500/31 = 16名
 
     }
 }

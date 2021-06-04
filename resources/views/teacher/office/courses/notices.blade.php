@@ -15,16 +15,25 @@
 <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
     <div class="col-sm-4">
         <h1>
-            <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+            <select  class="form-select" @method('post') aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
                 <option >
                     <h6>
                         選擇年度
                     </h6>
                 </option>
                 @foreach($years as $year)
-                    <option value="{{route('teacher.office.year.index',$year)}}">
+                    <option value="">
+                        <a href="{{route('teacher.office.year.index',[$year,2])}}">
+                            <h6>
+                                {{$year}}學年度【下學期】
+                            </h6>
+                        </a>
+
+                    </option>
+
+                    <option value="{{route('teacher.office.year.index',[$year,1])}}">
                         <h6>
-                            {{$year}}學年度
+                            {{$year}}學年度【上學期】
                         </h6>
                     </option>
                 @endforeach
@@ -128,7 +137,9 @@
 
                 {{-- body --}}
                 <tbody>
-                    @foreach($notices as $notice)
+                    @if($notices -> count() != 0)
+
+                        @foreach($notices as $notice)
                         <tr>
                             <th scope="row">{{$notice -> id}}</th>
                             <td> <h5>{{$notice -> title}}</h5></td>
@@ -154,6 +165,15 @@
                             </td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <th colspan="4">
+                                <h3>
+                                    尚未有任何有公告歐
+                                </h3>
+                            </th>
+                        </tr>
+                    @endif
                 </tbody>
 
             </table>

@@ -66,11 +66,51 @@ class CourseController extends Controller
 
     }
 
+    // ======= office.year.index
+    public function office_year($year, $semester)
+    {
+        //        return $courses_year;
+        $courses_year = User::find(Auth::id())->teacher() -> first()->courses()->get()
+            ->where('year',$year)->where('semester',$semester);
+
+//        return $courses;
+
+        //=== 抓取該課程的所有公告
+        if (isset($courses)){
+            //===先抓取所有的年度
+            $courses = Course::all()->sortByDesc('year');
+            foreach ($courses->unique('year') as $data) {
+                $years[$data->id] = $data->year;
+            }
+
+            //===改抓取 該年度所有課程 使用 [ $year_id]
+            $courses_year = User::find(Auth::id()) -> teacher()->first() -> courses()
+                -> where('year',$year)-> where('semester' ,$semester) -> get()->sortby('classroom');
+
+            //=== 預設顯示科系id較小的課程
+            $course = $courses_year-> first();
+
+            // === 抓取該課程的所有公告
+            $notices = $course -> notices() -> get();
+
+//            return view('teacher.office.year.index',[
+//                'courses_year' => $courses_year,
+//                'notices' => $notices,
+//                'years' => $years,
+//                'course_id' => $course -> id,
+//            ]);
+
+        }else{
+            return back()->with('null',"該年度沒有課程");
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     // ============  公告
     public function courses($course_id)
     {
@@ -94,12 +134,11 @@ class CourseController extends Controller
             'years' => $years,
             'course_id' => $course_id,
         ]);
-
-
 //        return $courses_year;
 
     }
 
+    // ============  office 公告
     public function office_courses($course_id)
     {
         // === $years寫入資料

@@ -23,28 +23,32 @@ class CourseSeeder extends Seeder
             ['甲','乙'],
         ];
 
-        $teachers = Teacher::all();
+        $teacher_min_id = Teacher::all()->first()->id;
+        $teacher_max_id = Teacher::all()->sortByDesc('id')->first()->id;
 
-        for($int = 1 ; $int < 100 ; $int++){
+        for($int = 1 ; $int < 801 ; $int++){
 
-            foreach ($teachers as $teacher){
+            $ran_teacher_id = random_int($teacher_min_id,$teacher_max_id);
+            $ran_department = random_int(1,4);//在$classroom使用時-1
+            $ran_grade = random_int(1,3);
+            $ran_classroom = random_int(1,2);
+            $ran_courses = random_int(1,6);
 
-                $ran_department = random_int(1,4);//在$classroom使用時-1
-                $ran_grade = random_int(0,2);
-                $ran_courses = random_int(0,4);
-                $ran_class = random_int(0,1);
+            Course::create([
+                'teacher_id' => $ran_teacher_id,
+                'department_id' => $ran_department ,
+                'name' => $courses[$ran_courses - 1 ],
+                'grade' => $ran_grade + 1 ,
+                'classroom' =>
+                    $classroom[0][$ran_department - 1].
+                    $classroom[1][$ran_grade - 1].
+                    $classroom[2][$ran_classroom - 1 ],
+                'year' => random_int(106,110),
+                'semester' => random_int(1,2),
+            ]);
 
-                Course::create([
-                    'teacher_id' => $teacher -> id,
-                    'department_id' => $ran_department,
-                    'name' => $courses[$ran_courses],
-                    'grade' => $ran_grade + 1 ,
-                    'classroom' => $classroom[0][$ran_department-1].$classroom[1][$ran_grade]."甲",
-                    'year' => random_int(95,110),
-                    'semester' => random_int(1,2),
-                ]);
-            }
         }
-//        Course::factory()->count(20)->create();
+
+//        Course::factory()->count(800)->create();
     }
 }

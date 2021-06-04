@@ -21,5 +21,13 @@ class DepartmentSeeder extends Seeder
                 'name' => $name,
             ]);
         }
+//        $names = ["資訊管理系","流通管理系","工業工程系","冷凍工程系"];
+//
+//        foreach ($names as $name){
+//            Department::factory()->count(1)->state(function(){[
+//                'names' => $names,
+//                ];
+//            }) -> create();
+//        }
     }
 }

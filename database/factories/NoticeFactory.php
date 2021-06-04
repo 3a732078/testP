@@ -24,12 +24,13 @@ class NoticeFactory extends Factory
      */
     public function definition()
     {
-        $courses = Course::all()->sortByDesc('id');
-        $ran_course_id = random_int(1,$courses->first()->id);
+        $courses_min_id = Course::first()->id;
+        $courses_max_id = Course::all()->sortByDesc('id') -> first() -> id;
+        $ran_course_id = random_int($courses_min_id,$courses_max_id);
 
         return [
             'course_id' => $ran_course_id,
-            'title' => $this->faker->name(10),
+            'title' => $this->faker->text(20),
             'content' => $this->faker->paragraph
         ];
     }

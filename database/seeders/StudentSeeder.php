@@ -17,21 +17,28 @@ class StudentSeeder extends Seeder
     public function run()
     {
         //抓取所有學生資料
-        $users_student = User::where('type','學生')->get();
+        $user_students = User::all()->where('type','學生');
 
         $classroom = [
             ['四資','四流','四工','四冷'],
-            ['一','二','三']
+            ['一','二','三'],
+            ['甲','乙'],
         ];
 
-        foreach ($users_student as $user_student){
+        foreach ($user_students as $student){
             $ran_department = random_int(1,4);
-            $ran_grade = random_int(0,2);
-            $ran_courses = random_int(0,4);
+            $ran_grade = random_int(1,3);
+            $ran_classroom = random_int(1,2);
+
             Student::create([
-                'user_id' => $user_student -> id,
+                'user_id' => $student -> id,
                 'department_id' => $ran_department,
-                'classroom' => $classroom[0][$ran_department - 1].$classroom[1][$ran_grade]."甲",
+                'classroom' =>
+                    $classroom[0][$ran_department - 1].
+                    $classroom[1][$ran_grade - 1].
+                    $classroom[2][$ran_classroom - 1 ],
             ]);
-        }    }
+        }
+
+    }
 }

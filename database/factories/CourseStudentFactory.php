@@ -23,15 +23,15 @@ class CourseStudentFactory extends Factory
      */
     public function definition()
     {
+        $course_min_id = Course::first()->id;
+        $student_min_id = Student::first()->id;
+
         $courses = Course::all();
         $students = Student::all();
 
-        $ran_course = random_int(1,count($courses));
-        $ran_student = random_int(1,count($students));
-
         return [
-            'student_id' => $students -> find($ran_student) -> id,
-            'course_id' => $courses -> find($ran_course) -> id,
+            'student_id' => random_int(1,count($courses)) + $course_min_id - 1,
+            'course_id' => random_int(1,count($students)) + $student_min_id - 1,
         ];
     }
 }

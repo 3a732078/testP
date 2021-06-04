@@ -23,11 +23,10 @@ class DepartmentFactory extends Factory
     public function definition()
     {
         $names = ["資訊管理系","流通管理系","工業工程系","冷凍工程系"];
-        foreach ($names as $name){
-            return [
-                'name' => $name
-            ];
-        }
+
+
+        return [
+        ];
 
     }
 }

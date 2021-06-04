@@ -22,16 +22,15 @@
                         </h6>
                     </option>
                     @foreach($years as $year)
-                        {{-- 下學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,2])}}">
+                        <option value="{{route('teacher.office.year.index',[$year,2])}}">
                             <h6>
-                                {{$year}}學年度
+                                {{$year}}學年度【下學期】
                             </h6>
                         </option>
-                        {{-- 上學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,1])}}">
+
+                        <option value="{{route('teacher.office.year.index',[$year,1])}}">
                             <h6>
-                                {{$year}}學年度
+                                {{$year}}學年度【上學期】
                             </h6>
                         </option>
                     @endforeach
@@ -40,10 +39,10 @@
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-outline-secondary">公告區</button>
-            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_office'" class="btn btn-sm btn-primary">TA相關事務</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">公告區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-primary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -60,7 +59,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.TA_office',$course -> id)}}">
+                                        <a href="{{route('teacher.office.courses.TA_office.create',[$course -> id])}}">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>
