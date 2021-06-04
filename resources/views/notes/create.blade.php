@@ -66,15 +66,15 @@
         </div>
 
     </form>
-<<<<<<< HEAD
+
 {{--    <button onclick="add()" id="send" name="send" type="submit">save</button>--}}
     文字：<input id="word" type="checkbox">
     插圖：<input id="pic" type="checkbox">
-=======
+
 
     <input id="word" type="checkbox">&ensp;移動文字&ensp;|&ensp;
     <input id="pic" type="checkbox">&ensp;移動插圖&ensp;|&ensp;
->>>>>>> e5a0b11881fad5f3fe392b3791ef25ec68822c09
+
 
 
     <button style="font-size: 14px"><div id="clear">清空畫布</div></button>&ensp;|&ensp;
