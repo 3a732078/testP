@@ -39,10 +39,10 @@
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',[$course_id])}}'" class="btn btn-sm btn-primary">公告區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -59,7 +59,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
+                                        <a href="{{route('teacher.office.courses.notices',$course -> id)}}" role="tab"  aria-selected="false">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>
@@ -103,50 +103,64 @@
 {{-- Content --}}
 @section('content')
 
-    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+    <div class="card border-info mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
 
         <form class="form-group" method="post" action="{{route('teacher.office.notice.store',[$course_id,])}}">
             @csrf
             {{-- Header--}}
-            <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
+            <div class="card-header bg-gray-200 border-bottom-info card " style="background-color: #0f7ef1">
                 <div class="row" style="width: auto" >
-                    <div class="col-10">
-                        <h3>
+                    <div class="col-6">
+                        <h5>
                             @php
                                 $course = \App\Models\Course::find($course_id);
                             @endphp
                             {{$course -> name}} 【{{$course -> classroom}}】
-                        </h3>
+                        </h5>
                     </div>
-                    <div class="col-2">
 
+                    <div class="col-4">
+                        <h5>
+                            新增公告
+                        </h5>
+                    </div>
+
+                    <div class="col-2">
                         <button type="submit"
                                 onclick=""
                                 class="btn btn-success ;">
                             完成
                         </button>
+
                     </div>
                 </div>
             </div>
 
             {{-- body --}}
-            <div class="card-body text-success">
+            <div class="card-body text-lg-left text-info">
 
                 <form>
 
                     <div class="form-group">
-                        <label for="notice_title">標題</label>
+                        <label for="notice_title">
+                            <b>標題</b>
+                        </label>
                         <input type="text" class="form-control"
                                name="notice_title"
-                               id="notice_title" placeholder="很強的標題">
+                               id="notice_title"
+                               placeholder="請在這裡輸入標題">
                     </div>
 
                     <div class="form-group">
-                        <label for="notice_content">內容</label>
+                        <label for="notice_content">
+                           <b> 內容</b>
+                        </label>
                         <textarea class="form-control"
                                   name="notice_content"
-                                  placeholder="很強的內容"
-                                  id="notice_content" rows="6"></textarea>
+                                  id="notice_content" rows="6"
+                                  placeholder="請在這裡輸入內容"
+                        ></textarea>
+
                     </div>
                 </form>
             </div>

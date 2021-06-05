@@ -131,7 +131,7 @@
 
                 {{-- body --}}
                 <tbody>
-                    @if(isset($notices))
+                    @if(!isset($notices))
                         @foreach($notices as $notice)
                             <tr>
                                 <th scope="row">{{$notice -> id}}</th>
