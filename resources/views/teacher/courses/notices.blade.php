@@ -14,31 +14,9 @@
 {{-- 年度列表--}}
 <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
     <div class="col-sm-4">
-        <h1>
-            <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                <option >
-                    <h6>
-                        選擇年度
-                    </h6>
-                </option>
-                 @foreach($years as $year)
-                    {{-- 下學期 --}}
-                    <option value="{{route('teacher.year.index',[$year,2])}}">
-                        <h6>
-                            {{$year}}學年度【下學期】
-                        </h6>
-                    </option>
-
-                    {{-- 上學期 --}}
-                    <option value="{{route('teacher.year.index',[$year,1])}}">
-                        <h6>
-                            {{$year}}學年度【上學期】
-                        </h6>
-                    </option>
-                @endforeach
-            </select>
-
-        </h1>
+        <h5>
+            {{$year_semester}}
+        </h5>
     </div>
 
     <div class="col-sm-8">
@@ -111,10 +89,30 @@
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
 
             <div class="row jumbotron-fluid">
-                <h3>
-                    {{$course ->name}} 【{{$course -> classroom}}】
-                </h3>
-            </div>
+                @php
+                    $course = \App\Models\Course::find($course_id);
+                @endphp
+
+                <div class="row">
+                    <div class="col-4">
+                        <h3>
+                            {{$course ->name}} 【{{$course -> classroom}}】
+                        </h3>
+                    </div>
+
+                    <div class="col-4">
+
+                    </div>
+
+                    <div class="col-4">
+                        <h3>
+                            公告列表
+                        </h3>
+                    </div>
+
+                </div>
+
+           </div>
 
         {{-- body --}}
         <div class="card-body text-success">
@@ -133,32 +131,40 @@
 
                 {{-- body --}}
                 <tbody>
-                    @foreach($notices as $notice)
+                    @if(isset($notices))
+                        @foreach($notices as $notice)
+                            <tr>
+                                <th scope="row">{{$notice -> id}}</th>
+                                <td> <h5>{{$notice -> title}}</h5></td>
+
+                                {{-- 發布者 --}}
+                                <td>
+                                    @if($notice -> teacher_id != null)
+                                        老師
+                                    @elseif($notice -> ta_id != null)
+                                        TA
+                                    @else
+                                        管理者
+                                    @endif
+                                </td>
+
+                                {{-- 功能按鈕 --}}
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-sm"
+                                            onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
+                                    >
+                                        檢視
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <th scope="row">{{$notice -> id}}</th>
-                            <td> <h5>{{$notice -> title}}</h5></td>
-
-                            {{-- 發布者 --}}
-                            <td>
-                                @if($notice -> teacher_id != null)
-                                    老師
-                                @elseif($notice -> ta_id != null)
-                                    TA
-                                @else
-                                    管理者
-                                @endif
-                            </td>
-
-                            {{-- 功能按鈕 --}}
-                            <td>
-                                <button type="button" class="btn btn-outline-primary btn-sm"
-                                        onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
-                                >
-                                    檢視
-                                </button>
-                            </td>
+                            <th colspan="4">
+                                尚未有任何公告歐~~~
+                            </th>
                         </tr>
-                    @endforeach
+                    @endif
                 </tbody>
 
             </table>

@@ -14,22 +14,9 @@
     {{-- 年度列表--}}
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
-            <h1>
-                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                    <option >
-                        <h6>
-                            選擇年度
-                        </h6>
-                    </option>
-                    @foreach($years as $year)
-                        <option value="{{route('teacher.year.index',$year)}}">
-                            <h6>
-                                {{$year}}學年度
-                            </h6>
-                        </option>
-                    @endforeach
-                </select>
-            </h1>
+            <h5>
+                {{$year_semester}}
+            </h5>
         </div>
 
         <div class="col-sm-8">
@@ -100,9 +87,23 @@
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
         <div class="card-header bg-gray-200 border-success card bg-primary " style="background-color: #0f7ef1">
-            <h4>
-                文章內容
-            </h4>
+             <div class="row">
+
+                 <div class="col-4">
+                     <h5>
+                         文章內容
+                     </h5>
+                 </div>
+
+                 <div class="col-4"></div>
+
+                 <div class="col-4">
+                     <h5>
+                         {{$course -> name}}】【{{$course -> classroom }}
+                     </h5>
+                 </div>
+
+             </div>
         </div>
 
         {{-- body --}}

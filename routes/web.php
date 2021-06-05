@@ -284,6 +284,11 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                         NoticeController::class,'teacher_office_notice_update'
                     ])->name('teacher.office.notice.update');
 
+                    // 刪除公告內容
+                    Route::delete('notice/{notice_id}',[
+                        NoticeController::class,'teacher_office_notice_destory'
+                    ])->name('teacher.office.notice.destory');
+
                 });
         #選擇課程
             // namespace[teacher/ office /{course_id}} ] ======= CourseController
@@ -325,16 +330,6 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
             });
 
-
-
-        #選擇年度
-            // naspace [ teacher/{year_id} ] ================ [ CourseController ]
-            Route::prefix('{year}')->group(function (){
-                //首頁
-                Route::post('{semester}/year',[
-                    CourseController::class,'office_year'
-                ])->name('teacher.office.year.index');
-            });
 
         });
 

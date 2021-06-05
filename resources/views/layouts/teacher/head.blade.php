@@ -126,6 +126,25 @@
         }
     }
 
+    function prink_delete_check(){
+        var txt;
+        if(confirm("一旦確定就無法還原!!")){
+            txt = 1;
+            return delete(txt);
+        }else{
+            txt = 0
+            return delete(txt);
+        }
+    }
+
+    function delete (txt){
+        if (txt == 1 ){
+            alert("正在刪除");
+        }else {
+            alert('NO NO NO 不能反悔')
+        }
+    }
+
     function then (txt){
         if (txt == 1 ){
             alert("正在更新~~~~");

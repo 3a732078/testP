@@ -107,8 +107,15 @@ class NoticeController extends Controller
         $course = Course::find($course_id);
         $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
         return view('teacher.courses.notice.show',[
-            'years' => $years,
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'notice' => $notice,
@@ -134,8 +141,14 @@ class NoticeController extends Controller
         $course = Course::find($course_id);
         $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
         return view('teacher.office.courses.notice.show',[
-            'years' => $years,
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'notice' => $notice,
@@ -253,6 +266,43 @@ class NoticeController extends Controller
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'notice' => $notice,
+        ]);
+
+//        return $request;
+    }
+
+    //刪除公告
+    public function teacher_office_notice_destory(Request $request,$course_id,$notice_id)
+    {
+        // === 沙沙調
+        $notice = Notice::find($notice_id);
+        $notice -> delete();
+
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //使用該年度抓取所有課程
+        $course = Course::find($course_id);
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()->where('year',$course -> year)-> sortby('classroom');
+
+        #導回office notices 列表
+        $notices = $course -> notices() -> get();
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        return view('teacher.office.courses.notices',[
+            'year_semester' => $course -> year . "學年度" . $semester,
+            'years' => $years,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'notices' => $notices,
         ]);
 
 //        return $request;

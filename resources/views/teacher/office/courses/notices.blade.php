@@ -14,31 +14,9 @@
 {{-- 年度列表--}}
 <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
     <div class="col-sm-4">
-        <h1>
-            <select  class="form-select" @method('post') aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                <option >
-                    <h6>
-                        選擇年度
-                    </h6>
-                </option>
-                @foreach($years as $year)
-                    <option value="">
-                        <a href="{{route('teacher.office.year.index',[$year,2])}}">
-                            <h6>
-                                {{$year}}學年度【下學期】
-                            </h6>
-                        </a>
-
-                    </option>
-
-                    <option value="{{route('teacher.office.year.index',[$year,1])}}">
-                        <h6>
-                            {{$year}}學年度【上學期】
-                        </h6>
-                    </option>
-                @endforeach
-            </select>
-        </h1>
+        <h5>
+            {{$year_semester}}
+        </h5>
     </div>
 
     <div class="col-sm-8">
@@ -109,8 +87,28 @@
 
     <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
         {{-- Header--}}
+        @php
+            $course = \App\Models\Course::find($course_id);
+        @endphp
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            {{$course ->name}}【{{$course -> classroom}}】
+            <div class="row">
+                <div class="col-4">
+                    <h3>
+                        {{$course ->name}} 【{{$course -> classroom}}】
+                    </h3>
+                </div>
+
+                <div class="col-4">
+
+                </div>
+
+                <div class="col-4">
+                    <h3>
+                        公告列表
+                    </h3>
+                </div>
+
+            </div>
         </div>
 
         {{-- body --}}
@@ -157,20 +155,29 @@
 
                             {{-- 功能按鈕 --}}
                             <td>
-                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                <button type="button" class="btn btn-outline-primary "
                                         onclick="location.href='{{route('teacher.office.notice.show',[$course_id,$notice-> id])}}'"
                                 >
                                     檢視
                                 </button>
+
+                                <form method="post"
+                                      action="{{route('teacher.office.notice.destory',[$course_id,$notice-> id])}}">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger  "
+                                    >
+                                        刪除
+                                    </button>
+                                </form>
+
                             </td>
                         </tr>
                     @endforeach
                     @else
                         <tr>
                             <th colspan="4">
-                                <h3>
-                                    尚未有任何有公告歐
-                                </h3>
+                                尚未有任何有公告歐~~~~~
                             </th>
                         </tr>
                     @endif

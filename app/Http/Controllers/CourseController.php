@@ -126,12 +126,19 @@ class CourseController extends Controller
 
         //使用該年度 抓取所有 該學期的 課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbydesc('classroom');
+
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
 
         return view('teacher.courses.notices',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
         ]);
 //        return $courses_year;
@@ -155,11 +162,18 @@ class CourseController extends Controller
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
         return view('teacher.office.courses.notices',[
             'courses_year' => $courses_year,
             'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
+            'year_semester' => $course -> year . "學年度" . $semester,
         ]);
 
 //        return $courses_year;
