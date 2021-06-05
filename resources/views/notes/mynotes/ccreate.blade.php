@@ -146,6 +146,7 @@
             <button id="to" name="to" type="submit" value="send"></button>
         </div>
     </form>
+    <a href="/textbooks/show/{{$textbookId}}"><i class="fas fa-arrow-left" style="color:#FFFFFF"></i></a>
     <a href="/"><i class="fas fa-home home" style="color:#FFFFFF"></i></a>
     <a href="javascript:void(0);" class="icon" onclick="hidd()"><i class="fa fa-bars"></i></a>
 </div>

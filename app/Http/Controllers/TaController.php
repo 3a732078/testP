@@ -51,6 +51,7 @@ class TaController extends Controller
 //        dd($class);
         $student = Student::where('user_id', $request->user()->id)->value('id');
         session_start();
+        $classId=$_SESSION['class'];
         $_SESSION['class']=$class;
 
 //
@@ -74,7 +75,7 @@ class TaController extends Controller
             array_push($stu_id,$sid);
             array_push($classlist,$class);
         }
-        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist,'course'=>$course,'courses'=>$course]);
+        return view('ta.course',['student_list'=>$student_list,'count'=>$count,'course_name'=>$course_name,'stu_id'=>$stu_id,'classlist'=>$classlist,'course'=>$course,'courses'=>$course,'classId'=>$classId]);
 
     }
 

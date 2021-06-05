@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Student;
+use App\Models\Ta;
+use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +16,21 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function home()
+    public function home(Request $request)
     {
         if(Auth::check()) {
 
             switch (Auth::user()->type) {
                 case '學生':
-                    return redirect('students');
+
+                    $stu=Student::where('user_id',Auth::user()->id)->value('id');
+                    $ta=Ta::where('student_id',$stu)->value('id');
+
+                    if($ta===null){
+                        $ta=0;
+                    }
+
+                    return redirect('students')->with('ta',$ta);
                     break;
 
                 case '老師':

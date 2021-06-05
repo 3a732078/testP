@@ -1,7 +1,7 @@
 
 <title>{{$course_name}}-學生聯絡頁面</title>
 <div class="container">
-    <h2><a href="{{url()->previous()}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>{{$course_name}}<a href="/ta"><i class="fas fa-home home" style="color:#00a6a6"></i></a></h2>
+    <h2><a href="/ta/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>{{$course_name}}<a href="/ta"><i class="fas fa-home home" style="color:#00a6a6"></i></a></h2>
     <form>
         <table align="center">
             <ul class="tatable">

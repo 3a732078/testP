@@ -20,6 +20,8 @@
 {{--        <p class="message-content">我是學生</p>--}}
 {{--        <div class="message-timestamp-left"><a href="#">TA</a> 發送時間</div>--}}
 {{--    </div>--}}
+    與TA訊息頁面
+    <p>___________________________</p>
     @foreach ($questions as $question)
         @if($question->response)
             <div class="message-blue">
@@ -45,6 +47,9 @@
     </div>
     <button>送出</button>
 </form>
+
+<a href="/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>
+
 
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
@@ -160,3 +165,4 @@
     }
     </script>
 
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
