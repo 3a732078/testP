@@ -14,28 +14,9 @@
     {{-- 年度列表--}}
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
-            <h1>
-                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                    <option >
-                        <h6>
-                            選擇年度
-                        </h6>
-                    </option>
-                    @foreach($years as $year)
-                        <option value="{{route('teacher.office.year.index',[$year,2])}}">
-                            <h6>
-                                {{$year}}學年度【下學期】
-                            </h6>
-                        </option>
-
-                        <option value="{{route('teacher.office.year.index',[$year,1])}}">
-                            <h6>
-                                {{$year}}學年度【上學期】
-                            </h6>
-                        </option>
-                    @endforeach
-                </select>
-            </h1>
+            <h5>
+                {{$year_semester}}
+            </h5>
         </div>
 
         <div class="col-sm-8">
@@ -59,7 +40,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.office.courses.TA_office.create',[$course -> id])}}">
+                                        <a href="{{route('teacher.courses.TA_office',$course -> id)}}">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>
@@ -108,9 +89,9 @@
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
             <div class="row jumbotron-fluid">
                 <div class="col-4">
-                    <h3>
+                    <h5>
                         設定TA
-                    </h3>
+                    </h5>
                 </div>
 
                 <div class="col-4"></div>
@@ -120,9 +101,9 @@
                         $course = \App\Models\Course::find($course_id);
                     @endphp
 
-                    <h4>
+                    <h5>
                         {{$course ->name}} 【{{$course -> classroom}}】
-                    </h4>
+                    </h5>
                 </div>
 
             </div>
@@ -136,7 +117,7 @@
                 {{-- head --}}
                 <thead>
                 <tr>
-                    <th scope="col">編號</th>
+                    <th scope="col">學號</th>
                     <th scope="col">班級</th>
                     <th scope="col">姓名</th>
                     <th scope="col">
@@ -149,7 +130,7 @@
                 <tbody>
                 @foreach($department_students as $department_student)
                     <tr>
-                        <th scope="row">{{$department_student -> id}}</th>
+                        <th scope="row">{{$department_student -> user() -> first() -> account}}</th>
 
 
                         <td>
@@ -168,7 +149,7 @@
                             <button type="button" class="btn btn-outline-primary btn-sm"
                                     onclick="location.href='{{route('teacher.office.courses.TA_office.store',[$course_id,$department_student -> id])}}'"
                             >
-                                檢視
+                                設定
                             </button>
                         </td>
                     </tr>

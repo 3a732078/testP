@@ -118,19 +118,34 @@ class TaController extends Controller
 
         //使用該年度 抓取所有 該學期的 課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDesc('classroom');
 
         // 抓取該系所的所有學生
         $department_students = Course::find($course_id)->department() -> first()
-            ->students()->get();
+            ->students()->get()
+            ->sortby('classroom');
+
+
+        //學號
+        foreach ($department_students as $department_student){
+            $students_id[] = $department_student -> user() -> first() -> account;
+        }
 
 //        return $department_students;
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
         return view('teacher.office.courses.TA.create',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
-            'years' => $years,
             'course_id' => $course_id,
             'department_students'=>$department_students,
+            'students_id' => $students_id,
         ]);
     }
 
@@ -140,9 +155,15 @@ class TaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request,$course_id,$student_id){
+        $ta = new Ta();
+        $ta -> student_id = $student_id;
+        $ta -> course_id = $course_id ;
+        $ta -> save();
+
+        //回到TA列表
+        return redirect(route('teacher.office.courses.TA_office',[$course_id,] ) ) ;
+
     }
 
     /**

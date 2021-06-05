@@ -170,10 +170,10 @@ class CourseController extends Controller
         }
 
         return view('teacher.office.courses.notices',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
             'course_id' => $course_id,
-            'year_semester' => $course -> year . "學年度" . $semester,
         ]);
 
 //        return $courses_year;
@@ -198,10 +198,17 @@ class CourseController extends Controller
 
         //        return $courses_year;
 
-        return view('teacher.courses.text_materials',[
-            'courses_year' => $courses_year,
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        return view('teacher.office.courses.text_materials',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'notices' => $notices,
-            'years' => $years,
+            'courses_year' => $courses_year,
             'course_id' => $course_id,
         ]);
     }
@@ -225,10 +232,17 @@ class CourseController extends Controller
 
         //        return $courses_year;
 
-        return view('teacher.courses.home_works',[
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        return view('teacher.office.courses.home_works',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
         ]);
     }
@@ -250,10 +264,17 @@ class CourseController extends Controller
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
-        return view('teacher.courses.TA_office',[
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        return view('teacher.office.courses.TA_office',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
             ]);
     }
@@ -275,11 +296,17 @@ class CourseController extends Controller
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
 
         return view('teacher.office.courses.TA_office',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
         ]);
     }

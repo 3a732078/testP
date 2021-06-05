@@ -14,29 +14,9 @@
     {{-- 年度列表--}}
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
-            <h1>
-                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                    <option >
-                        <h6>
-                            選擇年度
-                        </h6>
-                    </option>
-                    @foreach($years as $year)
-                        {{-- 下學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,2])}}">
-                            <h6>
-                                {{$year}}學年度
-                            </h6>
-                        </option>
-                        {{-- 上學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,1])}}">
-                            <h6>
-                                {{$year}}學年度
-                            </h6>
-                        </option>
-                    @endforeach
-                </select>
-            </h1>
+            <h5>
+                {{$year_semester}}
+            </h5>
         </div>
 
         <div class="col-sm-8">
@@ -109,17 +89,21 @@
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
             <div class="row jumbotron-fluid">
                 <div class="col-4">
-                    <h3>
+                    <h5>
                         TA相關事務
-                    </h3>
+                    </h5>
                 </div>
 
                 <div class="col-4"></div>
 
                 <div class="col-4">
-                    <h4>
+
+                    @php
+                        $course = \App\Models\Course::find($course_id);
+                    @endphp
+                    <h5>
                         {{$course ->name}} 【{{$course -> classroom}}】
-                    </h4>
+                    </h5>
                 </div>
 
             </div>
@@ -127,12 +111,17 @@
 
         {{-- body --}}
         <div class="card-body text-success">
+
+            @php
+                $TA = \App\Models\Ta::all()->where('course_id',$course_id)->unique('student_id');
+            @endphp
+
             @if(isset($TA) )
 
                 <div class="row">
                     <div class="col-4">
                         <h2>
-                            {{$TA -> student() -> first() -> user() -> first() -> name}}
+                            {{$TA ->first() -> student() -> first() -> user() -> first() -> name}}
                         </h2>
                     </div>
 
@@ -142,7 +131,10 @@
 
                     <div class="col-4">
                         <button type="button"
-                                onclick="location.href = '{{route('teacher.office.courses.TA_office.message',[$course_id,$TA -> id])}}'"
+                                onclick="location.href =
+                                    '{{route('teacher.office.courses.TA_office.message',[
+                                        $course_id,$TA -> first() ->  student_id]
+                                        )}}'"
                                 class="btn btn-light">
                             聯絡
                         </button>
