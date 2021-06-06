@@ -13,16 +13,22 @@ class CreateMessageTable extends Migration
      */
     public function up()
     {
-        Schema::create('message', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('teacher_id');
-            $table->foreign('teacher_id')->references('id')->on('teachers');
+//            $table->foreignId('teacher_id')->constrained();
+            $table->unsignedBigInteger('teacher_id');
+//            $table->foreign('teacher_id')->on('teachers')->references('id')
+//                ->onDelete('cascade');
 
-            $table->unsignedInteger('TA_id');
-            $table->foreign('TA_id')->references('id')->on('tas');
+//            $table->foreignId('TA_id')->constrained();
+            $table->unsignedBigInteger('TA_id');
+//            $table->foreign('TA_id')->on('tas')->references('id')
+//                ->onDelete('cascade');
 
             $table->longText('content');
+
+            $table->string('sender');
 
             $table->timestamps();
         });
@@ -35,6 +41,6 @@ class CreateMessageTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('message');
+        Schema::dropIfExists('messages');
     }
 }

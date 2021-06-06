@@ -342,7 +342,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                     ])->name('teacher.office.courses.TA_office.message');
 
                     //儲存訊息
-                    Route::post('{TA_id}/store',[
+                    Route::post('{TA_id}/message/store',[
                         TaController::class,'message_store'
                     ])->name('teacher.office.TA.message.store');
 

@@ -98,15 +98,36 @@
                 </div>
 
                 {{-- Body --}}
-                <div class="card-body text-success" style="height: 300px">
+                <div class="card-body text-success bg-gray-200" style="height: 300px">
+                    <div class="row">
 
+                        {{--TA圖案--}}
+                        <div class="col-2"><i class="fas fa-user-circle"></i></div>
+
+                        {{--TA訊息--}}
+                        <div class="col-4">
+
+                        </div>
+
+                        {{--老師訊息--}}
+                        <div class="col-4">
+
+                        </div>
+
+                        {{--版面調整--}}
+                        <div class="col-1"></div>
+
+                        {{--老師圖案--}}
+                        <div class="col-1"><i class="fas fa-chalkboard-teacher"></i></div>
+
+                    </div>
 
                 </div>
 
                 {{-- footer --}}
-                <div class="card-footer bg-transparent border-success">
-                    <form action="{{route('teacher.office.TA.message.store',[$course_id,$TA -> id])}}">
-
+                <div class="card-footer bg-gray-200 border-success">
+                    <form method="post" action="{{route('teacher.office.TA.message.store',[$course_id,$TA -> id])}}">
+                        @csrf
                         <div class="row">
 
                             <div class="col-8">
@@ -116,7 +137,8 @@
                                             請輸入訊息
                                         </span>
                                     </div>
-                                    <input type="text" class="form-control"
+                                    <input type="text"
+                                           class="form-control"
                                            aria-label="Default" aria-describedby="inputGroup-sizing-default"
                                            id="message" name="message"
                                     >

@@ -7,6 +7,7 @@ use App\Models\CourseStudent;
 use App\Models\Student;
 use App\Models\Ta;
 use App\Models\User;
+use http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -252,6 +253,9 @@ class TaController extends Controller
 
         $TA = TA::find($TA_id);
 
+        $messages = User::find(Auth::id())->teacher()->first()
+            ->messages() -> where('TA_id', $TA -> id);
+
 //        return $TA -> id;
 
         return view('teacher.courses.TA.message',[
@@ -260,6 +264,7 @@ class TaController extends Controller
             'course_id' => $course_id,
             'department_students'=>$department_students,
             'TA' => $TA,
+            'messages' => $messages,
         ]);
     }
 
@@ -298,6 +303,10 @@ class TaController extends Controller
 
         $TA = TA::find($TA_id);
 
+        $messages = User::find(Auth::id())->teacher()->first()
+            ->messages() -> where('TA_id', $TA -> id) ->get()
+            ->sortBy('create_at');
+
 //        return $TA -> id;
 
         return view('teacher.office.courses.TA.message',[
@@ -306,11 +315,24 @@ class TaController extends Controller
             'course_id' => $course_id,
             'department_students'=>$department_students,
             'TA' => $TA,
+            'messages' => $messages,
         ]);
     }
 
     //儲存訊息
     public function message_store(Request $request,$course_id,$TA_id){
+        $message = new \App\Models\Message();
+        $message -> teacher_id = User::find(Auth::id())->teacher()
+            ->first() -> id;
+        $message -> TA_id = $TA_id;
+        $message -> content = $request -> message;
+        $message -> sender = User::find(Auth::id())->type;
+        $message -> save();
+
+        return redirect(route('teacher.TA.message',[
+            $course_id,$TA_id
+            ])
+        );
 
     }
 }
