@@ -52,7 +52,7 @@ class TaController extends Controller
 //        dd($class);
         $student = Student::where('user_id', $request->user()->id)->value('id');
         session_start();
-        $classId=$_SESSION['class'];
+        $classId=$class;
         $_SESSION['class']=$class;
 
 //

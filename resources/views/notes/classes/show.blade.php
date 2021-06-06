@@ -79,7 +79,7 @@
                 <title>{{$name}}</title>
                 {{--    課程：{{$class}}<br>--}}
                 <h5 align="center">
-                    <a href="{{url()->previous()}}"><i class="fas fa-arrow-left"></i></a>&ensp;
+                    <a href="/classes/{{$classId}}"><i class="fas fa-arrow-left"></i></a>&ensp;
                     筆記名稱：{{$name}}&ensp;|&ensp;
                     作者：{{$author}}&ensp;
                     <a href="/"><i class="fas fa-home home" style="color:#000"></i></a>
