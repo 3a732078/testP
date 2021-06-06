@@ -32,4 +32,9 @@ class Teacher extends Model
     {
         return $this->hasMany(Notice::class);
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }
