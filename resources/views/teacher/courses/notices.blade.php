@@ -131,7 +131,7 @@
 
                 {{-- body --}}
                 <tbody>
-                    @if(!isset($notices))
+                    @if(count($notices) != 0)
                         @foreach($notices as $notice)
                             <tr>
                                 <th scope="row">{{$notice -> id}}</th>

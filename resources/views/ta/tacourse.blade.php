@@ -36,14 +36,21 @@
             </div>
         </li>
 
-        <!-- Divider -->
+        <!-- 訊息的部分 -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
+        <!-- 與老師聯繫 -->
         <div class="sidebar-heading">
-            Message
+            訊息
         </div>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{route('TA.teacher.message',[$class] )}}" >
+                <i class="fas fa-fw fa-comment"></i>
+                <span>與老師聯繫</span>
+            </a>
+        </li>
 
+        <!-- 與學生連繫 -->
         <li class="nav-item">
             <a class="nav-link" href="/ta/course/{{$class}}">
                 <i class="fas fa-fw fa-comment"></i>

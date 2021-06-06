@@ -45,7 +45,7 @@ class CourseController extends Controller
 
             //===改抓取 該年度所有課程 使用 [ $year_id]
             $courses_year = User::find(Auth::id()) -> teacher()->first() -> courses()
-                -> where('year',$year_id)-> where('semester' ,$semester) -> get()->sortby('classroom');
+                -> where('year',$year_id)-> where('semester' ,$semester) -> get()->sortbyDESC('classroom');
 
             //=== 預設顯示科系id較小的課程
             $course = $courses_year-> first();
@@ -85,7 +85,7 @@ class CourseController extends Controller
 
             //===改抓取 該年度所有課程 使用 [ $year_id]
             $courses_year = User::find(Auth::id()) -> teacher()->first() -> courses()
-                -> where('year',$year)-> where('semester' ,$semester) -> get()->sortby('classroom');
+                -> where('year',$year)-> where('semester' ,$semester) -> get()->sortbyDESC('classroom');
 
             //=== 預設顯示科系id較小的課程
             $course = $courses_year-> first();
@@ -126,7 +126,7 @@ class CourseController extends Controller
 
         //使用該年度 抓取所有 該學期的 課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbydesc('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -160,7 +160,7 @@ class CourseController extends Controller
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -194,7 +194,7 @@ class CourseController extends Controller
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //        return $courses_year;
 
@@ -228,7 +228,7 @@ class CourseController extends Controller
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //        return $courses_year;
 
@@ -262,7 +262,7 @@ class CourseController extends Controller
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -271,11 +271,14 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
+        $TA = TA::where('course_id',$course_id)->first();
+
         return view('teacher.courses.TA_office',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
             'course_id' => $course_id,
+            'TA' => $TA,
             ]);
     }
 
@@ -294,7 +297,7 @@ class CourseController extends Controller
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
         //抓取上下學期
         if($course -> semester == 1){

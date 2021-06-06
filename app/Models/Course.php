@@ -41,9 +41,9 @@ class Course extends Model
         return $this->hasMany(Notice::class);
     }
 
-    public function ta()
+    public function student_ta()
     {
-        return $this->hasOne(Ta::class);
+        return $this->belongsToMany(Student::class,'tas');
     }
 
     public function questions()

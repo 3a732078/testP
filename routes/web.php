@@ -139,8 +139,8 @@ Route::get('ta/questions/{id}',[QuestionController::class,'tashow'])->name('ques
 //TA回覆
 Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questions.tastore')->where('id', '[0-9]+');
 
-//ta首頁
-Route::get('/ta',[TaController::class,'index'])->name('ta.index')->middleware('auth');
+//ta首頁  ================ 被我整理到最下面了
+//Route::get('/ta',[TaController::class,'index'])->name('ta.index')->middleware('auth');
 
 //ta擔任課程頁面
 Route::get('/ta/classes/{class}',[TaController::class,'tacourse'])->name('ta.tacourse');
@@ -214,7 +214,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         #TA相關事務 =========   TAController
             Route::prefix('TA_office')->group(function (){
 
-                Route::get('{TA_id}/message',[
+                Route::get('message',[
                     TaController::class,'message'
                 ])->name('teacher.TA.message') ;
             });
@@ -339,7 +339,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                     //與TA聯繫
                     Route::get('{TA_id}/message',[
                         TaController::class,'office_message'
-                    ])->name('teacher.office.courses.TA_office.message');
+                    ])->name('teacher.office.TA_office.message');
 
                     //儲存訊息
                     Route::post('{TA_id}/message/store',[
@@ -353,5 +353,19 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
         });
 
+    });
+
+#學生TA的頁面
+    Route::prefix('ta')->group(function (){
+
+        //首頁
+        Route::get('',[
+            TaController::class,'index'
+        ])->name('ta.index')->middleware('auth');
+
+        //與老師聯繫
+        Route::get('{course_id}/teacher/message',[
+            TaController::class,'TA_message'
+        ])->name('TA.teacher.message');
     });
 

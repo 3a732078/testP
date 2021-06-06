@@ -147,7 +147,9 @@
                         {{-- 功能按鈕 --}}
                         <td>
                             <button type="button" class="btn btn-outline-primary btn-sm"
-                                    onclick="location.href='{{route('teacher.office.courses.TA_office.store',[$course_id,$department_student -> id])}}'"
+                                    onclick="location.href='{{route('teacher.office.courses.TA_office.store',[
+                                        $course_id,$department_student -> id]
+                                    )}}'"
                             >
                                 設定
                             </button>

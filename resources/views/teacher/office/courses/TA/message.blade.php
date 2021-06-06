@@ -75,7 +75,7 @@
         <div class="col-sm-6">
             <button type="button"
                     class="btn btn-warning  "
-                    onclick="location.href='{{route('teacher.TA.message',[$course_id,$TA -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
+                    onclick="location.href='{{route('teacher.TA.message',[$course_id,$student_TA -> id])}}'" style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -93,40 +93,96 @@
                 {{--Header --}}
                 <div class="card-header bg-gradient-info border-success">
                     <h4 style="color: #dae0e5 ">
-                        {{$TA -> student() -> first() -> user() -> first() -> name}}
+                        {{$student_TA  -> user() -> first() -> name}}
                     </h4>
                 </div>
 
                 {{-- Body --}}
-                <div class="card-body text-success bg-gray-200" style="height: 300px">
-                    <div class="row">
+                <div class="card-body text-success bg-gray-200" style="height: 600px">
 
-                        {{--TA圖案--}}
-                        <div class="col-2"><i class="fas fa-user-circle"></i></div>
+                    @php
+                        $user_name = \Illuminate\Support\Facades\Auth::user()->name;
+                    @endphp
 
-                        {{--TA訊息--}}
-                        <div class="col-4">
+                    @foreach($messages as $message)
+                        @if($message -> sender == "TA")
+
+                        {{-- TA訊息至左 --}}
+                        <div class="row">
+
+                            {{--TA圖案--}}
+                            <div class="col-1">
+                                <i class="fas fa-user-circle">
+                                    <p>{{$user_name}}</p>
+                                </i>
+                            </div>
+
+                            {{--TA訊息--}}
+                            <div class="col-7
+                                    card card-body"
+                                 style="height: auto; width: auto;
+                                 background-color: #dae0e5;border-color: #1c1f23 ; color: #1c1f23 ;margin-bottom: 5px">
+
+                                {{$message -> content}}
+
+                                <p style="font-size: 1px" align="right">
+                                    {{$message -> created_at}}
+                                </p>
+
+                            </div>
 
                         </div>
+                    @else
 
-                        {{--老師訊息--}}
-                        <div class="col-4">
+                        {{-- 老師訊息至右 --}}
+                        <div class="row">
 
+                            {{--版面調整--}}
+                            <div class="col-4"></div>
+
+                            {{--老師訊息--}}
+                            <div class="col-7 card card-body"
+                                 style="height: auto; width: 700px;
+                                     background-color: #dae0e5;border-color: #1c1f23 ; color: #1c1f23 ; margin-bottom: 5px">
+
+                                {{$message -> content}}
+
+                                <p style="font-size: 1px" align="right">
+                                    {{$message -> created_at}}
+                                </p>
+
+{{--                                <div class="card card-body bg-transparent row" style="height: min-content">--}}
+
+{{--                                    <div class="col-8">--}}
+{{--                                    </div>--}}
+
+{{--                                    <div class="col-auto">--}}
+{{--                                        <p>--}}
+{{--                                            {{$message -> created_at}}--}}
+{{--                                        </p>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+                            </div>
+
+                            {{--老師圖案--}}
+                            <div class="col-1">
+                                <i class="fas fa-chalkboard-teacher">
+                                    <p>
+                                        {{$user_name}}
+                                    </p>
+                                </i>
+                            </div>
                         </div>
 
-                        {{--版面調整--}}
-                        <div class="col-1"></div>
-
-                        {{--老師圖案--}}
-                        <div class="col-1"><i class="fas fa-chalkboard-teacher"></i></div>
-
-                    </div>
+                    @endif
+                    @endforeach
 
                 </div>
 
                 {{-- footer --}}
                 <div class="card-footer bg-gray-200 border-success">
-                    <form method="post" action="{{route('teacher.office.TA.message.store',[$course_id,$TA -> id])}}">
+                    <form method="post" action="{{route('teacher.office.TA.message.store',[$course_id,$student_TA -> id])}}">
                         @csrf
                         <div class="row">
 

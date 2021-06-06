@@ -106,7 +106,7 @@
 
         {{-- body --}}
         <div class="card-body text-success">
-            @if(isset($TA) )
+            @if(isset($TA) != 0 )
 
                 <div class="row">
                     <div class="col-4">

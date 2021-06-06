@@ -22,7 +22,7 @@ class CreateMessageTable extends Migration
 //                ->onDelete('cascade');
 
 //            $table->foreignId('TA_id')->constrained();
-            $table->unsignedBigInteger('TA_id');
+            $table->unsignedBigInteger('student_id');
 //            $table->foreign('TA_id')->on('tas')->references('id')
 //                ->onDelete('cascade');
 

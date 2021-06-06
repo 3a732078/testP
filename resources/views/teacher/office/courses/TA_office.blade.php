@@ -113,15 +113,16 @@
         <div class="card-body text-success">
 
             @php
-                $TA = \App\Models\Ta::all()->where('course_id',$course_id)->unique('student_id');
+                $course = \App\Models\Course::find($course_id);
+                $student_TA = $course -> student_ta() -> first();
             @endphp
 
-            @if(count($TA) != 0  )
+            @if(isset($student_TA) != 0  )
 
                 <div class="row">
                     <div class="col-4">
                         <h2>
-                            {{$TA ->first() -> student() -> first() -> user() -> first() -> name}}
+                            {{$student_TA  -> user() -> first() -> name}}
                         </h2>
                     </div>
 
@@ -133,14 +134,14 @@
                         <button type="button"
                                 onclick="location.href =
                                     '{{route('teacher.office.courses.TA_office.message',[
-                                        $course_id,$TA -> first() -> id]
+                                        $course_id,$student_TA -> id]
                                         )}}'"
                                 class="btn btn-light">
                             聯絡
                         </button>
 
                         {{-- 刪除 --}}
-                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$TA ->first() -> id]) }}">
+                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$student_TA  -> id]) }}">
                             <button type="submit"
                                     onclick="prink_delete_check()"
                                     class="btn btn-danger">

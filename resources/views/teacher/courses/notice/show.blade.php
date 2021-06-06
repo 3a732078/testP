@@ -98,8 +98,11 @@
                  <div class="col-4"></div>
 
                  <div class="col-4">
+                     @php
+                        $course = \App\Models\Course::find($course_id);
+                     @endphp
                      <h5>
-                         {{$course -> name}}】【{{$course -> classroom }}
+                         {{$course -> name}}【{{$course -> classroom }}】
                      </h5>
                  </div>
 

@@ -11,12 +11,12 @@ class Message extends Model
 
     protected $fillable = [
         'teacher_id',
-        'TA_id',
+        'student_id',
         'content',
     ];
 
-    public function TA(){
-        return $this->belongsTo(TA::class);
+    public function student(){
+        return $this->belongsTo(Student::class);
     }
 
     public function teacher(){

@@ -25,7 +25,7 @@ class Ta extends Model
 
     public function courses()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsTo(Course::class);
     }
 
     public function questions()

@@ -80,6 +80,9 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         @yield('tanav')
+
+
+
     </ul>
     <!-- End of Sidebar -->
 

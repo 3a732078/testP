@@ -193,11 +193,10 @@ class TeacherController extends Controller
 
     public function test(Teacher $teacher)
     {
+        $course = \App\Models\Course::find(232);
+        $student_TA = $course -> student_ta() -> get() ;
 
-        $user_teachers= User::all()->where('type','老師');
-
-
-        return $user_teachers ;
+        return $student_TA;
 
 
 //        return view('teacher.data');
