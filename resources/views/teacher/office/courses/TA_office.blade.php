@@ -40,7 +40,7 @@
                                     </td>
                                 @else
                                     <td>
-                                        <a href="{{route('teacher.courses.TA_office',$course -> id)}}">
+                                        <a href="{{route('teacher.office.courses.TA_office',$course -> id)}}">
                                             {{$course -> name}}【{{$course -> classroom}}】
                                         </a>
                                     </td>
