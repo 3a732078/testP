@@ -247,7 +247,7 @@ class NoticeController extends Controller
         $notice -> save();
 
         //
-        return redirect(route('teacher.courses.notice.show',[$course_id,$notice_id]));
+        return redirect(route('teacher.office.notice.show',[$course_id,$notice_id]));
 
 //        return $request;
     }

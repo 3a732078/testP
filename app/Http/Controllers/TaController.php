@@ -218,7 +218,7 @@ class TaController extends Controller
     }
 
     // 老師與TA聯繫
-    public function message($course_id)
+    public function message($course_id,$TA_id)
     {
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
@@ -226,19 +226,91 @@ class TaController extends Controller
             $years[] = $course -> year;
         }
 
-        //抓取該課程所有公告
-        $course = Course::find($course_id);
-        $notices = $course->notices()->get();
+        //使用該年度 抓取所有 該學期的 課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDesc('classroom');
+
+        // 抓取該系所的所有學生
+        $department_students = Course::find($course_id)->department() -> first()
+            ->students()->get()
+            ->sortby('classroom');
+
+
+        //學號
+        foreach ($department_students as $department_student){
+            $students_id[] = $department_student -> user() -> first() -> account;
+        }
+
+//        return $department_students;
+
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        $TA = TA::find($TA_id);
+
+//        return $TA -> id;
+
+        return view('teacher.courses.TA.message',[
+            'year_semester' => $course -> year . "學年度" . $semester,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'department_students'=>$department_students,
+            'TA' => $TA,
+        ]);
+    }
+
+    // 老師與TA聯繫 ====office
+    public function office_message($course_id,$TA_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
 
         //使用該年度 抓取所有 該學期的 課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortby('classroom');
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDesc('classroom');
+
+        // 抓取該系所的所有學生
+        $department_students = Course::find($course_id)->department() -> first()
+            ->students()->get()
+            ->sortby('classroom');
+
+
+        //學號
+        foreach ($department_students as $department_student){
+            $students_id[] = $department_student -> user() -> first() -> account;
+        }
+
+//        return $department_students;
+
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        $TA = TA::find($TA_id);
+
+//        return $TA -> id;
 
         return view('teacher.office.courses.TA.message',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
-            'notices' => $notices,
-            'years' => $years,
             'course_id' => $course_id,
+            'department_students'=>$department_students,
+            'TA' => $TA,
         ]);
+    }
+
+    //儲存訊息
+    public function message_store(Request $request,$course_id,$TA_id){
+
     }
 }

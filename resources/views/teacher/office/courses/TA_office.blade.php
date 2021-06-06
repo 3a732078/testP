@@ -133,7 +133,7 @@
                         <button type="button"
                                 onclick="location.href =
                                     '{{route('teacher.office.courses.TA_office.message',[
-                                        $course_id,$TA -> first() ->  student_id]
+                                        $course_id,$TA -> first() -> id]
                                         )}}'"
                                 class="btn btn-light">
                             聯絡
@@ -141,7 +141,9 @@
 
                         {{-- 刪除 --}}
                         <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$TA ->first() -> id]) }}">
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit"
+                                    onclick="prink_delete_check()"
+                                    class="btn btn-danger">
                                 刪除
                             </button>
                         </form>

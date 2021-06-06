@@ -210,6 +210,14 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             Route::get('TA_office',[
                 CourseController::class,'TA_office'
             ])->name('teacher.courses.TA_office');
+
+        #TA相關事務 =========   TAController
+            Route::prefix('TA_office')->group(function (){
+
+                Route::get('{TA_id}/message',[
+                    TaController::class,'message'
+                ])->name('teacher.TA.message') ;
+            });
         });
 
     #選擇年度
@@ -221,7 +229,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             ])->name('teacher.year.index');
         });
 
-    #辦公室
+    #辦公室 ======================= 進入辦公室
         // url [ teacher/  office ] ====== TeacherController
         Route::prefix('office')->group(function (){
             //首頁
@@ -330,8 +338,13 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
                     //與TA聯繫
                     Route::get('{TA_id}/message',[
-                        TaController::class,'message'
+                        TaController::class,'office_message'
                     ])->name('teacher.office.courses.TA_office.message');
+
+                    //儲存訊息
+                    Route::post('{TA_id}/store',[
+                        TaController::class,'message_store'
+                    ])->name('teacher.office.TA.message.store');
 
                 });
 
