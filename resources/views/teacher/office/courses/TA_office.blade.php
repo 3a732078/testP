@@ -116,7 +116,7 @@
                 $TA = \App\Models\Ta::all()->where('course_id',$course_id)->unique('student_id');
             @endphp
 
-            @if(isset($TA) )
+            @if(count($TA) != 0  )
 
                 <div class="row">
                     <div class="col-4">
@@ -138,6 +138,13 @@
                                 class="btn btn-light">
                             聯絡
                         </button>
+
+                        {{-- 刪除 --}}
+                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$TA ->first() -> id]) }}">
+                            <button type="submit" class="btn btn-danger">
+                                刪除
+                            </button>
+                        </form>
 
                     </div>
 

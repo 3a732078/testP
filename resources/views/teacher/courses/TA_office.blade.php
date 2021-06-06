@@ -14,31 +14,9 @@
     {{-- 年度列表--}}
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
-            <h1>
-                <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
-                    <option >
-                        <h6>
-                            選擇年度
-                        </h6>
-                    </option>
-                    @foreach($years as $year)
-                        {{-- 下學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,2])}}">
-                            <h6>
-                                {{$year}}學年度【下學期】
-                            </h6>
-                        </option>
-
-                        {{-- 上學期 --}}
-                        <option value="{{route('teacher.year.index',[$year,1])}}">
-                            <h6>
-                                {{$year}}學年度【上學期】
-                            </h6>
-                        </option>
-                    @endforeach
-                </select>
-
-            </h1>
+            <h5>
+                {{$year_semester}}
+            </h5>
         </div>
 
         <div class="col-sm-8">

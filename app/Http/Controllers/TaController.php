@@ -206,9 +206,15 @@ class TaController extends Controller
      * @param  \App\Models\Ta  $ta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ta $ta)
+    public function destroy(Ta $ta,$course_id,$TA_id)
     {
-        //
+        $TA = Ta::find($TA_id);
+        $TA -> delete();
+
+        return redirect(route('teacher.office.courses.TA_office', [
+            $course_id,
+            ])
+        );
     }
 
     // 老師與TA聯繫

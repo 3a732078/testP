@@ -205,7 +205,7 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-        return view('teacher.office.courses.text_materials',[
+        return view('teacher.courses.text_materials',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'notices' => $notices,
             'courses_year' => $courses_year,
@@ -239,7 +239,7 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-        return view('teacher.office.courses.home_works',[
+        return view('teacher.courses.home_works',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
@@ -271,7 +271,7 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-        return view('teacher.office.courses.TA_office',[
+        return view('teacher.courses.TA_office',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
