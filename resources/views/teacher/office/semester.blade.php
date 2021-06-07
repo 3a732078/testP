@@ -15,15 +15,25 @@
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
             <h5>
-                {{$year_semester}}
+                課程複製
             </h5>
         </div>
 
+        @php
+            $courses = \Illuminate\Support\Facades\Auth::user()->teacher()-> first() -> courses() -> get() ;
+            $course = $courses -> first();
+            $course_id = $course  -> id;
+
+            //
+            foreach ($courses as $course){
+                $courses_year[] =  $course -> year;
+            }
+
+            $courses_year = $courses ->where('year',$courses_year);
+        @endphp
+
+
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">公告區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-primary">教材區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.office.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -75,7 +85,7 @@
         <div class="col-sm-6">
             <button type="button"
                     class="btn btn-warning  "
-                    onclick="location.href='{{route('teacher.courses.TA_office',[$course_id,])}}'"
+                    onclick="location.href='{{route('teacher.index', [] )}}'"
                     style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>

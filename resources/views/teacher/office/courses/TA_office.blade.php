@@ -133,7 +133,7 @@
                     <div class="col-4">
                         <button type="button"
                                 onclick="location.href =
-                                    '{{route('teacher.office.courses.TA_office.message',[
+                                    '{{route('teacher.office.TA_office.message',[
                                         $course_id,$student_TA -> id]
                                         )}}'"
                                 class="btn btn-light">

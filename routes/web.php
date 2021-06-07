@@ -302,8 +302,13 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             // namespace[teacher/ office /{course_id}} ] ======= CourseController
                 //教材區
                 Route::get('text_materials',[
-                    CourseController::class,'text_materials'
+                    CourseController::class,'office_text_materials'
                 ])->name('teacher.office.courses.text_materials');
+
+                //教材儲存 ================  TextController
+                Route::post('text_materials/store',[
+                    TextbookController::class,'office_text_materials_store'
+                ])->name('teacher.office.courses.text_materials.store');
 
                 //評量區
                 Route::get('home_works',[
@@ -367,5 +372,16 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         Route::get('{course_id}/teacher/message',[
             TaController::class,'TA_message'
         ])->name('TA.teacher.message');
+    });
+
+
+#教師
+    Route::prefix('teacher/office')->group(function () {
+
+        //學期課程複製
+        Route::get('semester',[
+            TeacherController::class,'office_semester'
+        ])->name('teacher.office.semester');
+
     });
 

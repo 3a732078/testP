@@ -20,10 +20,10 @@
         </div>
 
         <div class="col-sm-8">
-            <button type="button" onclick="location.href = '{{route('teacher.courses.notices',[$course_id])}}'" class="btn btn-sm btn-primary">公告區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'" class="btn btn-sm btn-primary">公告區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.home_works',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">評量區</button>
+            <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
         </div>
 
         {{-- 第二列 --}}
@@ -98,7 +98,7 @@
                 </div>
 
                 {{-- Body --}}
-                <div class="card-body text-success bg-gray-200" style="height: 600px">
+                <div class="card-body text-success bg-gray-200" style="height: 500px">
 
                     @php
                         $user_name = \Illuminate\Support\Facades\Auth::user()->name;

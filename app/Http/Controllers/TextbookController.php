@@ -171,6 +171,14 @@ class TextbookController extends Controller
 
     }
 
+    // [ 老師放入教材 ]
+    public function office_text_materials_store(Request $request,$course_id){
+
+
+        return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
+
+    }
+
     /**
      * Display the specified resource.
      *

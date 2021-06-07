@@ -99,16 +99,21 @@
             </div>
         </li>
 
+        <!-- 年度複製 -->
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               href="{{route('teacher.office.semester')}}"
+               data-target="#collapseUtilities"
+               aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-folder-open"></i>
+                <span>課程複製</span>
+            </a >
+        </li>
+
+
         <!-- 其他列表暫不使用 -->
     @include('layouts.teacher.side_nav_item')
 
-    <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Message
-        </div>
 
 {{--        <li class="nav-item">--}}
 {{--            <a class="nav-link" href= "teacher/{{$course -> id}}/ta">--}}

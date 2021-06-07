@@ -191,12 +191,28 @@ class TeacherController extends Controller
         ]);
     }
 
+    //課程複製
+    public function office_semester(Teacher $teacher){
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //        return $courses_year;
+
+
+        return view('teacher.office.semester',[
+
+        ]);
+    }
+
     public function test(Teacher $teacher)
     {
-        $course = \App\Models\Course::find(232);
-        $student_TA = $course -> student_ta() -> get() ;
 
-        return $student_TA;
+        $courses = \Illuminate\Support\Facades\Auth::user()->teacher()-> first() -> courses() -> get() ;
+        $course_id = $courses -> first() -> id;
+        return $course_id;
 
 
 //        return view('teacher.data');
