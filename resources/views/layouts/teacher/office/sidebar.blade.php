@@ -49,50 +49,37 @@
                     {{-- 顯示列表資料 --}}
                     <h5 class="collapse-header">課程列表:</h5>
                     @foreach($years as $year)
-                        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
 
-                            {{-- 下學期 --}}
-                            <option value="{{route('teacher.year.index',[$year,2])}}">
-                                <h6>
-                                    {{$year}}學年度 【下學期】
-                                </h6>
-                            </option>
+                        {{-- 下學期 --}}
+                        <h6>
+                            {{$year}}學年度_2
+                        </h6>
 
-                            @foreach($courses -> sortByDesc('classroom')  as $course)
-                                @if($course -> year == $year && $course -> semester == 2)
-                                    <option value="{{route('teacher.office.courses.notices',$course -> id)}}">
-                                        <h5>
-                                            <a href="teacher/{{$course -> id}}/course">
-                                                {{$course -> name}} ({{$course -> classroom}})
-                                            </a>
-                                        </h5>
-                                    </option>
-                                @endif
-                            @endforeach
-                        </select>
+                        @foreach($courses -> sortByDesc('classroom')  as $course)
+                            @if($course -> year == $year && $course -> semester == 2)
+                                <h5>
+                                    <a href="teacher/{{$course -> id}}/course">
+                                        {{$course -> name}} ({{$course -> classroom}})
+                                    </a>
+                                </h5>
+                            @endif
+                        @endforeach
 
-                        <select class="form-select" aria-label="Default select example" onchange="self.location.href=options[selectedIndex].value">
+                        {{-- 上學期 --}}
+                        <h6>
+                            {{$year}}學年度_1
+                        </h6>
 
-                            {{-- 上學期 --}}
-                            <option value="{{route('teacher.year.index',[$year,1])}}">
-                                <h6>
-                                    {{$year}}學年度 【上學期】
-                                </h6>
-                            </option>
+                        @foreach($courses -> sortByDesc('classroom')  as $course)
+                            @if($course -> year == $year && $course -> semester == 2)
+                                <h5>
+                                    <a href="teacher/{{$course -> id}}/course">
+                                        {{$course -> name}} ({{$course -> classroom}})
+                                    </a>
+                                </h5>
+                            @endif
+                        @endforeach
 
-                            @foreach($courses -> sortByDesc('classroom')  as $course)
-                                @if($course -> year == $year && $course -> semester == 1)
-                                    <option value="{{route('teacher.office.courses.notices',$course -> id)}}">
-                                        <h5>
-                                            <a href="teacher/{{$course -> id}}/course">
-                                                {{$course -> name}} ({{$course -> classroom}})
-                                            </a>
-                                        </h5>
-                                    </option>
-                                @endif
-                            @endforeach
-
-                        </select>
                     @endforeach
                     @yield('side_courses')
                 </div>

@@ -17,14 +17,14 @@ class CreateMessageTable extends Migration
             $table->id();
 
 //            $table->foreignId('teacher_id')->constrained();
-            $table->unsignedBigInteger('teacher_id');
-//            $table->foreign('teacher_id')->on('teachers')->references('id')
-//                ->onDelete('cascade');
+            $table->unsignedInteger('teacher_id');
+            $table->foreign('teacher_id')->on('teachers')->references('id')
+                ->onDelete('cascade');
 
 //            $table->foreignId('TA_id')->constrained();
-            $table->unsignedBigInteger('student_id');
-//            $table->foreign('TA_id')->on('tas')->references('id')
-//                ->onDelete('cascade');
+            $table->unsignedInteger('student_id');
+            $table->foreign('student_id')->on('students')->references('id')
+                ->onDelete('cascade');
 
             $table->longText('content');
 

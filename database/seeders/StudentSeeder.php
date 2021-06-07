@@ -33,7 +33,6 @@ class StudentSeeder extends Seeder
             Student::create([
                 'user_id' => $student -> id,
                 'department_id' => $ran_department,
-                c
             ]);
         }
 
