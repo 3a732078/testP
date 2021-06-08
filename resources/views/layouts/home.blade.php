@@ -61,15 +61,26 @@
             </a>
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">已選課程:</h6>
+{{--                    <h6 class="collapse-header">已選課程:</h6>--}}
                     @php
                         $student=\App\Models\Student::where('user_id',\Illuminate\Support\Facades\Auth::id())->value('id');
                         $courses = \App\Models\Student::where(
                                 'id',$student)-> first() ->courses() -> get();
                     @endphp
                     @if ($courses -> count() > 0)
+{{--                        1092--}}
+                        <h6 class="collapse-header" style="margin-left: -15px">109學年度_2 :</h6>
                         @foreach($courses as $course)
+                            @if($course->year === '109' && $course->semester === '2')
                             <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
+                            @endif
+                        @endforeach
+{{--                        1091--}}
+                        <h6 class="collapse-header" style="margin-left: -15px">109學年度_1 :</h6>
+                        @foreach($courses as $course)
+                            @if($course->year === '109' && $course->semester === '1')
+                                <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
+                            @endif
                         @endforeach
                     @endif
                 </div>
