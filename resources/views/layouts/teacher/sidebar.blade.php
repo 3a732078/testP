@@ -32,7 +32,7 @@
                 <span>選擇課程</span>
             </a>
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
+                 data-parent="#accordionSidebar" style="width: 190px">
                 <div class="bg-white py-2 collapse-inner rounded">
 
                     {{--                    抓取列表資料--}}
@@ -49,18 +49,19 @@
                     @endphp
 
                     {{-- 顯示列表資料 --}}
-                    <h1 class="collapse-header">課程列表:</h1>
+{{--                    <h1 class="collapse-header">課程列表:</h1>--}}
                     @foreach($years as $year)
 
                         {{-- 下學期 --}}
-                        <h6>
-                            {{$year}}學年度_2
-                        </h6>
+                        <h6 class="collapse-header" style="margin-left: -15px">{{$year}}學年度_2 :</h6>
+{{--                        <h6>--}}
+{{--                            {{$year}}學年度_2--}}
+{{--                        </h6>--}}
 
                         @foreach($courses -> sortByDesc('classroom')  as $course)
                             @if($course -> year == $year && $course -> semester == 2)
                                 <h5>
-                                    <a href="teacher/{{$course -> id}}/course"
+                                    <a class="collapse-item" href="teacher/{{$course -> id}}/course" style="font-size: 14px"
                                     >
                                         <span>
                                             {{$course -> name}} ({{$course -> classroom}})
@@ -71,14 +72,15 @@
                         @endforeach
 
                         {{-- 上學期 --}}
-                        <h6>
-                            {{$year}}學年度_1
-                        </h6>
+                        <h6 class="collapse-header" style="margin-left: -15px">{{$year}}學年度_1 :</h6>
+{{--                        <h6>--}}
+{{--                            {{$year}}學年度_1--}}
+{{--                        </h6>--}}
 
                         @foreach($courses -> sortByDesc('classroom')  as $course)
-                            @if($course -> year == $year && $course -> semester == 2)
+                            @if($course -> year == $year && $course -> semester == 1)
                                 <h5>
-                                    <a href="teacher/{{$course -> id}}/course">
+                                    <a class="collapse-item" href="teacher/{{$course -> id}}/course" style="font-size: 14px">
                                         {{$course -> name}} ({{$course -> classroom}})
                                     </a>
                                 </h5>
