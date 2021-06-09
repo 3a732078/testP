@@ -61,7 +61,7 @@
                         @foreach($courses -> sortByDesc('classroom')  as $course)
                             @if($course -> year == $year && $course -> semester == 2)
                                 <h5>
-                                    <a class="collapse-item" href="teacher/{{$course -> id}}/course" style="font-size: 14px"
+                                    <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px"
                                     >
                                         <span>
                                             {{$course -> name}} ({{$course -> classroom}})
@@ -80,7 +80,7 @@
                         @foreach($courses -> sortByDesc('classroom')  as $course)
                             @if($course -> year == $year && $course -> semester == 1)
                                 <h5>
-                                    <a class="collapse-item" href="teacher/{{$course -> id}}/course" style="font-size: 14px">
+                                    <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px">
                                         {{$course -> name}} ({{$course -> classroom}})
                                     </a>
                                 </h5>

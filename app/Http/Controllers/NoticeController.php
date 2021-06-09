@@ -192,7 +192,7 @@ class NoticeController extends Controller
         $notice = new Notice();
         $notice -> teacher_id = User::find(Auth::id())->teacher()->first()->id;
         $notice -> course_id = $course_id;
-        $notice -> title = $request -> notice_content;
+        $notice -> title = $request -> notice_title;
         $notice -> content = $request -> notice_content;
         $notice -> save();
 
