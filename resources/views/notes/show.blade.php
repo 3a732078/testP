@@ -222,11 +222,12 @@
         <label for="share" class="share"><i class="fas fa-retweet"></i></label>
         <div style="display:none"><button id="send" name="send">send</button></div>
     </form>
-    <br>
+    <br><br>
     <div style="position: relative">
         @if($textbookId!==null)
         @if(count($images)> 0)
-            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+            <div class="container-fluid" align="left" style="position: absolute;display:block;top: -50px;">
+                <p>
                 <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
                 第
                 @for($i=0;$i<count($images);$i++)
@@ -236,9 +237,11 @@
             </div>
         @endif
         @endif
-            @if($textbookId===null)
+
+        @if($textbookId===null)
         @if($images> 0)
-            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+            <div class="container-fluid" align="left" style="position: absolute;display:block;top: -50px;">
+                <p>
                 <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
                 第
                 @for($i=0;$i<$images;$i++)
@@ -247,8 +250,8 @@
                 </p>
             </div>
         @endif
-            @endif
-
+        @endif
+        <br>
         <div style="position: relative;" id="above">
             @if($textbookId!==null)
                 <canvas id="note" width="1000" height="1413" style="position: absolute; left: 0; top: 0; z-index: 4;"></canvas>

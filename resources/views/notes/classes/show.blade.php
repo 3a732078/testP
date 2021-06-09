@@ -102,10 +102,10 @@
 {{--{{$notes->links()}}//頁數--}}
 <br><br>
 <div align="center" style="position: relative;">
-    <p><center><button onclick="opentext()" class="btn btn-outline-info"><i class="fa fa-book" aria-hidden="true"></i></button></center></p>
+    <p><center><button onclick="opentext()" class="btn btn-outline-info" style="margin-top: 30px"><i class="fa fa-book" aria-hidden="true"></i></button></center></p>
     @if($textbookId!==null)
         @if(count($images)> 0)
-            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 50px; top: -50px;">
+            <div class="container-fluid" align="left" style="position: absolute;display:block;left:120px;top: -50px;width: 1000px;">
                 <p>
                     <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen(count($images))}}>&ensp;/&ensp;{{count($images)}}&ensp;,
                     第
@@ -118,7 +118,7 @@
     @endif
     @if($textbookId===null)
         @if($images> 0)
-            <div class="container-fluid" align="right" style="position: absolute;display:block;right: 100px; top: -50px;">
+            <div class="container-fluid" align="left" style="position: absolute;display:block;left:120px;top: -50px;width: 1000px;">
                 <input readonly="readonly" id="page" value="" style="color: gray;text-align: center;" SIZE={{strlen($images)}}>&ensp;/&ensp;{{$images}}&ensp;,
                 第
                 @for($i=0;$i<$images;$i++)
