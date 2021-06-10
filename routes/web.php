@@ -234,7 +234,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
         Route::prefix('office')->group(function (){
             //首頁
             Route::get('index',[
-                TeacherController::class,'index_office'
+                TeacherController::class,'office_index'
             ])  -> name('teacher.office.index');
 
             //常見問題

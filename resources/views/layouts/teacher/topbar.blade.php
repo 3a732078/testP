@@ -14,6 +14,11 @@
     {{-- 年度列表--}}
     <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
         <div class="col-sm-4">
+            @php
+                if (!isset($course_id) ){
+                    $year_semester = "";
+                }
+            @endphp
             <h5>
                 {{$year_semester}}
             </h5>

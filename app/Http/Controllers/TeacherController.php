@@ -40,6 +40,14 @@ class TeacherController extends Controller
         ]);
     }
 
+    public function office_index(){
+
+
+        return view('teacher.office.index',[
+
+        ]);
+    }
+
     public function course(Request $request,$course_id){
 
         //=== 使用id抓取課程

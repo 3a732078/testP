@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Notice;
 use App\Models\Ta;
 use App\Models\Teacher;
+use App\Models\Textbook;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -256,15 +257,17 @@ class CourseController extends Controller
             $years[] = $course -> year;
         }
 
-        //抓取該課程所有公告
-        $course = Course::find($course_id);
-        $notices = $course->notices()->get();
-
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
 
-        //        return $courses_year;
+        //使用course_id抓取該課堂所有 [教材]
+        $text_materials = Textbook::where('course_id',$course_id)->get();
+        //個別教材抓取所有筆記 [包括未分享]
+        foreach ($text_materials as $text_material){
+            $notes[] = $text_material -> notes() -> get();
+        }
+        return $notes;
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -273,12 +276,12 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-//        return view('teacher.courses.home_works',[
-//            'year_semester' => $course -> year . "學年度" . $semester,
-//            'courses_year' => $courses_year,
-//            'notices' => $notices,
-//            'course_id' => $course_id,
-//        ]);
+        return view('teacher.courses.BN',[
+
+            'year_semester' => $course -> year . "學年度" . $semester,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+        ]);
     }
 
     // === 評量區
