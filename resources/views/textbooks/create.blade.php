@@ -1,5 +1,5 @@
 <div style="width:100%;text-align:center">
-    <form id="upload" name="upload" action="/textbooks" method="POST" role="form" enctype="multipart/form-data">
+    <form id="upload" name="upload" action="/teacher/data/2" method="POST" role="form" enctype="multipart/form-data">
         @csrf
         @method('POST')
 
@@ -21,7 +21,7 @@
         </div>
         <div>
             <label for="toimage">選擇檔案</label><br><br>
-            <input type="file" id="toimage" name="toimage">
+            <input type="file" id="toimage" name="toimage" class="form-control-file">
         </div>
         <button onclick="check()" class="submit" type="submit" class="btn-sm btn-primary">新增</button>
     </form>

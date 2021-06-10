@@ -121,10 +121,10 @@
                             {{-- head --}}
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">名稱</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
 
@@ -132,10 +132,21 @@
                             <tbody>
                                 @foreach($text_materials as $text_material)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
+
+                                        <th colspan="2" scope="row">{{$text_material -> name}}</th>
+
+                                        <td colspan="2">
+
+                                            <form method="post" action="teacher.office.text_materials.delete">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="submit"
+                                                        class="btn btn-danger"
+                                                >
+                                                    刪除
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -155,19 +166,17 @@
                     >
                         @csrf
                         <div class="form-group">
-
                             <div class="row">
-
                                 <div class="col-auto">
-
                                     {{-- input --}}
                                     <label for="text_material">放入新的教材</label>
-                                    <input type="file" class="form-control-file" id="text_material">
+                                    <input type="file"
+                                           name="toimage"
+                                           class="form-control-file" id="text_material">
 
                                 </div>
 
                                 <div class="col-auto">
-
                                     <button type="submit"
                                             class="btn btn-primary"
                                     >

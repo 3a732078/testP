@@ -127,6 +127,8 @@ class TextbookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    // [ 老師放入教材 ]
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -136,6 +138,8 @@ class TextbookController extends Controller
         ]);
         $Name = str_replace(" ","",$request->input('title'));
         $FileName = $Name . '.' . $request->toimage->extension();
+
+        return $Name;
 
 
         $file = $request->file('toimage')->store('pdf');
@@ -159,7 +163,7 @@ class TextbookController extends Controller
         $pdf->setOutputFormat('jpeg')->saveImage($output_path);
 
         Textbook::create([
-            'course_id'=>$request->subject,
+            'course_id'=>'subject',
             'name'=>$Name,
             'path'=>$Name.".pdf",
         ]);
@@ -167,15 +171,8 @@ class TextbookController extends Controller
         File::delete(public_path().'\images\\'.$Name.'\\'.$FileName);
 
         Storage::delete('pdf/'.$uploadhash);
-        return redirect('/textbooks');
 
-    }
-
-    // [ 老師放入教材 ]
-    public function office_text_materials_store(Request $request,$course_id){
-
-
-        return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
+//        return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
 
     }
 
@@ -246,6 +243,8 @@ class TextbookController extends Controller
      * @param  \App\Models\Textbook  $textbook
      * @return \Illuminate\Http\Response
      */
+
+    //刪除教材
     public function destroy($id)
     {
         $text=Textbook::where('id',$id);

@@ -207,12 +207,12 @@ class TeacherController extends Controller
         ]);
     }
 
-    public function test(Teacher $teacher)
+    public function test(Request $request,Teacher $teacher)
     {
 
         $courses = \Illuminate\Support\Facades\Auth::user()->teacher()-> first() -> courses() -> get() ;
         $course_id = $courses -> first() -> id;
-        return $course_id;
+        return $request;
 
 
 //        return view('teacher.data');

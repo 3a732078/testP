@@ -152,7 +152,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 #教授 ===================
     Route::prefix('teacher')->group(function (){
         //test data
-        Route::get('data',[
+        Route::post('data/{id}',[
             TeacherController::class,'test'
         ])->name('teacher.test');
 
@@ -305,10 +305,22 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                     CourseController::class,'office_text_materials'
                 ])->name('teacher.office.courses.text_materials');
 
-                //教材儲存 ================  TextController
-                Route::post('text_materials/store',[
-                    TextbookController::class,'office_text_materials_store'
-                ])->name('teacher.office.courses.text_materials.store');
+            #教材區
+                //url [teacher/office/{course_id/text_materials ]  =======  TextbootController
+                Route::prefix('text_materials')->group(function (){
+
+                    //教材儲存
+                    Route::post('/store',[
+                        TextbookController::class,'store'
+                    ])->name('teacher.office.courses.text_materials.store');
+
+                    //教材刪除
+                    Route::delete('/{text_id}',[
+                        TextbookController::class,'destroy'
+                    ])->name('teacher.office.courses.text_materials.delete');
+                });
+
+
 
                 //評量區
                 Route::get('home_works',[
