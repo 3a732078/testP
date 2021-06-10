@@ -1,3 +1,4 @@
+@extends('layouts/home')
 <head>
 
     <meta charset="utf-8">
@@ -5,6 +6,7 @@
     <title>私訊</title>
 
 </head>
+@section('notice')
 <div class="container">
 {{--    <div class="message-blue">--}}
 {{--        <p class="message-content">現在是2021/01/22下午2:57分</p>--}}
@@ -49,7 +51,7 @@
 </form>
 
 <a href="/classes/{{$classId}}"><i class="fas fa-arrow-left" style="color:#00a6a6"></i></a>
-
+@endsection
 
 <style>
     @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);

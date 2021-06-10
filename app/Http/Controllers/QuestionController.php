@@ -116,7 +116,7 @@ class QuestionController extends Controller
             'time'=>now(),
             //response
         ]);
-        return redirect('questions/'.$request->taid);
+        return redirect('questions/classes/'.$request->taid);
     }
     public function tastore(Request $request)
     {
@@ -216,7 +216,7 @@ class QuestionController extends Controller
         $questions=Question::where('ta_id', $ta)->where('student_id', $student)->get();
         $id=$ta;
         if($student!==$tastu) {
-            return view('questions.show', ['questions' => $questions, 'id' => $id, 'student' => $student, 'class' => $class,'classId'=>$classId]);
+            return view('questions.show', ['questions' => $questions, 'id' => $id, 'student' => $student, 'class' => $class,'classId'=>$classId,'ta'=>$ta]);
         }
         else
         {
