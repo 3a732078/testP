@@ -39,7 +39,7 @@
         <div class="col-sm-6">
             <button type="button"
                     class="btn btn-warning  "
-                    onclick="location.href='{{route('teacher.courses.TA_office',[$course_id,])}}'"
+                    onclick="location.href='{{route('teacher.courses.text_materials',[$course_id,])}}'"
                     style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-left"></i> 辦公室  </button>
         </div>
     </div>
