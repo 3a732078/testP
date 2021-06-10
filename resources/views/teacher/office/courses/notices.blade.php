@@ -57,15 +57,12 @@
         @endphp
         <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
             <div class="row">
-                <div class="col-4">
+                <div class="col-8">
                     <h3>
                         {{$course ->name}} 【{{$course -> classroom}}】
                     </h3>
                 </div>
 
-                <div class="col-4">
-
-                </div>
 
                 <div class="col-4">
                     <h3>
