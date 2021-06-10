@@ -11,6 +11,52 @@
 
     @yield('header_item')
 
+    {{-- 年度列表--}}
+    <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
+        <div class="col-sm-4">
+            <h5>
+                {{$year_semester}}
+            </h5>
+        </div>
+
+        <div class="col-sm-8">
+
+            @yield('courses_function')
+        </div>
+
+        {{-- 第二列 --}}
+        <div class="col-sm-12">
+            {{-- 快速跳轉課程列表--}}
+        </div>
+    </div>
+
+{{--    --}}
+{{--    <ul class="nav nav-tabs">--}}
+
+{{--        <li class="nav-item ">--}}
+{{--            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>--}}
+{{--        </li>--}}
+
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href='problem'>常見問題</a>--}}
+{{--        </li>--}}
+
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link "  href= 'behave'>校園行事曆</a>--}}
+{{--        </li>--}}
+
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href= 'system_suggest'>系統建議</a>--}}
+{{--        </li>--}}
+
+{{--        <li class="nav-item">--}}
+{{--            <a class="nav-link" href= '/textbooks'>管理教材</a>--}}
+{{--        </li>--}}
+{{--        --}}{{--        <li class="nav-item">--}}
+{{--        --}}{{--            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>--}}
+{{--        --}}{{--        </li>--}}
+{{--    </ul>--}}
+
     <!-- Topbar Navbar -->
     <ul class="navbar-right ml-auto nav nav-tabs ">
 
