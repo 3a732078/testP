@@ -248,7 +248,7 @@ class CourseController extends Controller
     }
 
     // === 評量區
-    public function home_works($course_id)
+    public function BN($course_id)
     {
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
@@ -273,12 +273,46 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-        return view('teacher.courses.home_works',[
-            'year_semester' => $course -> year . "學年度" . $semester,
-            'courses_year' => $courses_year,
-            'notices' => $notices,
-            'course_id' => $course_id,
-        ]);
+//        return view('teacher.courses.home_works',[
+//            'year_semester' => $course -> year . "學年度" . $semester,
+//            'courses_year' => $courses_year,
+//            'notices' => $notices,
+//            'course_id' => $course_id,
+//        ]);
+    }
+
+    // === 評量區
+    public function office_BN($course_id)
+    {
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $notices = $course->notices()->get();
+
+        //使用該年度抓取所有課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
+
+        //        return $courses_year;
+
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+//        return view('teacher.courses.home_works',[
+//            'year_semester' => $course -> year . "學年度" . $semester,
+//            'courses_year' => $courses_year,
+//            'notices' => $notices,
+//            'course_id' => $course_id,
+//        ]);
     }
 
     // === TA相關事務

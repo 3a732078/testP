@@ -101,9 +101,17 @@
                                 {{-- 發布者 --}}
                                 <td>
                                     @if($notice -> teacher_id != null)
-                                        老師
+                                        @php
+                                            $teacher = \App\Models\Teacher::where('id',$notice -> teacher_id) -> first();
+                                        @endphp
+
+                                        {{$teacher -> user() -> first() -> name}}
                                     @elseif($notice -> ta_id != null)
-                                        TA
+                                        @php
+                                            $TA = \App\Models\TA::where('id',$notice -> ta_id) -> first();
+                                        @endphp
+
+                                        {{$TA -> student() -> first() -> user() -> first() -> name}}
                                     @else
                                         管理者
                                     @endif

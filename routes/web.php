@@ -324,7 +324,7 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
                 //評量區
                 Route::get('home_works',[
-                    CourseController::class,'home_works'
+                    CourseController::class,'office_BN'
                 ])->name('teacher.office.courses.BN');
 
                 //TA 相關事務

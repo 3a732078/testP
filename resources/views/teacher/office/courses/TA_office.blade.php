@@ -11,50 +11,16 @@
 
 {{-- TopBar Courses--}}
 @section('header_item')
-    {{-- 年度列表--}}
-    <div class="row row-cols-2 card-header bg-transparent " style=" width: 650px;height: auto;margin-top: 50px;" >
-        <div class="col-sm-4">
-            <h5>
-                {{$year_semester}}
-            </h5>
-        </div>
-
-        <div class="col-sm-8">
-            <button type="button" onclick="location.href = 'courses'" class="btn btn-sm btn-outline-secondary">公告區</button>
-            <button type="button" onclick="location.href = 'text_materials'" class="btn btn-sm btn-outline-secondary">教材區</button>
-            <button type="button" onclick="location.href = 'home_works'" class="btn btn-sm btn-outline-secondary">評量區</button>
-            <button type="button" onclick="location.href = 'TA_office'" class="btn btn-sm btn-primary">TA相關事務</button>
-        </div>
-
-        {{-- 第二列 --}}
-        <div class="col-sm-12">
-            {{-- 快速跳轉課程列表--}}
-            <h6>
-                <table style="display: block;overflow-x: auto;white-space: nowrap;padding: 0px;">
-                    <ul class=" nav nav-tabs" role="tablist">
-                        <tr>
-                            @foreach($courses_year as $course)
-                                @if($course -> id == $course_id)
-                                    <td>
-                                        {{$course -> name}}【{{$course -> classroom}}】
-                                    </td>
-                                @else
-                                    <td>
-                                        <a href="{{route('teacher.office.courses.TA_office',$course -> id)}}">
-                                            {{$course -> name}}【{{$course -> classroom}}】
-                                        </a>
-                                    </td>
-                                @endif
-                            @endforeach
-                        </tr>
-                    </ul>
-
-                </table>
-            </h6>
-        </div>
-    </div>
 
 @endsection
+
+@section('courses_function')
+    <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
+    <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+    <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
+    <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-primary">TA相關事務</button>
+@endsection
+
 
 {{-- 頁面提示 --}}
 @section('header_text')
@@ -113,7 +79,6 @@
         <div class="card-body text-success">
 
             @php
-                $course = \App\Models\Course::find($course_id);
                 $student_TA = $course -> student_ta() -> first();
             @endphp
 

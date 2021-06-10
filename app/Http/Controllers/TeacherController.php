@@ -201,7 +201,6 @@ class TeacherController extends Controller
 
         //        return $courses_year;
 
-
         return view('teacher.office.semester',[
 
         ]);
