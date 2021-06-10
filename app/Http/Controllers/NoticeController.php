@@ -240,7 +240,15 @@ class NoticeController extends Controller
         $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)-> sortbydesc('classroom');
 
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
         return view('teacher.office.courses.notice.edit',[
+            'year_semester' => $course -> year . "學年度" . $semester,
             'years' => $years,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
