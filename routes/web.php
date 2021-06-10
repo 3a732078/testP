@@ -201,10 +201,10 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
                 CourseController::class,'text_materials'
             ])->name('teacher.courses.text_materials');
 
-            //評量區
+            //瀏覽筆記
             Route::get('home_works',[
                 CourseController::class,'home_works'
-            ])->name('teacher.courses.home_works');
+            ])->name('teacher.courses.BN');
 
             //TA 相關事務
             Route::get('TA_office',[
