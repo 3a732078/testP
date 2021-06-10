@@ -12,6 +12,8 @@
 {{-- TopBar Courses--}}
 @section('header_item')
 
+@endsection
+
 @section('courses_function')
     <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-primary">公告區</button>
     <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
@@ -19,7 +21,6 @@
     <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
 @endsection
 
-@endsection
 
 {{-- 頁面提示 --}}
 @section('header_text')
