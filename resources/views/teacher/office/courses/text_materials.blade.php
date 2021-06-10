@@ -137,7 +137,7 @@
 
                                         <td colspan="2">
 
-                                            <form method="post" action="teacher.office.text_materials.delete">
+                                            <form method="post" action="{{route('teacher.office.courses.text_materials.delete',[$course_id,$text_material->id,])}}">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="submit"
