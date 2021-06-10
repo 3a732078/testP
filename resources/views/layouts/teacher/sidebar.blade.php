@@ -63,9 +63,19 @@
                                 <h5>
                                     <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px"
                                     >
-                                        <span>
-                                            {{$course -> name}} ({{$course -> classroom}})
-                                        </span>
+                                        <div class="row row-cols-2">
+                                            {{--第一列--}}
+                                            <div class="col-12">
+                                                {{$course -> name}}
+                                            </div>
+
+                                            {{--第二列 排版--}}
+                                            <div class="col-6">                                            </div>
+
+                                            <div class="col-6">
+                                                ({{$course -> classroom}})
+                                            </div>
+                                        </div>
                                     </a>
                                 </h5>
                             @endif
@@ -81,7 +91,19 @@
                             @if($course -> year == $year && $course -> semester == 1)
                                 <h5>
                                     <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px">
-                                        {{$course -> name}} ({{$course -> classroom}})
+                                        <div class="row row-cols-2">
+                                            {{--第一列--}}
+                                            <div class="col-12">
+                                                {{$course -> name}}
+                                            </div>
+
+                                            {{--第二列 排版--}}
+                                            <div class="col-6">                                            </div>
+
+                                            <div class="col-6">
+                                                ({{$course -> classroom}})
+                                            </div>
+                                        </div>
                                     </a>
                                 </h5>
                             @endif
