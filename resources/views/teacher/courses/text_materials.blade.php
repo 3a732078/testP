@@ -49,6 +49,88 @@
 {{-- Content --}}
 @section('content')
 
+    <div class="row" style="margin-top:50px;margin-left: 50px;width: auto ; height: 1000px">
+
+        <div class="col-auto">
+
+            <div class="card border-left-warning mb-3" style="width: 1000px;height: auto">
+
+                {{--Header --}}
+                <div class="card-header bg-gray-700 border-success">
+                    <h4 style="color: #dae0e5 ">
+                        @php
+                            $course = \App\Models\Course::find($course_id);
+                        @endphp
+
+                        <div class="row">
+                            <div class="col-8">
+                                {{$course -> name}}【{{$course -> classroom}}】
+                            </div>
+
+                            <div class="col-4">
+                                教材列表
+                            </div>
+
+                        </div>
+                    </h4>
+                </div>
+
+                {{-- Body --}}
+                <div class="card-body text-success bg-gray-200" style="height: 300px">
+                    @php
+                        $text_materials = \App\Models\Course::find($course_id)
+                            ->textbooks()->get();
+                    @endphp
+
+                    @if(count($text_materials) == 0)
+
+                        <h5>
+                            尚未放入任何教材
+                        </h5>
+
+                    @else
+
+                        <table class="table">
+
+                            {{-- head --}}
+                            <thead>
+                            <tr>
+                                <th scope="col">編號</th>
+                                <th scope="col"></th>
+
+                                <th scope="col">名稱</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+
+                            {{-- Body --}}
+                            <tbody>
+                            @foreach($text_materials as $text_material)
+                                <tr>
+
+                                    <th>
+                                        {{$text_material -> id}}
+                                    </th>
+
+                                    <th></th>
+
+                                    <th colspan="2" scope="row">{{$text_material -> name}}</th>
+
+                                </tr>
+                            @endforeach
+                            </tbody>
+
+                        </table>
+
+                    @endif
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
 
 @endsection
 
