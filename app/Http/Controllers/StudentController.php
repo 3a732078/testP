@@ -15,6 +15,7 @@ class StudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+#首頁
     public function index()
     {
         $type= User::where('id', Auth::id())->value('type');
@@ -25,6 +26,52 @@ class StudentController extends Controller
             unset($_SESSION['ta']);
 
             return view('students.index');
+
+        }
+    }
+
+    //常見問題
+    public function problem()
+    {
+        $type= User::where('id', Auth::id())->value('type');
+        if ($type=='學生'){
+            session_start();
+            unset($_SESSION['classId']);
+            unset($_SESSION['textbookId']);
+            unset($_SESSION['ta']);
+
+            return view('students.problem');
+
+        }
+
+    }
+
+    //校園行事曆
+    public function behave()
+    {
+        $type= User::where('id', Auth::id())->value('type');
+        if ($type=='學生'){
+            session_start();
+            unset($_SESSION['classId']);
+            unset($_SESSION['textbookId']);
+            unset($_SESSION['ta']);
+
+            return view('students.behave');
+
+        }
+    }
+
+    //系統建議
+    public function system_suggest()
+    {
+        $type= User::where('id', Auth::id())->value('type');
+        if ($type=='學生'){
+            session_start();
+            unset($_SESSION['classId']);
+            unset($_SESSION['textbookId']);
+            unset($_SESSION['ta']);
+
+            return view('students.system_suggest');
 
         }
     }

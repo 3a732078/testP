@@ -9,19 +9,29 @@
     Elearning
 @endsection
 
-{{-- TopBar Courses--}}
+{{-- TopBar left --}}
 @section('header_item')
+    <div style="margin-right: 15px">
+
+        <h3>{{$course -> name}}</h3>
+
+    </div>
+
+    <div>
+
+        <button type="button" onclick="location.href = '{{route('teacher.courses.notices',[$course_id])}}'"class="btn btn-sm btn-primary">公告區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+
+    </div>
 
 @endsection
 
 @section('courses_function')
-    <button type="button" onclick="location.href = '{{route('teacher.courses.notices',[$course_id])}}'"class="btn btn-sm btn-primary">公告區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
-    <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
 @endsection
 
-{{-- 頁面提示 --}}
+{{-- 頁面提示 header right --}}
 @section('header_text')
     <div class="row row-cols-2" >
 
@@ -49,102 +59,67 @@
 {{-- Content --}}
 @section('content')
 
-    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
-        {{-- Header--}}
-        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+    <div id="layoutSidenav_content">
+        <main>
+            @if ($message = Session::get('alert'))
+                <script>alert("{{ $message }}");</script>
+            @endif
+            <div class="container-fluid">
+                <div class="card mb-4" style="margin-top:20px">
 
-            <div class="row jumbotron-fluid">
-                @php
-                    $course = \App\Models\Course::find($course_id);
-                @endphp
-
-                <div class="row">
-                    <div class="col-8">
-                        <h3>
-                            {{$course ->name}} 【{{$course -> classroom}}】
-                        </h3>
+                    {{-- header --}}
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        公告
                     </div>
 
-                    <div class="col-4">
-                        <h3>
-                            公告列表
-                        </h3>
-                    </div>
+                    {{-- body --}}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 
+                                {{-- head --}}
+                                <thead>
+                                <tr>
+                                    <th>標題</th>
+                                    <th>發佈者</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                @foreach ($notices as $notice)
+                                    <form  method="POST" role="form" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        {{ method_field('POST') }}
+
+                                        <tr>
+                                            <td >
+                                                {{$notice -> title}}
+                                            </td>
+                                            <td>
+                                                @if($notice->teacher_id==null)
+                                                    {{\App\Models\Student::where('id',$notice->ta_id)-> first()->user()->value('name')}}
+                                                @elseif($notice->ta_id==null)
+                                                    {{\App\Models\Teacher::where('id',$notice->teacher_id)-> first()->user()->value('name')}}
+                                                @endif
+                                            </td>
+                                            <td width="100" align="center">
+                                                <form action="{{$notice->id}}/show" method="POST">
+                                                    {{ csrf_field() }}
+                                                    <a class="btn btn-outline-dark btn-sm" href="{{$notice->id}}/show" >檢視公告</a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
-           </div>
-
-        {{-- body --}}
-        <div class="card-body text-success">
-
-            {{-- table --}}
-            <table class="table table-striped">
-                {{-- head --}}
-                <thead>
-                <tr>
-                    <th scope="col">編號</th>
-                    <th scope="col">標題</th>
-                    <th scope="col">發布者</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-
-                {{-- body --}}
-                <tbody>
-                    @if(count($notices) != 0)
-                        @foreach($notices as $notice)
-                            <tr>
-                                <th scope="row">{{$notice -> id}}</th>
-                                <td> <h5>{{$notice -> title}}</h5></td>
-
-                                {{-- 發布者 --}}
-                                <td>
-                                    @if($notice -> teacher_id != null)
-                                        @php
-                                            $teacher = \App\Models\Teacher::where('id',$notice -> teacher_id) -> first();
-                                        @endphp
-
-                                        {{$teacher -> user() -> first() -> name}}
-                                    @elseif($notice -> ta_id != null)
-                                        @php
-                                            $TA = \App\Models\TA::where('id',$notice -> ta_id) -> first();
-                                        @endphp
-
-                                        {{$TA -> student() -> first() -> user() -> first() -> name}}
-                                    @else
-                                        管理者
-                                    @endif
-                                </td>
-
-                                {{-- 功能按鈕 --}}
-                                <td>
-                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                            onclick="location.href='{{route('teacher.notice.show',[$course_id,$notice-> id])}}'"
-                                    >
-                                        檢視
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <th colspan="4">
-                                尚未有任何公告歐~~~
-                            </th>
-                        </tr>
-                    @endif
-                </tbody>
-
-            </table>
-        </div>
-
-        {{-- footer--}}
-        <div class="card-footer bg- border-primary">
-
-            {{-- 先當作頁碼使用吧 --}}
-            <button type="button" class="btn btn-warning btn-sm">1</button>
-        </div>
+            </div>
+        </main>
     </div>
 @endsection
 

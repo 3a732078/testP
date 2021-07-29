@@ -21,19 +21,7 @@ class TeacherController extends Controller
      */
     //最新公告
     public function index()
-//    {}
-//    public function fack()
     {
-
-        //=== 抓取課程年度陣列
-//        $years = array();
-
-//        $courses = \App\Models\User::find(
-//            \Illuminate\Support\Facades\Auth::id())->teacher()->first()->courses()->get()
-//            ->sortbydesc('year');
-//
-//        $courses -> unique('year');
-//        return $courses;
 
         return view('teacher.index',[
 
@@ -57,7 +45,7 @@ class TeacherController extends Controller
         unique('year')->sortbydesc('year');
 
         foreach ($courses as $data){
-            $years[$data -> id] = $data -> year;
+            $years[] = $data -> year;
         }
 
         //抓取該課程所有公告

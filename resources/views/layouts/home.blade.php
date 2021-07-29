@@ -65,22 +65,32 @@
                     @php
                         $student=\App\Models\Student::where('user_id',\Illuminate\Support\Facades\Auth::id())->value('id');
                         $courses = \App\Models\Student::where(
-                                'id',$student)-> first() ->courses() -> get();
+                                'id',$student)-> first() ->courses() -> get() -> sortByDESC('year');
+                        $years_unique = $courses->unique('year');
                     @endphp
+
+                    {{-- 避免尚未有資料--}}
                     @if ($courses -> count() > 0)
-{{--                        1092--}}
-                        <h6 class="collapse-header" style="margin-left: -15px">109學年度_2 :</h6>
-                        @foreach($courses as $course)
-                            @if($course->year === '109' && $course->semester === '2')
-                            <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
-                            @endif
-                        @endforeach
-{{--                        1091--}}
-                        <h6 class="collapse-header" style="margin-left: -15px">109學年度_1 :</h6>
-                        @foreach($courses as $course)
-                            @if($course->year === '109' && $course->semester === '1')
-                                <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
-                            @endif
+                        {{-- 抓取年度數字--}}
+                        @foreach($years_unique as $year_unique)
+
+                                <h6 class="collapse-header" style="margin-left: -15px"> {{$year_unique -> year}}學年度_2 :</h6>
+                                {{-- 下學期 --}}
+                                @foreach($courses as $course)
+                                    @if($course->year == $year_unique -> year && $course -> semester == 2)
+                                        <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
+                                    @endif
+                                @endforeach
+
+                                {{-- 上學期 --}}
+                                <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_1 :</h6>
+                                @foreach($courses as $course )
+                                    @if($course->year == $year_unique -> year && $course->semester == '1')
+                                        <a class="collapse-item" href="/classes/{{ $course->id }}" >{{$course -> name}}</a>
+                                    @endif
+                                @endforeach
+
+
                         @endforeach
                     @endif
                 </div>
@@ -175,8 +185,10 @@
                     <i class="fa fa-bars"></i>
                 </button>
 
-                <!-- Topbar Search -->
-                @yield('search')
+
+
+                @yield('header_item')
+
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
                 <style>
                     * {box-sizing: border-box;}
@@ -255,6 +267,10 @@
                 </style>
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
+
+                    <!-- Topbar Search -->
+                @yield('search')
+
 
                     <!-- 通知 -->
 {{--                    <li class="nav-item dropdown no-arrow mx-1">--}}

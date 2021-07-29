@@ -769,6 +769,7 @@ class NoteController extends Controller
             $class = null;
             $ta = null;
         }
+
         //        dd(Course::all()->values('name'),$request->user()->student->id);
         $studentClass = CourseStudent::where('student_id',$request->user()->student->id)->get()->toArray();
         $courseId = [];

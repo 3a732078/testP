@@ -54,8 +54,16 @@ class NoticeController extends Controller
         $class=$_SESSION['classId'];
         $ta=$_SESSION['ta'];
 
+
         $notice=Notice::find($id);
-        return view('notices.show',['notice'=>$notice,'class'=>$class,'ta'=>$ta]);
+        $course = Course::find($class);
+
+        return view('notices.show',[
+            'notice'=>$notice,
+            'class'=>$class,
+            'ta'=>$ta,
+            'course' => $course,
+        ]);
     }
 
     /**
@@ -120,6 +128,7 @@ class NoticeController extends Controller
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'notice' => $notice,
+            'course' => $course,
         ]);
 
 //        return $courses_year;

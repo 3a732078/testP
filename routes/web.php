@@ -36,7 +36,8 @@ Route::get('/classes/{class}',[CourseController::class,'index'])->name('classes.
 //顯示公告資訊
 Route::get('/notices/{id}',[NoticeController::class,'show'])->name('notices.show')->middleware('auth');
 //顯示所有筆記
-Route::get('/mynotes',[NoteController::class,'mynote'])->name('notes.mynotes')->middleware('auth');
+Route::get('/mynotes',[
+    NoteController::class,'mynote'])->name('notes.mynotes')->middleware('auth');
 //搜尋筆記
 Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
 
@@ -149,6 +150,46 @@ Route::get('/ta/classes/{class}',[TaController::class,'tacourse'])->name('ta.tac
 //添加協作者
 Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
 
+#學生 -----------------------------
+    Route::prefix('students') -> group(function (){
+    #首頁
+        //常見問題
+        Route::get('problem',[
+            StudentController::class,'problem'
+        ]) -> name('student.problem');
+        //校園行事曆
+        Route::get('behave',[
+            StudentController::class,'behave'
+        ]) -> name('student.behave');
+        //系統建議
+        Route::get('system_suggest',[
+            StudentController::class,'system_suggest'
+        ]) -> name('student.system_suggest');
+    });
+
+#學生課程
+    Route::prefix('class')->group(function (){
+        //公告列表
+        Route::get('{course_id}',[
+            CourseController::class,'index'
+        ])->name('student.courses.notices');
+
+        //教材管理
+        Route::get('{course_id}/text_materials',[
+            CourseController::class,'TM'
+        ])->name('student.courses.text_materials');
+
+        //瀏覽筆記
+        Route::get('{course_id}/BN',[
+            CourseController::class,'BN'
+        ])->name('student.courses.BN');
+
+        //TA管理
+        Route::get('{course_id}/TA_office',[
+            CourseController::class,'TA_office'
+        ])->name('student.courses.TA_office');
+    });
+
 #教授 ===================
     Route::prefix('teacher')->group(function (){
         //test data
@@ -183,6 +224,11 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             Route::get('courses',[
                 CourseController::class,'courses'
             ])->name('teacher.courses.notices');
+
+            // 顯示公告內容
+            Route::get('{notice_id}/show',[
+                NoticeController::class,'teacher_notice_show'
+            ])->name('teacher.notice.show');
 
         #選擇公告
             // url [teacher/{course_id}/course] ======= NoticeController

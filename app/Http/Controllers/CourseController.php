@@ -28,7 +28,13 @@ class CourseController extends Controller
         $ta=Ta::where('course_id',$class)->value('id');
         $_SESSION['ta']=$ta;
 
-        return view('classes.index',['course'=>$course,'notices'=>$notices,'class'=>$class,'ta'=>$ta,'courses'=>$course,]);
+        return view('classes.index',[
+            'course'=>$course,
+            'notices'=>$notices,
+            'class'=>$class,'ta'=>$ta,
+            'courses'=>$course,
+            ]
+        );
     }
 
     // ======= year.index
@@ -140,6 +146,7 @@ class CourseController extends Controller
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
+            'course' => $course,
             'course_id' => $course_id,
         ]);
 //        return $courses_year;

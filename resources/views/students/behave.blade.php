@@ -6,7 +6,7 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='/students'>最新消息</a>
+            <a class="nav-link  " aria-current="page" href='/students'>最新消息</a>
         </li>
 
         <li class="nav-item">
@@ -14,7 +14,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= '/students/behave'>校園行事曆</a>
+            <a class="nav-link active"  href= '/students/behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
@@ -35,10 +35,10 @@
     </div>
 @endsection
 @section('navno')
-{{--    <hr class="sidebar-divider">--}}
-{{--    <div class="sidebar-heading">--}}
-{{--        建立--}}
-{{--    </div>--}}
+    {{--    <hr class="sidebar-divider">--}}
+    {{--    <div class="sidebar-heading">--}}
+    {{--        建立--}}
+    {{--    </div>--}}
     <li class="nav-item" style="margin-top: -10px">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseU"
            aria-expanded="true" aria-controls="collapseU">
