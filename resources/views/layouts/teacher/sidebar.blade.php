@@ -37,39 +37,30 @@
 
                     {{--                    抓取列表資料--}}
                     @php
-                        // === $years寫入資料
-                        $courses = \App\Models\Course::all()->sortbydesc('year');
-                        foreach ( $courses -> unique('year') as $course) {
-                                $years[] = $course->year;
-                        }
-
-                        //抓取該老師有教的課程
-                        $courses = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id())
-                        ->teacher() -> first()->courses() -> get();
+                        $teacher = \App\Models\User::find(\Illuminate\Support\Facades\Auth::id()) -> teacher() -> first() ;
+                        $courses = $teacher-> courses() -> get()-> sortbydesc('year') ;
+                        $years_unique = $courses -> unique('year');
                     @endphp
 
-                    {{-- 顯示列表資料 --}}
-{{--                    <h1 class="collapse-header">課程列表:</h1>--}}
-                    @foreach($years as $year)
+{{--                    {{$teacher}}--}}
 
-                        {{-- 下學期 --}}
-                        <h6 class="collapse-header" style="margin-left: -15px">{{$year}}學年度_2 :</h6>
-{{--                        <h6>--}}
-{{--                            {{$year}}學年度_2--}}
-{{--                        </h6>--}}
+                    {{-- 顯示課程列表資料 --}}
+                    @foreach($years_unique as $year_unique)
 
+{{--                         下學期--}}
+                        <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
                         @foreach($courses -> sortByDesc('classroom')  as $course)
-                            @if($course -> year == $year && $course -> semester == 2)
+                            @if($year_unique -> year == $course -> year && $course -> semester == 2)
                                 <h5>
                                     <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px"
                                     >
                                         <div class="row row-cols-2">
-                                            {{--第一列--}}
+{{--                                            第一列--}}
                                             <div class="col-12">
                                                 {{$course -> name}}
                                             </div>
 
-                                            {{--第二列 排版--}}
+{{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
@@ -81,23 +72,19 @@
                             @endif
                         @endforeach
 
-                        {{-- 上學期 --}}
-                        <h6 class="collapse-header" style="margin-left: -15px">{{$year}}學年度_1 :</h6>
-{{--                        <h6>--}}
-{{--                            {{$year}}學年度_1--}}
-{{--                        </h6>--}}
-
+{{--                         上學期--}}
+                        <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_1 :</h6>
                         @foreach($courses -> sortByDesc('classroom')  as $course)
-                            @if($course -> year == $year && $course -> semester == 1)
+                            @if($year_unique -> year == $course -> year && $course -> semester == 1)
                                 <h5>
                                     <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px">
                                         <div class="row row-cols-2">
-                                            {{--第一列--}}
+{{--                                            第一列--}}
                                             <div class="col-12">
                                                 {{$course -> name}}
                                             </div>
 
-                                            {{--第二列 排版--}}
+{{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
@@ -110,6 +97,7 @@
                         @endforeach
 
                     @endforeach
+
                     @yield('side_courses')
                 </div>
             </div>

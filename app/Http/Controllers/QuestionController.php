@@ -35,6 +35,7 @@ class QuestionController extends Controller
         $semester=array();
         $year=array();
         $taid=array();
+
         for($i=0;$i<$count;$i++){
 //            $courses = Coursestudent::where('student_id', $student)->value('id');
             $course=$courses->pluck('course_id');

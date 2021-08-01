@@ -35,63 +35,57 @@ Route::middleware(['auth:sanctum,web', 'verified'])->get('/students',[StudentCon
 Route::get('/classes/{class}',[CourseController::class,'index'])->name('classes.index')->middleware('auth');
 //顯示公告資訊
 Route::get('/notices/{id}',[NoticeController::class,'show'])->name('notices.show')->middleware('auth');
-//顯示所有筆記
-Route::get('/mynotes',[
-    NoteController::class,'mynote'])->name('notes.mynotes')->middleware('auth');
-//搜尋筆記
-Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')->middleware('auth');
-
 //顯示教材
 Route::match(['get', 'post'],'/textbooks/show/{id}',[TextbookController::class,'index'])->name('textbooks.show.index')->middleware('auth');
-
 //新增空白筆記
 Route::get('notes/create',[NoteController::class,'create'])->name('notes.create');
 Route::post('/notes',[NoteController::class,'store'])->name('notes.store');
 Route::post('image',[NoteController::class,'image'])->name('notes.image')->where('id', '[0-9]+');
+//顯示所有筆記 (筆記列表)
+Route::get('/mynotes',[
+    NoteController::class,'mynote'])->name('notes.mynotes')
+    ->middleware('auth');
+//搜尋筆記
+Route::get('/notes/search',[NoteController::class,'search'])->name('notes.search')
+    ->middleware('auth');
+//顯示收藏庫
+Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.index');
+
 
 //新增照片筆記
 Route::get('notes/insert',[NoteController::class,'insert'])->name('notes.insert');
 Route::post('osimage',[NoteController::class,'osimage'])->name('notes.osimage');
 Route::get('notes/pcreate',[NoteController::class,'pcreate'])->name('notes.pcreate');
-
-
 //新增教材筆記
 Route::post('notes/ccreate',[NoteController::class,'ccreate'])->name('notes.mynotes.ccreate');
-
 //顯示教材筆記列表
 Route::get('notes/classes/list/{id}',[NoteController::class,'list'])->name('notes.classes.list');
 
-Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 //顯示所有TA列表
 Route::get('questions',[QuestionController::class,'index'])->name('questions.index');
-
 //顯示特定課堂TA
 Route::get('questions/classes/{class}',[QuestionController::class,'class'])->name('questions.class');
-
 //查看TA訊息
 Route::get('questions/{id}',[QuestionController::class,'show'])->name('questions.show')->where('id', '[0-9]+');
-
 //新增訊息
 Route::post('questions',[QuestionController::class,'store'])->name('questions.store')->where('id', '[0-9]+');
+
 
 //上傳教材
 Route::get('textbooks/create',[TextbookController::class,'create'])->name('textbooks.create');
 Route::post('/textbooks',[TextbookController::class,'store'])->name('textbooks.store');
-
 //教授 教材列表
 Route::get('/textbooks',[TextbookController::class,'indext'])->name('textbooks.indext');
-
 //教授 顯示教材內容
 Route::get('textbooks/{id}',[TextbookController::class,'show'])->name('textbooks.show');
-
 //教授 刪除教材
 Route::delete('textbooks/{id}',[TextbookController::class,'destroy'])->name('textbooks.destroy')->where('id', '[0-9]+');
+
 
 //顯示&編輯筆記
 Route::get('notes/{id}',[NoteController::class,'show'])->name('notes.show')->where('id', '[0-9]+');
 Route::patch('notes',[NoteController::class,'update'])->name('notes.update');
-
 //刪除筆記
 Route::delete('notes/{id}',[NoteController::class,'destroy'])->name('notes.destroy')->where('id', '[0-9]+');
 
@@ -103,9 +97,6 @@ Route::get('/notes/classes/{id}', [NoteController::class,'cshow'])->name('notes.
 
 //"無引用教材"筆記列表
 Route::get('/notes/classes/attach/{id}', [NoteController::class,'attach'])->name('notes.classes.attach')->where('id', '[0-9]+');
-
-//顯示收藏庫
-Route::get('storehose',[CollectNoteController::class,'index'])->name('favor.index');
 
 //收藏/取消收藏
 Route::post('favor',[CollectNoteController::class,'store'])->name('favor.store');
@@ -146,9 +137,12 @@ Route::post('ta/questions',[QuestionController::class,'tastore'])->name('questio
 //ta擔任課程頁面
 Route::get('/ta/classes/{class}',[TaController::class,'tacourse'])->name('ta.tacourse');
 
-
 //添加協作者
 Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
+
+
+Route::get('/logout',[UserController::class,'logout'])->name('logout');
+
 
 #學生 -----------------------------
     Route::prefix('students') -> group(function (){
@@ -174,20 +168,20 @@ Route::post('addass',[NoteController::class,'assist'])->name('notes.assist');
             CourseController::class,'index'
         ])->name('student.courses.notices');
 
-        //教材管理
-        Route::get('{course_id}/text_materials',[
-            CourseController::class,'TM'
+        //教材區
+        Route::get('{course_id}/student_text_materials',[
+            TextbookController::class,'index'
         ])->name('student.courses.text_materials');
 
-        //瀏覽筆記
-        Route::get('{course_id}/BN',[
-            CourseController::class,'BN'
+        //筆記專區
+        Route::get('{course_id}/student_BN',[
+            NoteController::class,'mynote'
         ])->name('student.courses.BN');
 
-        //TA管理
-        Route::get('{course_id}/TA_office',[
-            CourseController::class,'TA_office'
-        ])->name('student.courses.TA_office');
+        //聯絡TA
+        Route::get('{course_id}/contact_TA',[
+            QuestionController::class,'class'
+        ])->name('student.courses.contact_TA');
     });
 
 #教授 ===================

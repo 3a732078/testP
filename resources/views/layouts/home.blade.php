@@ -99,7 +99,7 @@
 
         @yield('navno')
 
-        @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
+        @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get(): 0 )
             <hr class="sidebar-divider">
             <div class="sidebar-heading">
                 課程資訊

@@ -7,14 +7,14 @@
 
     </div>
 
-    <div>
+{{--    <div>--}}
 
-        <button type="button" onclick="location.href = '{{route('student.courses.notices',[$course -> id])}}'"class="btn btn-sm btn-primary">公告區</button>
-        <button type="button" onclick="location.href = '{{route('student.courses.text_materials',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-        <button type="button" onclick="location.href = '{{route('student.courses.BN',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
-        <button type="button" onclick="location.href = '{{route('student.courses.TA_office',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+{{--        <button type="button" onclick="location.href = '{{route('student.courses.notices',[$course -> id])}}'"class="btn btn-sm btn-primary">公告區</button>--}}
+{{--        <button type="button" onclick="location.href = '{{route('student.courses.text_materials',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>--}}
+{{--        <button type="button" onclick="location.href = '{{route('student.courses.BN',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">筆記專區</button>--}}
+{{--        <button type="button" onclick="location.href = '{{route('student.courses.contact_TA',[$course -> id])}}'" class="btn btn-sm btn-outline-secondary">聯絡TA</button>--}}
 
-    </div>
+{{--    </div>--}}
 
 @endsection
 
