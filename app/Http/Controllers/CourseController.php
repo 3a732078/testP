@@ -182,6 +182,7 @@ class CourseController extends Controller
             'courses_year' => $courses_year,
             'notices' => $notices,
             'course_id' => $course_id,
+            'course' => $course,
         ]);
 
 //        return $courses_year;
@@ -198,7 +199,7 @@ class CourseController extends Controller
 
         //抓取該課程所有公告
         $course = Course::find($course_id);
-        $notices = $course->notices()->get();
+        $textbooks = $course->textbooks()->get();
 
         //使用該年度抓取所有課程
         $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
@@ -215,9 +216,10 @@ class CourseController extends Controller
 
         return view('teacher.courses.text_materials',[
             'year_semester' => $course -> year . "學年度" . $semester,
-            'notices' => $notices,
+            'textbooks' => $textbooks,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
+            'course' => $course
         ]);
     }
 
@@ -252,6 +254,7 @@ class CourseController extends Controller
             'notices' => $notices,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
+            'course' => $course,
         ]);
     }
 

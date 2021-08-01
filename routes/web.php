@@ -426,8 +426,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         ])->name('TA.teacher.message');
     });
 
-
-#教師
+#辦公室
     Route::prefix('teacher/office')->group(function () {
 
         //學期課程複製

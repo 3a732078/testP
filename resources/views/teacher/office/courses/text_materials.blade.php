@@ -9,15 +9,23 @@
     Elearning
 @endsection
 
-{{-- TopBar Courses--}}
+{{-- TopBar left--}}
 @section('header_item')
-@endsection
+    <div style="margin-right: 15px">
 
-@section('courses_function')
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-primary">教材區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+        <h3>{{$course -> name}}</h3>
+
+    </div>
+
+    <div>
+
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-primary">教材區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
+
+    </div>
+
 @endsection
 
 {{-- 頁面提示 --}}
@@ -131,7 +139,7 @@
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-auto">
+                                <div class="col-md-10">
                                     {{-- input --}}
                                     <label for="text_material">放入新的教材</label>
                                     <input type="file"
@@ -140,9 +148,10 @@
 
                                 </div>
 
-                                <div class="col-auto">
+                                <div class="col-2">
                                     <button type="submit"
                                             class="btn btn-primary"
+                                            style="margin-top: 25px"
                                     >
                                         送出
                                     </button>
