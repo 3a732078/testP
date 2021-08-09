@@ -1,5 +1,5 @@
 <div style="width:100%;text-align:center">
-    <form id="upload" name="upload" action="/teacher/data/2" method="POST" role="form" enctype="multipart/form-data">
+    <form id="upload" name="upload" action="/textbooks" method="POST" role="form" enctype="multipart/form-data">
         @csrf
         @method('POST')
 

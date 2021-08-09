@@ -135,6 +135,7 @@
                     {{-- 放入教材 --}}
                     <form action="{{route('teacher.office.courses.text_materials.store',[$course_id,])}}"
                           method="post"
+                          enctype="multipart/form-data"
                     >
                         @csrf
                         <div class="form-group">
@@ -161,6 +162,11 @@
                         </div>
                     </form>
 
+                    @if($errors -> any())
+                        <li >
+                            存取失敗，沒有放入資料
+                        </li>
+                    @endif
 
                 </div>
                 {{-- end footer --}}

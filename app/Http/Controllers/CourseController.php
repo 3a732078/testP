@@ -258,7 +258,7 @@ class CourseController extends Controller
         ]);
     }
 
-    // === 評量區
+    // === 瀏覽筆記
     public function BN($course_id)
     {
         // === $years寫入資料
@@ -277,7 +277,6 @@ class CourseController extends Controller
         foreach ($text_materials as $text_material){
             $notes[] = $text_material -> notes() -> get();
         }
-        return $notes;
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -287,10 +286,10 @@ class CourseController extends Controller
         }
 
         return view('teacher.courses.BN',[
-
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
+            'course' => $course,
         ]);
     }
 
@@ -352,7 +351,7 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
-        $TA = TA::where('course_id',$course_id)->first();
+        $TA = TA::where('course_id',$course_id)->get();
 
         return view('teacher.courses.TA_office',[
             'year_semester' => $course -> year . "學年度" . $semester,
@@ -360,6 +359,7 @@ class CourseController extends Controller
             'notices' => $notices,
             'course_id' => $course_id,
             'TA' => $TA,
+            'course' => $course,
             ]);
     }
 
@@ -387,11 +387,15 @@ class CourseController extends Controller
             $semester = '下學期';
         }
 
+        $TA = TA::where('course_id',$course_id)->get();
+
         return view('teacher.office.courses.TA_office',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'notices' => $notices,
             'course_id' => $course_id,
+            'TA' => $TA,
+            'course' => $course,
         ]);
     }
 

@@ -20,8 +20,8 @@
     <div>
 
         <button type="button" onclick="location.href = '{{route('teacher.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
-        <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-        <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id])}}'" class="btn btn-sm btn-primary">瀏覽筆記</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-primary">教材區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
         <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
 
     </div>
@@ -33,29 +33,18 @@
 @section('header_text')
     <div class="row row-cols-2" >
 
-        {{-- 左半部 --}}
         <div class="col-sm-6">
-            <div align="left">
-                @if($class !== null)
-                    <h3 class="mt-4">{{\App\Models\Course::find($class)->name}}▹筆記列表</h3>
-                @elseif($class === null)
-                    <h3 class="mt-4">筆記列表</h3>
-                @endif
-            </div>
         </div>
 
-        {{-- 右半部 --}}
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
                 正處於【教室】環境
             </h6>
         </div>
 
-        {{-- 第二列左半部 --}}
         <div class="col-sm-6">
         </div>
 
-        {{-- 第二列右半部 --}}
         <div class="col-sm-6">
             <button type="button"
                     onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id,])}}'"

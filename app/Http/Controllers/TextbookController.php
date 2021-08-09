@@ -11,9 +11,11 @@ use App\Models\Teacher;
 use App\Models\Textbook;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+
 use NcJoes\OfficeConverter\OfficeConverter;
 use Org_Heigl\Ghostscript\Ghostscript;
 use Spatie\PdfToImage\Pdf;
@@ -83,7 +85,12 @@ class TextbookController extends Controller
             $num = $request->num != null ? $request->num : 1 ;
             }
 
-        return view('textbooks.index',['id'=>$id,'textbookId'=>$textbookId,'textbook'=>$textbook,'course'=>$course,'courses'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta]);    }
+        return view('textbooks.index',[
+            'id'=>$id,
+            'textbookId'=>$textbookId,
+            'textbook'=>$textbook,'course'=>$course,'courses'=>$course,'class'=>$class,'newImages'=>$newImages,'def'=>$def, 'newDef'=>$newDef,'ta'=>$ta
+        ]);
+    }
 
     public function indext(Request $request)
     {
@@ -105,6 +112,40 @@ class TextbookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //老師檢視教材
+    public function teacher_show($course_id,$TM_id){
+        // === $years寫入資料
+        $courses = \App\Models\Course::all()-> sortByDesc('year');
+        foreach ($courses->unique('year') as $course) {
+            $years[] = $course -> year;
+        }
+
+        //抓取該課程所有公告
+        $course = Course::find($course_id);
+        $textbooks = $course->textbooks()->get();
+
+        //使用該年度抓取所有課程
+        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
+
+        //        return $courses_year;
+
+        //抓取上下學期
+        if($course -> semester == 1){
+            $semester = '上學期';
+        }else{
+            $semester = '下學期';
+        }
+
+        return view('teacher.courses.text_materials.show',[
+            'year_semester' => $course -> year . "學年度" . $semester,
+            'textbooks' => $textbooks,
+            'courses_year' => $courses_year,
+            'course_id' => $course_id,
+            'course' => $course,
+        ]);
+    }
+
     public function create(Request $request)
     {
         $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
@@ -129,7 +170,7 @@ class TextbookController extends Controller
      */
 
     // [ 老師放入教材 ]
-    public function store(Request $request)
+    public function store(Request $request )
     {
         $validatedData = $request->validate([
             'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
@@ -139,15 +180,11 @@ class TextbookController extends Controller
         $Name = str_replace(" ","",$request->input('title'));
         $FileName = $Name . '.' . $request->toimage->extension();
 
-//        return $Name;
-
         $file = $request->file('toimage')->store('pdf');
         $path = Storage::path($file);
 
-
         $converter = new OfficeConverter($path);
         $dtp=$converter->convertTo($Name.'.pdf');
-
 
         $uploadhash=$request->toimage->hashName();
 
@@ -155,7 +192,6 @@ class TextbookController extends Controller
 
         $pdf_file=Storage::path('pdf\\').$Name.'.pdf';
         $output_path=public_path().'\images\\'.$Name.'\\'.$Name.'%d';
-
 
         Ghostscript::setGsPath("C:\Program Files\gs\gs9.53.3\bin\gswin64c.exe");
         $pdf=new Pdf($pdf_file);
@@ -173,6 +209,37 @@ class TextbookController extends Controller
 
         return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
 
+    }
+
+    public function teacher_store(Request $request,$course_id){
+        $validatedData = $request->validate([
+            'toimage' => 'required',
+        ]);
+
+        $course = Course::find($course_id);
+        $FileName = $request-> file('toimage') -> getClientOriginalName();
+        $FileMime = $request -> file('toimage') -> getClientOriginalExtension();
+        $ConverName = str_replace($FileMime,'pdf',$FileName);
+        $destination_path = 'public/text_meterials/' . Auth::user() -> name　. '/' . $course -> year . '-' . $course -> semester . '/' .$course -> name;
+
+        $request -> file('toimage')
+            -> storeAs('public' , $FileName);
+
+//        $converter = new OfficeConverter($FileName ,
+//            $destination_path);
+//        $converter -> convertTo($ConverName);
+
+        Textbook::create([
+            'course_id' => $course_id,
+            'name' => str_replace($FileMime,'',$FileName),
+            'path' => $ConverName,
+        ]);
+
+        $status = 1 ;
+
+        return back(302,[
+            'status' => $status,
+        ]) ;
     }
 
     /**
@@ -210,7 +277,9 @@ class TextbookController extends Controller
             array_push($filename,$fn);
         }
 //        dd($filename);
-        return view('textbooks.show',['textbookimg'=>$textbookimg,'files'=>$files,'filesname'=>$filename,'courses'=>$courses,'textbooks'=>$textbooks,'id'=>$id]);
+        return view('textbooks.show',[
+            'textbookimg'=>$textbookimg,'files'=>$files,'filesname'=>$filename,'courses'=>$courses,'textbooks'=>$textbooks,'id'=>$id
+        ]);
     }
 
     /**

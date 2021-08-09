@@ -822,7 +822,14 @@ class NoteController extends Controller
         $authId = Auth::id();
         $assist=DB::Select("SELECT * FROM Notes WHERE id IN ".$StringSQL." AND id != ".$authId." ");
 //      dd($assist);
-        return view('notes.mynote',['notes'=>$notes,'assist'=>$assist,'class'=>$class,'ta'=>$ta,'courseName'=>$courseName]);
+
+        return view('notes.mynote',[
+            'notes'=>$notes,
+            'assist'=>$assist,
+            'class'=>$class,
+            'ta'=>$ta,
+            'courseName'=>$courseName
+        ]);
     }
 
     public function assist(Request $request)

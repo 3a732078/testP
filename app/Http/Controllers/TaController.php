@@ -6,8 +6,9 @@ use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Student;
 use App\Models\Ta;
+use App\Models\Teacher;
 use App\Models\User;
-use http\Message;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -220,7 +221,7 @@ class TaController extends Controller
     }
 
     // 老師與TA聯繫
-    public function message($course_id)
+    public function message($course_id,$student_id)
     {
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
@@ -229,21 +230,8 @@ class TaController extends Controller
         }
 
         //使用該年度 抓取所有 該學期的 課程
-        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
+        $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
             ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDesc('classroom');
-
-        // 抓取該系所的所有學生
-        $department_students = Course::find($course_id)->department() -> first()
-            ->students()->get()
-            ->sortbydesc('classroom');
-
-
-        //學號
-        foreach ($department_students as $department_student){
-            $students_id[] = $department_student -> user() -> first() -> account;
-        }
-
-//        return $department_students;
 
         //抓取上下學期
         if($course -> semester == 1){
@@ -252,20 +240,37 @@ class TaController extends Controller
             $semester = '下學期';
         }
 
-        $students_TA = Course::find($course_id) -> student_ta() -> first();
+        if(Auth::user() -> type == '老師'){
+            $sender_type  = '老師';
+        }else{
+            $sender_type  = '學生';
+        }
+        $teacher_id = $course -> teacher -> id;
+        $student_id = $student_id ;
+        $messages = Message::where('teacher_id',$teacher_id) -> where('student_id',$student_id) -> get() ;
 
-        $messages = User::find(Auth::id())->teacher()->first()
-            ->messages() -> where('student_id', $students_TA -> id);
 
-//        return $students_TA;
+        if ($sender_type == '老師'){
+            $sender = Teacher::find($teacher_id);
+            $receiver = Student::find($student_id);
+        }else{
+            $receiver= Teacher::find($teacher_id);
+            $sender= Student::find($student_id);
+        }
+
+
+//        return $TA;
 
         return view('teacher.courses.TA.message',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
-            'department_students'=>$department_students,
-            'student_TA' => $students_TA,
             'messages' => $messages,
+            'sender_type' => $sender_type,
+            'course' => $course,
+            'sender' => $sender,
+            'receiver' => $receiver,
+
         ]);
     }
 
@@ -382,10 +387,7 @@ class TaController extends Controller
         $message -> sender = User::find(Auth::id())->type;
         $message -> save();
 
-        return redirect(route('teacher.office.TA_office.message',[
-            $course_id,$student_id
-            ])
-        );
+        return back();
 
     }
 }

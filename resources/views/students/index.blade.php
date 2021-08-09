@@ -9,9 +9,6 @@
             <a class="nav-link active " aria-current="page" href='/students'>最新消息</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="/students/problem">常見問題</a>
-        </li>
 
         <li class="nav-item">
             <a class="nav-link "  href= '/students/behave'>校園行事曆</a>

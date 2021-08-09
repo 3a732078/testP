@@ -9,16 +9,23 @@
     Elearning
 @endsection
 
-{{-- TopBar Courses--}}
+{{-- TopBar left--}}
 @section('header_item')
+    <div style="margin-right: 15px">
 
-@endsection
+        <h3>{{$course -> name}}</h3>
 
-@section('courses_function')
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
-    <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-primary">TA相關事務</button>
+    </div>
+
+    <div>
+
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
+        <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-primary">TA相關事務</button>
+
+    </div>
+
 @endsection
 
 
@@ -56,7 +63,7 @@
             <div class="row jumbotron-fluid">
                 <div class="col-4">
                     <h5>
-                        TA相關事務
+                        學生
                     </h5>
                 </div>
 
@@ -64,11 +71,9 @@
 
                 <div class="col-4">
 
-                    @php
-                        $course = \App\Models\Course::find($course_id);
-                    @endphp
+
                     <h5>
-                        {{$course ->name}} 【{{$course -> classroom}}】
+
                     </h5>
                 </div>
 
@@ -78,16 +83,13 @@
         {{-- body --}}
         <div class="card-body text-success">
 
-            @php
-                $student_TA = $course -> student_ta() -> first();
-            @endphp
-
-            @if(isset($student_TA) != 0  )
+            @if(isset($TA))
+                @foreach($TA as $data )
 
                 <div class="row">
                     <div class="col-4">
                         <h2>
-                            {{$student_TA  -> user() -> first() -> name}}
+                            {{$data  -> student() -> first() ->  user-> name}}
                         </h2>
                     </div>
 
@@ -97,16 +99,13 @@
 
                     <div class="col-4">
                         <button type="button"
-                                onclick="location.href =
-                                    '{{route('teacher.office.TA_office.message',[
-                                        $course_id,$student_TA -> id]
-                                        )}}'"
+                                onclick="location.href = '{{route('teacher.TA.message',[$course -> id , $data -> student_id])}}'"
                                 class="btn btn-light">
                             聯絡
                         </button>
 
                         {{-- 刪除 --}}
-                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$student_TA  -> id]) }}">
+                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$data  -> id]) }}">
                             <button type="submit"
                                     onclick="prink_delete_check()"
                                     class="btn btn-danger">
@@ -117,6 +116,7 @@
                     </div>
 
                 </div>
+                @endforeach
             @else
                 <div class="row">
                     <div class="col-4">

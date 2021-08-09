@@ -75,7 +75,7 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                                @if(!isset($textbooks))
+                                @if( $textbooks -> count() > 0)
                                     {{-- head --}}
                                     <thead>
                                     <tr>
@@ -86,25 +86,22 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($textbooks as $textbook)
-                                        <form  method="POST" role="form" enctype="multipart/form-data">
-                                            {{ csrf_field() }}
-                                            {{ method_field('POST') }}
-
-                                            <tr>
-                                                <td >
-                                                    {{$textbook -> name}}
-                                                </td>
-                                                <td>
-                                                    {{$textbook -> created_at}}
-                                                </td>
-                                                <td width="100" align="center">
-                                                    <form action="{{$notice->id}}/show" method="POST">
-                                                        {{ csrf_field() }}
-                                                        <a class="btn btn-outline-dark btn-sm" href="{{$notice->id}}/show" >檢視</a>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </form>
+                                        <tr>
+                                            <td >
+                                                {{$textbook -> name}}
+                                            </td>
+                                            <td>
+                                                {{$textbook -> created_at}}
+                                            </td>
+                                            <td width="100" align="center">
+                                                <button class="btn btn-outline-dark btn-sm"
+                                                        type="submit"
+                                                        onclick="location.href = '{{route('teacher.courses.text_materials.show',[$course_id,$textbook -> id])}}'"
+                                                >
+                                                    檢視
+                                                </button>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 @else
                                     <h1>尚未上傳教材</h1>

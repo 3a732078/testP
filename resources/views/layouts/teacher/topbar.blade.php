@@ -8,9 +8,8 @@
 
     <!-- Topbar Search -->
 
-@yield('header_item')
+    @yield('header_item')
 
-@yield('search')
 
     <!-- Topbar Navbar -->
     <ul class="navbar-right ml-auto nav nav-tabs ">

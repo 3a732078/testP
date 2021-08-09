@@ -187,7 +187,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 #教授 ===================
     Route::prefix('teacher')->group(function (){
         //test data
-        Route::post('data/{id}',[
+        Route::get('data/{id}',[
             TeacherController::class,'test'
         ])->name('teacher.test');
 
@@ -240,9 +240,14 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             Route::get('text_materials',[
                 CourseController::class,'text_materials'
             ])->name('teacher.courses.text_materials');
+        #教材區
+                //檢視
+                Route::get('text_materials/{TM_id}/show',[
+                    TextbookController::class,'teacher_show'
+                ]) -> name('teacher.courses.text_materials.show');
 
             //瀏覽筆記
-            Route::get('home_works',[
+            Route::get('browse_notes',[
                 CourseController::class,'BN'
             ])->name('teacher.courses.BN');
 
@@ -254,7 +259,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         #TA相關事務 =========   TAController
             Route::prefix('TA_office')->group(function (){
 
-                Route::get('message',[
+                Route::get('{student_id}/message',[
                     TaController::class,'message'
                 ])->name('teacher.TA.message') ;
             });
@@ -348,10 +353,15 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             #教材區
                 //url [teacher/office/{course_id/text_materials ]  =======  TextbootController
                 Route::prefix('text_materials')->group(function (){
+                    //教材檢視
+                    Route::post('/show',[
+                        TextbookController::class,'office_teacher_show'
+                    ])->name('teacher.office.courses.text_materials.show');
+
 
                     //教材儲存
                     Route::post('/store',[
-                        TextbookController::class,'store'
+                        TextbookController::class,'teacher_store'
                     ])->name('teacher.office.courses.text_materials.store');
 
                     //教材刪除
@@ -362,7 +372,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 
 
-                //評量區
+                //瀏覽筆記
                 Route::get('home_works',[
                     CourseController::class,'office_BN'
                 ])->name('teacher.office.courses.BN');
@@ -394,12 +404,12 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 
                     //與TA聯繫
-                    Route::get('{TA_id}/message',[
+                    Route::get('{receiver_id}/message',[
                         TaController::class,'office_message'
                     ])->name('teacher.office.TA_office.message');
 
                     //儲存訊息
-                    Route::post('{TA_id}/message/store',[
+                    Route::post('{receiver_id}/message/store',[
                         TaController::class,'message_store'
                     ])->name('teacher.office.TA.message.store');
 
@@ -433,6 +443,48 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         Route::get('semester',[
             TeacherController::class,'office_semester'
         ])->name('teacher.office.semester');
+
+        //學期課程複製 ----> 查year
+        Route::get('semester/year/{year}',[
+            TeacherController::class,'semester_year'
+        ])->name('teacher.office.semester.year');
+
+        //學期課程複製 ----> 查semester
+        Route::get('semester/{semester}',[
+            TeacherController::class,'semester_semester'
+        ])->name('teacher.office.semester.semester');
+
+        //從課程複製
+        Route::get('semester/{course_id}/clone_by',[
+            TeacherController::class,'semester_CB'
+        ])->name('teacher.office.semester.clone_by');
+
+        //從課程複製 ----> 查year
+        Route::get('semester/year/{course_id}/{year}',[
+            TeacherController::class,'CB_year'
+        ])->name('teacher.office.CB.year');
+
+        //從課程複製 ----> 查semester
+        Route::get('semester/{course_id}/{semester}',[
+            TeacherController::class,'CB_semester'
+        ])->name('teacher.office.CB.semester');
+
+        //從課程複製 ----> 檢視教材
+        Route::get('semester/{course_id}/{by_course_id}/show',[
+            TeacherController::class,'CB_show'
+        ])->name('teacher.office.CB.show');
+
+        //從課程複製 ----> 確定複製
+        Route::get('semester/{course_id}/{by_course_id}/clone',[
+            TeacherController::class,'CB_clone'
+        ])->name('teacher.office.CB.clone');
+
+        //從課程複製 ----> 新增
+        Route::get('semester/{course_id}/{by_course_id}/store',[
+            TeacherController::class,'CB_store'
+        ])->name('teacher.office.CB.store');
+
+        //從課程副
 
     });
 
