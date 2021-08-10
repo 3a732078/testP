@@ -2,7 +2,7 @@
     <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('teacher.index')}}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.index')}}">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-sticky-note"></i>
             </div>
@@ -41,7 +41,7 @@
         <!-- 帳號管理 -->
         <li class="nav-item">
             <a class="nav-link collapsed"
-               href="{{route('admin.account.index')}}"
+               href="{{route('account.index')}}"
                data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
                 <i class="fas fa-fw fa-folder-open"></i>
@@ -49,6 +49,16 @@
             </a >
         </li>
 
+        <!-- 科系管理 -->
+        <li class="nav-item">
+            <a class="nav-link collapsed"
+               href="{{route('department.index')}}"
+               data-target="#collapseUtilities"
+               aria-expanded="true" aria-controls="collapseUtilities">
+                <i class="fas fa-fw fa-folder-open"></i>
+                <span>科系管理</span>
+            </a >
+        </li>
 
         <!-- 其他列表暫不使用 -->
     @include('layouts.teacher.side_nav_item')

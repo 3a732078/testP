@@ -525,9 +525,50 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             \App\Http\Controllers\AdminController::class,'destroy'
         ]) -> name('admin.destroy');
 
-        //帳號管理
-        Route::get('account/index',[
-            \App\Http\Controllers\AdminController::class,'account_index'
-        ]) -> name('admin.account.index');
+
+    #帳號管理
+        Route::prefix('account') -> group(function(){
+            //首頁
+            Route::get('index',[
+                \App\Http\Controllers\UserController::class,'index'
+            ]) -> name('account.index');
+        });
+
+    #科系管理
+        Route::prefix('department') -> group(function(){
+            //首頁
+            Route::get('index',[
+                \App\Http\Controllers\DepartmentController::class,'index'
+            ]) -> name('department.index');
+
+            //新增
+            Route::get('create',[
+                \App\Http\Controllers\DepartmentController::class,'create'
+            ]) -> name('department.create');
+
+            //儲存
+            Route::post('store',[
+                \App\Http\Controllers\DepartmentController::class,'store'
+            ]) -> name('department.store');
+
+            //編輯
+            Route::get('{department_id}/edit',[
+                \App\Http\Controllers\DepartmentController::class,'edit'
+            ]) -> name('department.eidt');
+
+            //更新
+            Route::post('{department_id}/update',[
+                \App\Http\Controllers\DepartmentController::class,'update'
+            ]) -> name('department.update');
+
+            //刪除
+            Route::get('{department_id}/delete',[
+                \App\Http\Controllers\DepartmentController::class,'destroy'
+            ]) -> name('department.delete');
+
+
+        });
+
+
     });
 

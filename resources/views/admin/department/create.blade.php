@@ -11,23 +11,24 @@
 
 {{-- TopBar --}}
 @section('header_item')
+    <h3>
+        <b>
+            科系管理
+        </b>
+    </h3>
 
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href='problem'>常見問題</a>
+            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href= 'system_suggest'>系統建議</a>
+            <a class="nav-link" href= '/admin/system_suggest'>系統建議</a>
         </li>
 
 
@@ -77,7 +78,8 @@
 @section('content')
     <div id="layoutSidenav_content">
         <main>
-            @if ($message = Session::get('alert'))
+
+        @if (isset($message))
                 <script>alert("{{ $message }}");</script>
             @endif
 
@@ -90,7 +92,7 @@
                         <div class="card-header" >
                             <div class="row" style="margin: 0 auto" >
                                 <div class="col-lg-4" >
-                                    <i class="fas fa-table mr-1" style="margin-top: 10px"></i>新增消息
+                                    <i class="fas fa-table mr-1" style="margin-top: 10px"></i>新增科系
                                 </div>
                                 <div class="col-lg-6">
 
@@ -105,19 +107,14 @@
                             </div>
                         </div>
 
-                        {{-- body --}}
+                        {{-- Body --}}
                         <div class="card-body">
-                            @error('title')<span style="color: red"><li> {{$message}}@enderror</li></span>
+                            @error('name')<span style="color: red"><li> {{$message}}@enderror</li></span>
                             <div class="input-group input-group-sm mb-3">
-                                <span class="input-group-text" id="inputGroup-sizing-sm">標題</span>
-                                <input name = 'title' type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">科系名稱</span>
+                                <input name = 'name' type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                             </div>
 
-                            @error('content')<span style="color: red"><li> {{$message}}@enderror</li></span>
-                            <div class="form-floating">
-                                <textarea name = 'content' class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">內容</label>
-                            </div>
                         </div>
                     </form>
                 </div>

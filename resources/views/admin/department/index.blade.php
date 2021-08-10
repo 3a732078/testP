@@ -11,19 +11,24 @@
 
 {{-- TopBar --}}
 @section('header_item')
+    <h3>
+        <b>
+            科系管理
+        </b>
+    </h3>
 
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
+            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href= 'system_suggest'>系統建議</a>
+            <a class="nav-link" href= '/admin/system_suggest'>系統建議</a>
         </li>
 
 
@@ -77,7 +82,7 @@
                 <script>alert("{{ $message }}");</script>
             @endif
 
-                <div class="container-fluid">
+            <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
 
                     {{-- Header --}}
@@ -85,7 +90,7 @@
                         <div class="row">
                             <div class="col-lg-4 " style="margin-top: 10px">
                                 <i class="fas fa-table mr-1"></i>
-                                最新消息
+                                科系管理
                             </div>
                             <div class="col-lg-6">
 
@@ -103,51 +108,47 @@
                     {{-- body --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            @if(count($informations) > 0 )
+                            @if(count($departments) > 0)
                                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th width="200px">發佈者</th>
-                                    <th width="500px">標題</th>
-                                    <th width="200px">張貼時間</th>
-                                    <th width="200px"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($informations as $data)
+                                    <thead>
                                     <tr>
-                                        <td >
-                                            {{$data -> poster}}
-                                        </td>
-                                        <td>
-                                            {{$data -> title}}
-                                        </td>
-                                        <td>
-                                            {{$data -> created_at}}
-                                        </td>
-                                        <td align="center" >
-                                            <button class="btn btn-outline-secondary"
-                                                    onclick="location.href = '{{$data -> id}}/show'"
-                                            >
-                                                檢視
-                                            </button>
-                                            <button class="btn bg-gradient-primary"
-                                                    onclick="location.href = '{{$data -> id}}/edit'"
-                                            >
-                                                <span style="color:#dae0e5;">編輯</span>
-                                            </button>
-                                            <button class="btn btn-outline-danger"
-                                                    onclick="location.href = '{{$data -> id}}/delete'"
-                                            >
-                                                刪除
-                                            </button>
-                                        </td>
+                                        <th width="200px">#</th>
+                                        <th width="200px">科系名稱</th>
+                                        <th width="200px"></th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($departments as $data)
+                                        <tr>
+                                            <td >
+                                                {{$data -> id}}
+                                            </td>
+                                            <td>
+                                                {{$data -> name}}
+                                            </td>
+                                            <td align="center" >
+                                                <button class="btn btn-outline-secondary"
+                                                        onclick="location.href = '{{$data -> id}}/index'"
+                                                >
+                                                    瀏覽學期課程
+                                                </button>
+                                                <button class="btn bg-gradient-primary"
+                                                        onclick="location.href = '{{$data -> id}}/edit'"
+                                                >
+                                                    <span style="color:#dae0e5;">編輯</span>
+                                                </button>
+                                                <button class="btn btn-outline-danger"
+                                                        onclick="location.href = '{{$data -> id}}/delete'"
+                                                >
+                                                    刪除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             @else
-                                <h3>尚未張貼任何消息</h3>
+                                <h3>尚未有任何科系</h3>
                             @endif
                         </div>
                     </div>
