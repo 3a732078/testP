@@ -37,6 +37,9 @@ class UserController extends Controller
                     return redirect('/teacher/index');
                     break;
 
+                case '管理者':
+                    return redirect('/admin/index');
+
             }
         }
         return view('auth/login');

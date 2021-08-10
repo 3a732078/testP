@@ -62,6 +62,7 @@
                 <script>alert("{{ $message }}");</script>
             @endif
                 <div class="card mb-4" style="margin-top:10px">
+                    {{-- Header --}}
                     <div class="card-header">
                         <i class="fas fa-table mr-1"></i>
                         公告發佈者：
@@ -71,20 +72,25 @@
                             {{\App\Models\Teacher::where('id',$notice->teacher_id)-> first()->user()->value('name')}}
                         @endif
                     </div>
+
+                    {{-- Body --}}
                     <div class="card-body">
                         <div class="form-group width">
                             <h5 class="card-title">
                                 <span style="color:#4682B4;background-image: linear-gradient(transparent 50%, rgb(255, 229, 180) 50%)">
-                                    <b>標題</b></span>：{{$notice->title}}
+                                    <b>標題</b>
+                                </span>：{{$notice->title}}
                             </h5>
                         </div>
                         <hr class="sidebar-divider"><br>
                         <div class="form-group width" style="margin-top:-30px">
                             <div>
                                 <h5 class="card-title">
-                                <span style="color:#4682B4;background-image: linear-gradient(transparent 50%, rgb(255, 229, 180) 50%)">
-                                    <b>內容</b></span>：
-                                    <p></p>&emsp;&emsp;&emsp;{{$notice->content}}</h5>
+                                    <span style="color:#4682B4;background-image: linear-gradient(transparent 50%, rgb(255, 229, 180) 50%)">
+                                        <b>內容</b>
+                                    </span>：
+                                    {{$notice->content}}
+                                </h5>
                             </div>
                         </div>
                     </div>

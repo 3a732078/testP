@@ -488,3 +488,46 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
     });
 
+#管理者
+    Route::prefix('admin') -> group(function (){
+        //首頁
+        Route::get('index',[
+            \App\Http\Controllers\AdminController::class,'index'
+        ]) -> name('admin.index');
+
+        //新增消息
+        Route::get('create',[
+            \App\Http\Controllers\AdminController::class,'create'
+        ]) -> name('admin.create');
+
+        //儲存消息
+        Route::post('store',[
+            \App\Http\Controllers\AdminController::class,'store'
+        ]) -> name('admin.store');
+
+        //檢視新消息
+        Route::get('{news_id}/show',[
+            \App\Http\Controllers\AdminController::class,'show'
+        ]) -> name('admin.show');
+
+        //修改消息
+        Route::get('{news_id}/edit',[
+            \App\Http\Controllers\AdminController::class,'edit'
+        ]) -> name('admin.edit');
+
+        //修改消息 ------> 更新
+        Route::post('{news_id}/update',[
+            \App\Http\Controllers\AdminController::class,'update'
+        ]) -> name('admin.update');
+
+        //刪除消息
+        Route::get('{news_id}/delete',[
+            \App\Http\Controllers\AdminController::class,'destroy'
+        ]) -> name('admin.destroy');
+
+        //帳號管理
+        Route::get('account/index',[
+            \App\Http\Controllers\AdminController::class,'account_index'
+        ]) -> name('admin.account.index');
+    });
+

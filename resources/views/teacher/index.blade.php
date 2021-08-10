@@ -19,17 +19,12 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href='problem'>常見問題</a>
-        </li>
-
-        <li class="nav-item">
             <a class="nav-link "  href= 'behave'>校園行事曆</a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href= 'system_suggest'>系統建議</a>
         </li>
-
 
     </ul>
 

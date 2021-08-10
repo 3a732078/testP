@@ -101,29 +101,22 @@
 
                 {{-- body --}}
                 <div class="card-body text-success">
-
                     {{-- table --}}
                     <table class="table table-striped">
                         {{-- head --}}
-                        <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-
                         {{-- body --}}
                         <tbody>
-
                         <tr>
-                            <th scope="row" style="width: 200px;height: 10px">版名: </th>
-
+                            <th scope="row" style="width: 100px;height: 10px">
+                                版名:
+                            </th>
                             <td> 課程公告留言板 </td>
                         </tr>
 
                         <tr>
-                            <th scope="row" style="width: 200px;height: 10px">張貼者: </th>
-
+                            <th scope="row" style="width: 100px;height: 10px">
+                                張貼者:
+                            </th>
                             {{-- 發布者 --}}
                             <td>
                                 @if($notice -> teacher_id != null)
@@ -137,14 +130,16 @@
                         </tr>
 
                         <tr>
-                            <th scope="row" style="width: 200px;height: 10px">張貼時間: </th>
-
+                            <th scope="row" style="width: 100px;height: 10px">
+                                張貼時間:
+                            </th>
                             <td> {{$notice -> created_at}} </td>
                         </tr>
 
                         <tr>
-                            <th scope="row" style="width: 200px;height: 10px">標題: </th>
-
+                            <th scope="row" style="width: 100px;height: 10px">
+                                標題:
+                            </th>
                             <td> {{$notice -> title}} </td>
                         </tr>
 
@@ -153,8 +148,7 @@
                                 {{-- 內容 --}}
                                 內容:
                             </th>
-                            <td class="card bg-light w-auto h-auto" >
-                                {{-- 內容 --}}
+                            <td class="card bg-white w-auto h-auto">
                                 {{$notice -> content}}
                             </td>
 
