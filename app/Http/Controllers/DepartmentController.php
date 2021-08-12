@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $departments = Department::all();
@@ -22,11 +18,6 @@ class DepartmentController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.department.create');
@@ -47,7 +38,7 @@ class DepartmentController extends Controller
 
         foreach ($AD as $data){
             if ($data -> name == $request -> name){
-                return back()->with('message','科系名稱不可重複');
+                return back()->withErrors('uniqueness','科系名稱不可重複');
             }
         }
         $departmet = new Department();
@@ -81,7 +72,7 @@ class DepartmentController extends Controller
         $departments = Department::all();
         foreach ($departments as $data){
             if ($data -> name == $request -> name){
-                return Redirect::back() -> withErrors(['message'=> '科系名稱不可重複' . '(' . $request -> name . ')' ]);
+                return Redirect::back() -> withErrors('科系名稱不可重複' . '(' . $request -> name . ')');
             }else{
                 $department = $department -> find($department_id);
                 $department -> name = $request -> name ;
@@ -99,10 +90,49 @@ class DepartmentController extends Controller
         $department = Department::find($department_id);
         $DC = $department -> courses() -> get();
         if(count($DC) > 0 ){
-            return Redirect::back() -> withErrors('errors','不可刪除已有課程的科系');
+            return Redirect::back() -> withErrors('不可刪除已有課程的科系');
         }else{
             $department -> delete();
         }
         return \redirect() -> route('department.index');
     }
+
+    //課程首頁
+    public function courses_index($department_id){
+        $department  = Department::find($department_id);
+        $courses = $department -> courses() -> get() -> sortbyDesc('year') ;
+
+        foreach ($courses -> unique('year') as $year){
+            $datas[] = $courses -> where('year' , $year) -> sortbyDesc('semester');
+            foreach ($datas as $data){
+                $SortSemester[] = $data;
+            }
+        }
+
+        return view('admin.department.courses.index',[
+            'department' => $department,
+            'courses' => $courses,
+
+        ]);
+    }
+
+    //課程首頁
+    public function search_year($department_id,$year){
+        $department  = Department::find($department_id);
+        $courses = $department -> courses() -> get() -> sortbyDesc('year')  -> where('year',$year);
+
+        foreach ($courses -> unique('year') as $year){
+            $datas[] = $courses -> where('year' , $year) -> sortbyDesc('semester');
+            foreach ($datas as $data){
+                $SortSemester[] = $data;
+            }
+        }
+
+        return view('admin.department.courses.index',[
+            'department' => $department,
+            'courses' => $courses,
+
+        ]);
+    }
+
 }

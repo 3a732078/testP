@@ -79,10 +79,11 @@
     <div id="layoutSidenav_content">
         <main>
 
-            @if (isset($message))
-                <script>alert("{{ $message}}");</script>
+            @if(session('errors'))
+                <script>
+                    alert("科系名稱不可重複");
+                </script>
             @endif
-
             <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
                     <form action="update" method="post">

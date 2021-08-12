@@ -566,6 +566,59 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 \App\Http\Controllers\DepartmentController::class,'destroy'
             ]) -> name('department.delete');
 
+        #科系課程管理
+            Route::prefix('{department_id}') -> group(function (){
+                //首頁
+                Route::get('index',[
+                    \App\Http\Controllers\DepartmentController::class,'courses_index'
+                ])-> name('department.courses_index');
+
+                //首頁 ------> 年份分類
+                Route::get('search_year/{year}',[
+                    \App\Http\Controllers\DepartmentController::class,'search_year'
+                ]) -> name('department.search_year');
+
+                //新增
+                Route::get('course_create',[
+                    \App\Http\Controllers\CourseController::class,'create'
+                ])-> name('course.create');
+
+                //儲存
+                Route::post('course_store',[
+                    \App\Http\Controllers\CourseController::class,'store'
+                ])-> name('course.store');
+
+                //修改
+                Route::get('{course_id}/course_edit',[
+                    \App\Http\Controllers\CourseController::class,'edit'
+                ])-> name('course.edit');
+
+                //更新
+                Route::post('{course_id}/course_update',[
+                    \App\Http\Controllers\CourseController::class,'update'
+                ])-> name('course.update');
+
+                //刪除
+                Route::get('{course_id}/course_delete',[
+                    \App\Http\Controllers\CourseController::class,'destroy'
+                ])-> name('course.destroy');
+
+                //課程相關資訊首頁
+                Route::get('import',[
+                    \App\Http\Controllers\ImportController::class,'index'
+                ]) -> name('import.index');
+
+                //匯入新學期課程
+                Route::post('course/import',[
+                    \App\Http\Controllers\ImportController::class,'course'
+                ]) -> name('import.course');
+
+                //匯入選課資料
+                Route::post('course_student/import',[
+                    \App\Http\Controllers\ImportController::class,'course_student'
+                ]) -> name('import.course_student');
+            });
+
 
         });
 

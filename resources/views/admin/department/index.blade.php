@@ -78,8 +78,10 @@
 @section('content')
     <div id="layoutSidenav_content">
         <main>
-            @if ($message = Session::get('alert'))
-                <script>alert("{{ $message }}");</script>
+            @if(session('errors'))
+                <script>
+                    alert("不可刪除已有課程的科系");
+                </script>
             @endif
 
             <div class="container-fluid">

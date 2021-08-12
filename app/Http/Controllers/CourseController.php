@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\CourseStudent;
+use App\Models\Department;
 use App\Models\Notice;
 use App\Models\Ta;
 use App\Models\Teacher;
@@ -399,64 +401,117 @@ class CourseController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        //
+    public function create($department_id){
+        $department = Department::find($department_id);
+
+        return view('admin.department.courses.create',[
+            'department' => $department ,
+
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request,$department_id)
     {
-        //
+
+        $request -> validate([
+            'teacher_name' => 'required',
+            'name' => 'required',
+            'grade' => 'required',
+            'classroom' => 'required',
+            'year' => 'required',
+            'semester' => 'required',
+        ]);
+
+        //判段正確姓
+        $courses1 = Course::all();
+        $flag = 0 ;
+        $max_year = $courses1 -> sortByDESC('year') -> first() -> year ;
+        $max_semester = $courses1 -> where('yaer' , $max_year) -> sortByDesc('semester') -> first -> semester;
+
+        //儲存資料
+        $course = new Course;
+        $course -> teacher_id = Teacher::where('user_id', User::where('name',$request -> teacher_name) -> first() -> id) -> first() -> id ;
+        $course -> department_id = $department_id ;
+        $course -> name = $request -> name;
+        $course -> grade = $request -> grade;
+        $course -> classroom = $request -> classroom;
+        $course -> year = $request -> year;
+        $course -> semester = $request -> semester;
+        $course -> save();
+
+        $courses2 = Course::all();
+        foreach ($courses2 as $data){
+            if (($data -> year) - 1 >= $max_year && $data -> semester >= $max_semester ){
+                $data -> delete();
+                return back() -> withErrors('overser!!' );
+            }
+        }
+
+        $courses = Course::all();
+        $department = Department::find($department_id);
+        return view('admin.department.courses.index',[
+            'department' => $department,
+            'courses' => $courses,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
     public function show(Course $course)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Course $course)
+    public function edit(Course $course,$department_id,$course_id)
     {
-        //
+        $department = Department::find($department_id);
+        $course = Course::find($course_id);
+
+        return view('admin.department.courses.edit',[
+            'course' => $course ,
+            'department' => $department,
+
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, Course $course,$department_id,$course_id)
     {
-        //
+        $courses = Course::all() -> sortByDesc('year');
+        $max_year =  $courses -> first() -> year ;
+        $max_semester = $courses -> where('year' , $max_year) -> sortbyDesc('semester') -> first() -> semester ;
+        $request -> validate([
+            'teacher_name' => 'required',
+            'department_name' => 'required',
+            'course_name' => 'required',
+            'grade' => 'required',
+            'classroom' => 'required',
+            'year' => 'required',
+            'semester' => 'required',
+        ]);
+        if ($request -> year - 1 >= $max_year && $request -> semester >= $max_semester) {
+            return back() -> withErrors('over !!');
+        }
+
+        $course = Course::find($course_id);
+        $course -> teacher_id = Teacher::where('user_id', User::where('name',$request -> teacher_name) -> first() -> id) -> first() -> id ;
+        $course -> department_id = Department::where('name' , $request -> department_name ) -> first() -> id ;
+        $course -> name = $request -> course_name;
+        $course -> grade = $request -> grade;
+        $course -> classroom = $request -> classroom;
+        $course -> year = $request -> year;
+        $course -> semester = $request -> semester;
+        $course -> save();
+
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Course  $course
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Course $course)
+    public function destroy(Course $course,$department_id,$course_id)
     {
-        //
+        $course = Course::find($course_id);
+        $course_student = CourseStudent::where('course_id', $course_id) -> get();
+        if (count($course_student) > 0 ){
+            return back()->withErrors('error');
+        }
+
+
+        return back()->withstatus('success');
     }
 }
