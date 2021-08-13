@@ -449,10 +449,7 @@ class CourseController extends Controller
 
         $courses = Course::all();
         $department = Department::find($department_id);
-        return view('admin.department.courses.index',[
-            'department' => $department,
-            'courses' => $courses,
-        ]);
+        return redirect() -> route('department.courses_index',[$department_id]);
     }
 
     public function show(Course $course)

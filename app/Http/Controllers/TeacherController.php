@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use App\Models\Course;
 use App\Models\Department;
+use App\Models\Information;
 use App\Models\Notice;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -23,9 +25,12 @@ class TeacherController extends Controller
     //最新公告
     public function index()
     {
+        $informations = Information::all() -> sortByDesc('created_at');
+        $calendars = Calendar::all() -> sortByDesc('created_at');
 
         return view('teacher.index',[
-
+            'informations' => $informations,
+            'calendars' => $calendars,
         ]);
     }
 

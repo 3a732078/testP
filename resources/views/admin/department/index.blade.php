@@ -27,11 +27,6 @@
             <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href= '/admin/system_suggest'>系統建議</a>
-        </li>
-
-
     </ul>
 
 @endsection

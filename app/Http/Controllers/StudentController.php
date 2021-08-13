@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calendar;
 use App\Models\Course;
+use App\Models\Information;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,13 +21,18 @@ class StudentController extends Controller
     public function index()
     {
         $type= User::where('id', Auth::id())->value('type');
+        $informations = Information::all() -> sortByDesc('created_at');
+        $calendars = Calendar::all() -> sortByDesc('created_at');
         if ($type=='學生'){
             session_start();
             unset($_SESSION['classId']);
             unset($_SESSION['textbookId']);
             unset($_SESSION['ta']);
 
-            return view('students.index');
+            return view('students.index',[
+                'informations' => $informations,
+                'calendera' => $calendars,
+            ]);
 
         }
     }

@@ -14,8 +14,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $informations = Information::all();
-        $calendars = Calendar::all();
+        $informations = Information::all() -> sortByDesc('created_at');
+        $calendars = Calendar::all() -> sortByDesc('created_at');
 
         return view('admin.index',[
             'informations' => $informations,
