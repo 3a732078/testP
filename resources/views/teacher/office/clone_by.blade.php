@@ -114,7 +114,7 @@
                                     檢視  <img height="30px" src="https://img.icons8.com/dotty/80/000000/browse-folder.png"/>
                                 </button>
 
-                                <button class="btn btn-outline-secondary" onclick="location.href = '{{route('teacher.office.CB.clone',[$course->id,$data -> id])}}'">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="location.href = '{{route('teacher.office.CB.clone',[$course->id,$data -> id])}}'">
                                     使用此課程複製
                                 </button>
                                 <button type="submit" class="btn btn-outline-secondary btn-sm"

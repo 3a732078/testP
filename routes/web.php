@@ -247,8 +247,8 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 ]) -> name('teacher.courses.text_materials.show');
 
             //瀏覽筆記
-            Route::get('browse_notes',[
-                CourseController::class,'BN'
+            Route::get('browse_notes/{TM_id}',[
+                NoteController::class,'teacher_list'
             ])->name('teacher.courses.BN');
 
             //TA 相關事務
@@ -400,8 +400,6 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                     Route::get('{student_id}/delete',[
                         TaController::class,'destroy'
                     ])->name('teacher.office.courses.TA.delete');
-
-
 
                     //與TA聯繫
                     Route::get('{receiver_id}/message',[

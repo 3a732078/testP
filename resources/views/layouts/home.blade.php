@@ -110,11 +110,12 @@
                     <i class="fas fa-fw fa-book"></i>
                     <span>教材</span>
                 </a>
+
                 <div id="collapseText" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">上課教材:</h6>
                         @foreach($course as $value)
-                            <a class="collapse-item" href="#createn" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{$value -> name}}</span></a>
+                            <a class="collapse-item" href="#{{$value -> name}}" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{$value -> name}}</span></a>
                             <div id="{{ $value->name }}" class="collapse">
                                 <a class="collapse-item" href="/textbooks/show/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材</a>
                                 <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材筆記</a>
@@ -135,6 +136,7 @@
                 <i class="fas fa-fw fa-folder-open"></i>
                 <span>筆記專區</span>
             </a>
+
             <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -165,7 +167,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/questions/classes/{{$ta}}">
                         <i class="fas fa-fw fa-comment"></i>
-                        <span>與Ta聯繫</span></a>
+                        <span>與TA聯繫</span></a>
                 </li>
             @endif
         @endif

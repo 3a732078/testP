@@ -227,6 +227,7 @@
             </div>
         </main>
     </div>
+
     <script>
         @if($class === null)
             document.getElementById("coursehref").hidden=  true;

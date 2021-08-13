@@ -21,7 +21,7 @@
 
         <button type="button" onclick="location.href = '{{route('teacher.office.courses.notices',[$course_id])}}'"class="btn btn-sm btn-outline-secondary">公告區</button>
         <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-primary">教材區</button>
-        <button type="button" onclick="location.href = '{{route('teacher.office.courses.BN',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
+        <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id,0])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
         <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
 
     </div>
@@ -74,7 +74,7 @@
                 </div>
 
                 {{-- Body --}}
-                <div class="card-body text-success bg-gray-200" style="height: 300px">
+                <div class="card-body text-success bg-gray-200" style="height: 300px ;overflow: auto">
                     @php
                         $text_materials = \App\Models\Course::find($course_id)
                             ->textbooks()->get();
@@ -88,7 +88,7 @@
 
                     @else
 
-                        <table class="table">
+                        <table class="table" >
 
                             {{-- head --}}
                             <thead>
@@ -101,7 +101,7 @@
                             </thead>
 
                             {{-- Body --}}
-                            <tbody>
+                            <tbody >
                                 @foreach($text_materials as $text_material)
                                     <tr>
 

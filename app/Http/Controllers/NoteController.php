@@ -30,11 +30,7 @@ class NoteController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function ccreate(Request $request)
     {
         $id=$request->user()->id;
@@ -599,12 +595,7 @@ class NoteController extends Controller
             ->get();
         return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'comments'=>$comments,'favor'=>$favor,'uname'=>$uname,'sscore'=>$sscore,'replies'=>$replies,'author'=>$author,'textbookId'=>$textbookId,'course'=>$course,'courses'=>$course,'classId'=>$classId,'textbook'=>$textbook,'images'=>$images,'dfnote'=>$dfnote]);//        return view('notes.classes.show',['id'=>$id,'json'=>$file,'name'=>$notename,'class'=>$class,'comment'=>$comment,'share'=>$share,'favor'=>$favor]);
     }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Note  $note
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Note $note)
     {
         //
@@ -832,6 +823,7 @@ class NoteController extends Controller
         ]);
     }
 
+
     public function assist(Request $request)
     {
         $this->validate($request, [
@@ -886,6 +878,40 @@ class NoteController extends Controller
         usort($classNotes,$a);
 
         return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName,'ta'=>$ta]);
+    }
+
+    public function teacher_list($course_id,$id)
+    {
+        session_start();
+        $class=$course_id;
+        if($id != 0){
+            $tkName=Textbook::find($id)->name;
+        }else{
+            $tkName = '請選擇教材';
+        };
+        $TMs = Course::find($course_id) -> textbooks() -> get();
+
+        $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
+
+        $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
+        $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));
+        foreach($classNotes as $key => $value){
+            $classNotes[$key]['avg'] = isset($NoteScore[$value['id']]) ? (float)$NoteScore[$value['id']] : 0;
+        }
+
+        $a = function($a,$b)
+        {
+            if ($a['avg']==$b['avg']) return 0;
+            return ($a['avg']>$b['avg'])?-1:1;
+        };
+        usort($classNotes,$a);
+
+        return view('teacher.courses.BN',[
+            'class'=>$class,
+            'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,
+            'tkName'=>$tkName,
+            'TMs' => $TMs ,
+        ]);
     }
 
     public function attach($id)

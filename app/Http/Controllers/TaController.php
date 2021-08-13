@@ -245,10 +245,8 @@ class TaController extends Controller
         }else{
             $sender_type  = '學生';
         }
-        $teacher_id = $course -> teacher -> id;
-        $student_id = $student_id ;
+        $teacher_id = Course::find($course_id) -> teacher_id;
         $messages = Message::where('teacher_id',$teacher_id) -> where('student_id',$student_id) -> get() ;
-
 
         if ($sender_type == '老師'){
             $sender = Teacher::find($teacher_id);
@@ -259,7 +257,7 @@ class TaController extends Controller
         }
 
 
-//        return $TA;
+//        return $teacher_id;
 
         return view('teacher.courses.TA.message',[
             'year_semester' => $course -> year . "學年度" . $semester,
