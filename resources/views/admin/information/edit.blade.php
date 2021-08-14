@@ -14,16 +14,12 @@
 
     <ul class="nav nav-tabs">
 
-        <li class="nav-item ">
-            <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
+        <<li class="nav-item ">
+            <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href= 'system_suggest'>系統建議</a>
+            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
         </li>
 
 

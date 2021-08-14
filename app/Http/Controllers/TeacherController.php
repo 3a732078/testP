@@ -34,6 +34,14 @@ class TeacherController extends Controller
         ]);
     }
 
+    //檢視最新公告
+    public function information_show($id){
+        $information  = Information::find($id);
+        return view('teacher.information',[
+            'information' => $information,
+        ]);
+    }
+
     public function office_index(){
 
 

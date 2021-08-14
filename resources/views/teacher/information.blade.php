@@ -1,4 +1,4 @@
-@extends('layouts.admin.main')
+@extends('layouts.teacher.main')
 {{--@section('header_name')--}}
 {{--    --}}{{-- 直接寫入 --}}
 {{--    #--}}
@@ -15,13 +15,12 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
+            <a class="nav-link " aria-current="page" href='index'>最新消息</a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
+            <a class="nav-link "  href= 'behave'>校園行事曆</a>
         </li>
-
 
     </ul>
 
@@ -36,6 +35,7 @@
 
         <div class="col-6" style="margin-top: 10px;">
             <h6 style="margin-left: 15px">
+                正處於【教室】環境
             </h6>
         </div>
 
@@ -43,7 +43,9 @@
         </div>
 
         <div class="col-sm-6">
-
+            <button type="button"
+                    onclick="location.href = '{{route('teacher.office.index',[])}} '"
+                    class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
         </div>
     </div>
 @endsection
@@ -87,16 +89,12 @@
 
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn bg-gradient-primary"
-                                        onclick="location.href = 'edit'"
+                                <button class="btn btn-outline-secondary"
+                                        onclick="location.href = '/teacher/index'"
                                 >
-                                    <span style="color:#dae0e5;">編輯</span>
+                                    <span style="color:#dae0e5;"><span style="color: black">反回</span> <img style="height: 20px" src="https://img.icons8.com/ios-filled/50/000000/fire-exit.png"/></span>
                                 </button>
-                                <button class="btn btn-outline-danger"
-                                        onclick="location.href = 'delete'"
-                                >
-                                    刪除
-                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -153,6 +151,5 @@
             </div>
         </main>
     </div>
-
 @endsection
 

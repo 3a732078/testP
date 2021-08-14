@@ -26,10 +26,10 @@
     </div>
 @endsection
 @section('navno')
-{{--    <hr class="sidebar-divider">--}}
-{{--    <div class="sidebar-heading">--}}
-{{--        建立--}}
-{{--    </div>--}}
+    {{--    <hr class="sidebar-divider">--}}
+    {{--    <div class="sidebar-heading">--}}
+    {{--        建立--}}
+    {{--    </div>--}}
     <li class="nav-item" style="margin-top: -10px">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseU"
            aria-expanded="true" aria-controls="collapseU">
@@ -46,6 +46,7 @@
         </div>
     </li>
 @endsection
+
 @section('content')
     <div id="layoutSidenav_content">
         <main>
@@ -67,49 +68,62 @@
 
                             </div>
                             <div class="col-lg-2">
+                                <button class="btn btn-outline-secondary"
+                                        onclick="location.href = '/students'"
+                                >
+                                    <span style="color:#dae0e5;"><span style="color: black">反回</span> <img style="height: 20px" src="https://img.icons8.com/ios-filled/50/000000/fire-exit.png"/></span>
+                                </button>
+
                             </div>
                         </div>
                     </div>
 
-                    {{-- body --}}
+                    {{-- Body --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            @if(count($informations) > 0 )
-                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th width="200px">發佈者</th>
-                                        <th width="500px">標題</th>
-                                        <th width="200px">張貼時間</th>
-                                        <th width="200px"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($informations as $data)
-                                        <tr>
-                                            <td >
-                                                {{$data -> poster}}
-                                            </td>
-                                            <td>
-                                                {{$data -> title}}
-                                            </td>
-                                            <td>
-                                                {{$data -> created_at}}
-                                            </td>
-                                            <td align="center" >
-                                                <button class="btn btn-outline-secondary"
-                                                        onclick="location.href = '{{$data -> id}}/show'"
-                                                >
-                                                    檢視
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            @else
-                                <h3>尚未張貼任何消息</h3>
-                            @endif
+                            <table class="table table-bordered table-hover"
+                                   id="dataTable" width="100%" cellspacing="0"
+                            >
+                                <tbody>
+                                <tr>
+                                    <th width="100px">
+                                        張貼者:
+                                    </th>
+                                    <td >
+                                        {{$information -> poster}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="100px">
+                                        標題:
+                                    </th>
+                                    <td>
+                                        {{$information -> title}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="100px">
+                                        張貼時間:
+                                    </th>
+                                    <td>
+                                        {{$information -> created_at}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th width="100px" valign="middle">
+                                        內容:
+                                    </th>
+                                    <td>
+                                        <p style="margin-top: 20px;margin-bottom: 20px">
+                                            {{$information -> content}}
+                                        </p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

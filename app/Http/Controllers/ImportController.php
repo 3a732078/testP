@@ -12,10 +12,8 @@ use function Symfony\Component\String\b;
 
 class ImportController extends Controller
 {
-    public function index($department_id){
-        $department = Department::find($department_id);
+    public function index(){
         return view('admin.import.index',[
-            'department' => $department,
 
         ]);
     }

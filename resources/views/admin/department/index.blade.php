@@ -89,14 +89,23 @@
                                 <i class="fas fa-table mr-1"></i>
                                 科系管理
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
 
                             </div>
-                            <div class="col-lg-2">
-                                <button class="btn bg-gradient-success"
+                            <div class="col-lg-4">
+                                <button class="btn bg-gradient-success btn-sm"
                                         onclick="location.href = 'create'"
                                 >
-                                    <span style="color: #F0F0F0;">新增</span>
+                                    <span style="color: #F0F0F0;">
+                                        <b>
+                                            新增
+                                        </b>
+                                    </span>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        onclick="location.href = 'import'"
+                                >
+                                    <span style="color: black"><b>匯入學生課程資訊</b></span>
                                 </button>
                             </div>
                         </div>

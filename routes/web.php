@@ -31,6 +31,10 @@ Route::get('/',[UserController::class,'home'])->name('home');
 //學生登入後頁面
 Route::middleware(['auth:sanctum,web', 'verified'])->get('/students',[StudentController::class,'index'])
     ->name('students.index');
+//檢視最新公告
+Route::get('{information_id}/show',[
+    StudentController::class,'information_show'
+]) -> name('student.information.show');
 //課程頁面
 Route::get('/classes/{class}',[CourseController::class,'index'])->name('classes.index')->middleware('auth');
 //顯示公告資訊
@@ -195,6 +199,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         Route::get('index',[
             TeacherController::class,'index'
         ])  -> name('teacher.index');
+
+        //檢視公告
+        Route::get('{id}/show',[
+            TeacherController::class,'information_show'
+        ]) -> name('teacher.information.show');
 
         //常見問題
         Route::get('problem',[
@@ -564,6 +573,21 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 \App\Http\Controllers\DepartmentController::class,'destroy'
             ]) -> name('department.delete');
 
+            //課程相關資訊首頁
+            Route::get('import',[
+                \App\Http\Controllers\ImportController::class,'index'
+            ]) -> name('import.index');
+
+            //匯入新學期課程
+            Route::post('course/import',[
+                \App\Http\Controllers\ImportController::class,'course'
+            ]) -> name('import.course');
+
+            //匯入選課資料
+            Route::post('course_student/import',[
+                \App\Http\Controllers\ImportController::class,'course_student'
+            ]) -> name('import.course_student');
+
         #科系課程管理
             Route::prefix('{department_id}') -> group(function (){
                 //首頁
@@ -601,20 +625,6 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                     \App\Http\Controllers\CourseController::class,'destroy'
                 ])-> name('course.destroy');
 
-                //課程相關資訊首頁
-                Route::get('import',[
-                    \App\Http\Controllers\ImportController::class,'index'
-                ]) -> name('import.index');
-
-                //匯入新學期課程
-                Route::post('course/import',[
-                    \App\Http\Controllers\ImportController::class,'course'
-                ]) -> name('import.course');
-
-                //匯入選課資料
-                Route::post('course_student/import',[
-                    \App\Http\Controllers\ImportController::class,'course_student'
-                ]) -> name('import.course_student');
             });
 
 

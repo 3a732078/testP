@@ -64,12 +64,12 @@
                     </th>
                     <th height="40px">
                         {{-- 查找學期 --}}
-{{--                        <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">--}}
-{{--                            <option value="" selected="selected" >- - 學期 - -</option>--}}
-{{--                            <option value="{{route('teacher.office.semester.semester',[1,])}}" >上學期</option>--}}
-{{--                            <option value="{{route('teacher.office.semester.semester',[2,])}}" >下學期</option>--}}
+                        {{--                        <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">--}}
+                        {{--                            <option value="" selected="selected" >- - 學期 - -</option>--}}
+                        {{--                            <option value="{{route('teacher.office.semester.semester',[1,])}}" >上學期</option>--}}
+                        {{--                            <option value="{{route('teacher.office.semester.semester',[2,])}}" >下學期</option>--}}
 
-{{--                        </select>--}}
+                        {{--                        </select>--}}
                         <b> - - 學期 - - </b>
                     </th>
                     <th  height="40px">

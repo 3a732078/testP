@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function home(Request $request)
     {
         if(Auth::check()) {
@@ -45,11 +40,6 @@ class UserController extends Controller
         return view('auth/login');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function logout()
     {
         if (Auth::check()) {
@@ -60,7 +50,10 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        //
+
+        return view('admin.account.index',[
+
+        ]);
     }
 
     public function store(Request $request)

@@ -37,6 +37,14 @@ class StudentController extends Controller
         }
     }
 
+    //檢視最新消息
+    public function information_show($id){
+        $information = Information::find($id);
+        return view('students.information',[
+            'information' => $information,
+        ]);
+    }
+
     //常見問題
     public function problem()
     {

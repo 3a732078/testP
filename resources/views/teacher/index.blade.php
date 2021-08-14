@@ -89,11 +89,6 @@
 
                             </div>
                             <div class="col-lg-2">
-                                <button class="btn bg-gradient-success"
-                                        onclick="location.href = 'create'"
-                                >
-                                    <span style="color: #F0F0F0;">新增</span>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -128,16 +123,6 @@
                                                         onclick="location.href = '{{$data -> id}}/show'"
                                                 >
                                                     檢視
-                                                </button>
-                                                <button class="btn bg-gradient-primary"
-                                                        onclick="location.href = '{{$data -> id}}/edit'"
-                                                >
-                                                    <span style="color:#dae0e5;">編輯</span>
-                                                </button>
-                                                <button class="btn btn-outline-danger"
-                                                        onclick="location.href = '{{$data -> id}}/delete'"
-                                                >
-                                                    刪除
                                                 </button>
                                             </td>
                                         </tr>
