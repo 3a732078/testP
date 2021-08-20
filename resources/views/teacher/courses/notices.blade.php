@@ -68,6 +68,7 @@
                     {{-- body --}}
                     <div class="card-body">
                         <div class="table-responsive">
+                            @if(count($notices) > 0 )
                             <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 
                                 {{-- head --}}
@@ -107,6 +108,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            @else
+                                <h3>尚未張貼公告</h3>
+                            @endif
                         </div>
                     </div>
                 </div>

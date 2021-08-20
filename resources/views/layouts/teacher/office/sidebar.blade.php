@@ -46,7 +46,9 @@
                     @foreach($years_unique as $year_unique)
 
                         {{--                         下學期--}}
-                        <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
+                        @if($courses -> where('year' , $year_unique -> year) -> sortByDesc('semester') -> first() -> semester == 2)
+                            <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
+                        @endif
                         @foreach($courses -> sortByDesc('classroom')  as $course)
                             @if($year_unique -> year == $course -> year && $course -> semester == 2)
                                 <h5>
@@ -55,14 +57,14 @@
                                         <div class="row row-cols-2">
                                             {{--                                            第一列--}}
                                             <div class="col-12">
-                                                {{$course -> name}}
+                                                {{$course -> name}}({{$course -> classroom}})
+
                                             </div>
 
                                             {{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
-                                                ({{$course -> classroom}})
                                             </div>
                                         </div>
                                     </a>
@@ -79,14 +81,13 @@
                                         <div class="row row-cols-2">
                                             {{--                                            第一列--}}
                                             <div class="col-12">
-                                                {{$course -> name}}
+                                                {{$course -> name}}({{$course -> classroom}})
                                             </div>
 
                                             {{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
-                                                ({{$course -> classroom}})
                                             </div>
                                         </div>
                                     </a>
@@ -100,18 +101,6 @@
                 </div>
             </div>
         </li>
-
-        <!-- 年度複製 -->
-        <li class="nav-item">
-            <a class="nav-link collapsed"
-               href="{{route('teacher.office.semester')}}"
-               data-target="#collapseUtilities"
-               aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-folder-open"></i>
-                <span>課程複製</span>
-            </a >
-        </li>
-
 
         <!-- 其他列表暫不使用 -->
     @include('layouts.teacher.side_nav_item')

@@ -13,10 +13,6 @@
             <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
-        </li>
-
     </ul>
 @endsection
 
@@ -57,7 +53,7 @@
                         </tr>
                         <tr>
                             <td height="25px" valign="middle">
-                                <label for="teacher_name" class="form-label">Teacher name</label>
+                                <label for="teacher_name" class="form-label">教師名稱</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control"
                                            id="teacher_name" aria-describedby="basic-addon3"
@@ -68,7 +64,7 @@
                             </td>
 
                             <td colspan="2">
-                                <label for="name" class="form-label">Course name</label>
+                                <label for="name" class="form-label">課程名稱</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control"
                                            id="name" aria-describedby="basic-addon3"
@@ -81,7 +77,7 @@
 
                         <tr>
                             <td height="25px" valign="middle">
-                                <label for="grade" class="form-label">Grade</label>
+                                <label for="grade" class="form-label">年級</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control"
                                            id="grade" aria-describedby="basic-addon3"
@@ -92,7 +88,7 @@
                             </td>
 
                             <td colspan="2">
-                                <label for="classroom" class="form-label">Classroom</label>
+                                <label for="classroom" class="form-label">班別</label>
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control"
                                            id="classroom" aria-describedby="basic-addon3"
@@ -102,31 +98,6 @@
                                 @error('classroom') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </td>
 
-                        </tr>
-
-                        <tr>
-
-                            <td>
-                                <label for="year" class="form-label">Year</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control"
-                                           id="year" aria-describedby="basic-addon3"
-                                           name="year"
-                                    >
-                                </div>
-                                @error('year') <li><span style="color: red">{{$message}}</span></li>@enderror
-                            </td>
-
-                            <td>
-                                <label for="semester" class="form-label">Semester</label>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control"
-                                           id="semester" aria-describedby="basic-addon3"
-                                           name="semester"
-                                    >
-                                </div>
-                                @error('semester') <li><span style="color: red">{{$message}}</span></li>@enderror
-                            </td>
                         </tr>
                         </tbody>
 

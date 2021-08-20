@@ -22,11 +22,6 @@
         <li class="nav-item ">
             <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
-        </li>
-
     </ul>
 
 @endsection

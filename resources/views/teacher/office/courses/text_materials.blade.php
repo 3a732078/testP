@@ -65,12 +65,27 @@
 
                 {{--Header --}}
                 <div class="card-header bg-gray-700 border-success">
-                    <h4 style="color: #dae0e5 ">
-                        @php
-                            $course = \App\Models\Course::find($course_id);
-                        @endphp
-                        {{$course -> name}}【{{$course -> classroom}}】
-                    </h4>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <h4 style="color: #dae0e5 ">
+                                @php
+                                    $course = \App\Models\Course::find($course_id);
+                                @endphp
+                                {{$course -> name}}【{{$course -> classroom}}】
+                            </h4>
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4" align="right">
+                            <button type="submit" class="btn bg-white btn-sm"
+                                    onclick="location.href = '{{route('teacher.office.semester.clone_by',[$course -> id])}}'">
+                                <b>複製課程教材</b> <img height="20px" src="https://img.icons8.com/flat-round/64/000000/right--v1.png"/>
+                            </button>
+                        </div>
+                    </div>
+
+
+
                 </div>
 
                 {{-- Body --}}

@@ -47,8 +47,10 @@
                     {{-- 顯示課程列表資料 --}}
                     @foreach($years_unique as $year_unique)
 
-{{--                         下學期--}}
-                        <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
+                    {{--下學期--}}
+                    @if($courses -> where('year' , $year_unique -> year) -> sortByDesc('semester') -> first() -> semester == 2)
+                            <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
+                        @endif
                         @foreach($courses -> sortByDesc('classroom')  as $course)
                             @if($year_unique -> year == $course -> year && $course -> semester == 2)
                                 <h5>
@@ -57,14 +59,14 @@
                                         <div class="row row-cols-2">
 {{--                                            第一列--}}
                                             <div class="col-12">
-                                                {{$course -> name}}
+                                                {{$course -> name}} ({{$course -> classroom}})
+
                                             </div>
 
 {{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
-                                                ({{$course -> classroom}})
                                             </div>
                                         </div>
                                     </a>
@@ -81,14 +83,14 @@
                                         <div class="row row-cols-2">
 {{--                                            第一列--}}
                                             <div class="col-12">
-                                                {{$course -> name}}
+                                                {{$course -> name}} ({{$course -> classroom}})
+
                                             </div>
 
 {{--                                            第二列 排版--}}
                                             <div class="col-6">                                            </div>
 
                                             <div class="col-6">
-                                                ({{$course -> classroom}})
                                             </div>
                                         </div>
                                     </a>
