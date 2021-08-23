@@ -12,9 +12,17 @@ class CourseStudentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($course_id)
     {
-        //
+        $course = Course::find($course_id);
+        $course_student = CourseStudent::where('course_id',$course_id) -> get();
+        foreach($course_student as $data){
+            $studnets[] = Student::find($data -> student_id);
+        }
+        return view('teacher.courses.course_student.index',[
+            'students' => $studnets,
+            'course' => $course,
+        ]);
     }
 
     /**

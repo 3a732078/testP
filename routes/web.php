@@ -265,6 +265,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 CourseController::class,'TA_office'
             ])->name('teacher.courses.TA_office');
 
+            //修課學生
+            Route::get('course_student',[
+                \App\Http\Controllers\CourseStudentController::class,'index'
+            ])->name('teacher.courses.course_student');
+
         #TA相關事務 =========   TAController
             Route::prefix('TA_office')->group(function (){
 
@@ -535,11 +540,23 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
     #帳號管理
         Route::prefix('account') -> group(function(){
+
             //首頁
             Route::get('index',[
                 \App\Http\Controllers\UserController::class,'index'
             ]) -> name('account.index');
+
+            //查找學生類型
+            Route::get('student',[
+                \App\Http\Controllers\UserController::class,'search_student'
+            ]);
+
+            //查找老師
+            Route::get('teacher',[
+                \App\Http\Controllers\UserController::class,'search_teacher'
+            ]);
         });
+
 
     #科系管理
         Route::prefix('department') -> group(function(){

@@ -6,15 +6,10 @@
 
 {{-- TopBar left--}}
 @section('header_item')
-    <h3>{{$department -> name}}</h3>
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
             <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
         </li>
 
     </ul>
@@ -24,98 +19,110 @@
 @section('header_text')
 @endsection
 
-
 {{-- Content --}}
 @section('content')
-    <div align="center">
-        <div  class="card" style="background-color: #F0F0F0 ;width: 1200px;height: 600px">
-            <div class="card-body text-left"
-            >
-                <table class="table  border-bottom-secondary border-5">
-                    <thead>
-                    @if(session('status'))
-                        <div class="alert alert-success">
-                            <li>
-                                <b>
-                                    已刪除課程
-                                </b>
-                            </li>
-                        </div>
-                    @endif
-                    @if(session('errors'))
-                        <div class="alert alert-danger">
-                            <li>
-                                <b>
-                                    不可刪除以選課的課程
-                                </b>
-                            </li>
-                        </div>
-                    @endif
-                    <th height="40px">課程名稱</th>
-                    <th height="40px">
-                        {{-- 查找年分 --}}
-                        <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
-                            <option value="" selected="selected" >- - 年 - -</option>
-                            @foreach($courses  -> unique('year') as $course)
-                                <option value="search_year/{{$course -> year}}" >{{$course -> year}}</option>
-                            @endforeach
+    <div id="layoutSidenav_content">
+        <main>
+            @if(session('errors'))
+                <script>
+                    alert("不可刪除已有課程的使用者");
+                </script>
+            @endif
 
-                        </select>
-                    </th>
-                    <th height="40px">
-                        {{-- 查找學期 --}}
-                        {{--                        <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">--}}
-                        {{--                            <option value="" selected="selected" >- - 學期 - -</option>--}}
-                        {{--                            <option value="{{route('teacher.office.semester.semester',[1,])}}" >上學期</option>--}}
-                        {{--                            <option value="{{route('teacher.office.semester.semester',[2,])}}" >下學期</option>--}}
+            <div class="container-fluid">
+                <div class="card mb-4" style="margin-top:20px">
 
-                        {{--                        </select>--}}
-                        <b> - - 學期 - - </b>
-                    </th>
-                    <th  height="40px">
-                        <button class="btn bg-gradient-success btn-sm"
-                                onclick="location.href = '{{route('course.create',[$department -> id])}}'"
-                        >
-                            <span style="color: #F0F0F0"><b>新增課程</b></span>
-                        </button>
-
-                    </th>
-
-                    </thead>
-
-                    <tbody>
-                    @foreach($courses as $data)
-                        <tr>
-                            <td height="25px" valign="middle">
-                                {{$data -> name}}
-                            </td>
-                            <td height="25px" valign="middle">
-                                {{$data -> year}}
-                            </td>
-                            <td height="25px" valign="middle">
-                                {{$data -> semester}}
-                            </td>
-                            <td height="25px" valign="middle">
-                                <button type="submit" class="btn bg-gradient-info btn-sm"
-                                        onclick="location.href = '{{route('course.edit',[$department -> id,$course -> id])}}'"
+                    {{-- Header --}}
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-lg-4 " style="margin-top: 10px">
+                                <i class="fas fa-table mr-1"></i>
+                                帳號管理
+                            </div>
+                            <div class="col-lg-4" align="right">
+                                {{-- 查找年分 --}}
+                                <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
+                                    <option value="" selected="selected" >- - 使用者類型 - -</option>
+                                    <option value="student">學生</option>
+                                    <option value="teacher">老師</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4" align="right">
+                                <button class="btn bg-gradient-success btn-sm"
+                                        onclick="location.href = 'create'"
                                 >
-                                    <span style="color: #cbd5e0"><b>
-                                            編輯課程資訊  <img class="mb-1" style="height: 20px" src="https://img.icons8.com/ios/50/000000/courses.png"/>
-                                        </b></span>
+                                    <span style="color: #F0F0F0;">
+                                        <b>
+                                            新增
+                                        </b>
+                                    </span>
                                 </button>
-                                <button type="submit" class="btn btn-outline-danger btn-sm"
-                                        onclick="location.href = '{{route('course.destroy',[$department -> id,$data -> id])}}'"
+                                <button class="btn btn-outline-secondary btn-sm"
+                                        onclick="location.href = 'import'"
                                 >
-                                    <span style="color: black"><b>刪除</b></span>
+                                    <span style="color: black"><b>匯入帳號資訊</b></span>
                                 </button>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
+                    </div>
 
-                    @endforeach
-                    </tbody>
-                </table>
+                    {{-- body --}}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            @if(count($users) > 0)
+                                <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th width="200px">#</th>
+                                        <th width="200px">帳號</th>
+                                        <th width="200px">姓名</th>
+                                        <th width="200px">使用者類型</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($users as $data)
+                                        <tr>
+                                            <td >
+                                                {{$data -> id}}
+                                            </td>
+                                            <td>
+                                                {{$data -> account}}
+                                            </td>
+                                            <td>
+                                                {{$data -> name}}
+                                            </td>
+                                            <td>
+                                                {{$data -> type}}
+                                            </td>
+                                            <td align="center" >
+                                                <button class="btn btn-outline-secondary"
+                                                        onclick="location.href = '{{$data -> id}}/index'"
+                                                >
+                                                    瀏覽學期課程
+                                                </button>
+                                                <button class="btn bg-gradient-primary"
+                                                        onclick="location.href = '{{$data -> id}}/edit'"
+                                                >
+                                                    <span style="color:#dae0e5;">編輯</span>
+                                                </button>
+                                                <button class="btn btn-outline-danger"
+                                                        onclick="location.href = '{{$data -> id}}/delete'"
+                                                >
+                                                    刪除
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <h3>尚未有任何科系</h3>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 @endsection
-
