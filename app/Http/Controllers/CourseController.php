@@ -412,14 +412,11 @@ class CourseController extends Controller
 
     public function store(Request $request,$department_id)
     {
-
         $request -> validate([
             'teacher_name' => 'required',
             'name' => 'required',
             'grade' => 'required',
             'classroom' => 'required',
-            'year' => 'required',
-            'semester' => 'required',
         ]);
 
         //判段正確姓
@@ -429,23 +426,41 @@ class CourseController extends Controller
         $max_semester = $courses1 -> where('yaer' , $max_year) -> sortByDesc('semester') -> first -> semester;
 
         //儲存資料
+        $year = date('Y') - 1911;
+        $month = date('m');
+        if ($month > 6){
+            $semester = 1;
+        }else{
+            $year = $year - 1;
+            $semester = 2;
+        }
+        switch ($request -> grade){
+            case 1:
+                $CY = '一';
+            case 2:
+                $CY= '二';
+            case 3:
+                $CY = '三';
+            case 4:
+                $CY = '四';
+        }
         $course = new Course;
         $course -> teacher_id = Teacher::where('user_id', User::where('name',$request -> teacher_name) -> first() -> id) -> first() -> id ;
         $course -> department_id = $department_id ;
         $course -> name = $request -> name;
         $course -> grade = $request -> grade;
-        $course -> classroom = $request -> classroom;
-        $course -> year = $request -> year;
-        $course -> semester = $request -> semester;
+        $course -> classroom = "四資" . $CY . $request -> classroom;
+        $course -> year = $year;
+        $course -> semester = $semester;
         $course -> save();
 
-        $courses2 = Course::all();
-        foreach ($courses2 as $data){
-            if (($data -> year) - 1 >= $max_year && $data -> semester >= $max_semester ){
-                $data -> delete();
-                return back() -> withErrors('overser!!' );
-            }
-        }
+//        $courses2 = Course::all();
+//        foreach ($courses2 as $data){
+//            if (($data -> year) - 1 >= $max_year && $data -> semester >= $max_semester ){
+//                $data -> delete();
+//                return back() -> withErrors('overser!!' );
+//            }
+//        }
 
         $courses = Course::all();
         $department = Department::find($department_id);
@@ -508,7 +523,7 @@ class CourseController extends Controller
             return back()->withErrors('error');
         }
 
-
+        $course -> delete();
         return back()->withstatus('success');
     }
 }

@@ -18,10 +18,6 @@
             <a class="nav-link active " aria-current="page" href='index'>最新消息</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
-        </li>
-
     </ul>
 
 @endsection

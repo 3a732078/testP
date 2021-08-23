@@ -162,13 +162,6 @@ class TextbookController extends Controller
         return view('textbooks.create',['courses'=>$courses]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
     // [ 老師放入教材 ]
     public function store(Request $request )
     {

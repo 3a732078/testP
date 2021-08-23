@@ -10,20 +10,10 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link  " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link  " aria-current="page" href='/teacher/index'>最新消息</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href='problem'>常見問題</a>
-        </li>
 
-        <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href= 'system_suggest'>系統建議</a>
-        </li>
 
 
     </ul>
@@ -59,10 +49,11 @@
 @section('content')
     <div align="center">
         <div  class="card" style="background-color: #F0F0F0 ;width: 1200px;height: 600px">
+            {{-- Header --}}
             <div class="card-header" text-left>
                 <table >
                     <tbody>
-                        <tr height=""><h3>複製課程教材到 「{{$course -> year}}_{{$course -> semester}}{{$course -> name}}」從...</h3></tr>
+                        <tr height=""><h3 align="left">複製課程教材到 ({{$course -> year}}_{{$course -> semester}}{{$course -> name}})</h3></tr>
                         <tr height=""></tr>
                         <tr height=""></tr>
                         <tr height="x"></tr>
@@ -78,7 +69,7 @@
                         <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
                             <option value="" selected="selected" >- - 年 - -</option>
                             @foreach($courses  -> unique('year') as $data)
-                                <option value="{{route('teacher.office.CB.year',[$course -> id,$data -> year,])}}" >{{$course -> year}}</option>
+                                <option value="{{route('teacher.office.CB.year',[$course -> id,$data -> year,])}}" >{{$data -> year}}</option>
                             @endforeach
 
                         </select>

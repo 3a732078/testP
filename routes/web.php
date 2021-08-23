@@ -481,6 +481,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             TeacherController::class,'CB_semester'
         ])->name('teacher.office.CB.semester');
 
+        //從課程複製 ----> 查semester
+        Route::get('semester/{course_id}/{year}/{semester}',[
+            TeacherController::class,'CB_complex'
+        ])->name('teacher.office.CB.complex');
+
         //從課程複製 ----> 檢視教材
         Route::get('semester/{course_id}/{by_course_id}/show',[
             TeacherController::class,'CB_show'
