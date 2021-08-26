@@ -560,6 +560,17 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             Route::get('teacher',[
                 \App\Http\Controllers\UserController::class,'search_teacher'
             ]);
+
+            //新增介面
+            Route::get('create',[
+                UserController::class,'create'
+            ]) -> name('account.create');
+
+            //儲存使用者帳號
+            Route::post('store',[
+                UserController::class,'store'
+            ]) -> name('account.store');
+
         });
 
 

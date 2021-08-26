@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Department;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Ta;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -90,9 +91,128 @@ class UserController extends Controller
         ]);
     }
 
+    //新增帳號介面
+    public function create(){
+        $departments = Department::all();
+        return view('admin.account.create',[
+            'departments' => $departments,
+        ]);
+    }
+
+    //儲存帳號
     public function store(Request $request)
     {
-        //
+        $request -> validate([
+            'user_name' => 'required',
+            'DepartmentName' => 'required',
+            'Type' => 'required',
+
+        ]);
+
+        $users = User::all();
+        $departments = Department::all();
+        $department = Department::where('name' , $request -> DepartmentName) -> first();
+        $year = date('Y') - 1911;
+        $month = date('m');
+        $data_account = array();
+
+        if ($request -> Type == "老師") {
+            $users = $users -> where('type', '老師') ;
+            if ($month > 6){
+                foreach ($users as $data){
+                    if( substr($data -> account,1, 4 ) == $year . $department -> id){
+                        $data_account[] = $data -> account  ;
+                    }
+                }
+                if (count($data_account) > 0){
+                    rsort($data_account);
+                    $user = new User();
+                    $user -> account = 'T' . $year . $department -> id . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.' , '' ) , 0 ,1) . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.', '' ) , 2 ,2);
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '老師';
+                    $user -> save();
+                }else{
+                    $user = new User();
+                    $user -> account = 'T' . $year . $department -> id . '001';
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '老師';
+                    $user -> save();
+                }
+            }else{
+                foreach ($users as $data){
+                    if( substr($data -> account,1, 4 ) == $year - 1 . $department -> id){
+                        $data_account[] = $data -> account  ;
+                    }
+                }
+                if (count($data_account) > 0){
+                    rsort($data_account);
+                    $user = new User();
+                    $user -> account = 'T' . $year - 1 . $department -> id . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.' , '' ) , 0 ,1) . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.', '' ) , 2 ,2);
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '老師';
+                    $user -> save();
+                }else{
+                    $user = new User();
+                    $user -> account = 'T' . $year - 1 . $department -> id . '001';
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '老師';
+                    $user -> save();
+                }
+            }
+        }else{
+            $users = $users -> where('type', '學生') ;
+            if ($month > 6){
+                foreach ($users as $data){
+                    if( substr($data -> account,1, 4 ) == $year . $department -> id){
+                        $data_account[] = $data -> account  ;
+                    }
+                }
+                if (count($data_account) > 0){
+                    rsort($data_account);
+                    $user = new User();
+                    $user -> account = 'S' . $year . $department -> id . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.' , '' ) , 0 ,1) . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.', '' ) , 2 ,2);
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '學生';
+                    $user -> save();
+                }else{
+                    $user = new User();
+                    $user -> account = 'S' . $year . $department -> id . '001';
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '學生';
+                    $user -> save();
+                }
+            }else{
+                foreach ($users as $data){
+                    if( substr($data -> account,1, 4 ) == $year - 1 . $department -> id){
+                        $data_account[] = $data -> account  ;
+                    }
+                }
+                if (count($data_account) > 0){
+                    rsort($data_account);
+                    $user = new User();
+                    $user -> account = 'S' . $year - 1 . $department -> id . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.' , '' ) , 0 ,1) . substr(number_format((float)substr($data_account[0],5,3) / 100 + 0.01 , '2' , '.', '' ) , 2 ,2);
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '學生';
+                    $user -> save();
+                }else{
+                    $user = new User();
+                    $user -> account = 'S' . $year - 1 . $department -> id . '001';
+                    $user -> name = $request -> user_name ;
+                    $user -> password = Hash::make('123123123');
+                    $user -> type = '學生';
+                    $user -> save();
+                }
+            }
+        }
+
+        return back() -> withStatus('Success');
     }
 
     public function show(Admin $admin)
