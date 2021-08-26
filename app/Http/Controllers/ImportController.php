@@ -38,4 +38,24 @@ class ImportController extends Controller
 
         return back() -> withstatus('import successful');
     }
+
+    //匯入帳號介面
+    public function account_import(){
+        return view('admin.account.import.create');
+    }
+
+    //儲存匯入帳號
+    public function account_store(Request $request){
+        $request -> validate([
+            'user' => 'required|mimes:xlsx',
+        ]);
+
+        Excel::import(new UsersImport(),$request -> file('user'));
+        $user = User::where('account' , 'Account') -> first () ;
+        $user -> delete();
+
+        return back() -> withStatus('Success !!');
+    }
+
 }
+

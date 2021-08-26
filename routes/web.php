@@ -571,6 +571,16 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 UserController::class,'store'
             ]) -> name('account.store');
 
+            //匯入帳號介面
+            Route::get('import',[
+                \App\Http\Controllers\ImportController::class,'account_import'
+            ]) -> name('account.import');
+
+            //儲存匯入的資料
+            Route::post('import/store',[
+                \App\Http\Controllers\ImportController::class,'account_store'
+            ]) -> name('account.import.store');
+
         });
 
 
