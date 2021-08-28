@@ -199,6 +199,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         Route::get('{user_id}/create',[
             \App\Http\Controllers\MailController::class,'create'
         ]) -> name('mail.create');
+
+        //送出mail
+        Route::get('{user_id}/store',[
+           \App\Http\Controllers\MailController::class,'store'
+        ]);
     });
 
 #教授 ===================

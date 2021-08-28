@@ -43,6 +43,6 @@ class MailController extends Controller
 
     //送出mail
     public function store(Request $request,$course_id ,$receiver_id){
-
+        return 'send';
     }
 }
