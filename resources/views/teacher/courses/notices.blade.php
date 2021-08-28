@@ -18,7 +18,7 @@
         <button type="button" onclick="location.href = '{{route('teacher.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
         <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id,0])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
         <button type="button" onclick="location.href = '{{route('teacher.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">TA相關事務</button>
-        <button type="button" onclick="location.href = '{{route('teacher.courses.course_student',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">修課學生</button>
+        <button type="button" onclick="location.href = '{{route('mail.index',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">發送mail</button>
 
     </div>
 

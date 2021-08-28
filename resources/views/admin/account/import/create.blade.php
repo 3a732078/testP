@@ -42,20 +42,21 @@
                                 <h3>
                                     <b>
                                         匯入帳號資料
-                                        <img style="height: 50px" class="mb-1" src="https://img.icons8.com/ios-glyphs/30/000000/right--v1.png%22/  >
+                                        <img style="height: 50px" class="mb-1" src="https://img.icons8.com/ios-glyphs/30/000000/right--v1.png"/>
                                     </b>
                                 </h3>
                             </td>
                             <td height="25px" valign="middle">
-                                        <input type="file" name="user" class="form-control">
-                                        @error('user')
-                                        <li>
+                                <input type="file" name="user" class="form-control">
+                                @error('user')
+                                <li>
                                     <span style="color: red">
                                         {{$message}}
                                     </span>
-                                        </li>
+                                </li>
                                 @enderror
                             </td>
+
                             <td height="25px" valign="middle">
                             </td>
                             <td height="25px" valign="middle">
@@ -63,7 +64,7 @@
                                 >
                                     <span style="color: #cbd5e0">
                                         <b>
-                                            送出  <img class="mb-1" style="height: 20px" src="https://img.icons8.com/ios/50/000000/check-file.png%22/  >
+                                            送出  <img class="mb-1" style="height: 20px" src="https://img.icons8.com/ios/50/000000/check-file.png"/>
                                         </b>
                                     </span>
                                 </button>

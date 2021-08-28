@@ -188,6 +188,19 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         ])->name('student.courses.contact_TA');
     });
 
+#SendMail
+    Route::prefix('{course_id}/mail') -> group(function(){
+        //修課學生
+        Route::get('index',[
+            \App\Http\Controllers\MailController::class,'index'
+        ]) -> name('mail.index');
+
+        //新增mail
+        Route::get('{user_id}/create',[
+            \App\Http\Controllers\MailController::class,'create'
+        ]) -> name('mail.create');
+    });
+
 #教授 ===================
     Route::prefix('teacher')->group(function (){
         //test data
