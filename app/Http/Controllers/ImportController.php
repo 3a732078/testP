@@ -39,6 +39,37 @@ class ImportController extends Controller
         foreach ($DeleteC as $data){
             $data -> delete();
         }
+
+        //修正classroom
+        $ChangeC = array();
+        foreach ($courses as $data){
+            if (mb_substr($data -> classroom, -1,1,'utf-8') == "系" ){
+                $ChangeC[] = $data;
+            }
+        }
+
+        foreach ($ChangeC as $data){
+            switch ($data -> grade){
+                case 1:
+                    $CG = '一';
+                    break;
+
+                case 2:
+                    $CG = '二';
+                    break;
+
+                case 3:
+                    $CG = '三';
+                    break;
+
+                case 4:
+                    $CG = '四';
+                    break;
+            }
+            $data -> classroom = '四' . mb_substr($data -> classroom, 1 , 1 ,'utf-8') . $CG . mb_substr($data -> classroom,0 ,1,'utf-8');
+            $data -> save();
+        }
+
         if ($teacher_count != null && $teacher_count > 0){
             return redirect() -> route('import.index') -> withErrors($teacher_count,'teacher');
         }

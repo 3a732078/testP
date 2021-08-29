@@ -47,7 +47,7 @@ class CourseImport implements ToModel
         if (Department::where('name',$row[2]) -> first() == null){
             $classroom = $row[2] . $i;
         }else{
-            $classroom = $row[2];
+            $classroom = $row [5].$row[2];
         }
 
         if($row[4] == '年級' ||Department::where('name',$row[2]) -> first() == null || User::where('name',$row[1]) -> first() == null){
