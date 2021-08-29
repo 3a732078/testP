@@ -96,21 +96,23 @@
                                                 {{$data -> type}}
                                             </td>
                                             <td align="center" >
-                                                <button class="btn btn-outline-secondary"
-                                                        onclick="location.href = '{{$data -> id}}/index'"
-                                                >
-                                                    瀏覽學期課程
-                                                </button>
                                                 <button class="btn bg-gradient-primary"
                                                         onclick="location.href = '{{$data -> id}}/edit'"
                                                 >
-                                                    <span style="color:#dae0e5;">編輯</span>
+                                                    <span style="color:#dae0e5;">編輯帳號資料</span>
                                                 </button>
                                                 <button class="btn btn-outline-danger"
                                                         onclick="location.href = '{{$data -> id}}/delete'"
                                                 >
-                                                    刪除
+                                                    刪除帳號
                                                 </button>
+                                                @if( $data -> type == '學生')
+                                                    <button class="btn btn-secondary"
+                                                            onclick="location.href = '{{$data -> id}}/pause'"
+                                                    >
+                                                       暫停帳號
+                                                    </button>
+                                                    @endif
                                             </td>
                                         </tr>
                                     @endforeach

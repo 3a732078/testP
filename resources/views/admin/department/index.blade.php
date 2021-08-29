@@ -48,18 +48,6 @@
     </div>
 @endsection
 
-{{-- search --}}
-@section('search')
-    {{--    <div class="search-container">--}}
-    {{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
-    {{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
-    {{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
-    {{--        </form>--}}
-    {{--    </div>--}}
-@endsection
-
-
-
 {{-- 課程列表 --}}
 @section('side_courses')
 
@@ -81,14 +69,16 @@
                     {{-- Header --}}
                     <div class="card-header">
                         <div class="row">
+
                             <div class="col-lg-4 " style="margin-top: 10px">
                                 <i class="fas fa-table mr-1"></i>
                                 科系管理
                             </div>
-                            <div class="col-lg-4">
 
-                            </div>
                             <div class="col-lg-4">
+                            </div>
+
+                            <div class="col-lg-4" align="right">
                                 <button class="btn bg-gradient-success btn-sm"
                                         onclick="location.href = 'create'"
                                 >

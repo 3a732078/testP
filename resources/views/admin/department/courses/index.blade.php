@@ -42,7 +42,7 @@
                         <div class="alert alert-danger">
                             <li>
                                 <b>
-                                    不可刪除以選課的課程
+                                    不可刪除以有學生選課的課程
                                 </b>
                             </li>
                         </div>
@@ -59,13 +59,6 @@
                         </select>
                     </th>
                     <th height="40px">
-                        {{-- 查找學期 --}}
-{{--                        <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">--}}
-{{--                            <option value="" selected="selected" >- - 學期 - -</option>--}}
-{{--                            <option value="{{route('teacher.office.semester.semester',[1,])}}" >上學期</option>--}}
-{{--                            <option value="{{route('teacher.office.semester.semester',[2,])}}" >下學期</option>--}}
-
-{{--                        </select>--}}
                         <b> - - 學期 - - </b>
                     </th>
                     <th  height="40px">
@@ -92,6 +85,11 @@
                                 {{$data -> semester}}
                             </td>
                             <td height="25px" valign="middle">
+                                <button class="btn bg-gradient-warning "
+                                        onclick="location.href = '{{route('course.students',[$department -> id,$data -> id])}}'"
+                                >
+                                    <span style="color: black"><b>顯示修課學生</b></span>
+                                </button>
                                 <button type="submit" class="btn bg-gradient-info btn-sm"
                                         onclick="location.href = '{{route('course.edit',[$department -> id,$course -> id])}}'"
                                 >
@@ -99,7 +97,7 @@
                                             編輯課程資訊  <img class="mb-1" style="height: 20px" src="https://img.icons8.com/ios/50/000000/courses.png"/>
                                         </b></span>
                                 </button>
-                                <button type="submit" class="btn btn-outline-danger btn-sm"
+                                <button type="submit" class="btn btn-outline-danger "
                                         onclick="location.href = '{{route('course.destroy',[$department -> id,$data -> id])}}'"
                                 >
                                     <span style="color: black"><b>刪除</b></span>

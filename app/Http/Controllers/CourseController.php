@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Department;
 use App\Models\Notice;
+use App\Models\Student;
 use App\Models\Ta;
 use App\Models\Teacher;
 use App\Models\Textbook;
@@ -525,5 +526,27 @@ class CourseController extends Controller
 
         $course -> delete();
         return back()->withstatus('success');
+    }
+
+    public function students($department_id,$course_id){
+        $course = Course::find($course_id);
+        $students = array();
+        $course_student = CourseStudent::where('course_id',$course_id) -> get() ;
+        if (count($course_student) > 0) {
+            foreach ($course_student as $data){
+                $students[] = Student::find($data -> student_id);
+            }
+        }else{
+            return back() -> withErrors('該堂課尚未有修課學生');
+        }
+        $department = Department::find($department_id);
+
+        return view('admin.department.courses.students',[
+            'students' => $students,
+            'course' => $course,
+            'department' => $department,
+
+        ]);
+
     }
 }

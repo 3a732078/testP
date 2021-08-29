@@ -21,6 +21,7 @@ class UserController extends Controller
 
                     $stu=Student::where('user_id',Auth::user()->id)->value('id');
                     $ta=Ta::where('student_id',$stu)->value('id');
+                    $ta=Ta::where('student_id',$stu)->value('id');
 
                     if($ta===null){
                         $ta=0;

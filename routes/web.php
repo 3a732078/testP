@@ -686,6 +686,26 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                     \App\Http\Controllers\CourseController::class,'destroy'
                 ])-> name('course.destroy');
 
+                //修課學生
+                Route::get('{course_id}/students',[
+                    \App\Http\Controllers\CourseController::class,'students'
+                ]) -> name('course.students');
+
+                //新增修課學生
+                Route::get('{course_id}/students/create',[
+                    \App\Http\Controllers\CourseStudentController::class,'create'
+                ]) -> name('course_student.create');
+
+                //儲存
+                Route::get('{course_id}/students/{student_id}/store',[
+                    \App\Http\Controllers\CourseStudentController::class,'store'
+                ]) -> name('course_student.store');
+
+                //刪除修課學生
+                Route::get('{course_id}/{student_id}/delete',[
+                    \App\Http\Controllers\CourseStudentController::class,'destroy'
+                ]) -> name('course_student.destroy');
+
             });
 
 
