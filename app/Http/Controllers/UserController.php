@@ -218,17 +218,53 @@ class UserController extends Controller
 
     public function show(Admin $admin)
     {
-        //
+
     }
 
-    public function edit(Admin $admin)
+
+    public function edit(Admin $admin ,$user_id)
     {
-        //
+        $user = User::find($user_id);
+
+        return view('admin.account.edit',[
+            'user' => $user,
+
+        ]);
     }
 
-    public function update(Request $request, Admin $admin)
+    public function update(Request $request, Admin $admin ,$user_id)
     {
-        //
+        $request -> validate([
+            'account'=> 'required',
+            'name' => 'required',
+        ]);
+        if ($request -> password){
+            if(Hash::check($request -> password ,$user -> password)){
+                return back() -> withErrors('與前密碼相同','password');
+            }
+        }
+        if ($request -> email){
+            if(substr($request -> email ,-10) != '@gmail.com'){
+                return back() -> withErrors('','email');
+            }
+        }
+
+        $user = User::find($user_id);
+        $user -> name = $request -> name;
+        if(isset($request -> password)){
+            $user -> password = $request -> password;
+        }
+        $user -> account = $request -> account;
+        $user -> type = $request -> type;
+        if(isset($request -> email)){
+            $user -> email = $request -> email;
+        }
+//        $user -> status = $request -> status;
+        $user -> save();
+
+        return redirect() -> route('account.index',[
+
+        ]) -> withStatus('更新使用者資料成功');
     }
 
     public function destroy(Admin $admin)

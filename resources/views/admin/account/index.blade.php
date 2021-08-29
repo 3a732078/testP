@@ -29,6 +29,16 @@
                 </script>
             @endif
 
+            @if(session('status'))
+                <div class="alert alert-success">
+                    <span >
+                        <b>
+                            {{session('status')}}
+                        </b>
+                    </span>
+                </div>
+            @endif
+
             <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
 
