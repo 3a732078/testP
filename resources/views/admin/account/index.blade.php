@@ -23,10 +23,14 @@
 @section('content')
     <div id="layoutSidenav_content">
         <main>
-            @if(session('errors'))
-                <script>
-                    alert("不可刪除已有課程的使用者");
-                </script>
+            @if($errors -> error -> any())
+                <div class="alert alert-danger">
+                    <span >
+                        <b>
+                            不可刪除已有課程的使用者
+                        </b>
+                    </span>
+                </div>
             @endif
 
             @if(session('status'))
@@ -116,13 +120,6 @@
                                                 >
                                                     刪除帳號
                                                 </button>
-                                                @if( $data -> type == '學生')
-                                                    <button class="btn btn-secondary"
-                                                            onclick="location.href = '{{$data -> id}}/pause'"
-                                                    >
-                                                       暫停帳號
-                                                    </button>
-                                                    @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\CourseStudent;
 use App\Models\Department;
 use App\Models\Admin;
 use App\Models\Student;
@@ -267,8 +268,19 @@ class UserController extends Controller
         ]) -> withStatus('更新使用者資料成功');
     }
 
-    public function destroy(Admin $admin)
+    public function destroy(Admin $admin,$user_id)
     {
-        //
+        $user = User::find($user_id);
+        if($user -> type == '老師'){
+            $courses = $user -> teacher ->  courses() -> get();
+        } else{
+            $courses = CourseStudent::where('student_id', $user -> student -> id) -> get();
+        }
+        if (count($courses) > 0 ){
+            return back() -> withErrors(' ','error');
+        }
+
+        $user -> delete();
+        return  back() -> status('已刪除帳號資料');
     }
 }
