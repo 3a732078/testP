@@ -42,63 +42,69 @@
                         $years_unique = $courses -> unique('year');
                     @endphp
 
-{{--                    {{$teacher}}--}}
+                    @if(\Illuminate\Support\Facades\Auth::user() -> status == '暫停')
+                        <b>
+                            此帳號已暫停使用
+                        </b>
+                    @elseif(count($courses) > 0)
+                        {{-- 顯示課程列表資料 --}}
+                        @foreach($years_unique as $year_unique)
 
-                    {{-- 顯示課程列表資料 --}}
-                    @foreach($years_unique as $year_unique)
-
-                    {{--下學期--}}
-                    @if($courses -> where('year' , $year_unique -> year) -> sortByDesc('semester') -> first() -> semester == 2)
-                            <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
-                        @endif
-                        @foreach($courses -> sortByDesc('classroom')  as $course)
-                            @if($year_unique -> year == $course -> year && $course -> semester == 2)
-                                <h5>
-                                    <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px"
-                                    >
-                                        <div class="row row-cols-2">
-{{--                                            第一列--}}
-                                            <div class="col-12">
-                                                {{$course -> name}} ({{$course -> classroom}})
-
-                                            </div>
-
-{{--                                            第二列 排版--}}
-                                            <div class="col-6">                                            </div>
-
-                                            <div class="col-6">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </h5>
+                            {{--下學期--}}
+                            @if($courses -> where('year' , $year_unique -> year) -> sortByDesc('semester') -> first() -> semester == 2)
+                                <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_2 :</h6>
                             @endif
-                        @endforeach
+                            @foreach($courses -> sortByDesc('classroom')  as $course)
+                                @if($year_unique -> year == $course -> year && $course -> semester == 2)
+                                    <h5>
+                                        <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px"
+                                        >
+                                            <div class="row row-cols-2">
+                                                {{--                                            第一列--}}
+                                                <div class="col-12">
+                                                    {{$course -> name}} ({{$course -> classroom}})
 
-{{--                         上學期--}}
-                        <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_1 :</h6>
-                        @foreach($courses -> sortByDesc('classroom')  as $course)
-                            @if($year_unique -> year == $course -> year && $course -> semester == 1)
-                                <h5>
-                                    <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px">
-                                        <div class="row row-cols-2">
-{{--                                            第一列--}}
-                                            <div class="col-12">
-                                                {{$course -> name}} ({{$course -> classroom}})
+                                                </div>
 
+                                                {{--                                            第二列 排版--}}
+                                                <div class="col-6">                                            </div>
+
+                                                <div class="col-6">
+                                                </div>
                                             </div>
+                                        </a>
+                                    </h5>
+                                @endif
+                            @endforeach
 
-{{--                                            第二列 排版--}}
-                                            <div class="col-6">                                            </div>
+                            {{--                         上學期--}}
+                            <h6 class="collapse-header" style="margin-left: -15px">{{$year_unique -> year}}學年度_1 :</h6>
+                            @foreach($courses -> sortByDesc('classroom')  as $course)
+                                @if($year_unique -> year == $course -> year && $course -> semester == 1)
+                                    <h5>
+                                        <a class="collapse-item" href="/teacher/{{$course -> id}}/courses" style="font-size: 14px">
+                                            <div class="row row-cols-2">
+                                                {{--                                            第一列--}}
+                                                <div class="col-12">
+                                                    {{$course -> name}} ({{$course -> classroom}})
 
-                                            <div class="col-6">
+                                                </div>
+
+                                                {{--                                            第二列 排版--}}
+                                                <div class="col-6">                                            </div>
+
+                                                <div class="col-6">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                </h5>
-                            @endif
-                        @endforeach
+                                        </a>
+                                    </h5>
+                                @endif
+                            @endforeach
 
-                    @endforeach
+                        @endforeach
+                    @else
+                        <b>尚未匯入課程資料</b>
+                    @endif
 
                     @yield('side_courses')
                 </div>

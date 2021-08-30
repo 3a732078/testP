@@ -22,11 +22,6 @@ use Spatie\PdfToImage\Pdf;
 
 class TextbookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request,$id)
     {
         session_start();
@@ -215,16 +210,15 @@ class TextbookController extends Controller
         $ConverName = str_replace($FileMime,'pdf',$FileName);
         $destination_path = 'public/text_meterials/' . Auth::user() -> name　. '/' . $course -> year . '-' . $course -> semester . '/' .$course -> name;
 
-        $request -> file('toimage')
-            -> storeAs('public' , $FileName);
+        $file = $request->file('toimage')->store('pdf');
+        $path = Storage::path($file);
 
-//        $converter = new OfficeConverter($FileName ,
-//            $destination_path);
-//        $converter -> convertTo($ConverName);
+//        $converter = new OfficeConverter($path);
+//        $dtp=$converter->convertTo($FileName.'.pdf');
 
         Textbook::create([
             'course_id' => $course_id,
-            'name' => str_replace($FileMime,'',$FileName),
+            'name' => str_replace('.' . $FileMime,'',$FileName ),
             'path' => $ConverName,
         ]);
 

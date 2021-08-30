@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Admin;
 use App\Models\Student;
 use App\Models\Ta;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,8 +109,13 @@ class UserController extends Controller
             'user_name' => 'required',
             'DepartmentName' => 'required',
             'Type' => 'required',
-
         ]);
+        if($request -> Type == '學生'){
+            $request -> validate([
+               'class' => 'required',
+               'grade' => 'required',
+            ]);
+        }
 
         $users = User::all();
         $departments = Department::all();
@@ -133,6 +139,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '老師';
+                    $user -> status = '使用';
                     $user -> save();
                 }else{
                     $user = new User();
@@ -140,6 +147,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '老師';
+                    $user -> status = '使用';
                     $user -> save();
                 }
             }else{
@@ -155,6 +163,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '老師';
+                    $user -> status = '使用';
                     $user -> save();
                 }else{
                     $user = new User();
@@ -162,6 +171,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '老師';
+                    $user -> status = '使用';
                     $user -> save();
                 }
             }
@@ -180,6 +190,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '學生';
+                    $user -> status = '使用';
                     $user -> save();
                 }else{
                     $user = new User();
@@ -187,6 +198,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '學生';
+                    $user -> status = '使用';
                     $user -> save();
                 }
             }else{
@@ -202,6 +214,7 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '學生';
+                    $user -> status = '使用';
                     $user -> save();
                 }else{
                     $user = new User();
@@ -209,9 +222,23 @@ class UserController extends Controller
                     $user -> name = $request -> user_name ;
                     $user -> password = Hash::make('123123123');
                     $user -> type = '學生';
+                    $user -> status = '使用';
                     $user -> save();
                 }
             }
+        }
+        $user = User::all() -> sortByDesc('id') -> first();
+        if($user -> type == '老師'){
+            $teacher = new Teacher();
+            $teacher -> user_id = $user -> id;
+            $teacher -> department_id = substr($user -> account,4,1);
+            $teacher -> save();
+        }else{
+            $student = new Student();
+            $student -> user_id = $user -> id ;
+            $student -> department_id = substr($user -> account,4,1);
+            $student -> classroom = '四' . mb_substr($request -> DepartmentName , 0,1,'utf-8') . $request -> grade . $request -> class;
+            $student -> save();
         }
 
         return back() -> withStatus('Success');
@@ -251,16 +278,16 @@ class UserController extends Controller
         }
 
         $user = User::find($user_id);
-        $user -> name = $request -> name;
-        if(isset($request -> password)){
+        if($request -> password != null){
             $user -> password = $request -> password;
         }
         $user -> account = $request -> account;
+        $user -> name = $request -> name;
         $user -> type = $request -> type;
-        if(isset($request -> email)){
+        if($request -> email != null){
             $user -> email = $request -> email;
         }
-//        $user -> status = $request -> status;
+        $user -> status = $request -> status ;
         $user -> save();
 
         return redirect() -> route('account.index',[
@@ -279,8 +306,12 @@ class UserController extends Controller
         if (count($courses) > 0 ){
             return back() -> withErrors(' ','error');
         }
-
+        if ($user -> type == '老師'){
+            $user -> teacher -> delete();
+        }else{
+            $user -> student -> delete();
+        }
         $user -> delete();
-        return  back() -> status('已刪除帳號資料');
+        return  back() -> withstatus('已刪除帳號資料');
     }
 }

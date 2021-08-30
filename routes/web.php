@@ -604,6 +604,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                 UserController::class,'edit'
             ]) -> name('account.edit');
 
+            //更新帳號
+            Route::post('{user_id}/update',[
+                UserController::class,'update'
+            ]) -> name('account.update');
+
             //刪除帳號
             Route::get('{user_id}/delete',[
                 UserController::class,'destroy'

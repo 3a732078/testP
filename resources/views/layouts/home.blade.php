@@ -20,6 +20,12 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('/home/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <script>
+        function stop_status() {
+            alert("此帳號已被暫停使用");
+        }
+    </script>
+
 </head>
 
 <body id="page-top">
@@ -70,7 +76,9 @@
                     @endphp
 
                     {{-- 避免尚未有資料--}}
-                    @if ($courses -> count() > 0)
+                    @if(\Illuminate\Support\Facades\Auth::user() -> status == '暫停')
+                        <b>此帳號已被暫停</b>
+                    @elseif ($courses -> count() > 0)
                         {{-- 抓取年度數字--}}
                         @foreach($years_unique as $year_unique)
 
@@ -92,6 +100,11 @@
 
 
                         @endforeach
+
+                    @else
+                        <b>
+                            尚未匯入修課資料
+                        </b>
                     @endif
                 </div>
             </div>
@@ -162,6 +175,14 @@
         <div class="sidebar-heading">
             聯繫
         </div>
+
+            @if($class != null )
+                <li class="nav-item">
+                    <a class="nav-link" href="/{{$class}}/mail/index">
+                        <i class="fas fa-fw fa-comment"></i>
+                        <span>發送Email</span></a>
+                </li>
+            @endif
 
             @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
                 <li class="nav-item">

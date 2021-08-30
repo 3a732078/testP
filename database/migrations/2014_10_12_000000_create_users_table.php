@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('type');
             $table->string('email')->nullable();
+            $table -> string('status') ;
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
 

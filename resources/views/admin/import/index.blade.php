@@ -38,6 +38,16 @@
             系所的名字錯誤，尚未新增該筆資料,在Excel的第{{$errors -> department -> first()}}筆資料
         </div>
     @endif
+    @if( $errors -> CourseName -> any())
+        <div class="alert alert-danger">
+            課程名稱資料錯誤
+        </div>
+    @endif
+    @if( $errors -> department -> any())
+        <div class="alert alert-danger">
+            學生名稱資料錯誤
+        </div>
+    @endif
     <div align="center">
         <div  class="card" style="background-color: #F0F0F0 ;width: 1200px;height: 600px">
             <div class="card-body text-left"

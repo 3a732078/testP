@@ -37,10 +37,20 @@
 
                     <tbody>
                     <tr>
-                        <td height="25px" valign="middle">
+                        <td height="25px" valign="middle" colspan="2">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">主旨</span>
+                                <input name="title" type="text" class="form-control" placeholder="郵件主旨" aria-label="Username" aria-describedby="basic-addon1">
+                            </div>
                         </td>
+                    </tr>
 
-                        <td height="25px" valign="middle">
+                    <tr>
+                        <td valign="middle" colspan="2">
+                            <div class="input-group">
+                                <span class="input-group-text">內容</span>
+                                <textarea style="height: 500px" name="body" class="form-control" aria-label="With textarea" placeholder="郵件內容"></textarea>
+                            </div>
                         </td>
                     </tr>
                     </tbody>

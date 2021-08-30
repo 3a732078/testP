@@ -89,7 +89,34 @@
                     <td colspan="2">
 
                     </td>
+                </tr>
 
+                <tr>
+                    <td height="25px" valign="middle">
+                        <label for="grade" class="form-label">學生必填</label>
+                        <div class="input-group mb-3">
+                            <select name="grade" id="grade" class="form-select" aria-label="Default select example" >
+                                <option value="" selected>請選擇年級</option>
+                                <option value="一"> 一</option>
+                                <option value="二"> 二</option>
+                                <option value="三"> 三</option>
+                                <option value="四"> 四</option>
+                            </select>
+                        </div>
+                        @error('grade') <li><span style="color: red">{{$message}}</span></li>@enderror
+                    </td>
+
+                    <td colspan="2">
+                        <label for="class" class="form-label"></label>
+                        <div class="input-group mb-3">
+                            <select name="class" id="class"  class="form-select" aria-label="Default select example">
+                                <option value="" selected>請選擇班別</option>
+                                    <option value="甲"> 甲</option>
+                                    <option value="乙"> 乙</option>
+                            </select>
+                        </div>
+                        @error('class') <li><span style="color: red">{{$message}}</span></li>@enderror
+                    </td>
                 </tr>
                 </tbody>
 

@@ -9,22 +9,29 @@
             <a class="nav-link active " aria-current="page" href='/students'>最新消息</a>
         </li>
 
-
-        <li class="nav-item">
-            <a class="nav-link "  href= '/students/behave'>校園行事曆</a>
-        </li>
     </ul>
 
 @endsection
 
 @section('search')
-    <div class="search-container">
-        <form action="{{route('notes.search')}}" class="ml-md-3" style="margin-top: 10px">
-            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">
-            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>
-        </form>
-    </div>
+
+    @if(\Illuminate\Support\Facades\Auth::user() -> status == '暫停')
+        <div class="search-container">
+            <form  class="ml-md-3" style="margin-top: 10px">
+                <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">
+                <button onclick="stop_status()" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>
+            </form>
+        </div>
+    @else
+        <div class="search-container">
+            <form action="{{route('notes.search')}}" class="ml-md-3" style="margin-top: 10px">
+                <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">
+                <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>
+            </form>
+        </div>
+    @endif
 @endsection
+
 @section('navno')
 {{--    <hr class="sidebar-divider">--}}
 {{--    <div class="sidebar-heading">--}}

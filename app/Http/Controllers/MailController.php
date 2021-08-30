@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendMail;
 use App\Models\Course;
 use App\Models\CourseStudent;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
@@ -43,6 +45,15 @@ class MailController extends Controller
 
     //送出mail
     public function store(Request $request,$course_id ,$receiver_id){
-        return 'send';
+        $details = [
+            'title' => $request -> title,
+            'body' => $request -> body,
+        ];
+        $receiver = User::find($receiver_id);
+        Mail::to($receiver -> email) -> send(new SendMail($details));
+
+        return redirect() -> route('mail.index',[
+            $course_id,
+        ])-> withStatus("寄送訊息完成");
     }
 }

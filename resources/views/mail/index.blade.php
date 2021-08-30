@@ -20,6 +20,11 @@
 <div align="center">
     <div  class="card" style="background-color: #F0F0F0 ;width: 1200px;height: 600px;overflow:auto;" >
         <div class="card-body text-left">
+            @if(session('status'))
+                <div class="alert alert-success">
+                    {{session('status')}}
+                </div>
+            @endif
 
             <table class="table  border-bottom-secondary border-5">
                 <thead>
@@ -68,10 +73,10 @@
                         </td>
 
                         <td height="25px" valign="middle" colspan="2">
-                            @if(!isset($data -> user -> mail) )
+                            @if(!isset($data -> user -> email) )
                                 <div align="middle"><b >尚未設定Email</b></div>
                             @else
-                                {{$data -> user -> mail}}
+                                {{$data -> user -> email}}
                             @endif
                         </td>
 

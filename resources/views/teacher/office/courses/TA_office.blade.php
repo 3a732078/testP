@@ -23,6 +23,7 @@
         <button type="button" onclick="location.href = '{{route('teacher.office.courses.text_materials',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">教材區</button>
         <button type="button" onclick="location.href = '{{route('teacher.courses.BN',[$course_id,0])}}'" class="btn btn-sm btn-outline-secondary">瀏覽筆記</button>
         <button type="button" onclick="location.href = '{{route('teacher.office.courses.TA_office',[$course_id])}}'" class="btn btn-sm btn-primary">TA相關事務</button>
+        <button type="button" onclick="location.href = '{{route('mail.index',[$course_id])}}'" class="btn btn-sm btn-outline-secondary">發送mail</button>
 
     </div>
 
@@ -83,7 +84,7 @@
         {{-- body --}}
         <div class="card-body text-success">
 
-            @if(isset($TA))
+            @if(count($TA) > 0)
                 @foreach($TA as $data )
 
                 <div class="row">
@@ -105,13 +106,11 @@
                         </button>
 
                         {{-- 刪除 --}}
-                        <form action="{{route('teacher.office.courses.TA.delete' , [$course_id,$data  -> id]) }}">
-                            <button type="submit"
-                                    onclick="prink_delete_check()"
-                                    class="btn btn-danger">
-                                刪除
-                            </button>
-                        </form>
+                        <button onclick="location.href = '{{route('teacher.office.courses.TA.delete' , [$course_id,$data  -> id]) }}'"
+                                class="btn btn-danger"
+                        >
+                            刪除
+                        </button>
 
                     </div>
 

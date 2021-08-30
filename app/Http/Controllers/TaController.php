@@ -14,11 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $type= User::where('id', Auth::id())->value('type');
@@ -105,11 +100,7 @@ class TaController extends Controller
         return view('ta.tacourse',['tacid'=>$tacid,'tac'=>$tac,'count'=>$count,'class'=>$class]);
 
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create($course_id)
     {
         // === $years寫入資料
@@ -152,12 +143,6 @@ class TaController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request,$course_id,$student_id){
         $ta = new Ta();
         $ta -> student_id = $student_id;
@@ -169,49 +154,25 @@ class TaController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ta  $ta
-     * @return \Illuminate\Http\Response
-     */
     public function show(Ta $ta)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ta  $ta
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Ta $ta)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ta  $ta
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Ta $ta)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Ta  $ta
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ta $ta,$course_id,$student_id)
+    public function destroy(Ta $ta,$course_id,$ta_id)
     {
-        $TA = Ta::where('student_id' ,$student_id) -> first();
+        $TA = Ta::find($ta_id);
         $TA -> delete();
 
         return redirect(route('teacher.office.courses.TA_office', [

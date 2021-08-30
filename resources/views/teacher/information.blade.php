@@ -1,8 +1,9 @@
 @extends('layouts.teacher.main')
-{{--@section('header_name')--}}
-{{--    --}}{{-- 直接寫入 --}}
-{{--    #--}}
-{{--@endsection--}}
+<script>
+    function stop_status() {
+        alert("此帳號已被暫停使用");
+    }
+</script>
 
 {{-- Title --}}
 @section('title')
@@ -15,12 +16,9 @@
     <ul class="nav nav-tabs">
 
         <li class="nav-item ">
-            <a class="nav-link " aria-current="page" href='index'>最新消息</a>
+            <a class="nav-link " aria-current="page" href='/teacher/index'>最新消息</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link "  href= 'behave'>校園行事曆</a>
-        </li>
 
     </ul>
 
@@ -43,9 +41,19 @@
         </div>
 
         <div class="col-sm-6">
-            <button type="button"
-                    onclick="location.href = '{{route('teacher.office.index',[])}} '"
-                    class="btn btn-success  " style="padding: 0px 30px 0 30px">  教室 <i class="fas fa-hand-point-right"></i> 辦公室  </button>
+            @if(\Illuminate\Support\Facades\Auth::user() -> status == '暫停')
+                <button type="button"
+                        onclick="stop_status()"
+                        class="btn btn-success  " style="padding: 0px 30px 0 30px">
+                    教室 <i class="fas fa-hand-point-right"></i> 辦公室
+                </button>
+            @else()
+                <button type="button"
+                        onclick="location.href = '{{route('teacher.office.index',[])}} '"
+                        class="btn btn-success  " style="padding: 0px 30px 0 30px">
+                    教室 <i class="fas fa-hand-point-right"></i> 辦公室
+                </button>
+            @endif
         </div>
     </div>
 @endsection
