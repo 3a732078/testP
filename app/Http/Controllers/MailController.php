@@ -23,7 +23,7 @@ class MailController extends Controller
                 $students[] = Student::find($data -> student_id);
             }
         }else{
-            return back() -> withErrors('該堂課尚未有修課學生');
+            return back() -> withStatus('該堂課尚未有修課學生');
         }
         $teacher = $course -> teacher ;
 

@@ -279,7 +279,7 @@ class UserController extends Controller
 
         $user = User::find($user_id);
         if($request -> password != null){
-            $user -> password = $request -> password;
+            $user -> password = Hash::make($request -> password);
         }
         $user -> account = $request -> account;
         $user -> name = $request -> name;

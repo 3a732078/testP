@@ -21,11 +21,12 @@ class CourseStudentImport implements ToModel
     {
 
         $course = Course::where('name',$row[1]) -> get();
+        $course = $course -> where('year',date('Y') - 1911 );
+
         $student = User::where('name',$row[2]) -> get() ;
         if (count($course) < 1){
             $course_id = 2;
         }else{
-            $course = $course -> where('year',date('Y') - 1911 );
             $course_id = $course[0] -> id;
         }
         if ( count($student) < 1){

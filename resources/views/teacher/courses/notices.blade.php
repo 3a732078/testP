@@ -54,9 +54,14 @@
 
     <div id="layoutSidenav_content">
         <main>
-            @if ($message = Session::get('alert'))
-                <script>alert("{{ $message }}");</script>
+            @if (session('status'))
+                <div class="alert alert-warning">
+                    <b>
+                        {{session('status')}}
+                    </b>
+                </div>
             @endif
+
             <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
 

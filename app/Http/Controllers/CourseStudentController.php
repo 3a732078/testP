@@ -76,9 +76,13 @@ class CourseStudentController extends Controller
     //刪除修課學生
     public function destroy(CourseStudent $courseStudent ,$department_id,$course_id,$student_id)
     {
+        $course = Course::find($course_id);
         $student = CourseStudent::where('student_id',$student_id) -> get();
-        $student = $student -> where('course_id' ,$course_id );
-        $student[0] -> delete();
+        $student = $student -> where('course_id' ,$course -> id );
+
+        foreach ($student as $data){
+            $data -> delete() ;
+        } 
 
         return back() -> withStatus('完成刪除');
     }
