@@ -500,7 +500,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         ])->name('teacher.office.CB.semester');
 
         //從課程複製 ----> 查semester
-        Route::get('semester/{course_id}/{year}/{semester}',[
+        Route::get('semester/search/{course_id}/{year}/{semester}',[
             TeacherController::class,'CB_complex'
         ])->name('teacher.office.CB.complex');
 

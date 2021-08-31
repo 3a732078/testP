@@ -25,7 +25,7 @@
 @section('content')
     <div align="center">
         <div  class="card" style="background-color: #F0F0F0 ;width: 1200px;height: 600px">
-            @if(session('errors'))
+            @if($errors -> over -> any())
                 <div class="alert alert-danger">
                     <li>
                         <b>
@@ -61,7 +61,7 @@
                         <td height="25px" valign="middle">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control"
-                                       id="teacher_name" name="教師名稱"
+                                       id="teacher_name" name="teacher_name"
                                        value=" {{$course -> teacher -> user -> name}}"
                                 >
                                 <label for="teacher_name">Teacher Name</label>
@@ -70,8 +70,12 @@
                         </td>
                         <td height="25px" valign="middle" colspan="2">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="department_name"
-                                       id="department_name" value="{{$course -> department -> name}}" >
+                                <select class="form-select" aria-label="Default select example" name="department_name" id="department_name">
+                                    <option value="{{$department -> name}}" selected >{{$department -> name}}</option>
+                                    @foreach($departments as $data)
+                                        <option value="{{$data -> name}}">{{$data -> name}}</option>
+                                    @endforeach
+                                </select>
                                 <label for="department_name">系所名稱</label>
                                 @error('department_name') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </div>
@@ -91,8 +95,13 @@
                         </td>
                         <td height="25px" valign="middle">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="grade"
-                                       id="grade" value="{{$course -> grade}}" >
+                                <select class="form-select" aria-label="Default select example" name="grade" id="grade">
+                                    <option value="{{$course -> grade}}" selected>請選擇年級</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
                                 <label for="grade">年級</label>
                                 @error('grade') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </div>
@@ -110,10 +119,14 @@
                     <tr>
                         <td height="25px" valign="middle">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control"
-                                       id="classroom" name="classroom"
-                                       value="{{$course -> classroom}}"
-                                >
+                                <select class="form-select" aria-label="Default select example" name="classroom" id="classroom">
+                                    <option value="{{$course -> classroom}}" selected>{{$course -> classroom}}</option>
+                                    @if(mb_substr($course -> classroom,3,1,'utf-8') != '甲')
+                                        <option value="{{mb_substr($course -> classroom , 0,3,'utf-8')}}甲">{{mb_substr($course -> classroom , 0,3,'utf-8')}}甲</option>
+                                    @else
+                                        <option value="{{mb_substr($course -> classroom , 0,3,'utf-8')}}乙">{{mb_substr($course -> classroom , 0,3,'utf-8')}}乙</option>
+                                    @endif
+                                </select>
                                 <label for="classroom">班級</label>
                                 @error('classroom') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </div>

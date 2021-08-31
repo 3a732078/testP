@@ -33,7 +33,7 @@
                         <div class="alert alert-success">
                             <li>
                                 <b>
-                                    已刪除課程
+                                    {{session('status')}}
                                 </b>
                             </li>
                         </div>
@@ -53,7 +53,7 @@
                         <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
                             <option value="" selected="selected" >- - 年 - -</option>
                             @foreach($courses  -> unique('year') as $course)
-                                <option value="search_year/{{$course -> year}}" >{{$course -> year}}</option>
+                                <option value="{{route('department.search_year',[$department -> id,$course -> year])}}" >{{$course -> year}}</option>
                             @endforeach
 
                         </select>
@@ -90,8 +90,8 @@
                                 >
                                     <span style="color: black"><b>顯示修課學生</b></span>
                                 </button>
-                                <button type="submit" class="btn bg-gradient-info btn-sm"
-                                        onclick="location.href = '{{route('course.edit',[$department -> id,$course -> id])}}'"
+                                <button class="btn bg-gradient-info btn-sm"
+                                        onclick="location.href = '{{route('course.edit',[$department -> id,$data -> id])}}'"
                                 >
                                     <span style="color: #cbd5e0"><b>
                                             編輯課程資訊  <img class="mb-1" style="height: 20px" src="https://img.icons8.com/ios/50/000000/courses.png"/>

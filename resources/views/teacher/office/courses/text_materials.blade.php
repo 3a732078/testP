@@ -61,9 +61,14 @@
     <div class="row" style="margin-top:50px;margin-left: 50px;width: auto ; height: 1000px">
 
         <div class="col-auto">
-
+            @if(session('status'))
+                <div class="alert alert-success">
+                    <b>
+                        {{session('status')}}
+                    </b>
+                </div>
+            @endif
             <div class="card border-left-warning mb-3" style="width: 1000px;height: auto">
-
                 {{--Header --}}
                 <div class="card-header bg-gray-700 border-success">
 

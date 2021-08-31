@@ -79,10 +79,13 @@
                             <td height="25px" valign="middle">
                                 <label for="grade" class="form-label">年級</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control"
-                                           id="grade" aria-describedby="basic-addon3"
-                                           name="grade"
-                                    >
+                                    <select class="form-select" aria-label="Default select example" name="grade" id="grade">
+                                        <option selected>請選擇年級</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
                                 </div>
                                 @error('grade') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </td>
@@ -90,10 +93,11 @@
                             <td colspan="2">
                                 <label for="classroom" class="form-label">班別</label>
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control"
-                                           id="classroom" aria-describedby="basic-addon3"
-                                           name="classroom"
-                                    >
+                                    <select class="form-select" aria-label="Default select example" name="classroom" id="classroom">
+                                        <option selected>請選擇班別</option>
+                                        <option value="甲">甲</option>
+                                        <option value="乙">乙</option>
+                                    </select>
                                 </div>
                                 @error('classroom') <li><span style="color: red">{{$message}}</span></li>@enderror
                             </td>

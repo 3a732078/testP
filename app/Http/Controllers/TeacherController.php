@@ -245,12 +245,16 @@ class TeacherController extends Controller
     //從...複製
     public function semester_CB(Request $request,Teacher $teacher,$course_id){
         // === $years寫入資料
-        $courses = Auth::user() -> teacher -> courses() -> get () -> sortBydesc('year');
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
+        $courses = Course::all() -> sortBydesc('year');
         $course = Course::find($course_id);
-
+        $i = 0;
+        foreach ($courses as $data){
+            if ($data -> id == $course -> id){
+                $count = $i;
+            }
+            $i ++;
+        }
+        unset($courses[$count]);
         return view('teacher.office.clone_by',[
             'courses' => $courses,
             'course' => $course,
@@ -334,11 +338,7 @@ class TeacherController extends Controller
             }
         }
 
-        return view('teacher.office.semester',[
-            'courses' => $courses,
-            'course' => $course,
-            'clone_by' => $by_course,
-        ]);
+        return redirect() -> route('teacher.office.courses.text_materials',[$course_id]) -> withStatus('複製成功');
     }
 
     //從...複製  --> 新增

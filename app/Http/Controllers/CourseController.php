@@ -438,12 +438,16 @@ class CourseController extends Controller
         switch ($request -> grade){
             case 1:
                 $CY = '一';
+                break;
             case 2:
                 $CY= '二';
+                break;
             case 3:
                 $CY = '三';
+                break;
             case 4:
                 $CY = '四';
+                break;
         }
         $course = new Course;
         $course -> teacher_id = Teacher::where('user_id', User::where('name',$request -> teacher_name) -> first() -> id) -> first() -> id ;
@@ -477,10 +481,19 @@ class CourseController extends Controller
     {
         $department = Department::find($department_id);
         $course = Course::find($course_id);
-
+        $departments = Department::all();
+        $i = 0;
+        foreach ($departments as $data){
+            if ($data -> id == $department_id){
+                $count = $i;
+            }
+            $i ++;
+        }
+        unset($departments[$count]);
         return view('admin.department.courses.edit',[
             'course' => $course ,
             'department' => $department,
+            'departments' =>$departments,
 
         ]);
     }
@@ -500,7 +513,7 @@ class CourseController extends Controller
             'semester' => 'required',
         ]);
         if ($request -> year - 1 >= $max_year && $request -> semester >= $max_semester) {
-            return back() -> withErrors('over !!');
+            return back() -> withErrors(' ','over');
         }
 
         $course = Course::find($course_id);
@@ -513,7 +526,7 @@ class CourseController extends Controller
         $course -> semester = $request -> semester;
         $course -> save();
 
-
+        return redirect() -> route('department.courses_index',[$department_id]) -> withStatus('Update Success');
     }
 
     public function destroy(Course $course,$department_id,$course_id)
