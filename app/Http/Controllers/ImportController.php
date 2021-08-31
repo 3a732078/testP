@@ -161,6 +161,10 @@ class ImportController extends Controller
             }
         }
         foreach ($array_user as $data){
+            $user = User::find($data -> id);
+            $user -> status = '使用';
+            $user -> save();
+
             if ($data -> type == '老師'){
                 $teacher = new Teacher();
                 $teacher -> user_id = $data -> id;

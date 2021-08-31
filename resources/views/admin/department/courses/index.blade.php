@@ -52,7 +52,7 @@
                         {{-- 查找年分 --}}
                         <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
                             <option value="" selected="selected" >- - 年 - -</option>
-                            @foreach($courses  -> unique('year') as $course)
+                            @foreach($all_courses  -> unique('year') -> sortByDesc('year') as $course)
                                 <option value="{{route('department.search_year',[$department -> id,$course -> year])}}" >{{$course -> year}}</option>
                             @endforeach
 

@@ -126,7 +126,7 @@
                                     </tbody>
                                 </table>
                             @else
-                                <h3>尚未有任何科系</h3>
+                                <h3>尚未有任何使用者</h3>
                             @endif
                         </div>
                     </div>

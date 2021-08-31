@@ -569,12 +569,39 @@ class CourseController extends Controller
             return back() -> withStatus('該堂課尚未有修課學生');
         }
         $department = Department::find($department_id);
+        $all_classroom = array();
+        foreach ($students  as $data){
+            $all_classroom[] =$data -> classroom;
+        }
 
         return view('admin.department.courses.students',[
             'students' => $students,
             'course' => $course,
             'department' => $department,
+            'all_classroom' => $all_classroom,
+        ]);
 
+    }
+
+    //查找班級
+    public function students_classroom($department_id,$course_id,$classroom){
+        $course = Course::find($course_id);
+        $students = array();
+        $course_student = CourseStudent::where('course_id',$course_id) -> get() ;
+        if (count($course_student) > 0) {
+            foreach ($course_student as $data){
+                $students[] = Student::find($data -> student_id);
+            }
+        }else{
+            return back() -> withStatus('該堂課尚未有修課學生');
+        }
+        $department = Department::find($department_id);
+        return $students;
+        return view('admin.department.courses.students',[
+            'students' => $students,
+            'course' => $course,
+            'department' => $department,
+            'all_students' => $students,
         ]);
 
     }

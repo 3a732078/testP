@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -112,6 +113,7 @@ class DepartmentController extends Controller
         return view('admin.department.courses.index',[
             'department' => $department,
             'courses' => $courses,
+            'all_courses' => $courses,
 
         ]);
     }
@@ -119,18 +121,13 @@ class DepartmentController extends Controller
     //課程首頁
     public function search_year($department_id,$year){
         $department  = Department::find($department_id);
+        $all_courses = Course::all();
         $courses = $department -> courses() -> get() -> sortbyDesc('year')  -> where('year',$year);
-
-        foreach ($courses -> unique('year') as $year){
-            $datas[] = $courses -> where('year' , $year) -> sortbyDesc('semester');
-            foreach ($datas as $data){
-                $SortSemester[] = $data;
-            }
-        }
 
         return view('admin.department.courses.index',[
             'department' => $department,
             'courses' => $courses,
+            'all_courses' => $all_courses,
 
         ]);
     }

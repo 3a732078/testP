@@ -706,6 +706,11 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
                     \App\Http\Controllers\CourseController::class,'students'
                 ]) -> name('course.students');
 
+                //修課學生 ---- > 查詢班級
+                Route::get('{course_id}/{classroom}/students',[
+                    \App\Http\Controllers\CourseController::class,'students_classroom'
+                ]) -> name('course.students.classroom');
+
                 //新增修課學生
                 Route::get('{course_id}/students/create',[
                     \App\Http\Controllers\CourseStudentController::class,'create'
