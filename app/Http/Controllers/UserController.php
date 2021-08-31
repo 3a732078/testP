@@ -267,7 +267,7 @@ class UserController extends Controller
             'name' => 'required',
         ]);
         if ($request -> password){
-            if(Hash::check($request -> password ,$user -> password)){
+            if(Hash::check($request -> password ,Auth::user() -> password)){
                 return back() -> withErrors('與前密碼相同','password');
             }
         }

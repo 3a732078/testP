@@ -96,11 +96,10 @@
                         <td height="25px" valign="middle">
                             <div class="form-floating mb-3">
                                 <select class="form-select" aria-label="Default select example" name="grade" id="grade">
-                                    <option value="{{$course -> grade}}" selected>請選擇年級</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    <option value="{{$course -> grade}}" selected>{{$course -> grade}}</option>
+                                    @foreach($grades as $grade)
+                                        <option value="{{$grade}}">{{$grade}}</option>
+                                    @endforeach
                                 </select>
                                 <label for="grade">年級</label>
                                 @error('grade') <li><span style="color: red">{{$message}}</span></li>@enderror

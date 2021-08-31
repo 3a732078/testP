@@ -490,11 +490,13 @@ class CourseController extends Controller
             $i ++;
         }
         unset($departments[$count]);
+        $grades= [1,2,3,4];
+        unset($grades[$course -> grade - 1]);
         return view('admin.department.courses.edit',[
             'course' => $course ,
             'department' => $department,
             'departments' =>$departments,
-
+            'grades' => $grades,
         ]);
     }
 
@@ -515,13 +517,27 @@ class CourseController extends Controller
         if ($request -> year - 1 >= $max_year && $request -> semester >= $max_semester) {
             return back() -> withErrors(' ','over');
         }
+        switch ($request -> grade){
+            case 1:
+                $CN = '一';
+                break;
+            case 2:
+                $CN = '二';
+                break;
+            case 3:
+                $CN = '三';
+                break;
+            case 4:
+                $CN = '四';
+                break;
+        }
 
         $course = Course::find($course_id);
         $course -> teacher_id = Teacher::where('user_id', User::where('name',$request -> teacher_name) -> first() -> id) -> first() -> id ;
         $course -> department_id = Department::where('name' , $request -> department_name ) -> first() -> id ;
         $course -> name = $request -> course_name;
         $course -> grade = $request -> grade;
-        $course -> classroom = $request -> classroom;
+        $course -> classroom = '四' . mb_substr(Department::where('name' , $request -> department_name ) -> first() -> name,0,1,'utf-8') . $CN . mb_substr($request -> classroom,3,1,'utf-8');
         $course -> year = $request -> year;
         $course -> semester = $request -> semester;
         $course -> save();
@@ -550,7 +566,7 @@ class CourseController extends Controller
                 $students[] = Student::find($data -> student_id);
             }
         }else{
-            return back() -> withErrors('該堂課尚未有修課學生');
+            return back() -> withStatus('該堂課尚未有修課學生');
         }
         $department = Department::find($department_id);
 
