@@ -71,18 +71,20 @@
                                 </h5>
                             </div>
 
-                            <div class="col-lg-4">
-                                {{-- 查找年分 --}}
-                                <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
-                                    <option value="" selected="selected" style="text-align: center">- - 選擇教材 - -</option>
-                                    @foreach($TMs  -> unique('year') as $data)
-                                        <option value="{{route('teacher.courses.BN',[$class , $data -> id])}}" >{{$data -> name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <div class="col-lg-4">
+                                    <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
+                                        <option value="" selected="selected" style="text-align: center">- - 選擇教材 - -</option>
+                                        @foreach($TMs as $data)
+                                            <option value="{{route('teacher.courses.BN',[$class , $data -> id])}}" >{{$data -> name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
                         </div>
 
                     </div>
+                    @if(count($classNotes) > 0)
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -129,6 +131,11 @@
                             </table>
                         </div>
                     </div>
+                    @else
+                        <h3>
+                            沒有分享的筆記
+                        </h3>
+                    @endif
                 </div>
             </div>
         </main>

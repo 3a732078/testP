@@ -192,36 +192,14 @@ class CourseController extends Controller
     }
 
     // ========== 教材區
-    public function text_materials($course_id)
+    public function text_materials($course_id,$TM_id)
     {
-        // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
-
-        //抓取該課程所有公告
         $course = Course::find($course_id);
         $textbooks = $course->textbooks()->get();
 
-        //使用該年度抓取所有課程
-        $courses_year = $courses_year = User::find(Auth::id())->teacher() -> first() -> courses()->get()
-            ->where('year',$course -> year)->where('semester',$course -> semester)-> sortbyDESC('classroom');
-
-        //        return $courses_year;
-
-        //抓取上下學期
-        if($course -> semester == 1){
-            $semester = '上學期';
-        }else{
-            $semester = '下學期';
-        }
-
         return view('teacher.courses.text_materials',[
-            'year_semester' => $course -> year . "學年度" . $semester,
             'textbooks' => $textbooks,
-            'courses_year' => $courses_year,
-            'course_id' => $course_id,
             'course' => $course
         ]);
     }

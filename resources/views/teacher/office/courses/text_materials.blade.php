@@ -162,12 +162,10 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-10">
-                                    {{-- input --}}
-                                    <label for="text_material">放入新的教材</label>
-                                    <input type="file"
-                                           name="toimage"
-                                           class="form-control-file" id="text_material">
-
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">請放入教材</label>
+                                        <input class="form-control" type="file" id="file" >
+                                    </div>
                                 </div>
 
                                 <div class="col-2">
@@ -184,8 +182,8 @@
                     </form>
 
                     @if($errors -> any())
-                        <li >
-                            存取失敗，沒有放入資料
+                        <li>
+                            {{$errors -> first()}}
                         </li>
                     @endif
 

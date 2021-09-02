@@ -77,7 +77,7 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
 
-                                @if(isset($TA))
+                                @if(count($TA) > 0)
 
                                     {{-- head --}}
                                     <thead>

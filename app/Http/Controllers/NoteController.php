@@ -20,11 +20,6 @@ use Illuminate\Support\Facades\Storage;
 
 class NoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
@@ -880,18 +875,18 @@ class NoteController extends Controller
         return view('notes.classes.list',['class'=>$class,'classNotes'=>$classNotes, 'NoteScore'=>$NoteScore,'tkName'=>$tkName,'ta'=>$ta]);
     }
 
-    public function teacher_list($course_id,$id)
+    public function teacher_list($course_id,$TM_id)
     {
         session_start();
         $class=$course_id;
-        if($id != 0){
-            $tkName=Textbook::find($id)->name;
+        if($TM_id != 0){
+            $tkName=Textbook::find($TM_id)->name;
         }else{
             $tkName = '請選擇教材';
         };
         $TMs = Course::find($course_id) -> textbooks() -> get();
 
-        $classNotes=Note::where('textbook_id', $id)->where('share', '=', 1)->get()->toArray();
+        $classNotes=Note::where('textbook_id', $TM_id)->where('share', '=', 1)->get()->toArray();
 
         $NoteScore=DB::select("select note_id, avg(score) as avg from note_scores group by note_id");
         $NoteScore = array_combine(array_column($NoteScore,'note_id'),array_column($NoteScore,'avg'));

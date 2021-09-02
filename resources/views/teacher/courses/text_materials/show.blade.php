@@ -56,7 +56,11 @@
 
 {{-- Content --}}
 @section('content')
-
-
+    <div align="center">
+        @foreach($filesname as $filenamex)
+            <img id="scream" width="1000" height=""
+                 src="{{asset('images/'.$textbookimg->name.'/'.$filenamex)}}" alt="無圖片">
+        @endforeach
+    </div>
 @endsection
 

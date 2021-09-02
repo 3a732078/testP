@@ -102,13 +102,9 @@ class TextbookController extends Controller
         $textbooks=Textbook::all();
         return view('textbooks.indext',['courses'=>$courses,'textbooks'=>$textbooks]);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     //老師檢視教材
-    public function teacher_show($course_id,$TM_id){
+    public function teacher_show(Request $request,$course_id,$TM_id){
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
         foreach ($courses->unique('year') as $course) {
@@ -132,12 +128,40 @@ class TextbookController extends Controller
             $semester = '下學期';
         }
 
+        $teacher=Teacher::where('user_id',$request->user()->id)->value('id');
+        $courses=Course::where('teacher_id',$teacher)->get();
+        $ta=$courses;
+        if(count($ta)===0)
+        {
+            $user=User::where('id',$request->user()->id)->value('id');
+            $stu=Student::where('user_id',$user)->value('id');
+            $tac=Ta::where('student_id',$stu)->value('course_id');
+            $courses=Course::where('id',$tac)->get();
+        }
+
+        $textbooks=Textbook::all();
+
+        $textbookimg=Textbook::find($TM_id);
+        $folder=$textbookimg->name;
+        $path = public_path('\images\\'.$folder);
+//        dd($path);
+        $files = File::files($path);
+        $count = count($files);
+//        dd($files[0]->getFilename());
+
+        $filename=array();
+        for($i=0;$i<$count;$i++){
+            $fn=$files[$i]->getFilename();
+            array_push($filename,$fn);
+        }
+
         return view('teacher.courses.text_materials.show',[
             'year_semester' => $course -> year . "學年度" . $semester,
             'textbooks' => $textbooks,
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'course' => $course,
+            'textbookimg'=>$textbookimg,'files'=>$files,'filesname'=>$filename,'courses'=>$courses,'textbooks'=>$textbooks,'id'=>$TM_id
         ]);
     }
 
@@ -200,16 +224,16 @@ class TextbookController extends Controller
     }
 
     public function teacher_store(Request $request,$course_id){
-        $validatedData = $request->validate([
-            'toimage' => 'required',
+        $request->validate([
+            'file' => 'required|mimes:pdf,docs,pptx,txt',
         ]);
 
         $course = Course::find($course_id);
-        $FileName = $request-> file('toimage') -> getClientOriginalName();
-        $FileMime = $request -> file('toimage') -> getClientOriginalExtension();
+        $FileName = $request-> file('file') -> getClientOriginalName();
+        $FileMime = $request -> file('file') -> getClientOriginalExtension();
         $ConverName = str_replace($FileMime,'pdf',$FileName);
         $destination_path = 'public/text_meterials/' . Auth::user() -> name　. '/' . $course -> year . '-' . $course -> semester . '/' .$course -> name;
-
+        return $FileMime;
         $file = $request->file('toimage')->store('pdf');
         $path = Storage::path($file);
 
@@ -269,12 +293,6 @@ class TextbookController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Textbook  $textbook
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Textbook $textbook)
     {
         //

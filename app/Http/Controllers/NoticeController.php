@@ -11,11 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class NoticeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         //
@@ -31,12 +27,6 @@ class NoticeController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
@@ -202,10 +192,7 @@ class NoticeController extends Controller
     //儲存新公告
     public function teacher_office_notice_store(Request $request,$course_id)
     {
-        #判斷是否有空值並且反映
-            //根本不會啊 ====================
-
-        #導回所有的公告列保
+        #導回所有的公告列表
             // === insert
         $notice = new Notice();
         $notice -> teacher_id = User::find(Auth::id())->teacher()->first()->id;
