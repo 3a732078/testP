@@ -69,7 +69,7 @@
                         <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
                             <option value="" selected="selected" >- - 年 - -</option>
                             @foreach($courses  -> unique('year') as $data)
-                                <option value="{{route('teacher.office.CB.year',[$course -> id,$data -> year,])}}" >{{$data -> year}}</option>
+                                <option value="{{route('clone_create.year',[$course -> id,$data -> year,])}}" >{{$data -> year}}</option>
                             @endforeach
 
                         </select>
@@ -78,8 +78,8 @@
                         {{-- 查找學期 --}}
                         <select name="year" onchange="javascript:location.href = this.value;"  style="height: 30px;">
                             <option value="" selected="selected" >- - 學期 - -</option>
-                            <option value="{{route('teacher.office.CB.semester',[$course -> id,1,])}}" >上學期</option>
-                            <option value="{{route('teacher.office.CB.semester',[$course -> id,2,])}}" >下學期</option>
+                            <option value="{{route('clone_create.semester',[$course -> id,1,])}}" >上學期</option>
+                            <option value="{{route('clone_create.semester',[$course -> id,2,])}}" >下學期</option>
 
                         </select>
                     </th>
@@ -101,7 +101,7 @@
                             </td>
                             <td height="25px" valign="middle">
                                 <button type="submit" class="btn btn-outline-secondary btn-sm"
-                                        onclick="location.href = '{{route('teacher.office.CB.show',[$course -> id ,$data -> id])}}'">
+                                        onclick="location.href = '{{route('courses.clone_show',[$course -> id ,$data -> id])}}'">
                                     檢視  <img height="30px" src="https://img.icons8.com/dotty/80/000000/browse-folder.png"/>
                                 </button>
 

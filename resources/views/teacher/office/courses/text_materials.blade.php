@@ -84,7 +84,7 @@
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" align="right">
                             <button type="submit" class="btn bg-white btn-sm"
-                                    onclick="location.href = '{{route('teacher.office.semester.clone_by',[$course -> id])}}'">
+                                    onclick="location.href = '{{route('courses.clone_create',[$course -> id])}}'">
                                 <b>複製課程教材</b> <img height="20px" src="https://img.icons8.com/flat-round/64/000000/right--v1.png"/>
                             </button>
                         </div>

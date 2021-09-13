@@ -201,67 +201,6 @@ class TeacherController extends Controller
         ]);
     }
 
-    //課程複製
-    public function office_semester(Request $request,Teacher $teacher){
-        // === $years寫入資料
-        $courses = Auth::user() -> teacher -> courses() -> get() -> sortByDesc('year');
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
-
-        return view('teacher.office.semester',[
-            'courses' => $courses,
-        ]);
-    }
-
-    //查找年
-    public function semester_year(Request $request,Teacher $teacher,$year)
-    {
-        // === $years寫入資料
-        $courses = Auth::user()->teacher->courses()->get() -> where('year', $year);
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course->year;
-        }
-
-
-        return view('teacher.office.semester', [
-            'courses' => $courses,
-        ]);
-    }
-
-    //查找學期
-    public function semester_semester(Request $request,Teacher $teacher,$semester){
-        // === $years寫入資料
-        $courses = Auth::user() -> teacher -> courses() -> get () -> where('semester' , $semester);
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
-
-        return view('teacher.office.semester',[
-            'courses' => $courses,
-        ]);
-    }
-
-    //從...複製
-    public function semester_CB(Request $request,Teacher $teacher,$course_id){
-        // === $years寫入資料
-        $courses = Course::all() -> sortBydesc('year');
-        $course = Course::find($course_id);
-        $i = 0;
-        foreach ($courses as $data){
-            if ($data -> id == $course -> id){
-                $count = $i;
-            }
-            $i ++;
-        }
-        unset($courses[$count]);
-        return view('teacher.office.clone_by',[
-            'courses' => $courses,
-            'course' => $course,
-
-        ]);
-    }
-
     //從...複製  --> 查找年
     public function CB_year(Request $request,Teacher $teacher,$course_id,$year)
     {
@@ -291,33 +230,6 @@ class TeacherController extends Controller
 
         ]);
 
-    }//從...複製  --> 複合查找
-    public function CB_complex(Request $request,Teacher $teacher,$course_id,$year,$semester){
-        $courses = Auth::user() -> teacher -> courses() -> get () -> where('semester' , $semester) -> sortbyDesc('year');
-        foreach ($courses->unique('year') as $course) {
-            $years[] = $course -> year;
-        }
-        $course = Course::find($course_id);
-
-        return view('teacher.office.clone_by',[
-            'courses' => $courses,
-            'course' => $course,
-
-        ]);
-
-    }
-
-    //從...複製  --> 檢視教材
-    public function CB_show(Request $request,Teacher $teacher,$course_id,$BC_id){
-        $course = Course::find($course_id);
-        $clone_by = Course::find($BC_id);
-        $text_materials = $clone_by -> textbooks() -> get();
-
-        return view('teacher.office.clone_by.show',[
-            'text_materials' => $text_materials,
-            'course' => $course,
-            'clone_by' => $clone_by,
-        ]);
     }
 
     //從...複製  --> 確定複製

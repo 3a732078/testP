@@ -14,14 +14,9 @@
 
     <ul class="nav nav-tabs">
 
-        <<li class="nav-item ">
+        <li class="nav-item ">
             <a class="nav-link  " aria-current="page" href='/admin/index'>最新消息</a>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link "  href= '/admin/behave'>校園行事曆</a>
-        </li>
-
 
     </ul>
 
@@ -47,18 +42,6 @@
         </div>
     </div>
 @endsection
-
-{{-- search --}}
-@section('search')
-    {{--    <div class="search-container">--}}
-    {{--        <form action="{{route('notes.search')}}" class="ml-md-3">--}}
-    {{--            <input type="text" placeholder="搜尋.." name="searchs" style="outline: none;width: 330px;height: 42px;border-radius:20px;padding-left: 20px">--}}
-    {{--            <button type="submit" class="btn btn-primary" style="border-radius:10px;"><i class="fa fa-search fa-1g"></i></button>--}}
-    {{--        </form>--}}
-    {{--    </div>--}}
-@endsection
-
-
 
 {{-- 課程列表 --}}
 @section('side_courses')
@@ -147,14 +130,12 @@
                                             內容:
                                         </th>
                                         <td>
-                                            <p style="margin-top: 20px;margin-bottom: 20px">
-                                                <div class="input-group mb-3">
-                                                    <input type="text" class="form-control" name = 'content' style="height: auto"
-                                                           placeholder="{{$information -> content}}"
-                                                           aria-label="Recipient's username" aria-describedby="basic-addon2"
-                                                    >
-                                                </div>
-                                            </p>
+                                            <div class="form-floating">
+                                                <textarea class="form-control"  name="content" id="content" style="height: 200px">
+                                                    {{$information -> content}}
+                                                </textarea>
+                                                <label for="content"></label>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>

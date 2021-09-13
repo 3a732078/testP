@@ -239,6 +239,38 @@ class CourseController extends Controller
         ]);
     }
 
+    public function clone_create($course_id){
+        // === $years寫入資料
+        $courses = Course::all() -> sortBydesc('year');
+        $course = Course::find($course_id);
+        $i = 0;
+        foreach ($courses as $data){
+            if ($data -> id == $course -> id){
+                $count = $i;
+            }
+            $i ++;
+        }
+        unset($courses[$count]);
+        return view('teacher.office.clone_by',[
+            'courses' => $courses,
+            'course' => $course,
+
+        ]);
+    }
+
+    //從...複製  --> 檢視教材
+    public function clone_show(Request $request,Teacher $teacher,$course_id,$BC_id){
+        $course = Course::find($course_id);
+        $clone_by = Course::find($BC_id);
+        $text_materials = $clone_by -> textbooks() -> get();
+
+        return view('teacher.office.clone_by.show',[
+            'text_materials' => $text_materials,
+            'course' => $course,
+            'clone_by' => $clone_by,
+        ]);
+    }
+
     // === 瀏覽筆記
     public function BN($course_id)
     {

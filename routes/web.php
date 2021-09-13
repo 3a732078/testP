@@ -485,29 +485,29 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         ])->name('teacher.office.semester.semester');
 
         //從課程複製
-        Route::get('semester/{course_id}/clone_by',[
-            TeacherController::class,'semester_CB'
-        ])->name('teacher.office.semester.clone_by');
+        Route::get('{course_id}/clone_create',[
+            CourseController::class,'clone_create'
+        ])->name('courses.clone_create');
 
         //從課程複製 ----> 查year
-        Route::get('semester/year/{course_id}/{year}',[
+        Route::get('{course_id}/year/{year}',[
             TeacherController::class,'CB_year'
-        ])->name('teacher.office.CB.year');
+        ])->name('clone_create.year');
 
         //從課程複製 ----> 查semester
-        Route::get('semester/{course_id}/{semester}',[
+        Route::get('{course_id}/semester/{semester}',[
             TeacherController::class,'CB_semester'
-        ])->name('teacher.office.CB.semester');
+        ])->name('clone_create.semester');
 
-        //從課程複製 ----> 查semester
-        Route::get('semester/search/{course_id}/{year}/{semester}',[
-            TeacherController::class,'CB_complex'
-        ])->name('teacher.office.CB.complex');
+        //從課程複製 ----> 複合查詢
+        Route::get('{course_id}/search/{year}/{semester}',[
+            CourseController::class,'CC_complex'
+        ])->name('clone_create.complex');
 
         //從課程複製 ----> 檢視教材
-        Route::get('semester/{course_id}/{by_course_id}/show',[
-            TeacherController::class,'CB_show'
-        ])->name('teacher.office.CB.show');
+        Route::get('{course_id}/{source_id}',[
+            CourseController::class,'clone_show'
+        ])->name('courses.clone_show');
 
         //從課程複製 ----> 確定複製
         Route::get('semester/{course_id}/{by_course_id}/clone',[
