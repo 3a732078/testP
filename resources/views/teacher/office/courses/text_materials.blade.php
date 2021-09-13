@@ -154,7 +154,7 @@
                 <div class="card-footer bg-gray-200 border-success">
 
                     {{-- 放入教材 --}}
-                    <form action="{{route('teacher.office.courses.text_materials.store',[$course_id,])}}"
+                    <form action="{{route('teacher.text_materials.store',[$course_id,])}}"
                           method="post"
                           enctype="multipart/form-data"
                     >
@@ -164,7 +164,7 @@
                                 <div class="col-md-10">
                                     <div class="mb-3">
                                         <label for="file" class="form-label">請放入教材</label>
-                                        <input class="form-control" type="file" id="file" >
+                                        <input class="form-control" type="file" id="file" name="file">
                                     </div>
                                 </div>
 

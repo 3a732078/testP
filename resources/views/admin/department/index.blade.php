@@ -80,7 +80,7 @@
 
                             <div class="col-lg-4" align="right">
                                 <button class="btn bg-gradient-success btn-sm"
-                                        onclick="location.href = 'create'"
+                                        onclick="location.href = 'department/create'"
                                 >
                                     <span style="color: #F0F0F0;">
                                         <b>
@@ -119,21 +119,33 @@
                                                 {{$data -> name}}
                                             </td>
                                             <td align="center" >
-                                                <button class="btn btn-outline-secondary"
-                                                        onclick="location.href = '{{$data -> id}}/index'"
-                                                >
-                                                    瀏覽學期課程
-                                                </button>
-                                                <button class="btn bg-gradient-primary"
-                                                        onclick="location.href = '{{$data -> id}}/edit'"
-                                                >
-                                                    <span style="color:#dae0e5;">編輯</span>
-                                                </button>
-                                                <button class="btn btn-outline-danger"
-                                                        onclick="location.href = '{{$data -> id}}/delete'"
-                                                >
-                                                    刪除
-                                                </button>
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <button class="btn btn-outline-secondary"
+                                                                onclick="location.href = 'department/{{$data -> id}}'"
+                                                        >
+                                                            瀏覽學期課程
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button class="btn bg-gradient-primary"
+                                                                onclick="location.href = 'department/{{$data -> id}}/edit'"
+                                                        >
+                                                            <span style="color:#dae0e5;">編輯</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <form action="{{route('department.delete',[$data -> id])}}" method="post">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button class="btn btn-outline-danger"
+                                                                    type="submit"
+                                                            >
+                                                                刪除
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

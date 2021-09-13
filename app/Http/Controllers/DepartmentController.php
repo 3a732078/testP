@@ -24,12 +24,6 @@ class DepartmentController extends Controller
         return view('admin.department.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request -> validate([
@@ -46,7 +40,7 @@ class DepartmentController extends Controller
         $departmet -> name = $request -> name;
         $departmet -> save();
 
-        return redirect('admin/department/index');
+        return redirect('admin/department');
     }
 
     public function show(Department $department)
@@ -109,13 +103,23 @@ class DepartmentController extends Controller
                 $SortSemester[] = $data;
             }
         }
+        if (count($courses) > 0){
+            return view('admin.department.courses.index',[
+                'department' => $department,
+                'courses' => $courses,
+                'all_courses' => $courses,
 
-        return view('admin.department.courses.index',[
-            'department' => $department,
-            'courses' => $courses,
-            'all_courses' => $courses,
+            ]);
+        }else{  //尚未有課程
+            return view('admin.department.courses.index',[
+                'department' => $department,
+                'courses' => $courses,
+                'all_courses' => $courses,
+            ]) -> withStatus('尚未匯入課程');
+        }
 
-        ]);
+
+
     }
 
     //課程首頁

@@ -192,7 +192,7 @@ class CourseController extends Controller
     }
 
     // ========== 教材區
-    public function text_materials($course_id,$TM_id)
+    public function text_materials($course_id)
     {
         $courses = \App\Models\Course::all()-> sortByDesc('year');
         $course = Course::find($course_id);

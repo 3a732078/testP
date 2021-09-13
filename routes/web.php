@@ -392,17 +392,15 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 
 
                     //教材儲存
-                    Route::post('/store',[
+                    Route::post('',[
                         TextbookController::class,'teacher_store'
-                    ])->name('teacher.office.courses.text_materials.store');
+                    ])->name('teacher.text_materials.store');
 
                     //教材刪除
-                    Route::delete('/{text_id}',[
+                    Route::delete('/{source_id}',[
                         TextbookController::class,'destroy'
                     ])->name('teacher.office.courses.text_materials.delete');
                 });
-
-
 
                 //瀏覽筆記
                 Route::get('home_works',[
@@ -620,7 +618,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
     #科系管理
         Route::prefix('department') -> group(function(){
             //首頁
-            Route::get('index',[
+            Route::get('',[
                 \App\Http\Controllers\DepartmentController::class,'index'
             ]) -> name('department.index');
 
@@ -640,16 +638,16 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
             ]) -> name('department.eidt');
 
             //更新
-            Route::post('{department_id}/update',[
+            Route::put('{department_id}',[
                 \App\Http\Controllers\DepartmentController::class,'update'
             ]) -> name('department.update');
 
             //刪除
-            Route::get('{department_id}/delete',[
+            Route::delete('{department_id}',[
                 \App\Http\Controllers\DepartmentController::class,'destroy'
             ]) -> name('department.delete');
 
-            //課程相關資訊首頁
+            //課程相關匯入
             Route::get('import',[
                 \App\Http\Controllers\ImportController::class,'index'
             ]) -> name('import.index');
@@ -667,7 +665,7 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
         #科系課程管理
             Route::prefix('{department_id}') -> group(function (){
                 //首頁
-                Route::get('index',[
+                Route::get('',[
                     \App\Http\Controllers\DepartmentController::class,'courses_index'
                 ])-> name('department.courses_index');
 

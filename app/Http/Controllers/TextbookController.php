@@ -225,7 +225,7 @@ class TextbookController extends Controller
 
     public function teacher_store(Request $request,$course_id){
         $request->validate([
-            'file' => 'required|mimes:pdf,docs,pptx,txt',
+            'file' => 'required|mimes:pdf,docx,pptx,txt',
         ]);
 
         $course = Course::find($course_id);
@@ -233,8 +233,7 @@ class TextbookController extends Controller
         $FileMime = $request -> file('file') -> getClientOriginalExtension();
         $ConverName = str_replace($FileMime,'pdf',$FileName);
         $destination_path = 'public/text_meterials/' . Auth::user() -> name　. '/' . $course -> year . '-' . $course -> semester . '/' .$course -> name;
-        return $FileMime;
-        $file = $request->file('toimage')->store('pdf');
+        $file = $request->file('file')->store('pdf');
         $path = Storage::path($file);
 
 //        $converter = new OfficeConverter($path);
