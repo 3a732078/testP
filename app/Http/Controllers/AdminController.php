@@ -40,7 +40,7 @@ class AdminController extends Controller
         $information -> poster = Auth::user() -> name ;
         $information -> save();
 
-        return redirect('admin/index');
+        return redirect('admin/information');
     }
 
     public function show(Admin $admin,$news_id)

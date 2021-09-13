@@ -53,14 +53,16 @@
     <div id="layoutSidenav_content">
         <main>
             @if ($message = Session::get('alert'))
-                <script>alert("{{ $message }}");</script>
+                <script>
+                    alert("{{ $message }}")
+                </script>
             @endif
 
             <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
-                    <form action="update" method="post" >
+                    <form action="{{route('information.update',[$information -> id])}}" method="POST"  enctype="multipart/form-data">
                         @csrf
-
+                        @method('PUT')
                         {{-- Header --}}
                         <div class="card-header">
                             <div class="row">
@@ -71,16 +73,11 @@
                                 <div class="col-lg-6">
 
                                 </div>
-                                <div class="col-lg-2">
+                                <div class="col-lg-2" align="right">
                                     <button class="btn bg-gradient-primary"
                                             type="submit"
                                     >
                                         <span style="color:#dae0e5;">完成</span>
-                                    </button>
-                                    <button class="btn btn-outline-danger"
-                                            onclick="location.href = 'delete'"
-                                    >
-                                        刪除
                                     </button>
                                 </div>
                             </div>
@@ -109,8 +106,8 @@
                                         <td>
                                             <div class="input-group mb-3">
                                                 <input type="text" class="form-control" name = 'title'
-                                                       placeholder="{{$information -> title}}"
                                                        aria-label="Recipient's username" aria-describedby="basic-addon2"
+                                                       value="{{$information -> title}}"
                                                 >
                                             </div>
                                         </td>
@@ -147,6 +144,5 @@
             </div>
         </main>
     </div>
-
 @endsection
 

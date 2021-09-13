@@ -55,7 +55,7 @@
 
             <div class="container-fluid">
                 <div class="card mb-4" style="margin-top:20px">
-                    <form action="store" method="post">
+                    <form action="{{route('information.store')}}" method="post">
                         @csrf
 
                         {{-- Header --}}

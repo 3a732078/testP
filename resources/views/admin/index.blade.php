@@ -64,9 +64,9 @@
                             <div class="col-lg-6">
 
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-2" align="right">
                                 <button class="btn bg-gradient-success"
-                                        onclick="location.href = 'create'"
+                                        onclick="location.href = 'information/create'"
                                 >
                                     <span style="color: #F0F0F0;">新增</span>
                                 </button>
@@ -101,12 +101,12 @@
                                         </td>
                                         <td align="center" >
                                             <button class="btn btn-outline-secondary"
-                                                    onclick="location.href = '{{$data -> id}}/show'"
+                                                    onclick="location.href = 'information/{{$data -> id}}/show'"
                                             >
                                                 檢視
                                             </button>
                                             <button class="btn bg-gradient-primary"
-                                                    onclick="location.href = '{{$data -> id}}/edit'"
+                                                    onclick="location.href = 'information/{{$data -> id}}/edit'"
                                             >
                                                 <span style="color:#dae0e5;">編輯</span>
                                             </button>

@@ -526,34 +526,34 @@ Route::get('/logout',[UserController::class,'logout'])->name('logout');
 #管理者
     Route::prefix('admin') -> group(function (){
         //首頁
-        Route::get('index',[
+        Route::get('information',[
             \App\Http\Controllers\AdminController::class,'index'
         ]) -> name('admin.index');
 
         //新增消息
-        Route::get('create',[
+        Route::get('information/create',[
             \App\Http\Controllers\AdminController::class,'create'
         ]) -> name('admin.create');
 
         //儲存消息
-        Route::post('store',[
+        Route::post('information',[
             \App\Http\Controllers\AdminController::class,'store'
-        ]) -> name('admin.store');
+        ]) -> name('information.store');
 
         //檢視新消息
-        Route::get('{news_id}/show',[
+        Route::get('information/{id}/show',[
             \App\Http\Controllers\AdminController::class,'show'
         ]) -> name('admin.show');
 
         //修改消息
-        Route::get('{news_id}/edit',[
+        Route::get('information/{id}/edit',[
             \App\Http\Controllers\AdminController::class,'edit'
         ]) -> name('admin.edit');
 
         //修改消息 ------> 更新
-        Route::post('{news_id}/update',[
+        Route::put('information/{id}',[
             \App\Http\Controllers\AdminController::class,'update'
-        ]) -> name('admin.update');
+        ]) -> name('information.update');
 
         //刪除消息
         Route::get('{news_id}/delete',[

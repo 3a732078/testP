@@ -37,7 +37,7 @@ class UserController extends Controller
                     break;
 
                 case '管理者':
-                    return redirect('/admin/index');
+                    return redirect() -> route('admin.index');
 
             }
         }
