@@ -189,6 +189,9 @@ class TextbookController extends Controller
             'title'=>'required',
             'subject'=>'required'
         ]);
+
+
+
         $Name = str_replace(" ","",$request->input('title'));
         $FileName = $Name . '.' . $request->toimage->extension();
 
@@ -210,7 +213,7 @@ class TextbookController extends Controller
         $pdf->setOutputFormat('jpeg')->saveImage($output_path);
 
         Textbook::create([
-            'course_id'=>'subject',
+            'course_id'=>$request->subject,
             'name'=>$Name,
             'path'=>$Name.".pdf",
         ]);
@@ -219,7 +222,7 @@ class TextbookController extends Controller
 
         Storage::delete('pdf/'.$uploadhash);
 
-        return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
+        // return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
 
     }
 
@@ -317,11 +320,11 @@ class TextbookController extends Controller
      */
 
     //刪除教材
-    public function destroy($course_id,$text_materials_id)
+    public function destroy($id)
     {
-        $text=Textbook::where('id',$text_materials_id);
+        $text=Textbook::where('id',$id);
         $text->delete();
 
-        return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
+        return redirect('/textbooks');
     }
 }
