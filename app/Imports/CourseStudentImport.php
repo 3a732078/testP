@@ -22,18 +22,17 @@ class CourseStudentImport implements ToModel
 
         $course = Course::where('name',$row[1]) -> get();
         $course = $course -> where('year',date('Y') - 1911 );
-
-        $student = User::where('name',$row[2]) -> get() ;
+        $student = User::where('name',$row[2]) -> first() ;
         if (count($course) < 1){
-            $course_id = 2;
+            $course_id = 2;//無此課程
         }else{
-            $course_id = $course[0] -> id;
+            $course_id = $course -> first() -> id;
         }
-        if ( count($student) < 1){
-            $course_id = 3;
+        if ($student == ""){
+            $course_id = 3;//無此學生姓名
             $student_id = 4;
         }else{
-            $student_id = $student[0] -> student -> id;
+            $student_id = $student -> student -> id;
         }
         if ($row[1] == '課程名稱' ){
             $course_id = 1;

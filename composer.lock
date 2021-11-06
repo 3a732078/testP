@@ -2372,6 +2372,10 @@
                 "converter",
                 "office"
             ],
+            "support": {
+                "issues": "https://github.com/ncjoes/office-converter/issues",
+                "source": "https://github.com/ncjoes/office-converter/tree/v1.0.3"
+            },
             "time": "2020-05-11T09:45:43+00:00"
         },
         {
@@ -3544,6 +3548,10 @@
                 "pdf-to-image",
                 "spatie"
             ],
+            "support": {
+                "issues": "https://github.com/spatie/pdf-to-image/issues",
+                "source": "https://github.com/spatie/pdf-to-image/tree/v2"
+            },
             "time": "2017-06-20T05:58:45+00:00"
         },
         {
@@ -8279,5 +8287,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }

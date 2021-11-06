@@ -89,7 +89,7 @@
                                     </span>
                                 </button>
                                 <button class="btn btn-outline-secondary btn-sm"
-                                        onclick="location.href = 'import'"
+                                        onclick="location.href = 'department/import'"
                                 >
                                     <span style="color: black"><b>匯入學生課程資訊</b></span>
                                 </button>

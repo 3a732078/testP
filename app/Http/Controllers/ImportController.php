@@ -127,6 +127,8 @@ class ImportController extends Controller
         if ($errors != null){
             return back() -> withErrors(' ' , $errors);
         }
+        $course = Course::all();
+        return $course;
 
         return back() -> withstatus('import successful');
     }
