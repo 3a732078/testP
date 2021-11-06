@@ -26,7 +26,7 @@ class MailController extends Controller
             return back() -> withStatus('該堂課尚未有修課學生');
         }
         $teacher = $course -> teacher ;
-
+        // return $students;
         return view('mail.index',[
             'course' => $course,
             'students' => $students,

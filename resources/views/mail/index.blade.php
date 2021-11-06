@@ -33,14 +33,6 @@
                     <th width="200">Email   </th>
                     <th width="150" align="right">
                         <b class="ml-5"> 課程老師:</b> {{$teacher -> user -> name}}
-                        <button onclick="location.href = '{{$teacher -> user -> id}}/create'" class="btn btn-outline-secondary btn-sm"
-                        >
-                             <span style="color: black">
-                                 <b>
-                                     Mail  <img style="height: 20px" src="https://img.icons8.com/material-two-tone/24/000000/mail.png"/>
-                                 </b>
-                             </span>
-                        </button>
                     </th>
 
                     <th width="50" align="right">
