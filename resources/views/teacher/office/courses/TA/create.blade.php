@@ -49,87 +49,91 @@
 
 {{-- Content --}}
 @section('content')
-    <div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
-        {{-- Header--}}
-        <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
-            <div class="row jumbotron-fluid">
-                <div class="col-4">
-                    <h5>
-                        設定TA
-                    </h5>
-                </div>
-
-                <div class="col-4"></div>
-
-                <div class="col-4">
-                    @php
-                        $course = \App\Models\Course::find($course_id);
-                    @endphp
-
-                    <h5>
-                        {{$course ->name}} 【{{$course -> classroom}}】
-                    </h5>
-                </div>
-
+<div class="card border-success mb-3 " style="width: 1000px;margin-top: 50px;margin-left: 50px;">
+    {{-- Header--}}
+    <div class="card-header bg-transparent border-success card bg-primary " style="background-color: #0f7ef1">
+        <div class="row jumbotron-fluid">
+            <div class="col-4">
+                <h5>
+                    設定TA
+                </h5>
             </div>
-        </div>
 
-        {{-- body --}}
-        <div class="card-body text-success">
+            <div class="col-4"></div>
 
-            {{-- table --}}
-            <table class="table table-striped">
-                {{-- head --}}
-                <thead>
-                <tr>
-                    <th scope="col">學號</th>
-                    <th scope="col">班級</th>
-                    <th scope="col">姓名</th>
-                    <th scope="col">
+            <div class="col-4">
+                @php
+                    $course = \App\Models\Course::find($course_id);
+                @endphp
 
-                    </th>
-                </tr>
-                </thead>
-
-                {{-- body --}}
-                <tbody>
-                @foreach($department_students as $department_student)
-                    <tr>
-                        <th scope="row">{{$department_student -> user() -> first() -> account}}</th>
-
-
-                        <td>
-                            <h5>{{$department_student -> classroom}}</h5>
-                        </td>
-
-                        {{-- 發布者 --}}
-                        <td>
-                            <h5>
-                                {{$department_student -> user() ->first() -> name}}
-                            </h5>
-                        </td>
-
-                        {{-- 功能按鈕 --}}
-                        <td>
-                            <button type="button"
-                                    class="btn btn-outline-primary btn-sm"
-                                    onclick="location.href='{{route('teacher.office.courses.TA_office.store',[
-                                        $course_id,$department_student -> id]
-                                    )}}'"
-                            >
-                                設定
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-
-            </table>
-
+                <h5>
+                    {{$course ->name}} 【{{$course -> classroom}}】
+                </h5>
+            </div>
 
         </div>
-
     </div>
+
+    {{-- body --}}
+    @if (count($department_students) > 0)
+    <div class="card-body text-success">
+        <table class="table table-striped">
+            {{-- head --}}
+            <thead>
+            <tr>
+                <th scope="col">學號</th>
+                <th scope="col">班級</th>
+                <th scope="col">姓名</th>
+                <th scope="col"></th>
+
+                </th>
+            </tr>
+            </thead>
+
+            {{-- body --}}
+            <tbody>
+            @foreach($department_students as $department_student)
+                <tr>
+                    <th scope="row">{{$department_student -> user() -> first() -> account}}</th>
+
+
+                    <td>
+                        <h5>{{$department_student -> classroom}}</h5>
+                    </td>
+
+                    {{-- 發布者 --}}
+                    <td>
+                        <h5>
+                            {{$department_student -> user() ->first() -> name}}
+                        </h5>
+                    </td>
+
+                    {{-- 功能按鈕 --}}
+                    <td>
+                        <button type="button"
+                                class="btn btn-outline-primary btn-sm"
+                                onclick="location.href='{{route('teacher.office.courses.TA_office.store',[
+                                    $course_id,$department_student -> id]
+                                )}}'"
+                        >
+                            設定
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+            @endforeach
+
+        </table>
+    </div>
+    @else
+    <div class="card-body text-success">
+        <h3>系所上的學生都已經擔任其他課程的TA</h3>
+    </div>
+    @endif
+
+
+
+</div>
 
 @endsection
 

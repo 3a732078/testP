@@ -101,8 +101,7 @@ class TaController extends Controller
 
     }
 
-    public function create($course_id)
-    {
+    public function create($course_id){
         // === $years寫入資料
         $courses = \App\Models\Course::all()-> sortByDesc('year');
         foreach ($courses->unique('year') as $course) {
@@ -119,14 +118,24 @@ class TaController extends Controller
             ->students()->get()
             ->sortbydesc('classroom');
 
+        // 刪除已有TA的學生
+        $TAs = TA::all();
+        $flag = 0;
+        foreach ($department_students as $data){
+            foreach ($TAs as $TA){
 
-        //學號
+                if($TA -> student_id == $data->id){
+
+                    unset($department_students[$flag]);
+                }
+            }
+            $flag ++;
+        }
+        //學號設定到$student_id
         foreach ($department_students as $department_student){
             $students_id[] = $department_student -> user() -> first() -> account;
         }
-
 //        return $department_students;
-
         //抓取上下學期
         if($course -> semester == 1){
             $semester = '上學期';
@@ -139,7 +148,6 @@ class TaController extends Controller
             'courses_year' => $courses_year,
             'course_id' => $course_id,
             'department_students'=>$department_students,
-            'students_id' => $students_id,
         ]);
     }
 
