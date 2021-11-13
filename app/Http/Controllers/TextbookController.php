@@ -184,17 +184,14 @@ class TextbookController extends Controller
     // [ 老師放入教材 ]
     public function store(Request $request )
     {
-        $validatedData = $request->validate([
-            'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
-            'title'=>'required',
-            'subject'=>'required'
-        ]);
-
-
+        // $validatedData = $request->validate([
+        //     'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
+        //     'title'=>'required',
+        //     'subject'=>'required'
+        // ]);
 
         $Name = str_replace(" ","",$request->input('title'));
-        $FileName = $Name . '.' . $request->toimage->extension();
-
+        $FileName = $Name . '.' . $request->toimage->getClientOriginalExtension();
         $file = $request->file('toimage')->store('pdf');
         $path = Storage::path($file);
 
@@ -222,32 +219,42 @@ class TextbookController extends Controller
 
         Storage::delete('pdf/'.$uploadhash);
 
-        // return redirect(route('teacher.office.courses.text_materials',[$course_id,]));
+        return back() -> withStatus("success");
 
     }
 
     public function teacher_store(Request $request,$course_id){
-        $request->validate([
-            'file' => 'required|mimes:pdf,docx,pptx,txt',
-        ]);
 
-        $course = Course::find($course_id);
-        $FileName = $request-> file('file') -> getClientOriginalName();
-        $FileMime = $request -> file('file') -> getClientOriginalExtension();
-        $ConverName = str_replace($FileMime,'pdf',$FileName);
-        $destination_path = 'public/text_meterials/' . Auth::user() -> name　. '/' . $course -> year . '-' . $course -> semester . '/' .$course -> name;
+        $title = $request-> file('file') -> getClientOriginalName();
+        $title = str_replace("." . $request->file('file')->getClientOriginalExtension(),"",$title);
+        $Name = str_replace(" ","",$title);
+        $FileName = $Name . '.' . $request->file->getClientOriginalextension();
         $file = $request->file('file')->store('pdf');
         $path = Storage::path($file);
 
-//        $converter = new OfficeConverter($path);
-//        $dtp=$converter->convertTo($FileName.'.pdf');
+        $converter = new OfficeConverter($path);
+        $dtp=$converter->convertTo($Name.'.pdf');
+
+        $uploadhash=$request->file->hashName();
+
+        $request->file->move(public_path().'\images\\'.$Name, $FileName);
+
+        $pdf_file=Storage::path('pdf\\').$Name.'.pdf';
+        $output_path=public_path().'\images\\'.$Name.'\\'.$Name.'%d';
+
+        Ghostscript::setGsPath("C:\Program Files\gs\gs9.53.3\bin\gswin64c.exe");
+        $pdf=new Pdf($pdf_file);
+        $pdf->setOutputFormat('jpeg')->saveImage($output_path);
 
         Textbook::create([
-            'course_id' => $course_id,
-            'name' => str_replace('.' . $FileMime,'',$FileName ),
-            'path' => $ConverName,
+            'course_id'=>$course_id,
+            'name'=>$Name,
+            'path'=>$Name.".pdf",
         ]);
 
+        File::delete(public_path().'\images\\'.$Name.'\\'.$FileName);
+
+        Storage::delete('pdf/'.$uploadhash);
         $status = 1 ;
 
         return back(302,[

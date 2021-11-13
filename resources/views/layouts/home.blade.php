@@ -129,7 +129,7 @@
                         <h6 class="collapse-header">上課教材:</h6>
                         @foreach($course as $value)
                             <a class="collapse-item" href="#{{$value -> name}}" data-toggle="collapse" style="color:black;line-height:15px;"><span>{{$value -> name}}</span></a>
-                            <div id="{{ $value->name }}" class="collapse">
+                            <div id="{{ $value -> name }}" class="collapse">
                                 <a class="collapse-item" href="/textbooks/show/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材</a>
                                 <a class="collapse-item" href="/notes/classes/list/{{$value->id}}" style="color:black;line-height:15px;">-&ensp;教材筆記</a>
                                 <hr class="sidebar-divider bg-dark">
@@ -175,14 +175,6 @@
         <div class="sidebar-heading">
             聯繫
         </div>
-
-            @if($class != null )
-                <li class="nav-item">
-                    <a class="nav-link" href="/{{$class}}/mail/index">
-                        <i class="fas fa-fw fa-comment"></i>
-                        <span>發送Email</span></a>
-                </li>
-            @endif
 
             @if ( $course = isset($class) ? DB::table('textbooks')->where('course_id',$class)->get() : 0 )
                 <li class="nav-item">
