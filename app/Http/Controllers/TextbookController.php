@@ -181,14 +181,14 @@ class TextbookController extends Controller
         return view('textbooks.create',['courses'=>$courses]);
     }
 
-    // [ 老師放入教材 ]
+    // [ TA放入教材 ]
     public function store(Request $request )
     {
-        // $validatedData = $request->validate([
-        //     'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
-        //     'title'=>'required',
-        //     'subject'=>'required'
-        // ]);
+        $validatedData = $request->validate([
+            'toimage' => 'required|mimes:docx,doc,pptx,ppt,pdf',
+            'title'=>'required',
+            'subject'=>'required'
+        ]);
 
         $Name = str_replace(" ","",$request->input('title'));
         $FileName = $Name . '.' . $request->toimage->getClientOriginalExtension();
@@ -327,11 +327,12 @@ class TextbookController extends Controller
      */
 
     //刪除教材
-    public function destroy($id)
+    public function destroy($course_id,$textMaterialId)
     {
-        $text=Textbook::where('id',$id);
-        $text->delete();
+        $textMaterial=Textbook::find($textMaterialId);
+        // return $textMaterial;
+        $textMaterial->delete();
 
-        return redirect('/textbooks');
+        return back() -> withStatus("刪除成功");
     }
 }
