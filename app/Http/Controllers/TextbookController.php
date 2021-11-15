@@ -327,12 +327,10 @@ class TextbookController extends Controller
      */
 
     //刪除教材
-    public function destroy($course_id,$textMaterialId)
+    public function destroy($id)
     {
-        $textMaterial=Textbook::find($textMaterialId);
-        // return $textMaterial;
-        $textMaterial->delete();
-
-        return back() -> withStatus("刪除成功");
+        $text=Textbook::where('id',$id);
+        $text->delete();
+        return redirect('/textbooks');
     }
 }
